@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.21832v1/fig-001.webp",
+      "caption": "Figure 1: Overview of FLUID. Top: a cross-domain multimodal encoder (SigLip2 ViT + Qwen3-Embedding) jointly trained on livestreams and short videos produces a 128-d slice embedding 𝑧, which RQ-KMeans discretizes into a 4-level codeword tuple— LUCID—with room-level LUCID obtained by per-level majority voting over slices in a session. Bottom: slice- and room-level LUCID enter the production ranker as independent candidate-side tokens (late fusion) via prefix n-gram embeddings, replacing the item id embedding with a staged warmup scheme.",
+      "page": 2,
+      "index": 1,
+      "width": 1056,
+      "height": 615
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21832v1/fig-002.webp",
+      "caption": "Figure 2: Item ID embedding ℓ2 norm vs. live-room age, aggregated over one day of production traffic. The norm fails to converge within the typical ∼45-minute room lifetime.",
+      "page": 2,
+      "index": 2,
+      "width": 459,
+      "height": 276
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21832v1/fig-005.webp",
+      "caption": "Table 1: Positioning of FLUID against representative industrial and academic multimodal recommendation systems.",
+      "page": 5,
+      "index": 5,
+      "width": 1052,
+      "height": 240
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21832v1/fig-003.webp",
+      "caption": "Table 4: Online A/B test results. All values are relative changes vs. the production baseline. “n.s.” denotes changes not significant at 𝑝 < 0.05. Arms: +Slice = baseline + Slice LUCID; −ID = baseline w/o item ID; FLUID = baseline w/o item ID + Slice & Room LUCID (final).",
+      "page": 7,
+      "index": 3,
+      "width": 456,
+      "height": 294
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21832v1/fig-004.webp",
+      "caption": "Table 7: Ablation on candidate-side integration of LUCID with the existing item ID. All experiments use the prefix n-gram embedding. Δ AUC is relative to the baseline (item ID only).",
+      "page": 9,
+      "index": 4,
+      "width": 722,
+      "height": 386
+    }
+  ]
+}

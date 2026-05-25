@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-004.webp",
+      "caption": "Table 1: Performance comparison. The highest scores are in bold, and the runner-ups are underlined.",
+      "page": 10,
+      "index": 4,
+      "width": 922,
+      "height": 956
+    },
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-002.webp",
+      "caption": "Table 2: Overall Average Matrix Estimation Error (L1 Distance). Lower is better.",
+      "page": 11,
+      "index": 2,
+      "width": 590,
+      "height": 259
+    },
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-001.webp",
+      "caption": "Table 3: Matrix Estimation Error at Varying Noise Levels (L1 Distance).",
+      "page": 11,
+      "index": 1,
+      "width": 922,
+      "height": 554
+    },
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-007.webp",
+      "caption": "Table 4: Ablation study on ML-100k. Bold indicates the best performance.",
+      "page": 12,
+      "index": 7,
+      "width": 906,
+      "height": 442
+    },
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-006.webp",
+      "caption": "Figure 2: Parameter sensitivity analysis of λ and ρ on ML-100k dataset. Left column shows impact of λ (log-scale), Right column shows impact of ρ.",
+      "page": 13,
+      "index": 6,
+      "width": 918,
+      "height": 870
+    },
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-005.webp",
+      "caption": "Figure 3: Performance comparison of iterative strategy vs. fixed thresholds (ρ ∈ {0.4, 0.6, 0.8}) on ML-100k (NeuMF).",
+      "page": 14,
+      "index": 5,
+      "width": 725,
+      "height": 501
+    },
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-008.webp",
+      "caption": "Table 5: Model Average Matrix Estimation Error across Varying Skeleton Models.",
+      "page": 20,
+      "index": 8,
+      "width": 860,
+      "height": 512
+    },
+    {
+      "url": "assets/figures/arxiv/2605.20721v1/fig-003.webp",
+      "caption": "Table 6: Complete Comparison of Matrix Estimation Error (L1 Distance) across Varying Skeleton Models under Pairflip and Symmetric Noise with Different Noise Rates.",
+      "page": 21,
+      "index": 3,
+      "width": 918,
+      "height": 832
+    }
+  ]
+}

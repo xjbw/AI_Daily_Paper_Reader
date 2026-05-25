@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.21420v1/fig-005.webp",
+      "caption": "Figure 1: HiRes follows the same hierarchy a chemist uses to reason about a reaction: molecule representations, reactant-product alignment, six-stream reaction fusion, and finally prediction plus precedent memory. Level 3 expands the six gated streams that form zrxn: reactant-product context, disconnection difference, reaction sum, engineered/DRFP descriptors, DFT descriptors, and reactioncenter difference. The resulting representation supports both direct catalyst/solvent/reagent prediction and FAISS retrieval of inspectable precedent reactions.",
+      "page": 3,
+      "index": 5,
+      "width": 926,
+      "height": 467
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21420v1/fig-006.webp",
+      "caption": "Table 1: Claim-bearing provenance for our headline evaluations. To ensure rigorous benchmarking, we explicitly separate the protocols for our external Table S9 comparisons from our fixed-checkpoint head-complementarity analyses.",
+      "page": 5,
+      "index": 6,
+      "width": 694,
+      "height": 192
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21420v1/fig-001.webp",
+      "caption": "Table 2: Benchmark Comparison on USPTO-Condition. HiRes-Top achieves the highest top-1 accuracies among primary-slot models, outperforming established Table S9 baselines on Sol@1 and Rea@1.",
+      "page": 6,
+      "index": 1,
+      "width": 722,
+      "height": 182
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21420v1/fig-003.webp",
+      "caption": "Table 5: Matched retrieval-style controls on the USPTO-Condition split. The DRFP row acts as a fast, exact-search baseline confirming the fundamental utility of HiRes-Hybrid.",
+      "page": 7,
+      "index": 3,
+      "width": 693,
+      "height": 197
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21420v1/fig-004.webp",
+      "caption": "Table 6: Extended evaluation of HiRes variants and broader literature context on full-scale USPTO. Literature rows (Label Mix, Reaction MPNN, ARGCN) are reported reference values utilizing fundamentally different evaluation pipelines and data splits, and should be interpreted strictly as contextual references rather than matched 1:1 public benchmark comparisons.",
+      "page": 10,
+      "index": 4,
+      "width": 727,
+      "height": 296
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21420v1/fig-002.webp",
+      "caption": "Table 8: Qualitative example of HiRes Inspectability. The query is paired directly with the top retrieved precedent from the training index, allowing the chemist to verify the plausibility of the suggested catalyst and reagent conditions.",
+      "page": 11,
+      "index": 2,
+      "width": 857,
+      "height": 234
+    }
+  ]
+}

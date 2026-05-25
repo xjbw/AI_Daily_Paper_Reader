@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.20552v1/fig-001.webp",
+      "caption": "Figure 1: Eigenvectors from the Flixster data corresponding to the smallest few eigenvalues of the graph Laplacian projected onto the first principal component of data. Colors indicate the values.",
+      "page": 1,
+      "index": 1,
+      "width": 435,
+      "height": 344
+    }
+  ]
+}

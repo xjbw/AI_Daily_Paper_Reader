@@ -1,33 +1,38 @@
 # 日报 · 2026-05-25
 
-- 生成时间：2026-05-25 03:09:01 UTC
-- 当次推荐总数：15
-- 精读区：6
-- 速读区：9
+- 生成时间：2026-05-25 20:53:32 UTC
+- 当次推荐总数：20
+- 精读区：10
+- 速读区：10
 
 ## 今日简报（AI）
-今日精选15篇前沿论文，聚焦AI驱动科学发现与物理建模，其中精读的两篇高分工作分别提出了自反思式自动方程发现框架和从稀疏数据精确重建麦克斯韦动力学的快速方法。
-最具启发的方向是提升科学方程自动发现可靠性的自反思智能体设计，以及将程序逻辑翻译为神经网络以加速混合求解的神经编译器。
-读者若对AI助力科学研究感兴趣，可优先关注STRIDE框架如何通过自我反思避免错误方程，或尝试用神经编译器将物理公式直接嵌入到深度学习模型中。
+今日聚焦推荐系统前沿，精读10篇论文中的高分支招，涵盖低活用户校准与电商多模态检索。
+最值得关注的方向：为沉默用户注入不确定性的校准式推荐，以及用文本引导实现电商图文细粒度对齐。
+下一步建议尝试生成式自动竞价与跨学科方法（如量子启发的推荐）相结合，寻找落地突破点。
 
 ## 精读区
-1. [STRIDE: A Self-Reflective Agent Framework for Reliable Automatic Equation Discovery](/202605/25/2605.17790v1-stride-a-self-reflective-agent-framework-for-reliable-automatic-equation-discovery) （9.0/10）
-2. [Fast Reconstruction of Exact Maxwell Dynamics from Sparse Data](/202605/25/2605.20514v1-fast-reconstruction-of-exact-maxwell-dynamics-from-sparse-data) （9.0/10）
-3. [Symbolic Density Estimation for Discrete Distributions](/202605/25/2605.21813v1-symbolic-density-estimation-for-discrete-distributions) （9.0/10）
-4. [Holomorphic Neural ODEs with Kolmogorov-Arnold Networks for Interpretable Discovery of Complex Dynamics](/202605/25/2605.22235v1-holomorphic-neural-odes-with-kolmogorov-arnold-networks-for-interpretable-discovery-of-complex-dynamics) （9.0/10）
-5. [Guiding Multi-Objective Genetic Programming with Description Length Improves Symbolic Regression Solutions](/202605/25/2605.22374v1-guiding-multi-objective-genetic-programming-with-description-length-improves-symbolic-regression-solutions) （9.0/10）
-6. [Mapping Uncharted Symmetries: Machine Discovery in Combinatorics](/202605/25/2605.19063v1-mapping-uncharted-symmetries-machine-discovery-in-combinatorics) （8.0/10）
+1. [Uncertainty-Calibrated Recommendations for Low-Active Users](/202605/25/2605.17788v1-uncertainty-calibrated-recommendations-for-low-active-users) （9.0/10）
+2. [TIGER-FG: Text-Guided Implicit Fine-Grained Grounding for E-commerce Retrieval](/202605/25/2605.18434v1-tiger-fg-text-guided-implicit-fine-grained-grounding-for-e-commerce-retrieval) （9.0/10）
+3. [Mapping Uncharted Symmetries: Machine Discovery in Combinatorics](/202605/25/2605.19063v1-mapping-uncharted-symmetries-machine-discovery-in-combinatorics) （9.0/10）
+4. [Robust Recommendation from Noisy Implicit Feedback: A GMM-Weighted Bayes-label Transition Matrix Framework](/202605/25/2605.20721v1-robust-recommendation-from-noisy-implicit-feedback-a-gmm-weighted-bayes-label-transition-matrix-framework) （9.0/10）
+5. [Learning First Integrals via Backward-Generated Data and Guided Reinforcement Learning](/202605/25/2605.21160v1-learning-first-integrals-via-backward-generated-data-and-guided-reinforcement-learning) （9.0/10）
+6. [HiRes: Inspectable Precedent Memory for Reaction Condition Recommendation](/202605/25/2605.21420v1-hires-inspectable-precedent-memory-for-reaction-condition-recommendation) （9.0/10）
+7. [Beyond Single Slot: Joint Optimization for Multi-Slot Guaranteed Display Advertising](/202605/25/2605.21556v1-beyond-single-slot-joint-optimization-for-multi-slot-guaranteed-display-advertising) （9.0/10）
+8. [PEARL: Unbiased Percentile Estimation via Contrastive Learning for Industrial-Scale Livestream Recommendation](/202605/25/2605.21752v1-pearl-unbiased-percentile-estimation-via-contrastive-learning-for-industrial-scale-livestream-recommendation) （9.0/10）
+9. [FLUID: From Ephemeral IDs to Multimodal Semantic Codes for Industrial-Scale Livestreaming Recommendation](/202605/25/2605.21832v1-fluid-from-ephemeral-ids-to-multimodal-semantic-codes-for-industrial-scale-livestreaming-recommendation) （9.0/10）
+10. [Reinforced Preference Optimization for Reasoning-Augmented Recommendations](/202605/25/2605.21967v1-reinforced-preference-optimization-for-reasoning-augmented-recommendations) （9.0/10）
 
 ## 速读区
-1. [Automated Kernel Discovery Towards Understanding High-dimensional Bayesian Optimization](/202605/25/2605.20249v1-automated-kernel-discovery-towards-understanding-high-dimensional-bayesian-optimization) （8.0/10）
-2. [Learning First Integrals via Backward-Generated Data and Guided Reinforcement Learning](/202605/25/2605.21160v1-learning-first-integrals-via-backward-generated-data-and-guided-reinforcement-learning) （8.0/10）
-3. [The Neural Compiler: Program-to-Network Translation for Hybrid Scientific Machine Learning](/202605/25/2605.22498v1-the-neural-compiler-program-to-network-translation-for-hybrid-scientific-machine-learning) （8.0/10）
-4. [Learning inelastic constitutive models from stress-strain data under hard thermodynamic constraints](/202605/25/2605.16837v1-learning-inelastic-constitutive-models-from-stress-strain-data-under-hard-thermodynamic-constraints) （7.0/10）
-5. [Stochastic Penalty-Barrier Methods for Constrained Machine Learning](/202605/25/2605.18618v2-stochastic-penalty-barrier-methods-for-constrained-machine-learning) （7.0/10）
-6. [Learning Orthonormal Bases for Function Spaces](/202605/25/2605.19959v1-learning-orthonormal-bases-for-function-spaces) （7.0/10）
-7. [Genetic Programming with Transformer-Based Mutation for Approximate Circuit Design](/202605/25/2605.21055v1-genetic-programming-with-transformer-based-mutation-for-approximate-circuit-design) （7.0/10）
-8. [Mapping the Fitness Landscape: A Structure-Guided Approach to Multi-Modal Optimization](/202605/25/2605.18351v1-mapping-the-fitness-landscape-a-structure-guided-approach-to-multi-modal-optimization) （6.0/10）
-9. [Physics-Informed Generative Solver: Bridging Data-Driven Priors and Conservation Laws for Stable Spatiotemporal Field Reconstruction](/202605/25/2605.22338v1-physics-informed-generative-solver-bridging-data-driven-priors-and-conservation-laws-for-stable-spatiotemporal-field-reconstruction) （6.0/10）
+1. [Parameterized 4-Qubit EWL Quantum Game Circuits with Dirac-Solow-Swan Hamiltonian Integration for Quadruple Helix Disruptive Innovation Recommender Systems](/202605/25/2605.18080v1-parameterized-4-qubit-ewl-quantum-game-circuits-with-dirac-solow-swan-hamiltonian-integration-for-quadruple-helix-disruptive-innovation-recommender-systems) （8.0/10）
+2. [Example-Driven Intent Synthesis for Constrained Data Bundle Retrieval: Focused Text Snippet Extraction and Beyond](/202605/25/2605.19246v1-example-driven-intent-synthesis-for-constrained-data-bundle-retrieval-focused-text-snippet-extraction-and-beyond) （8.0/10）
+3. [Generative Auto-Bidding with Unified Modeling and Exploration](/202605/25/2605.19457v1-generative-auto-bidding-with-unified-modeling-and-exploration) （8.0/10）
+4. [Spectral bandits for smooth graph functions with applications in recommender systems](/202605/25/2605.20552v1-spectral-bandits-for-smooth-graph-functions-with-applications-in-recommender-systems) （8.0/10）
+5. [SimGym: A Framework for A/B Test Simulation in E-Commerce with Traffic-Grounded VLM Agents](/202605/25/2605.19219v1-simgym-a-framework-for-ab-test-simulation-in-e-commerce-with-traffic-grounded-vlm-agents) （7.0/10）
+6. [What Do Evolutionary Coding Agents Evolve?](/202605/25/2605.20086v1-what-do-evolutionary-coding-agents-evolve) （7.0/10）
+7. [Layer-wise Token Compression for Efficient Document Reranking](/202605/25/2605.20683v2-layer-wise-token-compression-for-efficient-document-reranking) （7.0/10）
+8. [DIVE: Embedding Compression via Self-Limiting Gradient Updates](/202605/25/2605.20689v1-dive-embedding-compression-via-self-limiting-gradient-updates) （7.0/10）
+9. [Group-Aware Matrix Estimation and Latent Subspace Recovery](/202605/25/2605.20559v1-group-aware-matrix-estimation-and-latent-subspace-recovery) （6.0/10）
+10. [A Rigorous, Tractable Measure of Model Complexity](/202605/25/2605.21167v1-a-rigorous-tractable-measure-of-model-complexity) （6.0/10）
 
 ---
 使用键盘方向键可在日报/论文之间快速切换。

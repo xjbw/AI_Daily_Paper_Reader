@@ -1,78 +1,78 @@
 ## 最新日报
-- 最新运行日期：2026-05-16 ~ 2026-05-25
-- 运行时间：2026-05-25 04:25:47 UTC
+- 最新运行日期：2026-05-25
+- 运行时间：2026-05-25 20:53:32 UTC
 - 运行状态：成功
 - 本次总论文数：20
 - 精读区：10
 - 速读区：10
 
 ### 今日简报（AI）
-今日精选20篇前沿推荐系统研究，深度解读“最大熵可解释动力学发现”与“生成式推荐滤泡回声”。  
-最值得跟踪的方向：用最大熵框架揭示推荐演化本质，以及诊断、治愈生成式推荐中的流行度偏差。  
-建议读者将低维动力学分析引入推荐偏差治理，探索内在机制打破信息茧房。
-- 详情：[/20260516-20260525/README](/20260516-20260525/README)
+今日聚焦低活用户推荐与电商检索两大高精度方向：通过不确定性校准重塑冷启动体验，用文本引导实现细粒度语义对齐。  
+最值得看的是《Uncertainty-Calibrated Recommendations》对沉默用户的大胆博取策略，以及《TIGER-FG》如何把检索变成一场精准的文字寻宝游戏。  
+建议把这种“不瞎推荐、敢承认未知”的校准思维，直接套用到你业务中沉默用户的唤醒和长尾商品搜索上。
+- 详情：[/202605/25/README](/202605/25/README)
 
 ### 精读区论文标签
-1. [Discovering interpretable low-dimensional dynamics using maximum entropy](/20260516-20260525/2605.16724v1-discovering-interpretable-low-dimensional-dynamics-using-maximum-entropy)  
+1. [Uncertainty-Calibrated Recommendations for Low-Active Users](/202605/25/2605.17788v1-uncertainty-calibrated-recommendations-for-low-active-users)  
    标签：评分：9.0/10、query:rec
-   evidence：从数据中发现可解释的符号动力学
-2. [Echoes in Filter Bubble: Diagnosing and Curing Popularity Bias in Generative Recommenders](/20260516-20260525/2605.16825v1-echoes-in-filter-bubble-diagnosing-and-curing-popularity-bias-in-generative-recommenders)  
+   evidence：针对低活跃用户的不确定性校准推荐
+2. [TIGER-FG: Text-Guided Implicit Fine-Grained Grounding for E-commerce Retrieval](/202605/25/2605.18434v1-tiger-fg-text-guided-implicit-fine-grained-grounding-for-e-commerce-retrieval)  
    标签：评分：9.0/10、query:rec
-   evidence：解决生成式推荐中的流行度偏差
-3. [Learning in Position-Aware Multinomial Logit Bandits: From Multiplicative to General Position Effects](/20260516-20260525/2605.17238v1-learning-in-position-aware-multinomial-logit-bandits-from-multiplicative-to-general-position-effects)  
+   evidence：文本引导的隐式细粒度定位用于电商检索
+3. [Mapping Uncharted Symmetries: Machine Discovery in Combinatorics](/202605/25/2605.19063v1-mapping-uncharted-symmetries-machine-discovery-in-combinatorics)  
    标签：评分：9.0/10、query:rec
-   evidence：使用MNL bandit进行商品选择和位置优化，适用于电商推荐
-4. [RAGR: Review-Augmented Generative Recommendation](/20260516-20260525/2605.17267v1-ragr-review-augmented-generative-recommendation)  
+   evidence：直接生成用于数学发现的符号公式
+4. [Robust Recommendation from Noisy Implicit Feedback: A GMM-Weighted Bayes-label Transition Matrix Framework](/202605/25/2605.20721v1-robust-recommendation-from-noisy-implicit-feedback-a-gmm-weighted-bayes-label-transition-matrix-framework)  
    标签：评分：9.0/10、query:rec
-   evidence：基于评论增强的生成式推荐用于序列推荐
-5. [STRIDE: A Self-Reflective Agent Framework for Reliable Automatic Equation Discovery](/20260516-20260525/2605.17790v1-stride-a-self-reflective-agent-framework-for-reliable-automatic-equation-discovery)  
+   evidence：针对噪声隐式反馈的推荐系统算法
+5. [Learning First Integrals via Backward-Generated Data and Guided Reinforcement Learning](/202605/25/2605.21160v1-learning-first-integrals-via-backward-generated-data-and-guided-reinforcement-learning)  
    标签：评分：9.0/10、query:rec
-   evidence：基于LLM的自动方程发现框架
-6. [DADF: A Distribution-Aware Debiasing Framework for Watch-Time Regression in Recommender Systems](/20260516-20260525/2605.17863v1-dadf-a-distribution-aware-debiasing-framework-for-watch-time-regression-in-recommender-systems)  
+   evidence：从数据自动发现首次积分
+6. [HiRes: Inspectable Precedent Memory for Reaction Condition Recommendation](/202605/25/2605.21420v1-hires-inspectable-precedent-memory-for-reaction-condition-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：推荐系统中的观看时间回归去偏
-7. [Towards Sustainable Growth: A Multi-Value-Aware Retrieval Framework for E-Commerce Search](/20260516-20260525/2605.17994v1-towards-sustainable-growth-a-multi-value-aware-retrieval-framework-for-e-commerce-search)  
+   evidence：化学反应条件推荐系统，达到SOTA
+7. [Beyond Single Slot: Joint Optimization for Multi-Slot Guaranteed Display Advertising](/202605/25/2605.21556v1-beyond-single-slot-joint-optimization-for-multi-slot-guaranteed-display-advertising)  
    标签：评分：9.0/10、query:rec
-   evidence：面向电子商务搜索的多价值感知检索
-8. [Modality-Aware Identity Construction and Counterfactual Structure Learning for ID-Free Multimodal Recommendation](/20260516-20260525/2605.18044v1-modality-aware-identity-construction-and-counterfactual-structure-learning-for-id-free-multimodal-recommendation)  
+   evidence：多槽保证展示广告的联合优化
+8. [PEARL: Unbiased Percentile Estimation via Contrastive Learning for Industrial-Scale Livestream Recommendation](/202605/25/2605.21752v1-pearl-unbiased-percentile-estimation-via-contrastive-learning-for-industrial-scale-livestream-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：多模态推荐与反事实学习
-9. [Offline Contextual Bandits in the Presence of New Actions](/20260516-20260525/2605.18509v1-offline-contextual-bandits-in-the-presence-of-new-actions)  
+   evidence：基于对比学习的无偏百分位数估计用于直播推荐
+9. [FLUID: From Ephemeral IDs to Multimodal Semantic Codes for Industrial-Scale Livestreaming Recommendation](/202605/25/2605.21832v1-fluid-from-ephemeral-ids-to-multimodal-semantic-codes-for-industrial-scale-livestreaming-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：推荐系统中的离线情境赌博机
-10. [SynGR: Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation](/20260516-20260525/2605.18920v1-syngr-unleashing-the-potential-of-cross-modal-synergy-for-generative-recommendation)  
+   evidence：面向直播推荐的新型多模态语义编码框架
+10. [Reinforced Preference Optimization for Reasoning-Augmented Recommendations](/202605/25/2605.21967v1-reinforced-preference-optimization-for-reasoning-augmented-recommendations)  
    标签：评分：9.0/10、query:rec
-   evidence：跨模态协同生成推荐
+   evidence：用于推理增强推荐系统的强化偏好优化
 
 ### 速读区论文标签
-1. [Dual-Diffusional Generative Fashion Recommendation](/20260516-20260525/2605.17357v1-dual-diffusional-generative-fashion-recommendation)  
+1. [Parameterized 4-Qubit EWL Quantum Game Circuits with Dirac-Solow-Swan Hamiltonian Integration for Quadruple Helix Disruptive Innovation Recommender Systems](/202605/25/2605.18080v1-parameterized-4-qubit-ewl-quantum-game-circuits-with-dirac-solow-swan-hamiltonian-integration-for-quadruple-helix-disruptive-innovation-recommender-systems)  
    标签：评分：8.0/10、query:rec
-   evidence：双扩散生成式时尚推荐
-2. [Text-Guided Visual Representation Learning for Robust Multimodal E-Commerce Recommendation](/20260516-20260525/2605.17366v1-text-guided-visual-representation-learning-for-robust-multimodal-e-commerce-recommendation)  
+   evidence：量子博弈推荐系统
+2. [Example-Driven Intent Synthesis for Constrained Data Bundle Retrieval: Focused Text Snippet Extraction and Beyond](/202605/25/2605.19246v1-example-driven-intent-synthesis-for-constrained-data-bundle-retrieval-focused-text-snippet-extraction-and-beyond)  
    标签：评分：8.0/10、query:rec
-   evidence：使用文本引导视觉表示的电商推荐
-3. [SAPO: Step-Aligned Policy Optimization for Reasoning-Based Generative Recommendation](/20260516-20260525/2605.17648v1-sapo-step-aligned-policy-optimization-for-reasoning-based-generative-recommendation)  
+   evidence：示例驱动的捆绑检索用于推荐系统
+3. [Generative Auto-Bidding with Unified Modeling and Exploration](/202605/25/2605.19457v1-generative-auto-bidding-with-unified-modeling-and-exploration)  
    标签：评分：8.0/10、query:rec
-   evidence：基于推理的生成式推荐与步骤对齐策略优化
-4. [Learning Variable-Length Tokenization for Generative Recommendation](/20260516-20260525/2605.17779v1-learning-variable-length-tokenization-for-generative-recommendation)  
+   evidence：数字广告生成式自动出价
+4. [Spectral bandits for smooth graph functions with applications in recommender systems](/202605/25/2605.20552v1-spectral-bandits-for-smooth-graph-functions-with-applications-in-recommender-systems)  
    标签：评分：8.0/10、query:rec
-   evidence：生成式推荐，变长分词
-5. [UniER: A Unified Benchmark for Item-level and Path-level Exercise Recommendation](/20260516-20260525/2605.16750v1-unier-a-unified-benchmark-for-item-level-and-path-level-exercise-recommendation)  
+   evidence：面向图推荐系统的谱赌博机算法，直接相关推荐算法
+5. [SimGym: A Framework for A/B Test Simulation in E-Commerce with Traffic-Grounded VLM Agents](/202605/25/2605.19219v1-simgym-a-framework-for-ab-test-simulation-in-e-commerce-with-traffic-grounded-vlm-agents)  
    标签：评分：7.0/10、query:rec
-   evidence：统一的项目级和路径级习题推荐基准
-6. [From Volume to Value: Preference-Aligned Memory Construction for On-Device RAG](/20260516-20260525/2605.18271v1-from-volume-to-value-preference-aligned-memory-construction-for-on-device-rag)  
+   evidence：基于VLM代理的电商店面A/B测试模拟框架
+6. [What Do Evolutionary Coding Agents Evolve?](/202605/25/2605.20086v1-what-do-evolutionary-coding-agents-evolve)  
    标签：评分：7.0/10、query:rec
-   evidence：用户偏好对齐用于检索
-7. [Generalized Functional ANOVA in Closed-Form: A Unified View of Additive Explanations](/20260516-20260525/2605.18422v1-generalized-functional-anova-in-closed-form-a-unified-view-of-additive-explanations)  
+   evidence：结合进化和语言模型的数学发现，方法论上类似演化符号回归
+7. [Layer-wise Token Compression for Efficient Document Reranking](/202605/25/2605.20683v2-layer-wise-token-compression-for-efficient-document-reranking)  
    标签：评分：7.0/10、query:rec
-   evidence：函数ANOVA用于模型可解释性
-8. [Platform architecture determines whether recommendation algorithms can shape information quality on social media](/20260516-20260525/2605.19204v1-platform-architecture-determines-whether-recommendation-algorithms-can-shape-information-quality-on-social-media)  
+   evidence：高效文档重排序用于信息检索
+8. [DIVE: Embedding Compression via Self-Limiting Gradient Updates](/202605/25/2605.20689v1-dive-embedding-compression-via-self-limiting-gradient-updates)  
    标签：评分：7.0/10、query:rec
-   evidence：社交媒体推荐算法分析
-9. [Parameterized 4-Qubit EWL Quantum Game Circuits with Dirac-Solow-Swan Hamiltonian Integration for Quadruple Helix Disruptive Innovation Recommender Systems](/20260516-20260525/2605.18080v1-parameterized-4-qubit-ewl-quantum-game-circuits-with-dirac-solow-swan-hamiltonian-integration-for-quadruple-helix-disruptive-innovation-recommender-systems)  
+   evidence：嵌入压缩用于推荐系统中的高效向量搜索
+9. [Group-Aware Matrix Estimation and Latent Subspace Recovery](/202605/25/2605.20559v1-group-aware-matrix-estimation-and-latent-subspace-recovery)  
    标签：评分：6.0/10、query:rec
-   evidence：用于推荐系统的量子博弈电路
-10. [Not all uncertainty is alike: volatility, stochasticity, and exploration](/20260516-20260525/2605.19215v1-not-all-uncertainty-is-alike-volatility-stochasticity-and-exploration)  
+   evidence：针对子群感知的矩阵估计方法用于推荐系统
+10. [A Rigorous, Tractable Measure of Model Complexity](/202605/25/2605.21167v1-a-rigorous-tractable-measure-of-model-complexity)  
    标签：评分：6.0/10、query:rec
-   evidence：适用于推荐的多臂老虎机探索-利用权衡
+   evidence：基于梯度相似性的模型复杂度度量
 

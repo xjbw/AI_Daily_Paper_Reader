@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.17788v1/fig-004.webp",
+      "caption": "Figure 1: Trend analysis of uncertainty estimation.",
+      "page": 6,
+      "index": 4,
+      "width": 1002,
+      "height": 254
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17788v1/fig-001.webp",
+      "caption": "Figure 2: A/B test results: daily-cumulative improvements over 14 days with 95% confidence interval. (a) Results for HLT7. (b) Results for valuable watch duration ratio.",
+      "page": 7,
+      "index": 1,
+      "width": 1056,
+      "height": 328
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17788v1/fig-003.webp",
+      "caption": "Table 2: Ablation study results for LAUs. All numbers represent percentage lift relative to the production baseline. HLT7 metrics marked with † denote results that are not statistically significant (𝑝 > 0.05).",
+      "page": 8,
+      "index": 3,
+      "width": 944,
+      "height": 202
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17788v1/fig-002.webp",
+      "caption": "Table 3: Ablation study results for High-Active Users (HAUs). Show Tag/U and Top1 Tag UV Ratio measure interest expansion. Metrics marked with † denote results that are not statistically significant (𝑝 > 0.05).",
+      "page": 8,
+      "index": 2,
+      "width": 740,
+      "height": 202
+    }
+  ]
+}

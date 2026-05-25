@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.19457v1/fig-006.webp",
+      "caption": "Figure 2: Overview architecture. a) Training of the unified modeling framework. b) Inference with bid selection",
+      "page": 5,
+      "index": 6,
+      "width": 948,
+      "height": 511
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19457v1/fig-001.webp",
+      "caption": "Figure 3: Ablation Study",
+      "page": 7,
+      "index": 1,
+      "width": 506,
+      "height": 300
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19457v1/fig-003.webp",
+      "caption": "Figure 4: Two-stage Training Analysis",
+      "page": 8,
+      "index": 3,
+      "width": 504,
+      "height": 304
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19457v1/fig-004.webp",
+      "caption": "Figure 5: Action preferences of different advertisers",
+      "page": 8,
+      "index": 4,
+      "width": 506,
+      "height": 300
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19457v1/fig-005.webp",
+      "caption": "Figure 6: Volatility comparison between DT and IDM bid",
+      "page": 9,
+      "index": 5,
+      "width": 506,
+      "height": 338
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19457v1/fig-002.webp",
+      "caption": "Figure 7: Cost Trajectory Analysis",
+      "page": 10,
+      "index": 2,
+      "width": 556,
+      "height": 333
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-002.webp",
+      "caption": "Figure 1: SimGym framework overview.",
+      "page": 2,
+      "index": 2,
+      "width": 664,
+      "height": 221
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-003.webp",
+      "caption": "Figure 2: Dataset distribution of the 50-storefront golden set spanning 16 countries and 11 industries. It includes smaller markets and specialized categories to support evaluation across diverse storefronts.",
+      "page": 7,
+      "index": 3,
+      "width": 748,
+      "height": 250
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-007.webp",
+      "caption": "Figure 3: Human-agent agreement in A2C shifts. Each panel plots human-observed versus agentpredicted ∆A2C rates under a persona input variant. The dashed line denotes y=x.",
+      "page": 8,
+      "index": 7,
+      "width": 560,
+      "height": 215
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-010.webp",
+      "caption": "Figure 5: Buyer Archetype Construction Framework.",
+      "page": 12,
+      "index": 10,
+      "width": 294,
+      "height": 754
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-006.webp",
+      "caption": "Figure 6: Persona Extracted Output.",
+      "page": 13,
+      "index": 6,
+      "width": 414,
+      "height": 581
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-004.webp",
+      "caption": "Figure 7: Agent Architecture.",
+      "page": 14,
+      "index": 4,
+      "width": 540,
+      "height": 360
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-001.webp",
+      "caption": "Figure 8: Agent Reasoning During Initial Navigation.",
+      "page": 15,
+      "index": 1,
+      "width": 416,
+      "height": 447
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-011.webp",
+      "caption": "Figure 9: Screenshots of Agent Browsing. (a) Minis collection ($7–9). (b) Dragons collection ($4–$30). (c) Axolotls collection ($6–$18).",
+      "page": 16,
+      "index": 11,
+      "width": 582,
+      "height": 672
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-009.webp",
+      "caption": "Figure 10: Agent Reasoning During Collection Exploration.",
+      "page": 17,
+      "index": 9,
+      "width": 414,
+      "height": 423
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-008.webp",
+      "caption": "Figure 11: Product Selection and Add-to-cart. (a) Premium Crystal Wing Dragon product page ($33.18). (b) Add-to-cart confirmation.",
+      "page": 17,
+      "index": 8,
+      "width": 416,
+      "height": 386
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19219v1/fig-005.webp",
+      "caption": "Figure 12: Agent Reasoning During Purchase Decision and Checkout.",
+      "page": 18,
+      "index": 5,
+      "width": 414,
+      "height": 398
+    }
+  ]
+}

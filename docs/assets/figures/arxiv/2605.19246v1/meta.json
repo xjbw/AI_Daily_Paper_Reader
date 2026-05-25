@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-003.webp",
+      "caption": "Table 2: Example bundles help discover query parameters.",
+      "page": 2,
+      "index": 3,
+      "width": 479,
+      "height": 305
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-009.webp",
+      "caption": "Table 4: Table of notations. Bold letters denote sets or vectors.",
+      "page": 4,
+      "index": 9,
+      "width": 486,
+      "height": 281
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-001.webp",
+      "caption": "Figure 5: Ex2Bundle workflow: before end-user interaction, (0) a",
+      "page": 6,
+      "index": 1,
+      "width": 482,
+      "height": 386
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-002.webp",
+      "caption": "Table 6: Topic scores for sentences 𝑡1 UT , 𝑡2 UT , and 𝑡3 UT ; and topic profile for the example snippet 𝐸UT = {𝑡1 UT , 𝑡2 UT , 𝑡3 UT }.",
+      "page": 6,
+      "index": 2,
+      "width": 510,
+      "height": 348
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-005.webp",
+      "caption": "Table A11: Focused text snippet extraction task on Ex2Bundle and ChatGPT-4o (few-shot) with LLM selected ground truth snippet on crime",
+      "page": 22,
+      "index": 5,
+      "width": 944,
+      "height": 386
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-006.webp",
+      "caption": "Table A12: Ex2Bundle’s performance across various metrics for generic and focused intents for crime category of CNN/DailyMail.",
+      "page": 22,
+      "index": 6,
+      "width": 994,
+      "height": 309
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-004.webp",
+      "caption": "Table A13: Ex2Bundle’s performance across various metrics for generic and focused intents for politics category of CNN/DailyMail.",
+      "page": 22,
+      "index": 4,
+      "width": 1052,
+      "height": 372
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-007.webp",
+      "caption": "Table A14: Ex2Bundle’s performance across various metrics for generic and focused intents for sports category of CNN/DailyMail.",
+      "page": 23,
+      "index": 7,
+      "width": 1052,
+      "height": 355
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19246v1/fig-008.webp",
+      "caption": "Table A15: Ex2Bundle’s performance across various metrics for generic and focused intents for lifestyle category of CNN/DailyMail.",
+      "page": 23,
+      "index": 8,
+      "width": 1052,
+      "height": 365
+    }
+  ]
+}
