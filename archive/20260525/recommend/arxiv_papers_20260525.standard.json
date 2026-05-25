@@ -1,0 +1,607 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-25T03:03:09.935627+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 9,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 9,
+    "quick_skim_target": 11,
+    "quick_selected": 9,
+    "deep_selected_before_profile_limit": 6,
+    "quick_selected_before_profile_limit": 9,
+    "profile_daily_limits": {
+      "SR": {
+        "deep": 10,
+        "quick": 10
+      }
+    },
+    "profile_limit_dropped_by_tag": {
+      "SR": {
+        "deep": 0,
+        "quick": 0
+      }
+    },
+    "profile_limit_dropped": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2605.17790v1",
+      "source": "arxiv",
+      "title": "STRIDE: A Self-Reflective Agent Framework for Reliable Automatic Equation Discovery",
+      "abstract": "LLM-based equation discovery offers a promising route to recovering symbolic laws from data, but many systems still rely on generation-centered loops that propose candidates, fit parameters, score results, and reuse selected examples. Such loops can misjudge useful skeletons under unreliable fitting, discard near-correct equations that require repair, and accumulate redundant memories that provide limited guidance. We propose STRIDE, a self-reflective agent framework that improves reliability by coordinating data-aware generation, mixed-fitting evaluation, critic--executor repair, and diversity-preserving semantic memory. By turning fitted scores and candidate behavior into shared feedback, STRIDE enables equations to be proposed, assessed, refined, and reused within a closed-loop discovery process. Experiments on representative symbolic-regression benchmarks and LSR-Synth suites show that STRIDE improves accuracy, OOD robustness, and structural recovery across multiple LLM backbones, with ablations and analyses confirming the contribution of its core components.",
+      "authors": [
+        "Jiarui Su",
+        "Songjun Tu",
+        "Bei Sun",
+        "Xiaojun Liang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-18T03:14:32+00:00",
+      "link": "https://arxiv.org/pdf/2605.17790v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Equation discovery framework using LLM agents",
+      "llm_evidence_cn": "利用LLM代理的方程发现框架",
+      "llm_evidence": "利用LLM代理的方程发现框架",
+      "canonical_evidence": "利用LLM代理的方程发现框架",
+      "llm_tldr_en": "LLM agent framework for reliable automatic equation discovery from data.",
+      "llm_tldr_cn": "可靠的自回归方程发现LLM代理框架。",
+      "llm_tldr": "可靠的自回归方程发现LLM代理框架。",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "algorithms for scientific equation discovery and modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.20514v1",
+      "source": "arxiv",
+      "title": "Fast Reconstruction of Exact Maxwell Dynamics from Sparse Data",
+      "abstract": "We introduce FLASH-MAX, a shallow, exact-by-construction neural network architecture for predicting homogeneous electromagnetic fields from sparse pointwise observations. Each hidden neuron represents a separate exact solution to Maxwell's equations, so that the network satisfies the governing equations symbolically by construction and can be trained end-to-end from sparse data within seconds. We prove a universal approximation result showing that this exact model class remains universal on arbitrary domains. FLASH-MAX reaches sub-1% relative validation error from about 1K sparse pointwise observations in seconds, all while maintaining a zero PDE residual, and keeps single-digit errors even for only 100 observations sampled from 3D space. These results suggest that moving governing structure from the loss into the hypothesis class can dramatically improve the trade-off between precision and optimization speed in scientific machine learning.",
+      "authors": [
+        "Dan DeGenaro",
+        "Xin Li",
+        "Obed Amo",
+        "Michael Pokojovy",
+        "Sarah Adel Bargal",
+        "Markus Lange-Hegermann",
+        "Bogdan Raiţă"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math.NA",
+        "stat.ML"
+      ],
+      "published": "2026-05-19T21:34:11+00:00",
+      "link": "https://arxiv.org/pdf/2605.20514v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "neural network exactly satisfies Maxwell equations symbolically",
+      "llm_evidence_cn": "神经网络符号化精确满足麦克斯韦方程",
+      "llm_evidence": "神经网络符号化精确满足麦克斯韦方程",
+      "canonical_evidence": "神经网络符号化精确满足麦克斯韦方程",
+      "llm_tldr_en": "A shallow neural network that exactly solves Maxwell's equations and reconstructs fields from sparse data.",
+      "llm_tldr_cn": "一个浅层神经网络，精确求解麦克斯韦方程并从稀疏数据重建场。",
+      "llm_tldr": "一个浅层神经网络，精确求解麦克斯韦方程并从稀疏数据重建场。",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "algorithms for scientific equation discovery and modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.21813v1",
+      "source": "arxiv",
+      "title": "Symbolic Density Estimation for Discrete Distributions",
+      "abstract": "Discrete probability laws underpin statistical modeling, yet the catalog of interpretable distributions has expanded only gradually through centuries of case-by-case mathematical derivations. We introduce symbolic density estimation (SDE), an unsupervised framework that automatically recovers closed-form probability mass functions by composing elementary analytic operations within a structured search space. Our method integrates domain-specific structural priors with evolutionary search and a validity-aware inference stage, and it extends to richer distribution families such as zero inflation and finite mixtures. To support systematic evaluation and future research, we contribute a benchmark dataset spanning a broad collection of commonly used discrete distributions. The proposed algorithm recovers all benchmark families with accurate parameter estimates. A real data application shows that it identifies concise and interpretable mixture models that improve goodness-of-fit over standard models.",
+      "authors": [
+        "Ziwen Liu",
+        "Meng Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-20T23:22:21+00:00",
+      "link": "https://arxiv.org/pdf/2605.21813v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "automatically discovers closed-form probability mass functions via evolutionary search",
+      "llm_evidence_cn": "通过进化搜索自动发现封闭形式的概率质量函数",
+      "llm_evidence": "通过进化搜索自动发现封闭形式的概率质量函数",
+      "canonical_evidence": "通过进化搜索自动发现封闭形式的概率质量函数",
+      "llm_tldr_en": "Introduces symbolic density estimation to automatically recover interpretable probability distributions from data.",
+      "llm_tldr_cn": "提出符号密度估计方法，自动从数据中发现可解释的概率分布。",
+      "llm_tldr": "提出符号密度估计方法，自动从数据中发现可解释的概率分布。",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.22235v1",
+      "source": "arxiv",
+      "title": "Holomorphic Neural ODEs with Kolmogorov-Arnold Networks for Interpretable Discovery of Complex Dynamics",
+      "abstract": "Complex dynamical systems governed by holomorphic maps such as $z^2 + c$ exhibit fractal boundaries with extreme sensitivity to initial conditions. Accurately modelling these structures from data requires methods that respect the underlying complex-analytic geometry, yet Multi-Layer Perceptrons (MLPs) within Neural Ordinary Differential Equations (Neural ODEs) lack complex-analytic priors, violate the Cauchy--Riemann conditions, and function as opaque approximators incapable of yielding governing equations. We introduce Holomorphic KAN-ODE, a framework that replaces the MLP with a Kolmogorov-Arnold Network (KAN) whose learnable B-spline activations reside on network edges, and incorporates Cauchy--Riemann equations as a differentiable regularization to preserve holomorphic structure. We evaluate on six families of complex dynamical systems spanning polynomial and transcendental classes. With only 280 parameters ($16\\times$ fewer than the MLP baseline), the network achieves velocity-field $R^2 > 0.95$ on all six systems, correctly identifies all six governing symbolic families through automatic spline-to-formula fitting, and reconstructs Julia set fractal boundaries with up to 98.0\\% agreement. Crucially, the model exhibits only 4\\% MSE degradation under 10\\% observation noise versus $15.2\\times$ for MLPs, and achieves 90.4\\% improvement in transfer learning from quadratic to cubic dynamics. While the MLP attains lower pointwise reconstruction error due to its larger capacity, the KAN uniquely provides interpretable symbolic equations, enforced holomorphic structure, and superior noise resilience, capabilities that are entirely absent in black-box architectures. These results establish KANs as a parameter-efficient, interpretable alternative to MLPs for physics-informed discovery of holomorphic dynamics.",
+      "authors": [
+        "Bhaskar Ranjan Karn",
+        "Dinesh Kumar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math.DS"
+      ],
+      "published": "2026-05-21T09:36:29+00:00",
+      "link": "https://arxiv.org/pdf/2605.22235v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "discovers governing equations using KAN and Cauchy-Riemann conditions",
+      "llm_evidence_cn": "使用KAN和柯西-黎曼条件发现控制方程",
+      "llm_evidence": "使用KAN和柯西-黎曼条件发现控制方程",
+      "canonical_evidence": "使用KAN和柯西-黎曼条件发现控制方程",
+      "llm_tldr_en": "Holomorphic KAN-ODE discovers governing equations from complex dynamics data.",
+      "llm_tldr_cn": "Holomorphic KAN-ODE从复杂动力学数据中发现控制方程.",
+      "llm_tldr": "Holomorphic KAN-ODE从复杂动力学数据中发现控制方程.",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "algorithms for scientific equation discovery and modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.22374v1",
+      "source": "arxiv",
+      "title": "Guiding Multi-Objective Genetic Programming with Description Length Improves Symbolic Regression Solutions",
+      "abstract": "Symbolic regression with genetic programming (GPSR) may suffer from overfitting and structural bloat, especially when noise is present. In this paper we evaluate description length (DL) and fractional Bayes factor (FBF) criteria as principled, data-efficient alternatives to heuristics for selecting compact expressions that generalise well. We implement DL using a Fisher-information-based parameter encoding and compare it to AIC and BIC across multiple datasets, including noisy synthetic benchmarks and real-world regression problems. We study three search/selection strategies: (i) multi-objective search for accuracy and program length followed by DL/FBF selection; (ii) multi-objective search using DL directly as an objective; and (iii) single-objective optimisation with DL/FBF as the fitness. Across datasets we find that DL/FBF post-selection improves test performance compared to AIC/BIC baseline and that BIC in combination with the same function complexity penalty from DL/FBF produces similar results. In contrast, using DL/FBF directly as a fitness function in single-objective GPSR frequently induces premature convergence to overly simple models. We conclude with practical guidance for using DL/FBF as robust model-selection tools in genetic programming workflows.",
+      "authors": [
+        "Gabriel Kronberger",
+        "Fabricio Olivetti de Franca",
+        "Deaglan J. Bartlett",
+        "Harry Desmond",
+        "Pedro G. Ferreira"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE",
+        "stat.ML"
+      ],
+      "published": "2026-05-21T12:07:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.22374v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Symbolic regression with genetic programming, multi-objective search, description length",
+      "llm_evidence_cn": "使用遗传编程的符号回归，多目标搜索，描述长度",
+      "llm_evidence": "使用遗传编程的符号回归，多目标搜索，描述长度",
+      "canonical_evidence": "使用遗传编程的符号回归，多目标搜索，描述长度",
+      "llm_tldr_en": "Evaluates description length for selecting compact symbolic regression expressions",
+      "llm_tldr_cn": "评估描述长度以选择紧凑的符号回归表达式",
+      "llm_tldr": "评估描述长度以选择紧凑的符号回归表达式",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.19063v1",
+      "source": "arxiv",
+      "title": "Mapping Uncharted Symmetries: Machine Discovery in Combinatorics",
+      "abstract": "Inspired by long-standing open problems in algebraic combinatorics, we show that modern machine learning can meaningfully contribute to verifiable mathematical discoveries. In particular, we focus on the construction of simple mathematical functions under exact distributional constraints, a setting we formalize as Simple Learning Under Rigid Proportions (SLURP). We tackle this problem by introducing two methods: MapSeek-Functional, which models the desired function alternating pseudo-labeling and supervised training steps; and MapSeek-Symbolic, designed to directly produce symbolic formulas. We successfully apply both methods to a research problem in algebraic combinatorics, discovering a new combinatorial interpretation of the $q,t$-Narayana polynomials arising from representation theory. To our knowledge, this is the first such interpretation based on noncrossing partitions. Using one discovered statistic, we find a combinatorial proof of the symmetry of these polynomials in a previously unsolved case. To streamline verification and reproducibility, we release all code, including a formalization of all the mathematical discoveries of this paper in Lean 4.",
+      "authors": [
+        "Eugenio Cainelli",
+        "Lorenzo Luccioli",
+        "Alessandro Iraci",
+        "Michele D'Adderio",
+        "Giovanni Paolini"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-18T19:36:08+00:00",
+      "link": "https://arxiv.org/pdf/2605.19063v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Discovers symbolic formulas in combinatorics",
+      "llm_evidence_cn": "在组合学中发现符号公式",
+      "llm_evidence": "在组合学中发现符号公式",
+      "canonical_evidence": "在组合学中发现符号公式",
+      "llm_tldr_en": "ML methods to discover symbolic formulas for combinatorial functions.",
+      "llm_tldr_cn": "机器学习发现组合函数符号公式。",
+      "llm_tldr": "机器学习发现组合函数符号公式。",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.20249v1",
+      "source": "arxiv",
+      "title": "Automated Kernel Discovery Towards Understanding High-dimensional Bayesian Optimization",
+      "abstract": "Gaussian Process (GP) kernels are central to Bayesian optimization (BO), yet designing effective kernels for high-dimensional problems still relies on extensive manual engineering. Existing automated approaches struggle in high dimensions for two bottlenecks: their kernel search space is limited to additions and multiplications of base kernels, and LLM-based approaches require conditioning on raw observations, which becomes infeasible due to context-length limits and the difficulty of extracting meaningful patterns. We introduce \\textbf{Kernel Discovery}, a LLM-driven evolutionary framework for high-dimensional BO that searches a broader kernel space beyond predefined composition rules and does not require conditioning on observations. Motivated by the observation that directly prompting an LLM to generate kernel code yields syntactically varied but functionally identical kernels, we adopt a two-stage approach: an LLM first proposes novel mathematical forms, then a second LLM call converts each form into validated, executable code. We also propose a leave-one-out continuous ranked probability score (LOO-CRPS) as a selection criterion that penalizes overfitted kernels. On five high-dimensional BO benchmarks, our method achieves an average rank of \\textbf{1.2 out of 17}, outperforming competitive baselines.   We further analyze the discovered kernels to identify which kernels lead to improvements in high-dimensional BO.",
+      "authors": [
+        "Taeyoung Yun",
+        "Woocheol Shin",
+        "Inhyuck Song",
+        "Jaewoo Lee",
+        "Jinkyoo Park"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-18T07:35:59+00:00",
+      "link": "https://arxiv.org/pdf/2605.20249v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "LLM-driven evolutionary kernel discovery for Bayesian optimization",
+      "llm_evidence_cn": "基于LLM的贝叶斯优化核自动发现进化方法",
+      "llm_evidence": "基于LLM的贝叶斯优化核自动发现进化方法",
+      "canonical_evidence": "基于LLM的贝叶斯优化核自动发现进化方法",
+      "llm_tldr_en": "Proposes an LLM-driven evolutionary framework to automatically search over kernel expressions for high-dimensional Bayesian optimization.",
+      "llm_tldr_cn": "提出了一种LLM驱动的进化框架，用于自动搜索高维贝叶斯优化的核表达式。",
+      "llm_tldr": "提出了一种LLM驱动的进化框架，用于自动搜索高维贝叶斯优化的核表达式。",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.16837v1",
+      "source": "arxiv",
+      "title": "Learning inelastic constitutive models from stress-strain data under hard thermodynamic constraints",
+      "abstract": "Machine learning approaches informed by physics have offered new insights into the discovery of constitutive models from data, helping overcome some limitations of traditional constitutive modelling while reducing the cost of otherwise computationally intensive simulations. Yet, most existing approaches only partially enforce the requirements of physics and thermodynamics, leaving open questions about their consistency across a broad range of material behaviours and their ability to generalise robustly to unseen loading paths when only limited measurements are available.   This work establishes a thermodynamics-constrained learning framework whose architecture embeds the principles of non-equilibrium thermodynamics, objectivity and stability as hard, scalable constraints to learn constitutive models from standard macroscopic data. Analytical benchmarks involving stress-strain loading paths demonstrate that the method learns thermodynamically consistent and robust constitutive models for a range of inelastic materials of increasing complexity. At inference, the resulting models generalise to more demanding, unobserved paths and can autonomously recover interpretable internal variables that capture path-dependent evolution. The framework is then applied to granular media, prototypical heterogeneous and history-dependent materials for which constitutive modelling remains challenging. Trained on numerically simulated experiments based on the discrete element method, the model discovers the underlying constitutive equations and predicts responses under cyclic loading, including the emergence of hysteresis absent from the training data, relying solely on macroscopic stress-strain histories. The findings indicate that enforcing non-equilibrium thermodynamics through hard constraints represents a principled route to robust, consistent, and scalable data-driven discovery of constitutive models.",
+      "authors": [
+        "Filippo Masi"
+      ],
+      "primary_category": "cond-mat.mtrl-sci",
+      "categories": [
+        "cond-mat.mtrl-sci"
+      ],
+      "published": "2026-05-16T06:40:56+00:00",
+      "link": "https://arxiv.org/pdf/2605.16837v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "physics-constrained learning for constitutive model discovery",
+      "llm_evidence_cn": "物理约束学习用于本构模型发现",
+      "llm_evidence": "物理约束学习用于本构模型发现",
+      "canonical_evidence": "物理约束学习用于本构模型发现",
+      "llm_tldr_en": "Proposes a thermodynamics-constrained framework to discover constitutive models from stress-strain data, relevant to symbolic regression with physical constraints",
+      "llm_tldr_cn": "提出热力学约束学习框架从应力应变数据中发现本构模型",
+      "llm_tldr": "提出热力学约束学习框架从应力应变数据中发现本构模型",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "incorporating physical constraints into symbolic regression",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.18351v1",
+      "source": "arxiv",
+      "title": "Mapping the Fitness Landscape: A Structure-Guided Approach to Multi-Modal Optimization",
+      "abstract": "Multimodal optimization requires finding many optima rather than merely keeping a diverse population. Yet most niching-based evolutionary algorithms rely on distances or density estimators without explicitly recovering the underlying peak--basin organization in the decision space, which can lead to pseudo-multimodality: many distinct individuals ultimately collapse into only a few basins. We introduce Chaotic Landscape-Decoding Evolution (CLDE), a decision-space-centric framework that turns multimodal search into a closed loop of decode--value--allocate--refine. CLDE injects controlled global exploration via a logistic chaotic map with a decaying step size, then builds a $k$-nearest-neighbor graph on a decoding canvas and performs persistence-guided basin growing that merges peaks only when they are not separated by deep valleys. An adaptive persistence threshold continuously tunes the decoding resolution online to avoid over-fragmentation and over-merging. Guided by the decoded structure, CLDE carries out basin-wise selection and refinement to improve solution quality while preserving basin coverage. We instantiate CLDE as CLDE-S and CLDE-M for single- and multi-objective multimodal optimization. Experiments on 20 CEC2013 functions show that CLDE-S achieves strong peak ratio under the same evaluation budget, while on DTLZ and MMMOP suites CLDE-M attains competitive IGD/IGDx, with pronounced gains on strongly multimodal problems.",
+      "authors": [
+        "Meng Xiang",
+        "Pei Yan"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE"
+      ],
+      "published": "2026-05-18T13:08:02+00:00",
+      "link": "https://arxiv.org/pdf/2605.18351v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Evolutionary algorithm for multimodal optimization applicable to symbolic regression",
+      "llm_evidence_cn": "用于多模态优化的进化算法，可应用于符号回归",
+      "llm_evidence": "用于多模态优化的进化算法，可应用于符号回归",
+      "canonical_evidence": "用于多模态优化的进化算法，可应用于符号回归",
+      "llm_tldr_en": "Proposes CLDE framework using chaotic map and kNN graph for multimodal optimization via evolutionary search, relevant to GP for SR",
+      "llm_tldr_cn": "提出CLDE框架，用混沌映射和kNN图进行多模态进化搜索，可用于符号回归的遗传规划",
+      "llm_tldr": "提出CLDE框架，用混沌映射和kNN图进行多模态进化搜索，可用于符号回归的遗传规划",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.21160v1",
+      "source": "arxiv",
+      "title": "Learning First Integrals via Backward-Generated Data and Guided Reinforcement Learning",
+      "abstract": "The discovery of first integrals is of fundamental scientific importance for understanding conservation laws in dynamical systems. However, existing symbolic computation tools and Large Language Models (LLMs) remain limited on this task because high-quality training data are scarce and successful solutions often depend on mathematical intuition. This paper presents FISolver, an LLM-based solver developed to address this challenge. First, we introduce a \"Backward Generation\" algorithm that systematically builds large-scale datasets of (differential equation, first integral) pairs by deriving differential equations from sampled integrals, thereby alleviating the data scarcity bottleneck. Second, we apply supervised fine-tuning to a compact mathematical model and further improve its performance through reinforcement learning with a Levenshtein Distance-based shaped reward. In addition, we design data synthesis and blending strategies that support effective adaptation to difficult problem families from sparse examples. Experiments show that FISolver, while requiring substantially lower computational cost, significantly outperforms larger mathematical LLMs and commercial solvers such as Mathematica on challenging benchmarks, indicating a new data-driven route for automated discovery of first integrals.",
+      "authors": [
+        "Jingfeng Zhong",
+        "Zhengxiang Liu",
+        "Zhijie Wang",
+        "Shuai Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-20T13:27:39+00:00",
+      "link": "https://arxiv.org/pdf/2605.21160v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "automated discovery of first integrals (symbolic expressions)",
+      "llm_evidence_cn": "自动发现首次积分（符号表达式）",
+      "llm_evidence": "自动发现首次积分（符号表达式）",
+      "canonical_evidence": "自动发现首次积分（符号表达式）",
+      "llm_tldr_en": "LLM-based solver for discovering first integrals via backward generation",
+      "llm_tldr_cn": "基于大语言模型的求解器，通过反向生成发现首次积分",
+      "llm_tldr": "基于大语言模型的求解器，通过反向生成发现首次积分",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "algorithms for scientific equation discovery and modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.18618v2",
+      "source": "arxiv",
+      "title": "Stochastic Penalty-Barrier Methods for Constrained Machine Learning",
+      "abstract": "Constrained machine learning enables fairness-aware training, physics-informed neural networks, and integration of symbolic domain knowledge into statistical models. Despite its practical importance, no general method exists for the non-convex, non-smooth, stochastic setting that arises naturally in deep learning. We propose the Stochastic Penalty-Barrier Method (SPBM), which extends classical penalty and barrier methods to this setting via exponential dual averaging, a stabilized penalty schedule, and the Moreau envelope to handle non-smoothness. Experiments across multiple settings show that SPBM matches or outperforms existing constrained optimization baselines while incurring only linear runtime overhead compared to unconstrained Adam for up to 10,000 constraints.",
+      "authors": [
+        "Adam Bosák",
+        "Andrii Kliachkin",
+        "Jana Lepšová",
+        "Gilles Bareilles",
+        "Jakub Mareček"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-18T16:26:26+00:00",
+      "link": "https://arxiv.org/pdf/2605.18618v2",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "proposes constrained optimization method for integrating symbolic domain knowledge",
+      "llm_evidence_cn": "提出用于整合符号领域知识的约束优化方法",
+      "llm_evidence": "提出用于整合符号领域知识的约束优化方法",
+      "canonical_evidence": "提出用于整合符号领域知识的约束优化方法",
+      "llm_tldr_en": "Stochastic penalty-barrier method enables integration of symbolic constraints into ML models.",
+      "llm_tldr_cn": "随机惩罚-障碍方法支持将符号约束集成到机器学习模型中。",
+      "llm_tldr": "随机惩罚-障碍方法支持将符号约束集成到机器学习模型中。",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "incorporating physical constraints into symbolic regression",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.22338v1",
+      "source": "arxiv",
+      "title": "Physics-Informed Generative Solver: Bridging Data-Driven Priors and Conservation Laws for Stable Spatiotemporal Field Reconstruction",
+      "abstract": "Reconstructing continuous physical fields from sparse measurements is a central inverse problem, but data-driven generative models can produce states that violate governing dynamics. We introduce a physics-informed generative solver that separates stable prior learning from inference-time enforcement of conservation laws. Martingale-Regularized Score Matching regularizes score pretraining with a Score Fokker-Planck constraint, yielding a dynamically stable prior. Physics-Informed Implicit Score Sampling then guides denoising trajectories by gradients of physical residuals, projecting samples toward admissible manifolds without retraining. In acoustics, the method co-generates pressure and particle velocity from sparse sensors, enabling dense virtual arrays that suppress spatial aliasing. The same framework generalizes to real-world ERA5 meteorological fields under extreme sparsity. Together, this work establishes a rigorous and generalizable paradigm for solving high-dimensional inverse problems, bridging the gap between generative artificial intelligence and first-principles science.",
+      "authors": [
+        "Ziyuan Zhu",
+        "Keyu Hu",
+        "Zhifei Chen",
+        "Yuhao Shi",
+        "Ming Bao",
+        "Jing Zhao",
+        "Gang Wang",
+        "Haitan Xu",
+        "Jiadong Li",
+        "Qijun Zhao",
+        "Xiaodong Li",
+        "Minghui Lu",
+        "Yanfeng Chen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-21T11:24:48+00:00",
+      "link": "https://arxiv.org/pdf/2605.22338v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "physics-informed generative solver enforces conservation laws for field reconstruction",
+      "llm_evidence_cn": "物理信息生成求解器在重建中强制执行守恒定律",
+      "llm_evidence": "物理信息生成求解器在重建中强制执行守恒定律",
+      "canonical_evidence": "物理信息生成求解器在重建中强制执行守恒定律",
+      "llm_tldr_en": "Physics-informed generative solver enforces conservation laws for spatiotemporal field reconstruction.",
+      "llm_tldr_cn": "物理信息生成求解器在时空场重建中强制执行守恒定律.",
+      "llm_tldr": "物理信息生成求解器在时空场重建中强制执行守恒定律.",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "incorporating physical constraints into symbolic regression",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.22498v1",
+      "source": "arxiv",
+      "title": "The Neural Compiler: Program-to-Network Translation for Hybrid Scientific Machine Learning",
+      "abstract": "Scientific machine learning often requires combining known physics with unknown parameters or correction terms learned from data. Existing approaches either ignore known structure, encode it as a soft penalty, or require hand-written PyTorch code for each equation. We present The Neural Compiler, a system that translates programs written in a first-order Scheme-like expression language into frozen, differentiable PyTorch modules. These modules match the source program to floating-point precision and provide gradients through autograd. In hybrid models, the compiled module encodes known physics exactly while learned components model the unknown remainder. We evaluate the compiler across six experiment domains: Feynman physics equations, Lotka-Volterra dynamics, a damped pendulum, a one-dimensional heat equation, three-dimensional vector mechanics, and compositional generalization. Compiled modules match hand-coded PyTorch implementations numerically for single equations, showing no accuracy loss from compilation. With only 1 to 4 trainable parameters, compiled models recover physical constants to less than 1 percent error in most cases, while standard PINN baselines with more than 8500 parameters show 7 to 93 percent error. Compiled modules also compose with zero error, while neural approximations can accumulate large errors in deep composition chains. The main value of the compiler is not improved accuracy over hand-coded equations, but systematic composability: it generates correct, differentiable modules from symbolic specifications without rewriting each equation by hand. The system supports 51 primitive operations, including vector and matrix algebra, enabling PDE discretizations and hybrid scientific models. This string-in, module-out interface also provides a natural target for large language models that translate scientific descriptions into executable differentiable modules.",
+      "authors": [
+        "Lucas Sheneman"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.SC"
+      ],
+      "published": "2026-05-21T13:49:20+00:00",
+      "link": "https://arxiv.org/pdf/2605.22498v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "compiles symbolic expressions into differentiable modules; incorporates physics exactly",
+      "llm_evidence_cn": "将符号表达式编译为可微模块;精确融合物理约束",
+      "llm_evidence": "将符号表达式编译为可微模块;精确融合物理约束",
+      "canonical_evidence": "将符号表达式编译为可微模块;精确融合物理约束",
+      "llm_tldr_en": "A system that translates symbolic programs into frozen PyTorch modules for hybrid scientific ML.",
+      "llm_tldr_cn": "将符号程序翻译为冻结的PyTorch模块的混合科学机器学习系统。",
+      "llm_tldr": "将符号程序翻译为冻结的PyTorch模块的混合科学机器学习系统。",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "incorporating physical constraints into symbolic regression",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.19959v1",
+      "source": "arxiv",
+      "title": "Learning Orthonormal Bases for Function Spaces",
+      "abstract": "Infinite-dimensional orthonormal basis expansions play a central role in representing and computing with function spaces due to their favorable linear algebraic properties. However, common bases such as Fourier or wavelets are fixed and do not adapt to the structure of a given problem or dataset. In this paper, we aim to represent these bases with neural networks and optimize them. Our key idea is that any target infinite-dimensional orthonormal basis can be viewed either as a point on the Lie manifold of the orthogonal group, or equivalently, as the endpoint of a continuous path on that manifold that connects a reference basis, e.g. Fourier, to that target. Paths on the Lie manifold satisfy ordinary differential equations (ODEs) governed by skew-adjoint integral operators. Using neural networks to define finite-rank generators of such ODEs allows us to parameterize and optimize orthonormal bases in function space. While relying on finite-rank generators to model infinite operators might seem restrictive, we prove a universality result: even with a rank-2 generator, the integrated solutions of the ODE are dense in the orthogonal group under the appropriate operator topology. In other words, for any target orthonormal basis, there exists a path originating from a reference basis and driven by finite-rank generators that gets arbitrarily close to that target basis. We demonstrate the flexibility of our framework by transforming the Fourier basis into the principal components of a functional dataset, eigenfunctions of linear operators, or dynamic modes of energy-preserving physical simulations.",
+      "authors": [
+        "Hamidreza Kamkari",
+        "Mohammad Sina Nabizadeh",
+        "Justin Solomon"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math.FA"
+      ],
+      "published": "2026-05-19T15:12:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.19959v1",
+      "tags": [
+        "keyword:SR",
+        "query:SR"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Learning adaptive orthonormal bases for function spaces can aid automated discovery of mathematical expressions",
+      "llm_evidence_cn": "学习自适应标准正交基有助于自动发现数学表达式",
+      "llm_evidence": "学习自适应标准正交基有助于自动发现数学表达式",
+      "canonical_evidence": "学习自适应标准正交基有助于自动发现数学表达式",
+      "llm_tldr_en": "Learns adaptive orthonormal bases via neural networks and ODEs for function representation",
+      "llm_tldr_cn": "通过神经网络和ODE学习自适应标准正交基以表示函数",
+      "llm_tldr": "通过神经网络和ODE学习自适应标准正交基以表示函数",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.21055v1",
+      "source": "arxiv",
+      "title": "Genetic Programming with Transformer-Based Mutation for Approximate Circuit Design",
+      "abstract": "A recent trend is to leverage machine learning models to improve the evolutionary design and optimization process. We propose a novel transformer-based mutation operator for Cartesian genetic programming (CGP) for the automated design of approximate arithmetic circuits. We introduce a hybrid scheme for CGP in which the proposed mutation operator is switched with the standard mutation operator to prevent stagnation of the circuit approximation process. We also develop a new training scheme for the underlying transformer that utilizes training vectors composed of thousands of CGP chromosomes representing various approximate multipliers. For several target error constraints, the approximate multipliers evolved with CGP utilizing the transformer-based mutation achieve better trade-offs than the highly optimized designs available in the state-of-the-art EvoApproxLib library of approximate circuits. Although both training and evolutionary processes are computationally demanding, they appear to be necessary steps for improving existing approximate circuits and producing new, potentially patentable circuit designs.",
+      "authors": [
+        "Ondrej Galeta",
+        "Lukas Sekanina"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE",
+        "cs.LG"
+      ],
+      "published": "2026-05-20T11:42:10+00:00",
+      "link": "https://arxiv.org/pdf/2605.21055v1",
+      "tags": [
+        "keyword:SR"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Genetic programming with transformer mutation for circuit design, transferable to symbolic regression",
+      "llm_evidence_cn": "基于遗传编程和变压器变异用于电路设计，可迁移到符号回归",
+      "llm_evidence": "基于遗传编程和变压器变异用于电路设计，可迁移到符号回归",
+      "canonical_evidence": "基于遗传编程和变压器变异用于电路设计，可迁移到符号回归",
+      "llm_tldr_en": "Proposes hybrid GP with transformer-based mutation operator for approximate circuit design, advancing evolutionary optimization relevant to SR",
+      "llm_tldr_cn": "提出混合GP与变压器变异算子用于近似电路设计，推进了符号回归相关进化优化",
+      "llm_tldr": "提出混合GP与变压器变异算子用于近似电路设计，推进了符号回归相关进化优化",
+      "llm_tags": [
+        "query:sr"
+      ],
+      "matched_query_tag": "query:sr",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
