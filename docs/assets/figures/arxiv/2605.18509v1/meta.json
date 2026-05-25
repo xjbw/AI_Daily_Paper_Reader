@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.18509v1/fig-003.webp",
+      "caption": "Figure 3: Comparisons of the overall policy value, policy value per existing action, and policy value per new action with varying training data sizes (𝑛). Note that the metrics are normalized by those of the uniform random policy.",
+      "page": 6,
+      "index": 3,
+      "width": 1089,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18509v1/fig-001.webp",
+      "caption": "Figure 4: Comparisons of the overall policy value, policy value per existing action, and policy value per new action with varying percentages of new actions (|A𝑛𝑒𝑤 |/|A|). Note that the metrics are normalized by those of the uniform random policy.",
+      "page": 6,
+      "index": 1,
+      "width": 764,
+      "height": 231
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18509v1/fig-002.webp",
+      "caption": "Figure 5: Comparisons of the overall policy value, policy value per existing action, and policy value per new action with varying degrees of local linearity violation (𝛾 ). Note that the metrics are normalized by those of the uniform random policy.",
+      "page": 6,
+      "index": 2,
+      "width": 764,
+      "height": 233
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18509v1/fig-005.webp",
+      "caption": "Figure 6: Comparisons of the overall policy value, proportion of existing actions, and proportion of new actions under the learned policy with varying lower limits on the proportion of new actions (𝜌𝐿 in Eq. (8)).",
+      "page": 7,
+      "index": 5,
+      "width": 764,
+      "height": 273
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18509v1/fig-006.webp",
+      "caption": "Figure 7: Comparisons of the overall policy value, policy value per existing action, and policy value per new action with varying training data sizes (𝑛) on the KuaiRec dataset. Note that the metrics are normalized by those of the uniform random policy.",
+      "page": 7,
+      "index": 6,
+      "width": 1089,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18509v1/fig-004.webp",
+      "caption": "Figure 8: Comparisons of the overall policy value, policy value per existing action, and policy value per new action with varying percentages of new actions (|A𝑛𝑒𝑤 |/|A|) on the KuaiRec dataset. Note that the metrics are normalized by those of the uniform random policy.",
+      "page": 7,
+      "index": 4,
+      "width": 764,
+      "height": 231
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-004.webp",
+      "caption": "Figure 1: The Cold-start Dilemma: Immediate Conversion vs. Long-term Item Growth Value.",
+      "page": 2,
+      "index": 4,
+      "width": 497,
+      "height": 242
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-008.webp",
+      "caption": "Figure 2: The overview of the proposed GrowthGR framework.",
+      "page": 4,
+      "index": 8,
+      "width": 1000,
+      "height": 577
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-001.webp",
+      "caption": "Table 2: Performance Comparison of ItemLTV.",
+      "page": 6,
+      "index": 1,
+      "width": 473,
+      "height": 448
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-007.webp",
+      "caption": "Figure 3: Performance improvement on all-net labels across model scales relative to the 0.5B baseline.",
+      "page": 8,
+      "index": 7,
+      "width": 490,
+      "height": 266
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-005.webp",
+      "caption": "Figure 4: The deployment architecture of GrowthGR.",
+      "page": 10,
+      "index": 5,
+      "width": 494,
+      "height": 323
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-006.webp",
+      "caption": "Figure 5: The framework of the decoding strategy.",
+      "page": 10,
+      "index": 6,
+      "width": 445,
+      "height": 300
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-002.webp",
+      "caption": "Figure 6: Average Uplift Score Across Different Online Days.",
+      "page": 11,
+      "index": 2,
+      "width": 473,
+      "height": 266
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17994v1/fig-003.webp",
+      "caption": "Table 6: Performance comparison across different categories.",
+      "page": 11,
+      "index": 3,
+      "width": 448,
+      "height": 413
+    }
+  ]
+}

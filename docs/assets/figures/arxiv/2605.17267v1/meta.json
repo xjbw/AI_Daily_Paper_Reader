@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-001.webp",
+      "caption": "Fig. 1: Comparison Between Existing and Review-Augmented Generative Recommendation.",
+      "page": 1,
+      "index": 1,
+      "width": 518,
+      "height": 421
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-005.webp",
+      "caption": "Fig. 2: The overall framework of the proposed RAGR, which consists of three main stages: Tokenizer Training, ReviewAugmented User Sequence Modeling, and Item-Centric Task Generation Alignment.",
+      "page": 3,
+      "index": 5,
+      "width": 1068,
+      "height": 754
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-003.webp",
+      "caption": "TABLE II: Performance comparison on Beauty, Toys, and Sport. Imp. denotes the relative improvement of RAGR over its corresponding backbone model in each metric.",
+      "page": 7,
+      "index": 3,
+      "width": 1000,
+      "height": 443
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-008.webp",
+      "caption": "Fig. 3: Illustration of the progressively enhanced training paradigms in the ablation study. Starting from the original item-only training of TIGER, we gradually introduce review-augmented input (+Input), review-augmented task modeling (+Task), and finally the full RAGR framework with item-centric DPO alignment (+RAGR).",
+      "page": 8,
+      "index": 8,
+      "width": 956,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-007.webp",
+      "caption": "Fig. 4: Comparison of Top-10 SID frequency distributions between item and review.",
+      "page": 8,
+      "index": 7,
+      "width": 1007,
+      "height": 391
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-006.webp",
+      "caption": "TABLE III: Ablation study of input expansion, task expansion, and task alignment on Beauty, Toys, and Sport.",
+      "page": 8,
+      "index": 6,
+      "width": 1046,
+      "height": 260
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-009.webp",
+      "caption": "Fig. 6: Impact of different tokenizer training strategies on downstream recommendation performance. We compare tokenizers trained on Item Text-Only, Review Text-Only, and Item and Review Text under both TIGER and TIGER+RAGR.",
+      "page": 9,
+      "index": 9,
+      "width": 1005,
+      "height": 457
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-004.webp",
+      "caption": "Fig. 7: Impact of the number of semantic ID tokens on recommendation performance. We report HIT@K and NDCG@K (K ∈ {5, 10, 20}) on Beauty, Toys, and Sport under different SID numbers.",
+      "page": 10,
+      "index": 4,
+      "width": 956,
+      "height": 365
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17267v1/fig-002.webp",
+      "caption": "Fig. 8: Sensitivity analysis of the DPO-based task alignment with respect to the preference coefficient β and training epoch. We report HIT@{5, 10, 20} and NDCG@{5, 10, 20} under different hyperparameter combinations.",
+      "page": 11,
+      "index": 2,
+      "width": 1060,
+      "height": 483
+    }
+  ]
+}

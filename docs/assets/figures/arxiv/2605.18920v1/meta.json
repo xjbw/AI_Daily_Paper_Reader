@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.18920v1/fig-006.webp",
+      "caption": "Figure 2. Overview of the proposed SynGR framework. (1) In the tokenization phase, continuous textual and visual features are discretized into a unified dictionary through respective quantizers. (2) The generation phase begins with saliency diagnosis, where a transformer encoder extracts attention maps to identify dominant modalities for adaptive top-r masking. Subsequently, the original, masked, and unimodal sequences are processed in parallel through transformer blocks to derive the embeddings Zori, Zmask, and Zuni for synergistic contrastive learning. Finally, these representations are optimized via a transformer decoder to capture synergistic information.",
+      "page": 4,
+      "index": 6,
+      "width": 1004,
+      "height": 394
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18920v1/fig-001.webp",
+      "caption": "Table 1. Overall performance comparison across benchmark datasets. Best and second-best results are indicated in bold and underlined fonts respectively. Red font denotes the relative improvement of SynGR over the strongest baseline.",
+      "page": 6,
+      "index": 1,
+      "width": 1015,
+      "height": 321
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18920v1/fig-004.webp",
+      "caption": "Figure 3. Efficiency and convergence analysis of SynGR and MACRec on two datasets. All experiments are conducted on a server equipped with six NVIDIA GeForce RTX 4090 GPUs.",
+      "page": 7,
+      "index": 4,
+      "width": 481,
+      "height": 265
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18920v1/fig-005.webp",
+      "caption": "Figure 4. The performances (HR@10, NDCG@10) of our SynGR under varying parameters on different datasets.",
+      "page": 8,
+      "index": 5,
+      "width": 1003,
+      "height": 341
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18920v1/fig-007.webp",
+      "caption": "Figure 6. Qualitative comparison between SynGR and MACRec. Given the same user history, SynGR ranks the ground-truth (GT) item at the top position, whereas MACRec ranks it only third, favoring items with coarse similarity to football- or jersey-related concepts.",
+      "page": 9,
+      "index": 7,
+      "width": 971,
+      "height": 394
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18920v1/fig-002.webp",
+      "caption": "Table 3. Pre-training dataset statistics.",
+      "page": 15,
+      "index": 2,
+      "width": 1002,
+      "height": 231
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18920v1/fig-003.webp",
+      "caption": "Figure 7. Additional sensitivity analysis on remaining datasets.",
+      "page": 15,
+      "index": 3,
+      "width": 1002,
+      "height": 293
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.18080v1/fig-001.webp",
+      "caption": "Figure 1: Dirac–Solow–Swan Hamiltonian evolution of disruptive capital probability derived from the parameterized 4-qubit EWL quantum game applied to real CORDIS quadruple-helix data (project COVend, ID 101045956). The plot demonstrates the predicted capital bifurcation and exponential disruptive growth dynamics under the influence of the quadruple helix innovation ecosystem.",
+      "page": 12,
+      "index": 1,
+      "width": 694,
+      "height": 431
+    },
+    {
+      "url": "assets/figures/arxiv/2605.18080v1/fig-002.webp",
+      "caption": "Figure 2: Qiskit implementation of the parameterized 4-qubit EisertWilkensLewenstein (EWL) quantum game circuit for the quadruple-helix disruptive innovation recommender system. The circuit is constructed for the representative CORDIS Horizon Europe project COVend (ID 101045956). Each qubit corresponds to one helix actor (q0 = Academia, q1 = Industry, q2 = Government, q3 = Civil Society). Local strategy operators are realized as single-qubit rotations Ry(θi) with angles θi = 2arcsin( √ pi) derived directly from normalized participant funding dominance weights (see Table 1). The upper panel shows the forward circuit (initial Hadamard layer, multi-qubit EWL entangler, and parameterized rotations); the lower panel shows the inverse entangler and measurements in the computational basis. Total gate count: 22; circuit depth: 11.",
+      "page": 13,
+      "index": 2,
+      "width": 694,
+      "height": 379
+    }
+  ]
+}

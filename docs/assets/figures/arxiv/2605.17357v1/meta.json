@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-002.webp",
+      "caption": "Figure 1: Comparison between our dual-diffusional architecture and existing fashion image generation architectures.",
+      "page": 2,
+      "index": 2,
+      "width": 494,
+      "height": 314
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-007.webp",
+      "caption": "Figure 2: The multi-stage training of DualFashion consists of warm-up, matching-aware personalized multimodal training, and text-augmented fine-tuning. The inference stage is omitted for clarity.",
+      "page": 4,
+      "index": 7,
+      "width": 1022,
+      "height": 419
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-001.webp",
+      "caption": "Table 1: Performance comparison between our method and various baselines. \"Comp.\", \"Per.\" and \"Div.\" denote compatibility, personalization and diversity, respectively. Bold indicates the best results while underline denotes the second best results.",
+      "page": 6,
+      "index": 1,
+      "width": 1058,
+      "height": 326
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-003.webp",
+      "caption": "Table 2: Ablation study about the impact of warm-up, learnable embeddings, loss design and text augmented fine-tuning on fashion item text generation. Bold indicates the best results while underline denotes the second best results.",
+      "page": 7,
+      "index": 3,
+      "width": 1040,
+      "height": 217
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-004.webp",
+      "caption": "Figure 3: Ablation study about the alignment between fashion item image and text generation.",
+      "page": 7,
+      "index": 4,
+      "width": 506,
+      "height": 273
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-005.webp",
+      "caption": "Figure 4: Model-wise comparison of different models’ generative capabilities on the GOR task. Our DualFashion generates fashion item images and texts, producing outfits with higher compatibility while better aligning with user preferences.",
+      "page": 8,
+      "index": 5,
+      "width": 1050,
+      "height": 347
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-006.webp",
+      "caption": "Figure 5: Comparison on the PFITB task. Two generated images per model are shown for each incomplete outfit.",
+      "page": 8,
+      "index": 6,
+      "width": 495,
+      "height": 338
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17357v1/fig-008.webp",
+      "caption": "Figure 6: Experimental Evaluation. (a) Comparison of interpretability ability between our model architecture and post-hoc caption generation. (b) Effect of inference hyperparameters 𝑠𝑑 , 𝑠𝑚 , and 𝑠𝑝 on model performance.",
+      "page": 9,
+      "index": 8,
+      "width": 1050,
+      "height": 239
+    }
+  ]
+}

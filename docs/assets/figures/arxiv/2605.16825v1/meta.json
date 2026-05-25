@@ -1,0 +1,134 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-002.webp",
+      "caption": "Fig. 1. a). Comparison of Hit-Rate@10 (i.e., HR@10) between head and tail items. b). Comparison between the number of head and tail items in the recommendation list provided by three GRs. c). Tendency of HR@10 as the backbone parameters of LC-Rec scaling up.",
+      "page": 2,
+      "index": 2,
+      "width": 1062,
+      "height": 302
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-003.webp",
+      "caption": "Fig. 2. Limitations of current popularity debiasing methods on GRs. a). Tradeoff between overall recommendation performance and that of tail items. b). Dilemma between performance and fairness of recommendation results.",
+      "page": 2,
+      "index": 3,
+      "width": 495,
+      "height": 380
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-011.webp",
+      "caption": "Fig. 3. Overview of the Ghost model. First, textual representations are encoded based on item features. After categorizing items into head and tail sets, SKT assigns SIDs via RQ-KMeans, allowing tail items to inherit prefixes from their closest head items. At last, AUO optimizes the GR model by penalizing an undesired collection customized for each tail item, alongside standard MLE training.",
+      "page": 4,
+      "index": 11,
+      "width": 1074,
+      "height": 558
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-004.webp",
+      "caption": "TABLE I PERFORMANCE COMPARISON OF GHOST AND BASELINES ACROSS THREE DATASETS. THE BEST, THE RUNNER-UP, AND THE THIRD-BEST RESULTS ARE",
+      "page": 7,
+      "index": 4,
+      "width": 1064,
+      "height": 556
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-005.webp",
+      "caption": "TABLE II PERFORMANCE COMPARISON OF ABLATION STUDY ON Ins DATASET. RQK-4/6 DENOTES A LC-REC MODEL ADOPTED 4/6-TOKENS SIDS PROVIDED BY RQ-KMEANS, RESPECTIVELY. RQK-4-6 ADOPTS 4-TOKENS SIDS FOR HEAD ITEMS WHILE 6-TOKENS SIDS FOR TAIL ITEMS, WHILE WITHOUT THE INHERITING PROCESS IN SKT.",
+      "page": 7,
+      "index": 5,
+      "width": 1064,
+      "height": 198
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-009.webp",
+      "caption": "Fig. 4. Analysis of SID lengths, including head length Lh and additional length Lt for tail items.",
+      "page": 8,
+      "index": 9,
+      "width": 1057,
+      "height": 233
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-010.webp",
+      "caption": "TABLE III",
+      "page": 8,
+      "index": 10,
+      "width": 1064,
+      "height": 473
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-015.webp",
+      "caption": "Fig. 5. Numbers of head and tail items in the recommendation results provided by (left) Ghost and baseline models, and (right) Ghost with different backbones.",
+      "page": 9,
+      "index": 15,
+      "width": 1060,
+      "height": 413
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-016.webp",
+      "caption": "Fig. 6. Tendency of Ghost performance on Ins dataset, under different AUO weights α. The x-axis denotes the values of α, and the y-axis is the metric values.",
+      "page": 9,
+      "index": 16,
+      "width": 1061,
+      "height": 565
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-006.webp",
+      "caption": "Fig. 7. Tendency of Ghost performance on Ins dataset, under different undesired collection sizes. The x-axis denotes the size of undesired collection, and the y-axis is the metric values.",
+      "page": 10,
+      "index": 6,
+      "width": 1064,
+      "height": 452
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-008.webp",
+      "caption": "TABLE IV SUMMARY OF MATHEMATICAL AND MODEL NOTATIONS",
+      "page": 13,
+      "index": 8,
+      "width": 1064,
+      "height": 704
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-001.webp",
+      "caption": "Fig. 8. Long tail distribution of the item popularity.",
+      "page": 15,
+      "index": 1,
+      "width": 1060,
+      "height": 627
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-014.webp",
+      "caption": "Fig. 9. Number of tail items that inherit SID prefix from the same head items.",
+      "page": 17,
+      "index": 14,
+      "width": 296,
+      "height": 473
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-007.webp",
+      "caption": "Fig. 10. Performance comparison of each equal-sized grouping on Ins dataset.",
+      "page": 18,
+      "index": 7,
+      "width": 1064,
+      "height": 1002
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-013.webp",
+      "caption": "Fig. 11. Tendency of Ghost performance on Ins dataset, under different learning rates. The x-axis denotes learning rate, and the y-axis is the metric values.",
+      "page": 19,
+      "index": 13,
+      "width": 1064,
+      "height": 454
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16825v1/fig-012.webp",
+      "caption": "Fig. 12. Tendency of Ghost performance on Games dataset, under different optimization epochs. The x-axis denotes the epoch values, and the y-axis is the metric values.",
+      "page": 19,
+      "index": 12,
+      "width": 1064,
+      "height": 296
+    }
+  ]
+}

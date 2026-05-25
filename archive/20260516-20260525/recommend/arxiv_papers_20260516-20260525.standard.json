@@ -1,0 +1,825 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-25T04:18:34.867983+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 39,
+    "deep_cap": 6,
+    "deep_selected": 10,
+    "quick_candidates": 34,
+    "quick_skim_target": 11,
+    "quick_selected": 10,
+    "deep_selected_before_profile_limit": 22,
+    "quick_selected_before_profile_limit": 11,
+    "profile_daily_limits": {
+      "Rec": {
+        "deep": 10,
+        "quick": 10
+      }
+    },
+    "profile_limit_dropped_by_tag": {
+      "Rec": {
+        "deep": 12,
+        "quick": 1
+      }
+    },
+    "profile_limit_dropped": 13
+  },
+  "deep_dive": [
+    {
+      "id": "2605.16724v1",
+      "source": "arxiv",
+      "title": "Discovering interpretable low-dimensional dynamics using maximum entropy",
+      "abstract": "Models (i.e., governing equations) are fundamental to science and engineering. Advances in data acquisition now make it possible to extract interpretable, low dimensional descriptions from high dimensional observations. However, existing approaches sacrifice either interpretability for reconstruction accuracy or infer symbolic dynamics without relating latent coordinates to physically meaningful observables. Here we present Edwin (maximum entropy driven compression with interpretable nonlinear model discovery), a unified framework that simultaneously performs dimensionality reduction using the dynamic maximum entropy (DME) principle and discovers sparse symbolic models governing latent dynamics, as well as the coupling between learned features and external metadata. We validate Edwin on diverse simulated systems, including stochastic diffusion, the Ornstein-Uhlenbeck process, self assembling particles, spiking neural populations, and low rank recurrent neural networks, as well as on a noisy experimental time series of aggregating RNA-liposome complexes. Across all systems, Edwin recovers low dimensional symbolic models that are physically interpretable and generalize to unseen conditions. Together, these results establish Edwin as a powerful framework for inferring interpretable, low dimensional dynamics directly from high dimensional data.",
+      "authors": [
+        "Michael C. Chung",
+        "Tarran Mohan",
+        "Purushottam D. Dixit",
+        "Juan Guan"
+      ],
+      "primary_category": "q-bio.QM",
+      "categories": [
+        "q-bio.QM"
+      ],
+      "published": "2026-05-16T00:18:21+00:00",
+      "link": "https://arxiv.org/pdf/2605.16724v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Discovery of interpretable symbolic dynamics from data",
+      "llm_evidence_cn": "从数据中发现可解释的符号动力学",
+      "llm_evidence": "从数据中发现可解释的符号动力学",
+      "canonical_evidence": "从数据中发现可解释的符号动力学",
+      "llm_tldr_en": "Unified framework for dimensionality reduction and sparse symbolic model discovery with interpretability",
+      "llm_tldr_cn": "统一的降维和稀疏符号模型发现框架，可解释性强",
+      "llm_tldr": "统一的降维和稀疏符号模型发现框架，可解释性强",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "fundamental principles and methods of symbolic regression",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.16825v1",
+      "source": "arxiv",
+      "title": "Echoes in Filter Bubble: Diagnosing and Curing Popularity Bias in Generative Recommenders",
+      "abstract": "Recently, Generative Recommenders (GRs), characterized by a unified end-to-end framework, have exhibited astonishing potential in transforming the recommendation paradigm. Despite their effectiveness, we recognize that GRs are still susceptible to the long-standing issue of popularity bias that has pervaded the recommendation community. Although a few studies have attempted to extend traditional debiasing methods to GRs, their effectiveness is marginal, and the fundamental reason why GRs suffer from popularity bias remains under-explored. To bridge this gap, this study focuses on two core aspects in GRs: the optimization of generative framework and the item tokenization based on semantic index. Based on theoretical analyses, we identify that the severe popularity bias emerges from the confluence of a token-level optimization flaw and the undifferentiated property of item tokenization. Accordingly, this study develops a novel generative recommender system, called Ghost, by designing the asymmetric unlikelihood optimization and the skeleton-founded tokenization. Extensive empirical evaluations across three datasets, alongside multiple SOTA baselines, reveal that Ghost substantially alleviates popularity bias and promotes fairer recommendations, while incurring slight degradation to the overall recommendation utility.",
+      "authors": [
+        "Jun Yin",
+        "Bangguo Zhu",
+        "Peng Huo",
+        "Ruochen Liu",
+        "Hao Chen",
+        "Senzhang Wang",
+        "Shirui Pan",
+        "Chengqi Zhang"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-16T06:02:40+00:00",
+      "link": "https://arxiv.org/pdf/2605.16825v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Addresses popularity bias in generative recommenders",
+      "llm_evidence_cn": "解决生成式推荐中的流行度偏差",
+      "llm_evidence": "解决生成式推荐中的流行度偏差",
+      "canonical_evidence": "解决生成式推荐中的流行度偏差",
+      "llm_tldr_en": "Diagnoses and cures popularity bias in generative recommenders",
+      "llm_tldr_cn": "诊断并解决生成式推荐中的流行度偏差",
+      "llm_tldr": "诊断并解决生成式推荐中的流行度偏差",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.17238v1",
+      "source": "arxiv",
+      "title": "Learning in Position-Aware Multinomial Logit Bandits: From Multiplicative to General Position Effects",
+      "abstract": "We study the dynamic joint assortment selection and positioning problem, where the attraction of each product depends on both its intrinsic appeal and its display position under a Multinomial Logit (MNL) choice framework. Our study ranges from the multiplicative position effects model, in which each product's attraction is scaled by a position-specific factor, to a general position effects model assigning independent attraction parameters to every product--position pair to capture heterogeneous synergies. For both models, we design round-based learning algorithms that update decisions after every single feedback, and establish the first regret-optimal characterization. Besides, our round-based algorithms provide the prompt operations needed by modern platforms. For the multiplicative model, we develop a cross-position pairwise maximum likelihood estimator with a clipping mechanism, and prove that our algorithm P2MLE-UCB attains a regret of $\\tilde{O}(\\sqrt{NT})$, matching the lower bound and closing the $\\sqrt{K}$ gap left by prior epoch-based analyses. For the general model, we establish a minimax lower bound and propose GP2-UCB with a matching upper bound. Moreover, we design an efficient subroutine for the per-round joint assortment and positioning optimization based on Dinkelbach's method and maximum-weight bipartite matching. Numerical experiments on synthetic data and the Expedia dataset show that our algorithms consistently outperform state-of-the-art benchmarks.",
+      "authors": [
+        "Xi Chen",
+        "Shibo Dai",
+        "Jiameng Lyu",
+        "Yuan Zhou"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "stat.ML"
+      ],
+      "published": "2026-05-17T03:28:22+00:00",
+      "link": "https://arxiv.org/pdf/2605.17238v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Assortment selection and positioning with MNL bandits for e-commerce",
+      "llm_evidence_cn": "使用MNL bandit进行商品选择和位置优化，适用于电商推荐",
+      "llm_evidence": "使用MNL bandit进行商品选择和位置优化，适用于电商推荐",
+      "canonical_evidence": "使用MNL bandit进行商品选择和位置优化，适用于电商推荐",
+      "llm_tldr_en": "MNL bandit algorithms for joint assortment and positioning in e-commerce.",
+      "llm_tldr_cn": "针对电商中联合选品和位置优化的MNL bandit算法。",
+      "llm_tldr": "针对电商中联合选品和位置优化的MNL bandit算法。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.17267v1",
+      "source": "arxiv",
+      "title": "RAGR: Review-Augmented Generative Recommendation",
+      "abstract": "Sequential recommendation (SR) is traditionally formulated as next-item prediction over a chronological sequence of interacted items. Although recent generative recommendation (GR) methods introduce new machinery, such as semantic IDs, autoregressive decoding, and unified token spaces, they largely inherit the same item-only modeling assumption. We argue that this design constitutes a structural bottleneck, because user decision-making is not purely behavioral: while item interactions reveal what users choose, review feedback often explain why they choose it by exposing latent evaluative factors.   Motivated by this observation, we propose Review-Augmented Generative Recommendation (RAGR), a novel GR framework that incorporates review feedback directly into the generative user sequence rather than treating reviews as auxiliary side information. Specifically, RAGR introduces a Review-Augmented User Sequence Modeling mechanism that interleaves item semantic IDs and review semantic IDs in chronological order to construct a mixed behavioral-semantic sequence, enabling review signals to participate directly in autoregressive next-token generation. To preserve the recommendation objective, we further introduce an Item-Centric Task Generation Alignment strategy based on direct preference optimization (DPO), which encourages the model to favor item tokens over review tokens at prediction positions. Experiments on three real-world datasets show that RAGR yields consistent and significant gains over strong GR backbones across all metrics. Our code and data are available at \\url{https://github.com/Zhang-Yingyi/TKDE_RAGR}.",
+      "authors": [
+        "Yingyi Zhang",
+        "Junyi Li",
+        "Yejing Wang",
+        "Wenlin Zhang",
+        "Xiaowei Qian",
+        "Sheng Zhang",
+        "Yue Feng",
+        "Yichao Wang",
+        "Yong Liu",
+        "Xiangyu Zhao",
+        "Xianneng Li"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-17T05:21:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.17267v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Review-Augmented Generative Recommendation for sequential recommendation",
+      "llm_evidence_cn": "基于评论增强的生成式推荐用于序列推荐",
+      "llm_evidence": "基于评论增强的生成式推荐用于序列推荐",
+      "canonical_evidence": "基于评论增强的生成式推荐用于序列推荐",
+      "llm_tldr_en": "Proposes RAGR, a generative recommendation framework incorporating review feedback to improve sequential recommendation.",
+      "llm_tldr_cn": "提出RAGR，一种融合评论反馈的生成式推荐框架，提升序列推荐效果。",
+      "llm_tldr": "提出RAGR，一种融合评论反馈的生成式推荐框架，提升序列推荐效果。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.17790v1",
+      "source": "arxiv",
+      "title": "STRIDE: A Self-Reflective Agent Framework for Reliable Automatic Equation Discovery",
+      "abstract": "LLM-based equation discovery offers a promising route to recovering symbolic laws from data, but many systems still rely on generation-centered loops that propose candidates, fit parameters, score results, and reuse selected examples. Such loops can misjudge useful skeletons under unreliable fitting, discard near-correct equations that require repair, and accumulate redundant memories that provide limited guidance. We propose STRIDE, a self-reflective agent framework that improves reliability by coordinating data-aware generation, mixed-fitting evaluation, critic--executor repair, and diversity-preserving semantic memory. By turning fitted scores and candidate behavior into shared feedback, STRIDE enables equations to be proposed, assessed, refined, and reused within a closed-loop discovery process. Experiments on representative symbolic-regression benchmarks and LSR-Synth suites show that STRIDE improves accuracy, OOD robustness, and structural recovery across multiple LLM backbones, with ablations and analyses confirming the contribution of its core components.",
+      "authors": [
+        "Jiarui Su",
+        "Songjun Tu",
+        "Bei Sun",
+        "Xiaojun Liang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-18T03:14:32+00:00",
+      "link": "https://arxiv.org/pdf/2605.17790v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based automatic equation discovery framework",
+      "llm_evidence_cn": "基于LLM的自动方程发现框架",
+      "llm_evidence": "基于LLM的自动方程发现框架",
+      "canonical_evidence": "基于LLM的自动方程发现框架",
+      "llm_tldr_en": "STRIDE uses LLMs with self-reflection to reliably discover symbolic equations from data.",
+      "llm_tldr_cn": "STRIDE使用LLM和自反思可靠地从数据中发现符号方程。",
+      "llm_tldr": "STRIDE使用LLM和自反思可靠地从数据中发现符号方程。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.17863v1",
+      "source": "arxiv",
+      "title": "DADF: A Distribution-Aware Debiasing Framework for Watch-Time Regression in Recommender Systems",
+      "abstract": "Watch-time prediction is a central regression task in short-video recommender systems, where labels are highly long-tailed and residual errors vary systematically across observed watch-time regions. In practice, a model may appear globally calibrated while still overestimating short views and underestimating long views, because opposite errors cancel out in aggregate. Existing methods mainly improve the first-stage watch-time predictor, but often leave such residual distributional bias insufficiently corrected. We propose DADF, a distribution-aware debiasing framework for watch-time regression. Instead of replacing a deployed predictor, DADF performs second-stage multiplicative residual correction on top of it. DADF combines three complementary designs: a dynamic distribution-aware transformation for stabilizing long-tailed correction targets, a debias-factor-aware module for modeling heterogeneous residual patterns using inference-time observable factors, especially video duration, and a multi-label-aware module that exploits auxiliary prediction signals from engagement heads. We evaluate DADF on public short-video benchmarks and a large-scale industrial ranking system. DADF consistently improves both pointwise accuracy and ranking quality across datasets and backbones. In the industrial setting, it achieves a 1.88 percentage-point WUAUC gain over the production baseline, reduces MAE by 12.57%, and yields a statistically significant 0.347% lift in average time spent per device in online A/B testing. These results demonstrate that DADF effectively mitigates local calibration bias and provides a practical plug-in solution for debiasing long-tailed continuous targets. The source code is available at https://github.com/liuzhao09/DADF.",
+      "authors": [
+        "Yiqing Yang",
+        "Xinlong Zhao",
+        "Zhao Liu",
+        "Xiao Lv",
+        "Ruiming Tang",
+        "Han Li",
+        "Kun Gai"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-18T05:14:50+00:00",
+      "link": "https://arxiv.org/pdf/2605.17863v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "watch-time regression debiasing for recommender systems",
+      "llm_evidence_cn": "推荐系统中的观看时间回归去偏",
+      "llm_evidence": "推荐系统中的观看时间回归去偏",
+      "canonical_evidence": "推荐系统中的观看时间回归去偏",
+      "llm_tldr_en": "Distribution-aware debiasing for watch-time prediction in recommenders",
+      "llm_tldr_cn": "推荐系统中观看时间预测的分布感知去偏",
+      "llm_tldr": "推荐系统中观看时间预测的分布感知去偏",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.17994v1",
+      "source": "arxiv",
+      "title": "Towards Sustainable Growth: A Multi-Value-Aware Retrieval Framework for E-Commerce Search",
+      "abstract": "New item growth is critical for maintaining a healthy ecosystem in large-scale e-commerce platforms. However, existing systems tend to prioritize presenting users with already popular items, a phenomenon often referred to as the \"Matthew effect\". In the context of search retrieval, current cold-start models suffer from the misalignment between training objectives and online business metrics, and they lack effective mechanisms to measure an item's growth potential. In this paper, we propose a Multi-Value-Aware retrieval framework tailored for e-commerce search, designed to better align with the cascaded online values across different stages of the search system while balancing immediate conversion and long-term item growth. Our framework GrowthGR consists of two key components: an Item Long-term Transaction Value Prediction (ItemLTV) module and a Multi-Value-Aware Generative Retrieval (MultiGR) module. First, in the ItemLTV module, we employ counterfactual inference to quantify the long-term value increment attributable to a single user interaction. Second, in the MultiGR module, building upon a semantic-ID-based generative retrieval architecture, we leverage structured samples with the search cascade signals and adopt a Multi-Value-Aware Policy Optimization (MoPO) training paradigm to align with multi-stage online values, while explicitly balancing short-term transactional value and long-term growth potential estimated by ItemLTV. We successfully deployed GrowthGR on Taobao's production platform, achieving a substantial 5.3% lift in new item GMV while delivering a non-trivial 0.3% gain in overall search GMV. Extensive online analysis and A/B testing demonstrate its positive impact on the overall ecosystem value.",
+      "authors": [
+        "Yifan Wang",
+        "Yixuan Wang",
+        "YiDan Liang",
+        "Qiang Liu",
+        "Fei Xiao"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-18T07:50:15+00:00",
+      "link": "https://arxiv.org/pdf/2605.17994v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-value-aware retrieval for e-commerce search",
+      "llm_evidence_cn": "面向电子商务搜索的多价值感知检索",
+      "llm_evidence": "面向电子商务搜索的多价值感知检索",
+      "canonical_evidence": "面向电子商务搜索的多价值感知检索",
+      "llm_tldr_en": "Proposes retrieval framework for e-commerce search balancing conversion and growth",
+      "llm_tldr_cn": "提出兼顾转化与增长的电子商务搜索检索框架",
+      "llm_tldr": "提出兼顾转化与增长的电子商务搜索检索框架",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.18044v1",
+      "source": "arxiv",
+      "title": "Modality-Aware Identity Construction and Counterfactual Structure Learning for ID-Free Multimodal Recommendation",
+      "abstract": "Multimodal recommendation has attracted extensive attention by leveraging heterogeneous modality information to alleviate data sparsity and improve recommendation accuracy. Existing methods have attempted to replace ID embeddings with multimodal features and have achieved promising preliminary results. However, these methods still exhibit the following two limitations: (1) the reconstructed ID representations remain relatively static and fail to fully exploit multimodal semantics; and (2) the graph learning process is insufficient in mining latent long-tail semantic relations and is easily affected by popularity bias. To address these issues, we propose a novel method named Modality-Aware Identity Construction and Counterfactual Structure Learning for ID-free Multimodal Recommendation (MAIL). Specifically, we design a modality-aware identity construction module that dynamically modulates positional encodings with multimodal semantics to construct content-aware ID-free identity representations. Then, we propose a counterfactual structure learning paradigm that mines low-exposure semantic neighbors via popularity penalization and alleviates popularity bias. Extensive experiments are conducted on five public Amazon datasets. Experimental results show that MAIL achieves average improvements of 7.81% in Recall@10 and 12.81% in NDCG@10 compared with the baseline models. Our code is available at https://github.com/HubuKG/MAIL.",
+      "authors": [
+        "Hongjian Ma",
+        "Wenxin Huang",
+        "Yan Zhang",
+        "Zhifei Li",
+        "Zheng Wang"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.MM"
+      ],
+      "published": "2026-05-18T08:35:06+00:00",
+      "link": "https://arxiv.org/pdf/2605.18044v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multimodal recommendation with counterfactual learning",
+      "llm_evidence_cn": "多模态推荐与反事实学习",
+      "llm_evidence": "多模态推荐与反事实学习",
+      "canonical_evidence": "多模态推荐与反事实学习",
+      "llm_tldr_en": "Proposes a novel multimodal recommendation method that constructs modality-aware identities and uses counterfactual structure learning to improve accuracy.",
+      "llm_tldr_cn": "提出一种新的多模态推荐方法，通过模态感知身份构建和反事实结构学习提升推荐准确率。",
+      "llm_tldr": "提出一种新的多模态推荐方法，通过模态感知身份构建和反事实结构学习提升推荐准确率。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.18509v1",
+      "source": "arxiv",
+      "title": "Offline Contextual Bandits in the Presence of New Actions",
+      "abstract": "Automated decision-making algorithms drive applications such as recommendation systems and search engines. These algorithms often rely on off-policy contextual bandits or off-policy learning (OPL). Conventionally, OPL selects actions that maximize the expected reward from an existing action set. However, in many real-world scenarios, actions, such as news articles or video content, change continuously, and the action space evolves over time after data collection. We define actions introduced after deploying the logging policy as new actions and focus on OPL with new actions. Existing OPL methods identify optimal actions from the existing set effectively but cannot learn and select new actions because no relevant data are logged. To address this limitation, we propose a new OPL method that leverages action features. We first introduce the Local Combination PseudoInverse (LCPI) estimator for the policy gradient, generalizing the PseudoInverse estimator initially proposed for off-policy evaluation of slate bandits. LCPI controls the trade-off between reward-modeling condition and the condition for data collection regarding the action features, capturing the interaction effects among different dimensions of action features. Furthermore, we propose a generalized algorithm called Policy Optimization for Effective New Actions (PONA), which integrates LCPI, a component specialized for new action selection, with Doubly Robust (DR), which excels at learning within existing actions. We define PONA as a weighted sum of the LCPI and DR estimators, optimizing both the selection of existing and new actions, and allowing the proportion of new action selections to be adjusted by the weight parameter. Through extensive experiments, we demonstrate that PONA efficiently selects new actions while maintaining the overall policy performance as opposed to most existing methods that cannot select new actions.",
+      "authors": [
+        "Ren Kishimoto",
+        "Tatsuhiro Shimizu",
+        "Kazuki Kawamura",
+        "Takanori Muroi",
+        "Yusuke Narita",
+        "Yuki Sasamoto",
+        "Kei Tateno",
+        "Takuma Udagawa",
+        "Yuta Saito"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-18T15:01:30+00:00",
+      "link": "https://arxiv.org/pdf/2605.18509v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "offline contextual bandits for recommendation systems",
+      "llm_evidence_cn": "推荐系统中的离线情境赌博机",
+      "llm_evidence": "推荐系统中的离线情境赌博机",
+      "canonical_evidence": "推荐系统中的离线情境赌博机",
+      "llm_tldr_en": "Addresses new actions in offline contextual bandits for recommendation.",
+      "llm_tldr_cn": "解决推荐系统中离线情境赌博机的新动作问题。",
+      "llm_tldr": "解决推荐系统中离线情境赌博机的新动作问题。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.18920v1",
+      "source": "arxiv",
+      "title": "SynGR: Unleashing the Potential of Cross-Modal Synergy for Generative Recommendation",
+      "abstract": "Generative Recommendation (GR) has emerged as a promising paradigm by formulating item recommendation as a sequence-to-sequence generation task over item identifiers. Recent studies have incorporated multimodal signals to provide richer token-level evidence for generation. However, existing approaches largely rely on alignment-centric fusion and underexplore synergistic information across modalities. In practice, synergistic information plays a critical role in capturing emergent item properties that cannot be inferred from any single modality alone. Such properties encode intrinsic item semantics and guide user preferences, enabling models to move beyond surface-level feature matching. To address this limitation, we propose \\textbf{SynGR}, a synergistic generative recommendation framework that explicitly encourages the exploitation of cross-modal dependencies during generation. By constraining overreliance on dominant modalities, SynGR enables the model to capture emergent item semantics beyond shared or modality-specific signals. Extensive experiments across three benchmark datasets demonstrate that SynGR achieves superior performance.",
+      "authors": [
+        "Wei Chen",
+        "Xingyu Guo",
+        "Shuang Li",
+        "Fuwei Zhang",
+        "Meng Yuan",
+        "Jing Fan",
+        "Zhao Zhang",
+        "Deqing Wang",
+        "Fuzhen Zhuang"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-18T09:03:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.18920v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generative recommendation with cross-modal synergy",
+      "llm_evidence_cn": "跨模态协同生成推荐",
+      "llm_evidence": "跨模态协同生成推荐",
+      "canonical_evidence": "跨模态协同生成推荐",
+      "llm_tldr_en": "Proposes SynGR for generative recommendation using cross-modal fusion to capture emergent item properties.",
+      "llm_tldr_cn": "提出SynGR生成式推荐，利用跨模态融合捕捉物品涌现属性。",
+      "llm_tldr": "提出SynGR生成式推荐，利用跨模态融合捕捉物品涌现属性。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.17357v1",
+      "source": "arxiv",
+      "title": "Dual-Diffusional Generative Fashion Recommendation",
+      "abstract": "Personalized generative recommender systems have emerged as a promising solution for fashion recommendation. However, existing methods primarily rely on implicit visual embeddings from historical interactions, which often contain preference-irrelevant information and result in insufficient user behavior modeling. Moreover, these models typically generate only item images, providing limited interpretability. To address these limitations, we propose DualFashion, a Dual-Diffusional Generative Fashion Recommendation Architecture that jointly models image and text modalities for personalized and explainable recommendation. DualFashion adopts a dual-diffusion Transformer with image and text branches, where structured attribute-level captions and visual outfit information are jointly used as conditioning signals to model user behavior. The proposed architecture produces both fashion item images and textual descriptions, ensuring visual compatibility while providing explicit semantic interpretability. Furthermore, we introduce a text-augmented fine-tuning strategy that enhances generation diversity and enables effective cross-modal knowledge transfer without incurring heavy computational costs. Extensive experiments on iFashion and Polyvore-U across Personalized Fill-in-the-Blank and Generative Outfit Recommendation tasks demonstrate that DualFashion achieves strong performance in behavior modeling, interpretability, and efficiency compared to state-of-the-art methods. Our code and model checkpoints are available at https://github.com/LinkMingzhe/DualFashion.",
+      "authors": [
+        "Mingzhe Yu",
+        "Lei Wu",
+        "Qianru Sun",
+        "Yunshan Ma"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.MM"
+      ],
+      "published": "2026-05-17T09:52:18+00:00",
+      "link": "https://arxiv.org/pdf/2605.17357v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "dual-diffusion generative fashion recommendation",
+      "llm_evidence_cn": "双扩散生成式时尚推荐",
+      "llm_evidence": "双扩散生成式时尚推荐",
+      "canonical_evidence": "双扩散生成式时尚推荐",
+      "llm_tldr_en": "DualFashion jointly models image and text for personalized and explainable fashion recommendation.",
+      "llm_tldr_cn": "DualFashion联合建模图像和文本以实现个性化可解释时尚推荐。",
+      "llm_tldr": "DualFashion联合建模图像和文本以实现个性化可解释时尚推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.16750v1",
+      "source": "arxiv",
+      "title": "UniER: A Unified Benchmark for Item-level and Path-level Exercise Recommendation",
+      "abstract": "Personalized exercise recommendation dynamically aligns pedagogical resources with individual knowledge mastery, which is crucial for satisfying students' dynamic learning needs in modern education. The field is currently driven by two dominant paradigms: Item-Level Exercise Recommendation (ILER) optimizes for immediate single-step state transitions, while Path-Level Exercise Recommendation (PLER) constructs coherent learning paths to maximize cumulative gains. Despite sharing the same ultimate objective, disparate evaluation setups have kept these two lines of research isolated, hindering unified benchmarking and fair comparison. To fill the gap, in this paper, we present a Unified Benchmark for Exercise Recommendation (UniER), a comprehensive evaluation framework that unifies ILER and PLER. Specifically, we introduce Weighted Cognitive Gain (WCG) as a unified metric to measure cross-paradigm algorithmic performance. Our benchmark encompasses 9 datasets spanning four generation methods, facilitating the comparison of 18 representative ILER/PLER methods. Through multi-dimensional analyses covering effectiveness, generalizability, robustness, and efficiency, our results reveal the systematic dominance of PLER and expose the pedagogical failure of ILER's fragmented recommendations under extreme sparsity and noise. Furthermore, we provide an open-source codebase of UniER to foster reproducible research and outline potential directions for future investigations.",
+      "authors": [
+        "Xinghe Cheng",
+        "Guiyong Zhuang",
+        "Yusheng Xie",
+        "Jiapu Wang",
+        "Yixin Liu",
+        "Quanlong Guan",
+        "Liangda Fang",
+        "Shirui Pan"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-16T02:07:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.16750v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "unified benchmark for item-level and path-level exercise recommendation",
+      "llm_evidence_cn": "统一的项目级和路径级习题推荐基准",
+      "llm_evidence": "统一的项目级和路径级习题推荐基准",
+      "canonical_evidence": "统一的项目级和路径级习题推荐基准",
+      "llm_tldr_en": "Presents a comprehensive benchmark for evaluating exercise recommendation algorithms at both item and path levels.",
+      "llm_tldr_cn": "提出综合的习题推荐算法评测基准，覆盖项目级和路径级。",
+      "llm_tldr": "提出综合的习题推荐算法评测基准，覆盖项目级和路径级。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.18080v1",
+      "source": "arxiv",
+      "title": "Parameterized 4-Qubit EWL Quantum Game Circuits with Dirac-Solow-Swan Hamiltonian Integration for Quadruple Helix Disruptive Innovation Recommender Systems",
+      "abstract": "We present a novel parameterized 4-qubit Eisert-Wilkens-Lewenstein (EWL) quantum game circuit for recommender systems in quadruple helix innovation ecosystems (academia, industry, government, and civil society). The local strategy operators $U_{i} = R_y(θ_{i})$ for each helix actor are directly tuned by normalized dominance weights extracted from real participant funding data (\\texit{ecContribution}) in the European Commission CORDIS Horizon Europe database (project COVend, ID 101045956). The circuit employs a multi-qubit EWL entangler followed by parameterized local rotations, inverse entangler, and full measurement, achieving only 22 gates and circuit depth 11 while scaling as $O(n)$ for $n$-round helix communications. Measurement probabilities after the quantum game serve as recommender scores for disruptive versus sustaining innovation trends. These scores are subsequently mapped into the diagonal Dirac potential of a Dirac-Solow-Swan Hamiltonian, enabling time-evolution simulation of capital accumulation and bifurcation dynamics under disruptive innovation. Numerical experiments on real CORDIS quadruple-helix collaboration networks demonstrate the circuit's NISQ compatibility and its ability to forecast disruptive capital trajectories with high fidelity.   The proposed framework bridges quantum game theory, parameterized quantum circuits, and relativistic economic growth models, offering a computationally efficient tool for innovation policy and strategic decision-making in complex socio-economic ecosystems. Complexity analysis and reproducibility are provided through open Qiskit implementations.",
+      "authors": [
+        "Agung Trisetyarso",
+        "Fithra Faisal Hastiadi",
+        "Kridanto Surendro"
+      ],
+      "primary_category": "quant-ph",
+      "categories": [
+        "quant-ph",
+        "cond-mat.stat-mech",
+        "cs.AI",
+        "econ.EM",
+        "econ.TH"
+      ],
+      "published": "2026-05-18T08:57:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.18080v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Quantum game circuit for recommender systems",
+      "llm_evidence_cn": "用于推荐系统的量子博弈电路",
+      "llm_evidence": "用于推荐系统的量子博弈电路",
+      "canonical_evidence": "用于推荐系统的量子博弈电路",
+      "llm_tldr_en": "A parameterized quantum circuit for quadruple helix innovation recommender systems.",
+      "llm_tldr_cn": "一种用于四螺旋创新推荐系统的参数化量子电路。",
+      "llm_tldr": "一种用于四螺旋创新推荐系统的参数化量子电路。",
+      "llm_tags": [
+        "query:rec:composite"
+      ],
+      "matched_query_tag": "query:rec:composite",
+      "matched_query_text": "Papers central to 推荐系统, especially work that connects or combines: fundamental principles and methods of symbolic regression; evolutionary algorithms and genetic programming for symbolic regression; automated discovery of mathematical expressions from data; algorithms for scientific equation discovery and modeling; interpretability and transparency of symbolic regression models; high-performance symbolic regression libraries and tools; state of the art recommendation system algorithms; e commerce recommendation; E commerce interest.",
+      "matched_requirement_id": "req-composite-rec",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.17366v1",
+      "source": "arxiv",
+      "title": "Text-Guided Visual Representation Learning for Robust Multimodal E-Commerce Recommendation",
+      "abstract": "Multimodal item embeddings are crucial for e-commerce item-to-item (I2I) retrieval, yet real-world product images often contain promotional overlays and background clutter that inject spurious visual cues and degrade retrieval robustness. This issue is particularly pronounced in MLRM-style pipelines, where a frozen vision encoder is connected to an LLM through a lightweight connector that must selectively aggregate visual tokens. We propose Text-Guided Q-Former (TGQ-Former), a text-guided visual representation learning framework that leverages structured metadata as semantic guidance for visual token extraction while preserving complementary visual evidence. Concretely, TGQ-Former employs a hybrid-query connector to disentangle metadata-anchored and exploratory visual streams, and introduces a lightweight reliability-aware dual-gated vector modulation module to adaptively calibrate their contributions under noisy inputs. Experiments on large-scale, real-world e-commerce datasets with full-pool retrieval show that TGQ-Former consistently outperforms strong connector baselines and end-to-end MLLMs. On average, it improves Hit Rate@100 (H@100) by 6.04%, demonstrating the effectiveness of text-guided visual encoding for robust multimodal retrieval.",
+      "authors": [
+        "Yufei Guo",
+        "Jing Ma",
+        "Tianlu Zhang",
+        "Shijie Yang",
+        "Yanlong Zang",
+        "Weijie Ding",
+        "Pinghua Gong",
+        "Jungong Han"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-17T10:20:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.17366v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "e-commerce recommendation using text-guided visual representation",
+      "llm_evidence_cn": "使用文本引导视觉表示的电商推荐",
+      "llm_evidence": "使用文本引导视觉表示的电商推荐",
+      "canonical_evidence": "使用文本引导视觉表示的电商推荐",
+      "llm_tldr_en": "Proposes TGQ-Former for robust multimodal e-commerce I2I retrieval.",
+      "llm_tldr_cn": "提出TGQ-Former用于鲁棒的多模态电商物品检索。",
+      "llm_tldr": "提出TGQ-Former用于鲁棒的多模态电商物品检索。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.18271v1",
+      "source": "arxiv",
+      "title": "From Volume to Value: Preference-Aligned Memory Construction for On-Device RAG",
+      "abstract": "With the rapid emergence of personal AI agents based on Large Language Models (LLMs), implementing them on-device has become essential for privacy and responsiveness. To handle the inherently personal and context-dependent nature of real-world requests, such agents must ground their generation in device-resident personal context. However, under tight memory budgets, the core bottleneck is what to store so that retrieval remains aligned with the user. We propose EPIC (Efficient Preference-aligned Index Construction), which focuses on user preferences as a compact and stable form of personal context and integrates them throughout the RAG pipeline. EPIC selectively retains preference-relevant information from raw data and aligns retrieval toward preference-aligned contexts. Across four benchmarks covering conversations, debates, explanations, and recommendations, EPIC reduces indexing memory by 2,404 times, improves preference-following accuracy by 20.17 percentage points, and achieves 33.33 times lower retrieval latency over the best-performing baseline. In our on-device experiment, EPIC maintains a memory footprint under 1 MB with 29.35 ms/query latency in streaming updates.",
+      "authors": [
+        "Changmin Lee",
+        "Jaemin Kim",
+        "Taesik Gong"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.IR",
+        "cs.LG"
+      ],
+      "published": "2026-05-18T12:06:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.18271v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "user preference alignment for retrieval",
+      "llm_evidence_cn": "用户偏好对齐用于检索",
+      "llm_evidence": "用户偏好对齐用于检索",
+      "canonical_evidence": "用户偏好对齐用于检索",
+      "llm_tldr_en": "Proposes preference-aligned memory construction for on-device RAG, relevant to recommendation personalization.",
+      "llm_tldr_cn": "提出偏好对齐的内存构建用于设备端RAG，与推荐个性化相关。",
+      "llm_tldr": "提出偏好对齐的内存构建用于设备端RAG，与推荐个性化相关。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.19215v1",
+      "source": "arxiv",
+      "title": "Not all uncertainty is alike: volatility, stochasticity, and exploration",
+      "abstract": "Adaptive decision-making in biological and artificial intelligence requires balancing the exploitation of known outcomes with the exploration of uncertain alternatives. Although prior work suggests that uncertainty generally promotes exploration, it has typically treated distinct sources of environmental uncertainty as equivalent. We consider environments with latent reward states that drift over time (volatility) and are observed through noisy outcomes (stochasticity). Both increase posterior uncertainty, yet we show they drive optimal exploration in opposite directions: volatility enhances it, stochasticity suppresses it. We establish this asymmetry formally by extending the Gittins index framework to Gaussian state-space bandits with latent dynamics. We further derive Cause-Aware Uncertainty-Sensitive Exploration (CAUSE), a closed-form exploration bonus obtained via control-as-inference that inherits the same monotonicities. CAUSE outperforms standard exploration strategies in environments with heterogeneous noise structure, and also improves on a Gittins-per-arm policy whose rested-bandit optimality does not transfer to restless settings. Learning and exploration are governed by the same noise-inference asymmetry, and the framework predicts that pathological noise inference produces \\emph{reversed} rather than merely impaired exploration, with implications for computational accounts of psychiatric conditions.",
+      "authors": [
+        "Payam Piray"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-19T00:38:00+00:00",
+      "link": "https://arxiv.org/pdf/2605.19215v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Exploration-exploitation trade-off in bandits applicable to recommendation",
+      "llm_evidence_cn": "适用于推荐的多臂老虎机探索-利用权衡",
+      "llm_evidence": "适用于推荐的多臂老虎机探索-利用权衡",
+      "canonical_evidence": "适用于推荐的多臂老虎机探索-利用权衡",
+      "llm_tldr_en": "Shows that volatility and stochasticity have opposite effects on optimal exploration in bandits",
+      "llm_tldr_cn": "证明波动性和随机性对最优探索有相反影响",
+      "llm_tldr": "证明波动性和随机性对最优探索有相反影响",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.17648v1",
+      "source": "arxiv",
+      "title": "SAPO: Step-Aligned Policy Optimization for Reasoning-Based Generative Recommendation",
+      "abstract": "Generative recommendation treats next-item prediction as autoregressive item-identifier generation. Specifically, items are encoded as semantic identifiers (SIDs), which are short coarse-to-fine token sequences whose early tokens capture broad semantics and later tokens refine them. Recent work augments this paradigm with reasoning traces and optimizes them via reinforcement learning with verifiable rewards, typically outcome-reward algorithm with exact-match feedback on the generated SID. However, in large-catalog recommendation, exact-match feedback on the generated SID only reports whether the final item is correct; when a generated SID mismatches, outcome-reward cannot identify which SID-token prediction caused the mismatch and may penalize matched SID-token positions together with the mismatched position. We identify that the natural unit of credit assignment in this setting is a single reasoning step (one thinking block paired with one SID token). We instantiate this idea in SAPO (Step-Aligned Policy Optimization): rather than broadcasting one advantage to the whole response, SAPO computes a separate group-relative advantage for each reasoning step and applies it only to the corresponding thinking block and SID token. Across three real-world recommendation datasets, SAPO stabilizes reinforcement-learning training and consistently improves over existing generative recommendation baselines, with the largest gains where sparse exact-match feedback makes reasoning-step credit assignment important. Our results suggest that reinforcement-learning objectives for structured generation should mirror the decoder's own decomposition of the output.",
+      "authors": [
+        "Zaiyi Zheng",
+        "Guanghui Min",
+        "Yaochen Zhu",
+        "Liang Wu",
+        "Liangjie Hong",
+        "Chen Chen",
+        "Jundong Li"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-17T20:53:08+00:00",
+      "link": "https://arxiv.org/pdf/2605.17648v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "reasoning-based generative recommendation with step-aligned policy optimization",
+      "llm_evidence_cn": "基于推理的生成式推荐与步骤对齐策略优化",
+      "llm_evidence": "基于推理的生成式推荐与步骤对齐策略优化",
+      "canonical_evidence": "基于推理的生成式推荐与步骤对齐策略优化",
+      "llm_tldr_en": "Introduces SAPO for step-aligned RL in generative recommendation with semantic identifiers.",
+      "llm_tldr_cn": "引入SAPO算法，在生成式推荐中使用步骤对齐的强化学习和语义标识符。",
+      "llm_tldr": "引入SAPO算法，在生成式推荐中使用步骤对齐的强化学习和语义标识符。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.18422v1",
+      "source": "arxiv",
+      "title": "Generalized Functional ANOVA in Closed-Form: A Unified View of Additive Explanations",
+      "abstract": "The functional ANOVA, or Hoeffding decomposition, provides a principled framework for interpretability by decomposing a model prediction into main effects and higher-order interactions. For independent inputs, this classical decomposition is explicit. It is closely connected to SHAP values, generalized additive models, and orthogonal polynomial expansions, and therefore constitutes a fundamental tool for additive explainability. In the more general and realistic dependent setting, however, obtaining a tractable representation and estimating the decomposition from data remain challenging. In this work, we address this problem for continuous inputs. By combining Hilbert space methods with the generalized functional ANOVA, we build an explicit decomposition Riesz Basis allowing to easily compute the decomposition. Our formulation recovers the classical independent case and its associated orthogonal decomposition. Building on this representation, we propose a simple but mighty algorithm to estimate the decomposition from a data sample in a model-agnostic setting and we compare it empirically with several state-of-the-art explanation methods, demonstrating the power of the approach.",
+      "authors": [
+        "Baptiste Ferrere",
+        "Nicolas Bousquet",
+        "Fabrice Gamboa",
+        "Jean-Michel Loubes"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG",
+        "math.ST"
+      ],
+      "published": "2026-05-18T13:56:10+00:00",
+      "link": "https://arxiv.org/pdf/2605.18422v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "functional ANOVA for model interpretability",
+      "llm_evidence_cn": "函数ANOVA用于模型可解释性",
+      "llm_evidence": "函数ANOVA用于模型可解释性",
+      "canonical_evidence": "函数ANOVA用于模型可解释性",
+      "llm_tldr_en": "Generalized functional ANOVA provides additive explanations",
+      "llm_tldr_cn": "广义函数ANOVA提供加性解释",
+      "llm_tldr": "广义函数ANOVA提供加性解释",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "interpretability and transparency of symbolic regression models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.17779v1",
+      "source": "arxiv",
+      "title": "Learning Variable-Length Tokenization for Generative Recommendation",
+      "abstract": "Generative recommendation reformulates recommendation as next-token prediction over discrete semantic identifiers (IDs). A fundamental yet unexplored design choice is that existing methods employ fixed-length tokenization for all items, implicitly assuming uniform encoding capacity regardless of item characteristics. Through systematic experiments across four datasets, we discover the Popularity-Length Paradox: popular items achieve optimal performance with short IDs, while tail items require substantially longer codes to capture discriminative semantics. This reveals a critical mismatch where popular items benefit from abundant collaborative signals and require minimal semantic detail, whereas tail items must rely on fine-grained content features due to sparse interaction data.   To address this, we propose VarLenRec, a framework for learning variable-length tokenization. We develop Popularity-Weighted Information Budget Allocation (PIBA), an information-theoretic framework proving that optimal ID length should scale as a negative power of popularity. Directly implementing variable-length allocation faces two technical challenges: standard Euclidean residual quantization lacks geometric capacity to support diverse code lengths without distortion, and discrete length decisions are non-differentiable. We address these through Hyperbolic Residual Quantization, which leverages the exponential volume growth of the Poincaré ball to naturally stratify encoding capacity, and a Soft Length Controller, which enables differentiable length prediction via continuous layer retention probabilities regularized by PIBA-derived priors. Extensive experiments demonstrate that VarLenRec achieves significant improvements over state-of-the-art methods in recommendation accuracy and training/inference efficiency, revealing the importance of adaptive encoding capacity in generative recommendation.",
+      "authors": [
+        "Minhao Wang",
+        "Bowen Wu",
+        "Wei Zhang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-18T02:57:19+00:00",
+      "link": "https://arxiv.org/pdf/2605.17779v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generative recommendation, variable-length tokenization",
+      "llm_evidence_cn": "生成式推荐，变长分词",
+      "llm_evidence": "生成式推荐，变长分词",
+      "canonical_evidence": "生成式推荐，变长分词",
+      "llm_tldr_en": "Proposes variable-length tokenization for generative recommendation, improving tail item performance.",
+      "llm_tldr_cn": "提出变长分词用于生成式推荐，改善长尾物品性能。",
+      "llm_tldr": "提出变长分词用于生成式推荐，改善长尾物品性能。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.19204v1",
+      "source": "arxiv",
+      "title": "Platform architecture determines whether recommendation algorithms can shape information quality on social media",
+      "abstract": "Social media platforms shape public discourse through two fundamental design choices that naturally co-occur in any field investigation: platform architecture, which defines what types of actors exist and how they interact, and recommendation algorithm, which determines what content is surfaced to users. Using agent-based simulation, we orthogonally manipulate both factors, exploring four prototypical architectures -- tree (e.g., Reddit), layered hierarchy (e.g., Facebook), network (e.g., Twitter), and complete graph (e.g., TikTok) -- and two algorithms: chronological (LIFO) and popularity-based (Hot). Drawing on prior theory that identifies and ranks canonical system architectures in terms of their flexibility we hypothesize that algorithmic effects on information spread and quality should be largest on the most flexible platforms and smallest on the most constrained ones. We find strong confirmation of this prediction. On tree-like platforms like Reddit, the algorithm has no detectable effect on information spread and quality. On layered hierarchies and networks like Facebook and Twitter, respectively, the Hot algorithm has modest positive effects on both the spread of information and its quality. On complete structures like TikTok, the Hot algorithm leads to a winner-take-all dynamics that has strong negative effects on both information spread and quality, making the relation between content quality and popularity unpredictable. These findings imply that architectural considerations are more powerful levers than algorithmic interventions for the design of healthy online spaces and public discourse. Platform reform efforts focused exclusively on algorithm choice may be insufficient on architecturally unconstrained platforms and unnecessary on architecturally constrained ones.",
+      "authors": [
+        "Mohammad Hammas Saeed",
+        "David A. Broniatowski",
+        "Joseph Simons",
+        "Erica Gralla",
+        "Manan Suri",
+        "Giovanni Luca Ciampaglia"
+      ],
+      "primary_category": "cs.SI",
+      "categories": [
+        "cs.SI",
+        "cs.HC"
+      ],
+      "published": "2026-05-19T00:13:37+00:00",
+      "link": "https://arxiv.org/pdf/2605.19204v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "social media recommendation algorithm analysis",
+      "llm_evidence_cn": "社交媒体推荐算法分析",
+      "llm_evidence": "社交媒体推荐算法分析",
+      "canonical_evidence": "社交媒体推荐算法分析",
+      "llm_tldr_en": "Studies how platform architecture and recommendation algorithms shape information quality on social media via simulation.",
+      "llm_tldr_cn": "研究平台架构和推荐算法如何通过模拟影响社交媒体信息质量。",
+      "llm_tldr": "研究平台架构和推荐算法如何通过模拟影响社交媒体信息质量。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

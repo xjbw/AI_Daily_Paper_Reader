@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.19215v1/fig-006.webp",
+      "caption": "Figure 1: Cumulative discounted regret over T = 200 steps in three regimes (K = 4, γ = 0.95, 1000 Monte Carlo runs). CAUSE achieves the lowest regret in all three regimes.",
+      "page": 8,
+      "index": 6,
+      "width": 979,
+      "height": 323
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19215v1/fig-004.webp",
+      "caption": "Figure 3: Learning rate (top row) and CAUSE exploration bonus (bottom row) for healthy, stochasticity-blind, and volatility-blind agents, averaged across multiple seeds. Both signatures reverse identically under each lesion: stochasticity-blindness reverses the s-monotonicity; volatilityblindness reverses the v-monotonicity.",
+      "page": 10,
+      "index": 4,
+      "width": 881,
+      "height": 438
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19215v1/fig-005.webp",
+      "caption": "Figure 4: Exploration bonus as a function of volatility v at fixed s = 25, normalized to a common range. CAUSE, UCB, and Gittins all show the correct increasing direction; CAUSE lies modestly below Gittins.",
+      "page": 23,
+      "index": 5,
+      "width": 492,
+      "height": 275
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19215v1/fig-007.webp",
+      "caption": "Figure 5: Cumulative discounted regret at v = 0 for K = 4 arms over T = 200 steps, γ = 0.95, 1000 Monte Carlo runs. Left : s ∈ {9, 25}. Right : s ∈ {9, 900}. CAUSE and Gittins-per-arm overlap within Monte Carlo precision in both configurations.",
+      "page": 24,
+      "index": 7,
+      "width": 833,
+      "height": 417
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19215v1/fig-001.webp",
+      "caption": "Figure 6: Cumulative discounted regret in the mixed regime across discount factors γ ∈ {0.8, 0.9, 0.98} (K = 4, T = 200, 1000 Monte Carlo runs).",
+      "page": 25,
+      "index": 1,
+      "width": 979,
+      "height": 322
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19215v1/fig-003.webp",
+      "caption": "Figure 7: Cumulative discounted regret in the mixed regime at K ∈ {8, 12, 16} (T = 200, γ = 0.95, 1000 Monte Carlo runs).",
+      "page": 26,
+      "index": 3,
+      "width": 979,
+      "height": 320
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19215v1/fig-002.webp",
+      "caption": "Figure 8: UCB regret across the three regimes for c ∈ {0.5, 1, 2, 3}, with CAUSE shown for comparison (K = 4, T = 200, γ = 0.95, 1000 Monte Carlo runs).",
+      "page": 26,
+      "index": 2,
+      "width": 979,
+      "height": 322
+    }
+  ]
+}

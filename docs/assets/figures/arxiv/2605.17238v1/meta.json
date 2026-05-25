@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.17238v1/fig-005.webp",
+      "caption": "Figure 1 Heterogeneous Evidence of the Position Effects.",
+      "page": 3,
+      "index": 5,
+      "width": 590,
+      "height": 464
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17238v1/fig-003.webp",
+      "caption": "Table 1 Detailed Comparisons with Luo et al. (2025). “Mult.” denotes the multiplicative position-effects model; “General” denotes the general position-effects model.",
+      "page": 7,
+      "index": 3,
+      "width": 910,
+      "height": 242
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17238v1/fig-006.webp",
+      "caption": "Figure 2 Regret Comparison Under Known Position Effects",
+      "page": 23,
+      "index": 6,
+      "width": 979,
+      "height": 735
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17238v1/fig-007.webp",
+      "caption": "Figure 3 Regret Comparison Under Unknown Position Effects",
+      "page": 24,
+      "index": 7,
+      "width": 979,
+      "height": 735
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17238v1/fig-001.webp",
+      "caption": "Figure 4 Regret Comparison Under the General Model",
+      "page": 26,
+      "index": 1,
+      "width": 979,
+      "height": 735
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17238v1/fig-004.webp",
+      "caption": "Figure 5 Regret Comparison Using the Derived Parameters",
+      "page": 29,
+      "index": 4,
+      "width": 979,
+      "height": 735
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17238v1/fig-002.webp",
+      "caption": "Figure 6 Regret Comparison on Expedia-Derived Instances with Unknown Position Effects",
+      "page": 30,
+      "index": 2,
+      "width": 979,
+      "height": 735
+    }
+  ]
+}

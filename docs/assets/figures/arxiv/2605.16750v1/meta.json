@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-002.webp",
+      "caption": "Figure 1: A Taxonomy of Exercise Recommendation Methods.",
+      "page": 2,
+      "index": 2,
+      "width": 826,
+      "height": 398
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-008.webp",
+      "caption": "Figure 2: An overview of UniER.",
+      "page": 5,
+      "index": 8,
+      "width": 829,
+      "height": 289
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-001.webp",
+      "caption": "Table 1: Comparison in terms of GPP@10 and TGA@10. The best three results are highlighted by",
+      "page": 6,
+      "index": 1,
+      "width": 827,
+      "height": 552
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-003.webp",
+      "caption": "Figure 3: Generalizability analysis under data sparsity and cold-start settings. In subfigures (a) and (b), the top-five methods are highlighted, while the remaining methods are represented by gray lines.",
+      "page": 7,
+      "index": 3,
+      "width": 826,
+      "height": 182
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-005.webp",
+      "caption": "Figure 4: Performance under different perturbation levels.",
+      "page": 8,
+      "index": 5,
+      "width": 829,
+      "height": 223
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-007.webp",
+      "caption": "Figure 5: Time and memory usage comparison.",
+      "page": 9,
+      "index": 7,
+      "width": 826,
+      "height": 250
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-004.webp",
+      "caption": "Table 2: Statistics of the datasets used in our benchmark.",
+      "page": 13,
+      "index": 4,
+      "width": 627,
+      "height": 254
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-009.webp",
+      "caption": "Table 3: Hyper-parameter search space of ILER methods.",
+      "page": 16,
+      "index": 9,
+      "width": 722,
+      "height": 1283
+    },
+    {
+      "url": "assets/figures/arxiv/2605.16750v1/fig-006.webp",
+      "caption": "Table 4: Hyper-parameter search space of PLER methods.",
+      "page": 17,
+      "index": 6,
+      "width": 622,
+      "height": 908
+    }
+  ]
+}

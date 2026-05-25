@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.17863v1/fig-003.webp",
+      "caption": "Figure 1: Motivation of DADF. (a) Even when the overall prediction-to-observation ratio is close to 1.0, the deployed predictor can still systematically overestimate short views and underestimate long views across observed watchtime buckets. (b) Raw bias-factor distributions under different debias-factor regimes can be highly heterogeneous and skewed; a distribution-aware transformationmaps them into a more aligned and stable space for residual correction.",
+      "page": 2,
+      "index": 3,
+      "width": 463,
+      "height": 548
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17863v1/fig-004.webp",
+      "caption": "Figure 2: Overview of DADF. The framework corrects an existing watch-time predictor through distribution-aware, factor-aware, and multi-label-aware residual modeling.",
+      "page": 3,
+      "index": 4,
+      "width": 498,
+      "height": 346
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17863v1/fig-001.webp",
+      "caption": "Table 1: Overall performance on KuaiRec and WeChat21 by MAE↓ and XAUC↑. Best results within each backbone group are in bold; second-best are underlined. DADF significantly outperforms the strongest baselinewithin each group (paired 𝑡-test, 𝑝 < 0.05).",
+      "page": 6,
+      "index": 1,
+      "width": 466,
+      "height": 644
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17863v1/fig-005.webp",
+      "caption": "Figure 4: Tail-slice analysis on long-duration videos. DADF brings larger gains in high-duration regions where samples are sparse and duration-related bias is more pronounced.",
+      "page": 8,
+      "index": 5,
+      "width": 460,
+      "height": 353
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17863v1/fig-002.webp",
+      "caption": "Figure 6: Distribution comparison of the raw multiplicative correction factor (top) and the group-specific Box–Cox transformed correction target (bottom) on Kwai. The transformed target is substantially more compact and less skewed across duration buckets",
+      "page": 11,
+      "index": 2,
+      "width": 1035,
+      "height": 876
+    },
+    {
+      "url": "assets/figures/arxiv/2605.17863v1/fig-006.webp",
+      "caption": "Figure 7: Learned group-specific Box–Cox transformation parameters 𝜆𝑔 across duration buckets on Kwai.",
+      "page": 12,
+      "index": 6,
+      "width": 496,
+      "height": 271
+    }
+  ]
+}
