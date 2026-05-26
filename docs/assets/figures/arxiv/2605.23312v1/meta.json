@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23312v1/fig-003.webp",
+      "caption": "Figure 1: Scaling-law fits for three anonymized recommendation task categories: Task A captures lower-predictability long-horizon taste, Task B captures moderate-predictability short-horizon engagement, and Task C captures higher-predictability time- or availability-driven behavior. The x-axis counts backbone parameters, excluding embedding and decoding layers; Section 3 details the fitting setup.",
+      "page": 2,
+      "index": 3,
+      "width": 904,
+      "height": 308
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23312v1/fig-001.webp",
+      "caption": "Figure 2: Estimated training FLOPs per training token for a 6-layer transformer with hidden dimension 1024 and sequence length 512. Values include a fixed backbone term plus vocabularydependent decoding cost; lines compare full decoding with sampled-softmax and projected-head variants as the output vocabulary grows.",
+      "page": 6,
+      "index": 1,
+      "width": 671,
+      "height": 487
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23312v1/fig-004.webp",
+      "caption": "Figure 3: Latency mismatch between next-token training and delayed cached serving. Title A is the immediate next event used as the training label, but after cached serving delay it may already be consumed; title B can then become the relevant serving-time target.",
+      "page": 7,
+      "index": 4,
+      "width": 579,
+      "height": 264
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23312v1/fig-006.webp",
+      "caption": "Figure 4: Relative MRR degradation as cached outputs become stale. Delays are simulated by replaying evaluation at increasing serving horizons; task definitions follow Figure 1 and Table 1.",
+      "page": 8,
+      "index": 6,
+      "width": 680,
+      "height": 383
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23312v1/fig-007.webp",
+      "caption": "Figure 5: MTP comparison across serving scenarios. Bars report relative MRR changes for different future-target window sizes under online serving with p95 latency below one second and cached serving with a 48-hour horizon; task labels use the taxonomy in Table 1.",
+      "page": 9,
+      "index": 7,
+      "width": 739,
+      "height": 388
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23312v1/fig-005.webp",
+      "caption": "Figure 6: Shared semantic title metadata for encoder events and decoder title representations. Blue denotes learned representations and computation, red denotes input-side event context, and green denotes reusable title metadata from knowledge-graph message passing, LLM2Vec language embeddings, and human annotation features.",
+      "page": 10,
+      "index": 5,
+      "width": 512,
+      "height": 368
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23312v1/fig-002.webp",
+      "caption": "Figure 7: Weekly production-shadow MRR over 1M users. The 1B-backbone model is compared with a 2M-backbone baseline, excluding embedding and decoding layers from the size count, across the three task categories and cold-start titles outside the model vocabulary.",
+      "page": 11,
+      "index": 2,
+      "width": 625,
+      "height": 399
+    }
+  ]
+}

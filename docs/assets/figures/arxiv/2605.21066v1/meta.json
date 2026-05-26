@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.21066v1/fig-001.webp",
+      "caption": "TABLE II PERFORMANCE UNDER Q2 SETTING. EACH BLOCK IS GROUPED BY MASK RATIO; BEST SCORES WITHIN EACH BLOCK ARE IN BOLD.",
+      "page": 4,
+      "index": 1,
+      "width": 516,
+      "height": 683
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21066v1/fig-002.webp",
+      "caption": "TABLE I PERFORMANCE COMPARISON UNDER Q1 SETTING. THE BEST RESULT PER METRIC WITHIN EACH METHOD GROUP IS HIGHLIGHTED IN BOLD.",
+      "page": 4,
+      "index": 2,
+      "width": 516,
+      "height": 297
+    }
+  ]
+}

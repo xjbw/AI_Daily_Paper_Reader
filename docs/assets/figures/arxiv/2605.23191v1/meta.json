@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23191v1/fig-003.webp",
+      "caption": "Figure 1: Distributional shift of effective rank across representation stages in RankMixer . Distributions of per-sample effective rank from raw embeddings to successive module outputs on Criteo (top) and Avazu (bottom).",
+      "page": 4,
+      "index": 3,
+      "width": 1039,
+      "height": 415
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23191v1/fig-004.webp",
+      "caption": "Figure 2: Comparison of average effective rank across representation stages for RankMixer (damped oscillatory trajectory) and baselines (monotonic decay).",
+      "page": 4,
+      "index": 4,
+      "width": 499,
+      "height": 282
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23191v1/fig-007.webp",
+      "caption": "Figure 3: Architectural overview of (a) RankMixer and (b) RankElastor . Purple modules indicate trainable components, while Gray modules indicate non-parametric components. The key difference between the models lies in token-mixing and P-FFNs.",
+      "page": 5,
+      "index": 7,
+      "width": 1056,
+      "height": 463
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23191v1/fig-001.webp",
+      "caption": "Figure 5: Distributional shift of per-sample effective rank across representation stages in RankElastor , from raw embeddings to successive modules on Criteo (top) and Avazu (bottom). Results correspond to the illustration in Figure 1.",
+      "page": 8,
+      "index": 1,
+      "width": 1046,
+      "height": 410
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23191v1/fig-002.webp",
+      "caption": "Figure 6: Layer-wise comparison of average effective rank, from raw embeddings to module outputs, over test samples for RankElastor and RankMixer . Results align with Figure 2.",
+      "page": 8,
+      "index": 2,
+      "width": 499,
+      "height": 282
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23191v1/fig-006.webp",
+      "caption": "Figure 7: Dense parameter scaling trends under width (left) and depth (right) scaling for RankMixer and RankElastor . The x-axis shows the parameter scaling factor relative to the base model. Markers denote empirical measurements, while dashed lines indicate fitted scaling curves capturing the performance–parameter scaling relationship.",
+      "page": 9,
+      "index": 6,
+      "width": 1034,
+      "height": 389
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23191v1/fig-005.webp",
+      "caption": "Figure 8: Dense parameter scaling trends under joint width and depth scaling for RankMixer and RankElastor .",
+      "page": 9,
+      "index": 5,
+      "width": 500,
+      "height": 379
+    }
+  ]
+}

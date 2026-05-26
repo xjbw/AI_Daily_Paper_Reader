@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.24015v1/fig-007.webp",
+      "caption": "Figure 3. Recommendation performance (NDCG@20) of individual neighbor pair types (UU, II, UI, and IU) under varying neighbor retention ratios q and q′. Different neighbor pair types exhibit distinct performance patterns and optimal retention ratios across datasets, indicating that the effect of selectively updating neighbor pairs is highly type-dependent.",
+      "page": 5,
+      "index": 7,
+      "width": 921,
+      "height": 375
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24015v1/fig-001.webp",
+      "caption": "Table 1. Overall recommendation performance of CL objectives, BPR and SSM, and their neighbor-type-aware counterparts, NT-BPR and NT-SSM, respectively, under various GCF models. Both NT-BPR and NT-SSM consistently outperform their corresponding baselines, BPR and SSM, across datasets, demonstrating the effectiveness of neighbor-type-aware weight update learning dynamics.",
+      "page": 7,
+      "index": 1,
+      "width": 1011,
+      "height": 544
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24015v1/fig-005.webp",
+      "caption": "Table 2. Each design choice in NT-BPR and NT-SSM contributes to its improved performance (in terms of NDCG@20).",
+      "page": 8,
+      "index": 5,
+      "width": 466,
+      "height": 298
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24015v1/fig-004.webp",
+      "caption": "Figure 5. The controllable hyperparameters α (U) U , α(I) U , α(I) I , and α (I) I of NT-SSM exhibit varying impacts across datasets, indicating the importance of flexible and adaptive adjustment.",
+      "page": 8,
+      "index": 4,
+      "width": 451,
+      "height": 414
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24015v1/fig-006.webp",
+      "caption": "Table 5. Optimal hyperparameter values of NT-BPR and NT-SSM on each dataset and backbone model.",
+      "page": 17,
+      "index": 6,
+      "width": 637,
+      "height": 381
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24015v1/fig-003.webp",
+      "caption": "Table 6. Overall recommendation performance of CL objectives, BPR and SSM, and their neighbor type-aware counterparts, NT-BPR and NT-SSM, respectively, under GCF models in terms of Recall@10 and NDCG@10.",
+      "page": 18,
+      "index": 3,
+      "width": 1015,
+      "height": 545
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24015v1/fig-002.webp",
+      "caption": "Table 7. Overall recommendation performance of CL objectives, BPR and SSM, and their neighbor type-aware counterparts, NT-BPR and NT-SSM, respectively, under GCF models in terms of Recall@40 and NDCG@40.",
+      "page": 18,
+      "index": 2,
+      "width": 1011,
+      "height": 546
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-002.webp",
+      "caption": "Figure 1: Illustration of the ZPD. It utilizes a \"Teacher-PeerSelf\" collaborative structure with Divergence and Consensus, thereby extending the learner’s capabilities from the inner self-achieved zone to the broader potential zone.",
+      "page": 2,
+      "index": 2,
+      "width": 506,
+      "height": 290
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-003.webp",
+      "caption": "Table 1: Characteristics comparison between MDCNS and existing methods. The abbreviations denote: SGS (Self-Guided Sampling), MSS (Multi-Source Scoring), and ERA (Efficient Resource Allocation). In the PRF column, a higher number of ❍ marks indicates superior performance.",
+      "page": 2,
+      "index": 3,
+      "width": 476,
+      "height": 271
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-006.webp",
+      "caption": "Figure 2: The overall framework of MDCNS. (1) Multi-source Scoring, which constructs a candidate pool and generates relevance scoring signals from Self, Peer, and Teacher perspectives; (2) Divergence Re-ranking, which quantifies view divergence scores between self model and peer model to re-rank candidates and samples diverse hard negatives from the Top-M list; and (3) Consensus Distillation, which utilizes the teacher’s distribution over the entire candidate pool as soft targets to guide the self model, effectively acquiring consensus knowledge while mitigating the inefficiencies of resource allocation.",
+      "page": 3,
+      "index": 6,
+      "width": 1050,
+      "height": 458
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-001.webp",
+      "caption": "Table 3: Performance comparison across six datasets. The best and the second-best scores are marked in bold and underlined fonts. RC and NG denote Recall and NDCG. * denotes p-value < 0.05 for paired t-tests.",
+      "page": 6,
+      "index": 1,
+      "width": 1058,
+      "height": 899
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-004.webp",
+      "caption": "Table 4: Performance of different sequential recommendation models on different real-world datasets using BCE loss [28]. The best scores are marked in bold fonts. RC and NG denote Recall and NDCG. * denotes p-value < 0.05 for paired t-tests.",
+      "page": 7,
+      "index": 4,
+      "width": 1075,
+      "height": 293
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-005.webp",
+      "caption": "Table 5: Performance of the other three sequential recommendation models on two real-world datasets using BPR loss [25]. The best scores are marked in bold fonts. RC and NG denote Recall and NDCG. * denotes p-value < 0.05 for paired t-tests.",
+      "page": 7,
+      "index": 5,
+      "width": 1062,
+      "height": 294
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-008.webp",
+      "caption": "Table 6: Ablation study on three Amazon datasets. (↓MDCNS) denotes the performance drop from the full MDCNS method.",
+      "page": 8,
+      "index": 8,
+      "width": 1056,
+      "height": 232
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-007.webp",
+      "caption": "Table 7: Performance ofMDCNSunderweak to strong setting.",
+      "page": 8,
+      "index": 7,
+      "width": 506,
+      "height": 440
+    },
+    {
+      "url": "assets/figures/arxiv/2605.19651v1/fig-009.webp",
+      "caption": "Figure 3: Loss dynamics of MDCNS on four datasets.",
+      "page": 9,
+      "index": 9,
+      "width": 1046,
+      "height": 230
+    }
+  ]
+}

@@ -1,0 +1,824 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-26T21:02:26.665084+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 25,
+    "deep_cap": 6,
+    "deep_selected": 10,
+    "quick_candidates": 23,
+    "quick_skim_target": 11,
+    "quick_selected": 10,
+    "deep_selected_before_profile_limit": 14,
+    "quick_selected_before_profile_limit": 11,
+    "profile_daily_limits": {
+      "Rec": {
+        "deep": 10,
+        "quick": 10
+      }
+    },
+    "profile_limit_dropped_by_tag": {
+      "Rec": {
+        "deep": 4,
+        "quick": 1
+      }
+    },
+    "profile_limit_dropped": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2605.23272v1",
+      "source": "arxiv",
+      "title": "When Good Equations Get Bad Scores: Improving Symbolic Regression Through Better Parameter Optimization",
+      "abstract": "Symbolic Regression (SR) plays a central role in scientific knowledge discovery by distilling mathematical equations from observational data. Most existing SR methods function within a bi-level optimization framework: an outer loop that searches for the discrete equation structure, and an inner loop that optimizes the continuous parameters of that structure. Crucially, parameter-fitting quality directly determines a structure's score and thus the outer-loop search. However, nonlinear operators make the inner loop highly non-convex, and budget-driven reliance on fast local solvers (e.g., BFGS) often yields poor local minima and underestimated scores for correct structures. This ``Good Structure, Bad Score'' phenomenon becomes a key bottleneck, degrading efficiency and misguiding the search away from the true equation. To resolve this, we propose SAGE-Fit (Structure-Aware and Semantics-Guided Evaluator for Symbolic Regression), an SR-native fitting framework that exploits the dual native priors of symbolic expressions. By capitalizing on the structural and semantic priors unique to SR, we design tailored modules for each property, thereby effectively mitigating this optimization bottleneck. Extensive experiments demonstrate that our approach, as a plug-and-play module, significantly enhances evaluation fidelity and universally improves the performance of various SR systems.",
+      "authors": [
+        "Boxiao Wang",
+        "Kai Li",
+        "Zhiwei Chen",
+        "Yang Huang",
+        "Runxiang Wang",
+        "Ziwen Zhang",
+        "Yifan Zhang",
+        "Jian Cheng"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-22T06:23:28+00:00",
+      "link": "https://arxiv.org/pdf/2605.23272v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Improving symbolic regression through better parameter optimization",
+      "llm_evidence_cn": "通过更好的参数优化改进符号回归",
+      "llm_evidence": "通过更好的参数优化改进符号回归",
+      "canonical_evidence": "通过更好的参数优化改进符号回归",
+      "llm_tldr_en": "Identifies and mitigates the good structure bad score problem in symbolic regression parameter optimization.",
+      "llm_tldr_cn": "识别并缓解符号回归参数优化中好结构得低分的问题。",
+      "llm_tldr": "识别并缓解符号回归参数优化中好结构得低分的问题。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "fundamental principles and methods of symbolic regression",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.19651v1",
+      "source": "arxiv",
+      "title": "Divergence Meets Consensus: A Multi-Source Negative Sampling Framework for Sequential Recommendation",
+      "abstract": "Negative sampling is significant for training sequential recommendation models under implicit feedback. The predominant strategy, self-guided hard negative sampling, selects negatives based on the model's current state but suffers from three limitations: (1) the coupling between sampling and model updates triggers a vicious cycle that drives the model into local optima; (2) relying on current model parameters narrows sampling to a small region of the item space, reducing diversity and harming generalization; (3) identifying a hard negative requires scoring the entire candidate pool, causing substantial computational overhead with minimal information gain. To address these challenges, we propose MDCNS (Multi-source Divergence-Consensus for Negative Sampling), a novel \"Teacher-Peer-Self\" framework inspired by Vygotsky's Zone of Proximal Development (ZPD) theory. The proposed method comprises three components, including multi-source scoring, divergence re-ranking, and consensus distillation. Firstly, multi-source scoring incorporates peer and ensemble teacher models to inject external negative signals and break the self-reinforcement loop. Then, divergence re-ranking exploits prediction discrepancy between self and peer models to enhance sampling diversity. Finally, consensus distillation aligns the self model with the teacher via KL divergence, simultaneously improving computational cost utilization. Extensive experiments on six real-world datasets and five backbone models show that MDCNS consistently outperforms state-of-the-art negative sampling methods, demonstrating strong effectiveness and generalization.",
+      "authors": [
+        "Yuanzi Li",
+        "Lingjie Wang",
+        "Jingyu Zhao",
+        "Zihang Tian",
+        "Yuhan Wang",
+        "Lei Wang",
+        "Xu Chen"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-19T10:42:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.19651v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sequential recommendation negative sampling",
+      "llm_evidence_cn": "序列推荐负采样",
+      "llm_evidence": "序列推荐负采样",
+      "canonical_evidence": "序列推荐负采样",
+      "llm_tldr_en": "Multi-source divergence negative sampling framework improves sequential recommendation training.",
+      "llm_tldr_cn": "多源分歧负采样框架改进序列推荐训练。",
+      "llm_tldr": "多源分歧负采样框架改进序列推荐训练。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.21813v1",
+      "source": "arxiv",
+      "title": "Symbolic Density Estimation for Discrete Distributions",
+      "abstract": "Discrete probability laws underpin statistical modeling, yet the catalog of interpretable distributions has expanded only gradually through centuries of case-by-case mathematical derivations. We introduce symbolic density estimation (SDE), an unsupervised framework that automatically recovers closed-form probability mass functions by composing elementary analytic operations within a structured search space. Our method integrates domain-specific structural priors with evolutionary search and a validity-aware inference stage, and it extends to richer distribution families such as zero inflation and finite mixtures. To support systematic evaluation and future research, we contribute a benchmark dataset spanning a broad collection of commonly used discrete distributions. The proposed algorithm recovers all benchmark families with accurate parameter estimates. A real data application shows that it identifies concise and interpretable mixture models that improve goodness-of-fit over standard models.",
+      "authors": [
+        "Ziwen Liu",
+        "Meng Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "stat.ME",
+        "stat.ML"
+      ],
+      "published": "2026-05-20T23:22:21+00:00",
+      "link": "https://arxiv.org/pdf/2605.21813v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "symbolic density estimation using evolutionary search",
+      "llm_evidence_cn": "使用进化搜索的符号密度估计",
+      "llm_evidence": "使用进化搜索的符号密度估计",
+      "canonical_evidence": "使用进化搜索的符号密度估计",
+      "llm_tldr_en": "Automatically discovers closed-form probability mass functions via symbolic regression and evolutionary search.",
+      "llm_tldr_cn": "通过符号回归和进化搜索自动发现闭式概率质量函数。",
+      "llm_tldr": "通过符号回归和进化搜索自动发现闭式概率质量函数。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "fundamental principles and methods of symbolic regression",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.21987v1",
+      "source": "arxiv",
+      "title": "Generative Conversational Recommender System",
+      "abstract": "Conversational recommender systems aim to provide personalized recommendations via natural language interactions. However, existing approaches either decouple recommendation from dialog generation or rely on retrieval-based pipelines, limiting the integration between recommendation and response generation and leading to suboptimal modeling of user intent. In this paper, we propose a fully generative conversational recommender system that unifies recommendation and dialog generation within a single autoregressive framework. Our approach represents items as discrete semantic IDs and integrates them directly into the generation process, enabling joint prediction of items and responses via next-token modeling. We further introduce a structured generation paradigm that factorizes conversational recommendation into a sequence of interdependent decisions, where the model first predicts the response intent and the recommendation target, and then generates the response conditioned on them. This design enables end-to-end optimization, enforces a more coherent dependency structure, and supports faithful item generation via constrained decoding. Extensive experiments demonstrate that our method consistently improves recommendation performance, achieving gains of up to 29% on Recall@1 over strong baselines, while maintaining competitive dialog quality.",
+      "authors": [
+        "Sixiao Zhang",
+        "Mingrui Liu",
+        "Cheng Long"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-21T04:36:37+00:00",
+      "link": "https://arxiv.org/pdf/2605.21987v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Generative conversational recommender system",
+      "llm_evidence_cn": "生成式对话推荐系统",
+      "llm_evidence": "生成式对话推荐系统",
+      "canonical_evidence": "生成式对话推荐系统",
+      "llm_tldr_en": "Unifies recommendation and dialog in a single autoregressive model",
+      "llm_tldr_cn": "在单个自回归模型中统一推荐和对话",
+      "llm_tldr": "在单个自回归模型中统一推荐和对话",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.22374v1",
+      "source": "arxiv",
+      "title": "Guiding Multi-Objective Genetic Programming with Description Length Improves Symbolic Regression Solutions",
+      "abstract": "Symbolic regression with genetic programming (GPSR) may suffer from overfitting and structural bloat, especially when noise is present. In this paper we evaluate description length (DL) and fractional Bayes factor (FBF) criteria as principled, data-efficient alternatives to heuristics for selecting compact expressions that generalise well. We implement DL using a Fisher-information-based parameter encoding and compare it to AIC and BIC across multiple datasets, including noisy synthetic benchmarks and real-world regression problems. We study three search/selection strategies: (i) multi-objective search for accuracy and program length followed by DL/FBF selection; (ii) multi-objective search using DL directly as an objective; and (iii) single-objective optimisation with DL/FBF as the fitness. Across datasets we find that DL/FBF post-selection improves test performance compared to AIC/BIC baseline and that BIC in combination with the same function complexity penalty from DL/FBF produces similar results. In contrast, using DL/FBF directly as a fitness function in single-objective GPSR frequently induces premature convergence to overly simple models. We conclude with practical guidance for using DL/FBF as robust model-selection tools in genetic programming workflows.",
+      "authors": [
+        "Gabriel Kronberger",
+        "Fabricio Olivetti de Franca",
+        "Deaglan J. Bartlett",
+        "Harry Desmond",
+        "Pedro G. Ferreira"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE",
+        "stat.ML"
+      ],
+      "published": "2026-05-21T12:07:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.22374v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "genetic programming for symbolic regression with description length",
+      "llm_evidence_cn": "使用描述长度的遗传编程符号回归",
+      "llm_evidence": "使用描述长度的遗传编程符号回归",
+      "canonical_evidence": "使用描述长度的遗传编程符号回归",
+      "llm_tldr_en": "Multi-objective GP guided by description length improves symbolic regression solutions",
+      "llm_tldr_cn": "描述长度引导的多目标遗传编程改进了符号回归解",
+      "llm_tldr": "描述长度引导的多目标遗传编程改进了符号回归解",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.23191v1",
+      "source": "arxiv",
+      "title": "Expand More, Shrink Less: Shaping Effective-Rank Dynamics for Dense Scaling in Recommendation",
+      "abstract": "Scaling recommendation models is a central challenge in recommender systems. Recently, RankMixer has emerged as an effective solution, operating on a unified token representation and alternating between token mixing and per-token feedforward networks (P-FFNs) to achieve scalable performance. However, RankMixer suffers from \\textit{embedding collapse}, where learned representations have low effective rank, limiting expressivity and underutilizing the expanded representation space. Through empirical analysis and theoretical insights, we identify rigid token mixing and P-FFN modules as the primary causes of this phenomenon, jointly inducing a \\textbf{damped oscillatory trajectory} in effective-rank evolution across layers. To address it, we propose RankElastor, a novel architecture that produces spectrum-robust representations with provable collapse mitigation. RankElastor introduces two components: (i) \\textbf{parameterized full mixing}, which enables expressive token mixing with improved spectral robustness; and (ii) \\textbf{GLU-improved P-FFNs}, which stabilize representation spectra through GLU-style FFN modules. Extensive experiments on large-scale industrial datasets demonstrate that RankElastor consistently improves recommendation performance, mitigates embedding collapse, and exhibits robust scaling behavior. Code is available at this GitHub repository: https://github.com/vasile-paskardlgm/RankElastor",
+      "authors": [
+        "Guoming Li",
+        "Shangyu Zhang",
+        "Junwei Pan",
+        "Wentao Ning",
+        "Jin Chen",
+        "Gengsheng Xue",
+        "Chao Zhou",
+        "Shudong Huang",
+        "Haijie Gu",
+        "Menglin Yang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.IR",
+        "math.NA"
+      ],
+      "published": "2026-05-22T03:17:29+00:00",
+      "link": "https://arxiv.org/pdf/2605.23191v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Dense scaling and embedding collapse in recommendation",
+      "llm_evidence_cn": "推荐系统中的密集缩放和嵌入崩溃",
+      "llm_evidence": "推荐系统中的密集缩放和嵌入崩溃",
+      "canonical_evidence": "推荐系统中的密集缩放和嵌入崩溃",
+      "llm_tldr_en": "Addresses embedding collapse to improve recommendation model scaling",
+      "llm_tldr_cn": "解决嵌入崩溃问题以提升推荐模型缩放",
+      "llm_tldr": "解决嵌入崩溃问题以提升推荐模型缩放",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.23310v1",
+      "source": "arxiv",
+      "title": "From Head to Tail: Asymmetric Knowledge Transfer in Long-tail Recommendation with Generative Semantic IDs",
+      "abstract": "Long-tail recommendation in real-world e-commerce platforms remains challenging due to severe data imbalance. Existing methods often struggle to combine content-based multimodal features with collaborative signals. Many of these methods also ignore an important asymmetry in knowledge transfer between head and tail IDs: noisy signals from tail IDs can hurt representation learning for head IDs. This paper presents AKT-Rec, a framework for Asymmetric Knowledge Transfer in long-tail Recommendation that uses LLM-generated semantic IDs. AKT-Rec uses Multimodal LLMs (MLLMs) with supervised fine-tuning to align content representations with collaborative information for both items and users, producing semantic representations. It then discretizes these representations into semantic IDs with a Residual-Quantized VAE (RQ-VAE), which yields semantic clusters of similar entities. AKT-Rec has two main components: (1) Cluster-Guided Adaptive Embedding, which decomposes each ID representation into a cluster-level embedding that captures shared semantics and an individual embedding. Through an asymmetric contrastive objective and an activity-aware gating mechanism, this module directs knowledge transfer from head to tail IDs. (2) Hierarchical Feature Aggregation, which builds parallel feature views and adaptively fuses them to optimize predictions for samples with varying activity levels. Extensive experiments on a large-scale industrial dataset and online A/B testing on the Alibaba Tmall platform demonstrate the effectiveness of AKT-Rec. AKT-Rec improves offline performance by 0.35% in AUC and 1.53% in GAUC, outperforming several competitive baselines. In online A/B testing, AKT-Rec achieves a 2.76% increase in CTR and a 3.47% increase in GMV, validating its utility in real-world production environments.",
+      "authors": [
+        "Chenyi Yan",
+        "Ruocong Tang",
+        "Xing Fang",
+        "Yang Huang",
+        "He Guo",
+        "Jing Wang"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-22T07:29:51+00:00",
+      "link": "https://arxiv.org/pdf/2605.23310v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "long-tail recommendation in e-commerce with asymmetric knowledge transfer",
+      "llm_evidence_cn": "在电子商务中使用非对称知识转移的长尾推荐",
+      "llm_evidence": "在电子商务中使用非对称知识转移的长尾推荐",
+      "canonical_evidence": "在电子商务中使用非对称知识转移的长尾推荐",
+      "llm_tldr_en": "Proposes AKT-Rec for long-tail recommendation in e-commerce using LLM-generated semantic IDs.",
+      "llm_tldr_cn": "提出AKT-Rec框架，利用LLM生成的语义ID进行电子商务长尾推荐。",
+      "llm_tldr": "提出AKT-Rec框架，利用LLM生成的语义ID进行电子商务长尾推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.23312v1",
+      "source": "arxiv",
+      "title": "Towards Generalizable and Efficient Large-Scale Generative Recommenders",
+      "abstract": "Generative recommendation models can model user behavior as sequences of events and provide a shared backbone for multiple recommendation tasks. In production, however, pre-training gains do not automatically translate into downstream application improvements: task headroom, repeated-training cost, serving latency, and item freshness all affect transfer. We describe our experience scaling a generative recommender from 2M to 1B backbone parameters, excluding embedding and decoding layers, in a production-scale title recommendation setting. Across multiple downstream tasks, we observe task-dependent scaling behavior: some tasks approach an empirical ceiling within the observed scale range, while others continue to benefit from additional capacity. This motivates using offset scaling-law fits as a diagnostic for where additional model scale may be more or less useful.   We then study production constraints that arise when applying the model in practice. Frequent retraining over trillions of behavior tokens makes training and decoding efficiency important; cached serving can make the immediate next-token target stale; and newly launched titles may need to be scored from semantic metadata before collaborative ID embeddings are reliable. We address these issues with multi-token prediction for serving-latency alignment, sampled softmax and a projected decoding head for efficient repeated training, and semantic item towers with collaborative-embedding masking for cold-start adaptation. In a one-week production-shadow evaluation over 1M users, the 1B-backbone model achieves higher MRR than the 2M-backbone baseline across all reported tasks. Overall, the results support treating model scale as one component of a production transfer problem, alongside task headroom, decoding cost, serving-latency alignment, and item generalization.",
+      "authors": [
+        "Qiuling Xu",
+        "Ko-Jen Hsiao",
+        "Moumita Bhattacharya"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-22T07:31:00+00:00",
+      "link": "https://arxiv.org/pdf/2605.23312v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "scaling generative recommenders to 1B parameters",
+      "llm_evidence_cn": "将生成式推荐系统扩展至10亿参数",
+      "llm_evidence": "将生成式推荐系统扩展至10亿参数",
+      "canonical_evidence": "将生成式推荐系统扩展至10亿参数",
+      "llm_tldr_en": "Describes scaling a generative recommender to 1B parameters and analyzes task-dependent scaling behavior.",
+      "llm_tldr_cn": "描述了将生成式推荐系统扩展至10亿参数并分析任务相关缩放行为。",
+      "llm_tldr": "描述了将生成式推荐系统扩展至10亿参数并分析任务相关缩放行为。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.24015v1",
+      "source": "arxiv",
+      "title": "Rethinking Contrastive Learning for Graph Collaborative Filtering: Limitations and a Simple Remedy",
+      "abstract": "Graph collaborative filtering (GCF) is a dominant paradigm in recommender systems, where contrastive learning (CL) objectives such as the Sampled Softmax (SSM) loss are widely used for optimization. However, it remains unclear how CL interacts with the prediction mechanism of GCF. By unfolding the prediction mechanism of GCF, we show that the user-item prediction score is computed by aggregating learnable weights over a large number of neighbor pairs formed by the multi-hop neighbors of the user and the item. This analysis suggests that effective optimization critically depends on which neighbor pairs are upweighted during training. Empirically, we find that effective recommendation is achievable by selectively upweighting only a small subset of neighbor pairs whose constituent neighbors are structurally similar to the target user and item, and that the effect of such selective upweighting varies across different neighbor pair types. Based on these findings, we analyze SSM and identify key limitations in its neighbor pair weight update dynamics. To address these limitations, we propose NT-SSM, an effective and principled CL objective that induces type-aware neighbor pair weight update dynamics. Experiments demonstrate consistent performance improvements over SSM across multiple datasets and GCF models.",
+      "authors": [
+        "Geon Lee",
+        "Sunwoo Kim",
+        "Kyungho Kim",
+        "Kijung Shin"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-20T03:19:06+00:00",
+      "link": "https://arxiv.org/pdf/2605.24015v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Graph collaborative filtering with contrastive learning for recommendations",
+      "llm_evidence_cn": "基于对比学习的图协同过滤推荐方法",
+      "llm_evidence": "基于对比学习的图协同过滤推荐方法",
+      "canonical_evidence": "基于对比学习的图协同过滤推荐方法",
+      "llm_tldr_en": "Rethinks contrastive learning in graph collaborative filtering for better recommendations.",
+      "llm_tldr_cn": "重新思考图协同过滤中的对比学习以优化推荐。",
+      "llm_tldr": "重新思考图协同过滤中的对比学习以优化推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.24051v1",
+      "source": "arxiv",
+      "title": "Memento: Personalized RAG-Style Long-Retention Data Scaling for META Ads Recommendation",
+      "abstract": "Modeling of long history data suffers from long-context window attention dilution, system efficiency and catastrophic forgetting problems, where naive linear scaling approach like LastN would fail. We introduce Memento, a personalized retrieval-augmented framework that treats historical user engagements as a document corpus and ad requests as queries, retrieving relevant interactions via Maximal Marginal Relevance (MMR) to balance similarity with diversity. We identify two complementary applications: Representation Memento, which retrieves historical embeddings for feature augmentation, and Data Memento, which retrieves past training examples for multipass training. Through infrastructure co-design -- temporal chunking, INT8 quantization, and asynchronous serving -- Memento achieves 5-10$\\times$ resource efficiency over linear scaling. Memento processes daily requests with sub-10ms latency, yielding 0.25-0.3% Normalized Entropy gain on both click-through and conversion prediction. In production, Memento delivers a 1% CTR lift on Facebook Feed and Reels and a 1.2% CVR lift, scaling personalization to 365+ days of history.",
+      "authors": [
+        "Xiaoyu Chen",
+        "Ruichen Wang",
+        "Jieming Di",
+        "Suofei Feng",
+        "Nafis Abrar",
+        "Lilly Kumari",
+        "Tony Tsui",
+        "Yilin Liu",
+        "Yu Lu",
+        "Sowmya Patapati",
+        "Junwei Xiong",
+        "Qiao Yang",
+        "Dorothy Sun",
+        "Yang Cao",
+        "Victor Chen",
+        "Pan Chen",
+        "Ramsundar Sundarkumar",
+        "Shivendra Pratap Singh",
+        "Arnold Overwijk",
+        "Ling Leng",
+        "Dinesh Ramasamy",
+        "Sri Reddy",
+        "Robert Malkin",
+        "Sandeep Pandey"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-22T00:12:38+00:00",
+      "link": "https://arxiv.org/pdf/2605.24051v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "personalized RAG-style long-retention data scaling for Meta ads recommendation",
+      "llm_evidence_cn": "面向Meta广告推荐的个性化RAG长留存数据扩展",
+      "llm_evidence": "面向Meta广告推荐的个性化RAG长留存数据扩展",
+      "canonical_evidence": "面向Meta广告推荐的个性化RAG长留存数据扩展",
+      "llm_tldr_en": "Proposes Memento, a personalized retrieval-augmented framework for scaling long-history data in ads recommendation.",
+      "llm_tldr_cn": "提出Memento，一种用于广告推荐中长历史数据扩展的个性化检索增强框架。",
+      "llm_tldr": "提出Memento，一种用于广告推荐中长历史数据扩展的个性化检索增强框架。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.21066v1",
+      "source": "arxiv",
+      "title": "Robust Personalized Recommendation under Hidden Confounding in MNAR",
+      "abstract": "Recommender systems often rely on observational user--item interaction data, which is prone to selection bias due to users' selective interactions with items. Inverse propensity weighting and doubly robust estimators effectively mitigate selection bias under observed confounding, but are unreliable in the presence of hidden confounders. Existing approaches relying on randomized controlled trials (RCTs) or global sensitivity bounds are constrained in practice: RCTs demand costly experimental data, while global sensitivity bounds presume a uniformly bounded effect of unmeasured confounders on propensities through sensitivity analysis, thereby neglecting heterogeneity across user--item interactions. To overcome this limitation, we propose a novel framework, which estimates user--item level sensitivity bounds, thereby substantially relaxing the homogeneity assumption inherent in global sensitivity bounds named Personalized Unobserved-Confounding-aware Interaction Deconfounder (PUID). To ensure both robustness and predictive accuracy, we further develop an adversarial optimization strategy and propose a benchmark-guided variant (BPUID) that incorporates pre-trained models as stabilizing references. Extensive experiments on three real-world datasets demonstrate that our approach significantly outperforms global methods under hidden confounding, without requiring RCT data.",
+      "authors": [
+        "Zongyu Li",
+        "Wanting Su",
+        "Tianyu Xia"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-20T11:53:12+00:00",
+      "link": "https://arxiv.org/pdf/2605.21066v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "addresses hidden confounding in recommendation",
+      "llm_evidence_cn": "处理推荐中的隐藏混淆",
+      "llm_evidence": "处理推荐中的隐藏混淆",
+      "canonical_evidence": "处理推荐中的隐藏混淆",
+      "llm_tldr_en": "Proposes robust personalized recommendation under hidden confounding in MNAR.",
+      "llm_tldr_cn": "提出在MNAR下处理隐藏混淆的鲁棒个性化推荐。",
+      "llm_tldr": "提出在MNAR下处理隐藏混淆的鲁棒个性化推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.21000v1",
+      "source": "arxiv",
+      "title": "Convergence Analysis of Evolution Strategies for Mixed-Integer Optimization",
+      "abstract": "Mixed-integer extensions of evolution strategies (ES) that discretize selected coordinates of sampled continuous vectors often impose a lower bound on the standard deviation of integer variables to prevent premature convergence. While these methods show promising empirical results, this handling can slow the convergence of continuous variables, and its impact has lacked a clear theoretical account. In this paper, we provide a convergence analysis of evolution strategies for mixed-integer optimization, inspired by the drift analysis of the (1+1)-ES in the continuous domain. Specifically, we consider two (1+1)-ES variants for mixed-integer domains: (1+1)-LB-ES, which introduces a lower bound on the standard deviation for integer variables, and (1+1)-LUB-ES, which combines both lower and upper bounds to enhance the convergence of the continuous variables. Focusing on the optimization phase after the integer variables have been optimized, we rigorously analyze their convergence behavior on a benchmark function designed for mixed-integer domains. Our results show that (1+1)-LB-ES can suffer from premature convergence when the number of integer variables is large, while (1+1)-LUB-ES achieves linear convergence under suitable parameter settings. These findings provide theoretical insights into the impact of integer handling on convergence performance and guidance for the design of mixed-integer ES.",
+      "authors": [
+        "Ryoki Hamano",
+        "Kento Uchida",
+        "Shinichi Shirakawa"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE"
+      ],
+      "published": "2026-05-20T10:38:12+00:00",
+      "link": "https://arxiv.org/pdf/2605.21000v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Evolution strategies for mixed-integer optimization directly applicable to symbolic regression",
+      "llm_evidence_cn": "混合整数优化的进化策略可直接应用于符号回归",
+      "llm_evidence": "混合整数优化的进化策略可直接应用于符号回归",
+      "canonical_evidence": "混合整数优化的进化策略可直接应用于符号回归",
+      "llm_tldr_en": "Convergence analysis of evolution strategies for mixed-integer optimization, supporting SR",
+      "llm_tldr_cn": "混合整数优化中进化策略的收敛性分析，支持符号回归",
+      "llm_tldr": "混合整数优化中进化策略的收敛性分析，支持符号回归",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.21055v1",
+      "source": "arxiv",
+      "title": "Genetic Programming with Transformer-Based Mutation for Approximate Circuit Design",
+      "abstract": "A recent trend is to leverage machine learning models to improve the evolutionary design and optimization process. We propose a novel transformer-based mutation operator for Cartesian genetic programming (CGP) for the automated design of approximate arithmetic circuits. We introduce a hybrid scheme for CGP in which the proposed mutation operator is switched with the standard mutation operator to prevent stagnation of the circuit approximation process. We also develop a new training scheme for the underlying transformer that utilizes training vectors composed of thousands of CGP chromosomes representing various approximate multipliers. For several target error constraints, the approximate multipliers evolved with CGP utilizing the transformer-based mutation achieve better trade-offs than the highly optimized designs available in the state-of-the-art EvoApproxLib library of approximate circuits. Although both training and evolutionary processes are computationally demanding, they appear to be necessary steps for improving existing approximate circuits and producing new, potentially patentable circuit designs.",
+      "authors": [
+        "Ondrej Galeta",
+        "Lukas Sekanina"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE",
+        "cs.LG"
+      ],
+      "published": "2026-05-20T11:42:10+00:00",
+      "link": "https://arxiv.org/pdf/2605.21055v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Genetic programming with transformer mutation for evolutionary design",
+      "llm_evidence_cn": "遗传编程结合变换器变异用于进化设计",
+      "llm_evidence": "遗传编程结合变换器变异用于进化设计",
+      "canonical_evidence": "遗传编程结合变换器变异用于进化设计",
+      "llm_tldr_en": "Proposes a transformer-based mutation operator for Cartesian genetic programming.",
+      "llm_tldr_cn": "为笛卡尔遗传编程提出基于变换器的变异算子。",
+      "llm_tldr": "为笛卡尔遗传编程提出基于变换器的变异算子。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.21868v1",
+      "source": "arxiv",
+      "title": "When to Switch, Not Just What: Transition Quality Prediction in Clash Royale",
+      "abstract": "In competitive games, players frequently switch strategies after losing streaks, yet our analysis of 926,334 match records from 34,619 Clash Royale players reveals a counterintuitive pattern: switching frequency is inversely associated with the win rate, with effects that vary substantially across players and situational contexts. We attribute this to a limitation common in many prior recommendation systems, which evaluate strategies by expected quality while overlooking the behavioral cost of switching and individual differences in switching propensity. We refer to this implicit premise as the Zero Switching Cost Assumption. To address this, we reformulate strategy recommendation as a transition-level decision problem and instantiate it as TQP (Transition Quality Predictor), a three-stage pipeline structured as Who -> When -> What. PersonaGate suppresses recommendations for players whose strategic consistency is empirically associated with superior outcomes. TimingGate identifies moments when switching is likely to yield a net benefit over staying, using a subtype- and state-matched baseline to control for natural win-rate recovery. ScoreFusion ranks candidate strategies by combining an adoptability signal with predicted transition quality (delta WR). We further introduce SwitchGap, an evaluation metric that measures a policy's discriminative quality without treating observed player choices as optimal ground truth. This property is particularly important because the most frequent switchers record the lowest win rates. The full pipeline achieves a SwitchGap of +10.4 percentage points at a recommendation rate of 5.4%, and loss-triggered switchers, despite being the lowest-performing group, benefit the most from subtype-conditioned guidance.",
+      "authors": [
+        "Heeyun Heo",
+        "Huy Kang Kim"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-21T01:28:19+00:00",
+      "link": "https://arxiv.org/pdf/2605.21868v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "reformulates strategy recommendation as transition-level decision problem, addresses switching cost",
+      "llm_evidence_cn": "将策略推荐重构为转换级决策问题，考虑转换成本",
+      "llm_evidence": "将策略推荐重构为转换级决策问题，考虑转换成本",
+      "canonical_evidence": "将策略推荐重构为转换级决策问题，考虑转换成本",
+      "llm_tldr_en": "Proposes TQP framework for strategy recommendation in games considering switching cost.",
+      "llm_tldr_cn": "提出TQP框架用于游戏中的策略推荐，考虑转换成本。",
+      "llm_tldr": "提出TQP框架用于游戏中的策略推荐，考虑转换成本。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.21736v1",
+      "source": "arxiv",
+      "title": "Support-aware offline policy selection for advertising marketplaces",
+      "abstract": "Logged advertising auctions make offline reserve-price evaluation attractive but risky. Replay tables can identify policies with large apparent yield gains, yet they can also hide weak threshold support, multiple-comparison effects, subgroup harm, and bidder-response uncertainty. Existing replay and off-policy evaluation methods estimate or rank policy values, but they do not directly answer the operational question of whether the available evidence is strong enough to justify validation. This paper develops a support-aware offline decision framework for reserve-policy selection. Rather than outputting a single point-estimate winner, the framework converts logged evidence into a conservative decision object consisting of certified policies, statistically dominated alternatives, and unresolved candidates requiring further validation. The main theoretical result gives a unified finite-catalog guarantee showing that, under simultaneous uncertainty control and conservative support gates, the framework preserves the best gate-passing policy while eliminating only policies with certified regret. Supporting results characterize support-localized replay generalization, establish information-theoretic threshold-resolution limits, and quantify when heterogeneous bidder response can overturn localized replay rankings. Experiments on iPinYou real-time-bidding logs show that the leading reserve rule achieves a 47.66% replay lift in season two, a 40.71% simultaneous lower-bound lift, and a 43.87% frozen out-of-time replay lift in season three. The framework reduces a 19-policy catalog to a two-policy validation shortlist while certifying non-harm across 44 advertiser, exchange, and region segments. The results support the central claim that offline reserve-policy evaluation should produce certified validation decisions rather than point-estimate rankings alone.",
+      "authors": [
+        "Prashant Shekhar",
+        "Caroline Howard"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-05-20T20:57:18+00:00",
+      "link": "https://arxiv.org/pdf/2605.21736v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "offline policy selection for advertising marketplaces",
+      "llm_evidence_cn": "广告市场离线策略选择",
+      "llm_evidence": "广告市场离线策略选择",
+      "canonical_evidence": "广告市场离线策略选择",
+      "llm_tldr_en": "Develops a support-aware offline decision framework for reserve-policy selection in advertising marketplaces.",
+      "llm_tldr_cn": "提出一种支持感知的离线决策框架，用于广告市场的底价策略选择。",
+      "llm_tldr": "提出一种支持感知的离线决策框架，用于广告市场的底价策略选择。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.21103v1",
+      "source": "arxiv",
+      "title": "A Typed Tensor Language for Federated Learning",
+      "abstract": "Federated learning and analytics are often described as collections of separate protocols, even when they share the same mathematical form: client-local tensor computation, mergeable aggregation into shared state, and shared-only post-processing. We introduce a typed tensor language that formalizes this structure. The language distinguishes federated tensors, whose records are partitioned across clients along a tracked record axis, from shared tensors, which are available globally. Its semantics are defined by comparison with a virtual global tensor, used only as a reference object. The main result is a shared-state factorization theory. We show that typed one-round programs factor through fixed-dimensional shared state whose size is independent of the number of clients and records, computed from client-local tensor expressions and merged across clients. We also prove a converse representability result; factorizations whose encoders and decoders are expressible in the language are realized by typed one-round programs, and the correspondence extends to iterative programs whose cross-round state is shared. This gives a formal account of the computations in the language that can be expressed as encode, merge, and decode procedures. We then develop a differentiable fragment for learning. If a per-record loss and its per-record gradient are represented by client-local tensor expressions, the global gradient is represented by record-axis summation of the federated gradient tensor. This yields typed iterative programs for server-side gradient descent and shared-linear-algebra second-order updates. The framework characterizes a broad class of federated learning computations whose communication passes through fixed-dimensional shared state.",
+      "authors": [
+        "Theofilos Mailis",
+        "Kalliopi-Christina Despotidou",
+        "Konstantinos Filippopolitis",
+        "Yannis Foufoulas",
+        "Thanasis-Michail Karampatsis",
+        "Andreas Ktenidis",
+        "Evdokia Mailli",
+        "Theodore Papamarkou",
+        "Yannis Ioannidis"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-20T12:34:24+00:00",
+      "link": "https://arxiv.org/pdf/2605.21103v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "typed tensor language for federated learning",
+      "llm_evidence_cn": "用于联邦学习的类型化张量语言",
+      "llm_evidence": "用于联邦学习的类型化张量语言",
+      "canonical_evidence": "用于联邦学习的类型化张量语言",
+      "llm_tldr_en": "Introduces a typed tensor language formalizing federated learning computation.",
+      "llm_tldr_cn": "引入一种类型化张量语言来形式化联邦学习计算。",
+      "llm_tldr": "引入一种类型化张量语言来形式化联邦学习计算。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.21969v1",
+      "source": "arxiv",
+      "title": "LLM Retrieval for Stable and Predictable Ad Recommendations",
+      "abstract": "Traditional ads recommendation systems have primarily focused on optimizing for prediction accuracy of click or conversion events using canonical metrics such as recall or normalized discounted cumulative gain (NDCG). With the hyper-growth of ads inventory and liquidity with generative AI technologies, the prediction stability and predictability is becoming increasingly critical. Intuitively, prediction stability and predictability can be defined to quantify system robustness with respect to minor/noisy input (ads, creatives) perturbations, the lack of which could lead to advertiser perceivable problems such as repeatability, cold start and under-exploration. In this paper, we introduce a new evaluation framework for quantifying stability and predictability of an ads recommender system, and present an online validated semantic candidate generation framework powered by fine-tuned Large Language Models (LLMs) that showed significant improvement along these metrics by fundamentally improving the semantic-awareness of the system. The approach extracts hierarchical semantic attributes from ad creatives to obtain LLM representations, which serve as the foundation for graph-based expansion, ensuring the retrieved candidates encapsulate semantic variants of an ad, guaranteeing that small creative variants from the advertiser yield consistent and explainable delivery results to the user. We tested this LLM ads retrieval framework in a large-scale industrial ads recommendation system, demonstrating significant improvements across offline and online A/B experiments, showcasing gains in both predictability and traditional performance metrics. Although evaluated in the ads stack, this is a general framework that can be applied broadly to any large-scale recommendation and retrieval systems facing similar scaling and predictability challenges.",
+      "authors": [
+        "Vinodh Kumar Sunkara",
+        "Satheeshkumar Karuppusamy",
+        "Hangjun Xu",
+        "Sai Deepika Regani",
+        "Kshitij Gupta",
+        "Gaby Nahum",
+        "Sneha Iyer",
+        "Jean-Baptiste Fiot",
+        "Yinglong Guo",
+        "Xiaowen Guo",
+        "Atul Jangra",
+        "Yucheng Liu",
+        "Jinghao Yan",
+        "Vijay Pappu",
+        "Benjamin Schulte",
+        "Deepak Chandra"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-21T03:58:37+00:00",
+      "link": "https://arxiv.org/pdf/2605.21969v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "ads recommendation stability and predictability",
+      "llm_evidence_cn": "广告推荐的稳定性和可预测性",
+      "llm_evidence": "广告推荐的稳定性和可预测性",
+      "canonical_evidence": "广告推荐的稳定性和可预测性",
+      "llm_tldr_en": "Introduces evaluation framework for stable and predictable ad recommendations.",
+      "llm_tldr_cn": "引入用于稳定可预测广告推荐的评估框架。",
+      "llm_tldr": "引入用于稳定可预测广告推荐的评估框架。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.22498v1",
+      "source": "arxiv",
+      "title": "The Neural Compiler: Program-to-Network Translation for Hybrid Scientific Machine Learning",
+      "abstract": "Scientific machine learning often requires combining known physics with unknown parameters or correction terms learned from data. Existing approaches either ignore known structure, encode it as a soft penalty, or require hand-written PyTorch code for each equation. We present The Neural Compiler, a system that translates programs written in a first-order Scheme-like expression language into frozen, differentiable PyTorch modules. These modules match the source program to floating-point precision and provide gradients through autograd. In hybrid models, the compiled module encodes known physics exactly while learned components model the unknown remainder. We evaluate the compiler across six experiment domains: Feynman physics equations, Lotka-Volterra dynamics, a damped pendulum, a one-dimensional heat equation, three-dimensional vector mechanics, and compositional generalization. Compiled modules match hand-coded PyTorch implementations numerically for single equations, showing no accuracy loss from compilation. With only 1 to 4 trainable parameters, compiled models recover physical constants to less than 1 percent error in most cases, while standard PINN baselines with more than 8500 parameters show 7 to 93 percent error. Compiled modules also compose with zero error, while neural approximations can accumulate large errors in deep composition chains. The main value of the compiler is not improved accuracy over hand-coded equations, but systematic composability: it generates correct, differentiable modules from symbolic specifications without rewriting each equation by hand. The system supports 51 primitive operations, including vector and matrix algebra, enabling PDE discretizations and hybrid scientific models. This string-in, module-out interface also provides a natural target for large language models that translate scientific descriptions into executable differentiable modules.",
+      "authors": [
+        "Lucas Sheneman"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.SC"
+      ],
+      "published": "2026-05-21T13:49:20+00:00",
+      "link": "https://arxiv.org/pdf/2605.22498v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "compiles programs to differentiable PyTorch modules for equation discovery",
+      "llm_evidence_cn": "将程序编译为可微分PyTorch模块用于方程发现",
+      "llm_evidence": "将程序编译为可微分PyTorch模块用于方程发现",
+      "canonical_evidence": "将程序编译为可微分PyTorch模块用于方程发现",
+      "llm_tldr_en": "Neural Compiler translates expressions into frozen differentiable modules for hybrid scientific ML",
+      "llm_tldr_cn": "神经编译器将表达式翻译为冻结可微分模块用于混合科学机器学习",
+      "llm_tldr": "神经编译器将表达式翻译为冻结可微分模块用于混合科学机器学习",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "algorithms for scientific equation discovery and modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.22235v1",
+      "source": "arxiv",
+      "title": "Holomorphic Neural ODEs with Kolmogorov-Arnold Networks for Interpretable Discovery of Complex Dynamics",
+      "abstract": "Complex dynamical systems governed by holomorphic maps such as $z^2 + c$ exhibit fractal boundaries with extreme sensitivity to initial conditions. Accurately modelling these structures from data requires methods that respect the underlying complex-analytic geometry, yet Multi-Layer Perceptrons (MLPs) within Neural Ordinary Differential Equations (Neural ODEs) lack complex-analytic priors, violate the Cauchy--Riemann conditions, and function as opaque approximators incapable of yielding governing equations. We introduce Holomorphic KAN-ODE, a framework that replaces the MLP with a Kolmogorov-Arnold Network (KAN) whose learnable B-spline activations reside on network edges, and incorporates Cauchy--Riemann equations as a differentiable regularization to preserve holomorphic structure. We evaluate on six families of complex dynamical systems spanning polynomial and transcendental classes. With only 280 parameters ($16\\times$ fewer than the MLP baseline), the network achieves velocity-field $R^2 > 0.95$ on all six systems, correctly identifies all six governing symbolic families through automatic spline-to-formula fitting, and reconstructs Julia set fractal boundaries with up to 98.0\\% agreement. Crucially, the model exhibits only 4\\% MSE degradation under 10\\% observation noise versus $15.2\\times$ for MLPs, and achieves 90.4\\% improvement in transfer learning from quadratic to cubic dynamics. While the MLP attains lower pointwise reconstruction error due to its larger capacity, the KAN uniquely provides interpretable symbolic equations, enforced holomorphic structure, and superior noise resilience, capabilities that are entirely absent in black-box architectures. These results establish KANs as a parameter-efficient, interpretable alternative to MLPs for physics-informed discovery of holomorphic dynamics.",
+      "authors": [
+        "Bhaskar Ranjan Karn",
+        "Dinesh Kumar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "math.DS"
+      ],
+      "published": "2026-05-21T09:36:29+00:00",
+      "link": "https://arxiv.org/pdf/2605.22235v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "discovers governing equations from data using KANs",
+      "llm_evidence_cn": "使用KAN从数据中发现控制方程",
+      "llm_evidence": "使用KAN从数据中发现控制方程",
+      "canonical_evidence": "使用KAN从数据中发现控制方程",
+      "llm_tldr_en": "Holomorphic KAN-ODE discovers complex dynamics equations with interpretability",
+      "llm_tldr_cn": "Holomorphic KAN-ODE可解释地发现复杂动力学方程",
+      "llm_tldr": "Holomorphic KAN-ODE可解释地发现复杂动力学方程",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.22552v1",
+      "source": "arxiv",
+      "title": "FashionLens: Toward Versatile Fashion Image Retrieval via Task-Adaptive Learning",
+      "abstract": "Fashion image retrieval is a cornerstone of modern e-commerce systems. A unified framework that supports diverse query formats and search intentions is highly desired in practice. However, existing approaches focus on narrow retrieval tasks and do not fully capture such diversity. Therefore, in this work, we aim to develop a unified framework capable of handling diverse realistic fashion retrieval scenarios, achieving truly versatile fashion image retrieval. To establish a data foundation, we first introduce U-FIRE, a comprehensive benchmark that consolidates fragmented fashion datasets into a unified collection, supplemented by two manually curated datasets for testing generalization. Building upon this, we propose FashionLens, a unified framework based on Multimodal Large Language Models. To handle divergent matching objectives, we design a Proposal-Guided Spherical Query Calibrator that dynamically shifts query representations into task-aligned metric spaces via adaptive spherical linear interpolation. Additionally, to mitigate the optimization imbalance caused by varying task complexities and data scales, we develop a Gradient-Guided Adaptive Sampling strategy that automatically re-weights tasks based on realtime learning difficulty and the data scale prior. Experiments on U-FIRE show that FashionLens achieves state-of-the-art performance across diverse retrieval scenarios and generalizes robustly to unseen tasks. The data and code are publicly released at https://github.com/haokunwen/FashionLens.",
+      "authors": [
+        "Haokun Wen",
+        "Xuemeng Song",
+        "Xinghao Xie",
+        "Xiaolin Chen",
+        "Xiangyu Zhao",
+        "Weili Guan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.MM"
+      ],
+      "published": "2026-05-21T14:34:49+00:00",
+      "link": "https://arxiv.org/pdf/2605.22552v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Unified fashion image retrieval for e-commerce interest",
+      "llm_evidence_cn": "面向电商兴趣的统一时尚图像检索",
+      "llm_evidence": "面向电商兴趣的统一时尚图像检索",
+      "canonical_evidence": "面向电商兴趣的统一时尚图像检索",
+      "llm_tldr_en": "FashionLens proposes a unified framework for versatile fashion image retrieval in e-commerce.",
+      "llm_tldr_cn": "FashionLens提出统一框架，实现电商中多样化的时尚图像检索。",
+      "llm_tldr": "FashionLens提出统一框架，实现电商中多样化的时尚图像检索。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "E commerce interest",
+      "matched_requirement_id": "req-9",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

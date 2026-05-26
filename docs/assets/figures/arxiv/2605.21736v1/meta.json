@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-003.webp",
+      "caption": "Figure 1: Offline reserve-policy selection from logged advertising auctions. Logged marketplace data and a finite reservepolicy catalog make offline replay evaluation possible, but naive replay rankings can be misleading because apparent gains may hide weak threshold support, multiple-comparison effects, subgroup harm, or bidder-response uncertainty. The figure illustrates the central decision problem of determining which reserve policies are sufficiently supported by logged evidence to justify validation, which are statistically dominated, and which remain unresolved because the available evidence is insufficient for a stronger claim.",
+      "page": 2,
+      "index": 3,
+      "width": 797,
+      "height": 440
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-006.webp",
+      "caption": "Figure 2: Conservative shortlist construction on season two. Panel (a) shows the replay frontier for non-baseline reserve policies, with replay yield lift plotted against retained impression share. Panel (b) shows simultaneous lower-bound ranking. Colored points indicate whether the decision rule certifies the policy, eliminates it as dominated, or leaves it unresolved. Black points show support-adjusted lower bounds.",
+      "page": 10,
+      "index": 6,
+      "width": 885,
+      "height": 330
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-007.webp",
+      "caption": "Figure 3: Support-localized threshold resolution. Panel (a) reports effective boundary sample size nboundary(h) as the diagnostic boundary window expands. Panel (b) reports support-adjusted lower-bound lift for the leading policies. The same season-two panel can be statistically large overall while remaining locally thin near narrow reserve-threshold bands.",
+      "page": 10,
+      "index": 7,
+      "width": 885,
+      "height": 327
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-001.webp",
+      "caption": "Figure 4: Validation readiness through transfer and subgroup safety. Panel (a) compares season-two and season-three replay lifts under the frozen catalog. Panel (b) reports mean segment-level replay lifts for the covered segments with the smallest lower endpoints, with 95% normal confidence bars computed from daily segment-level replay variation.",
+      "page": 11,
+      "index": 1,
+      "width": 885,
+      "height": 352
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-008.webp",
+      "caption": "Table 1: Mapping between theoretical results and empirical checks.",
+      "page": 19,
+      "index": 8,
+      "width": 869,
+      "height": 593
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-010.webp",
+      "caption": "Figure 5: Additional replay diagnostics. Panel (a) shows daily replay-lift dispersion for the leading policies. Panel (b) shows how the Bonferroni critical value and the leader’s simultaneous lower bound change as the policy catalog grows.",
+      "page": 20,
+      "index": 10,
+      "width": 885,
+      "height": 317
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-011.webp",
+      "caption": "Figure 6: Pairwise boundary-support diagnostics. Panel (a) reports the empirical distribution of pairwise boundary-support shares across policy pairs. Panel (b) relates mean candidate-floor distance to absolute replay-lift gaps, with marker size proportional to boundary support.",
+      "page": 20,
+      "index": 11,
+      "width": 885,
+      "height": 314
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-002.webp",
+      "caption": "Figure 7: q-localized replay selection. Panel (a) reports localized boundary lift over localization levels q. Panel (b) reports day-bootstrap winner frequencies. P11 is the stable q-localized boundary-lift leader, while P18 remains the aggregate replay leader.",
+      "page": 21,
+      "index": 2,
+      "width": 885,
+      "height": 330
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-004.webp",
+      "caption": "Figure 8: Out-of-time transfer for q-localized selections. Panel (a) compares season-two localized boundary lift with season-three aggregate replay lift for policies selected by the q-localized rule. Panel (b) reports season-three aggregate replay lift across localization levels. The localized winner P11 transfers positively but does not exceed P18’s aggregate season-three replay performance.",
+      "page": 22,
+      "index": 4,
+      "width": 885,
+      "height": 330
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-005.webp",
+      "caption": "Figure 9: Shortlist and decision-rule robustness. Panel (a) reports retained shortlist size as the elimination tolerance varies. Panel (b) compares simpler decision rules with the support-aware elimination shortlist.",
+      "page": 22,
+      "index": 5,
+      "width": 885,
+      "height": 314
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21736v1/fig-009.webp",
+      "caption": "Table 2: Reserve-policy catalog evaluated in the experiments.",
+      "page": 24,
+      "index": 9,
+      "width": 865,
+      "height": 703
+    }
+  ]
+}

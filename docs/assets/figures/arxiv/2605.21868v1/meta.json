@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.21868v1/fig-001.webp",
+      "caption": "Table 1: Strategy State Definitions",
+      "page": 3,
+      "index": 1,
+      "width": 640,
+      "height": 348
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21868v1/fig-002.webp",
+      "caption": "Figure 1: Win rate by user subtype and strategy state. State 12 exhibits abnormally low win rates across all subtypes, indicating a structural disadvantage under the current meta.",
+      "page": 4,
+      "index": 2,
+      "width": 736,
+      "height": 442
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21868v1/fig-004.webp",
+      "caption": "Figure 2: Switch rate after loss vs. after win by subtype. Subtype 1 exhibits post-loss transition rates that are 7.6× higher than post-win rates (0.487 vs. 0.064), consistent with tilt-like reactivity.",
+      "page": 5,
+      "index": 4,
+      "width": 736,
+      "height": 492
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21868v1/fig-003.webp",
+      "caption": "Table 4: Policy comparison and incremental ablation results on the test set. “—” indicates that the metric is undefined when all events are uniformly approved or rejected.",
+      "page": 9,
+      "index": 3,
+      "width": 809,
+      "height": 345
+    }
+  ]
+}

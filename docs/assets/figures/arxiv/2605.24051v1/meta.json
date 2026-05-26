@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.24051v1/fig-003.webp",
+      "caption": "Figure 1 Memento detailed design diagram. Left:Memento Retrieval Stage Query patterns generate retrieval queries from ad requests; Memento indices organize user history into retrievable documents and retrieves through MMR; Right: Application as Representation and DataMemento. The application gives specific requirements through query and context, producing augmented user context for the ranking models in CTR/CVR prediction model",
+      "page": 4,
+      "index": 3,
+      "width": 986,
+      "height": 760
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24051v1/fig-001.webp",
+      "caption": "Figure 2 Retention scaling comparison: LastN linear scaling vs. RAG-style scaling for CTR (bottom) and CVR (top) models. Lower NE% indicates better performance relative to baseline.",
+      "page": 7,
+      "index": 1,
+      "width": 409,
+      "height": 737
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24051v1/fig-002.webp",
+      "caption": "Table 2 Representation Memento experiments with different configurations. NE values are relative to the baseline (no Memento); negative indicates improvement. Inference QPS shows percentage change from baseline (negative indicates fewer queries served). Storage is in number of float-equivalent values per user.",
+      "page": 9,
+      "index": 2,
+      "width": 840,
+      "height": 291
+    }
+  ]
+}

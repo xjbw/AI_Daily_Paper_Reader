@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.21103v1/fig-001.webp",
+      "caption": "Figure 1: Shared-state factorization of a federated computation. Each client applies a local encoder to its local tensor, the encoded summaries are merged into a finite-dimensional shared state, and a shared-only decoder produces the final output.",
+      "page": 2,
+      "index": 1,
+      "width": 770,
+      "height": 260
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21103v1/fig-002.webp",
+      "caption": "Table 1: Primitive families in the base typed tensor language. The table records the behavior of a typed primitive application when at least one input is federated. Shared-only inputs remain shared under the non-matrix primitives.",
+      "page": 4,
+      "index": 2,
+      "width": 786,
+      "height": 324
+    },
+    {
+      "url": "assets/figures/arxiv/2605.21103v1/fig-003.webp",
+      "caption": "Table 2: Comparison with TensorFlow Federated. The comparison is intended only to position the mathematical contribution, not to evaluate systems.",
+      "page": 14,
+      "index": 3,
+      "width": 838,
+      "height": 367
+    }
+  ]
+}
