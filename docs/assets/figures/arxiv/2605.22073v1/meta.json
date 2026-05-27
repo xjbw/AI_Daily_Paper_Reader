@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.22073v1/fig-007.webp",
+      "caption": "Figure 1: Overview of BRIDGE. DFGE constructs dual-frequency graph evidence; BEN computes normalized behavior support; CRI integrates the residual only inside the selected candidate set.",
+      "page": 2,
+      "index": 7,
+      "width": 1040,
+      "height": 796
+    },
+    {
+      "url": "assets/figures/arxiv/2605.22073v1/fig-002.webp",
+      "caption": "Table 1: Overall recommendation performance on three Amazon datasets. All methods use the same processed splits, BEIT3 features, and full-sort evaluation protocol. BRIDGE is selected by best validation Recall@20 under the same setting. Results of the strongest baselines and our method are reported with mean ± standard deviation over 5 random seeds. ∗∗ denotes statistical significance at 𝑝 < 0.01 under independent two-sample 𝑡-test against the best baseline.",
+      "page": 4,
+      "index": 2,
+      "width": 1056,
+      "height": 252
+    },
+    {
+      "url": "assets/figures/arxiv/2605.22073v1/fig-003.webp",
+      "caption": "Figure 2: Representation-spectral frequency diagnostic on Amazon Baby. Error bars denote the observed ranges. Leading singular-energy bands are more cross-view consistent, while later bands retain stronger ranking signal than the leading bands but remain insufficient as a standalone ranker. This is an SVD ordering in the learned latent space, not a Laplacian eigenmode plot.",
+      "page": 4,
+      "index": 3,
+      "width": 1036,
+      "height": 193
+    },
+    {
+      "url": "assets/figures/arxiv/2605.22073v1/fig-001.webp",
+      "caption": "Figure 3: Compact interpretability controls for BRIDGE. BEN evidence opens CRI and produces local corrections; BRIDGE also shifts exposure while improving mid, tail, and cold recall.",
+      "page": 8,
+      "index": 1,
+      "width": 489,
+      "height": 339
+    },
+    {
+      "url": "assets/figures/arxiv/2605.22073v1/fig-006.webp",
+      "caption": "Table 2: Core Baby ablations and cross-dataset residual alternatives. All rows use the same splits, BEIT3 features, candidate restriction, and full-sort evaluation protocol.",
+      "page": 9,
+      "index": 6,
+      "width": 1056,
+      "height": 454
+    },
+    {
+      "url": "assets/figures/arxiv/2605.22073v1/fig-005.webp",
+      "caption": "Table 3: Candidate-side controls on Amazon Baby, Sports, and Electronics. To keep the control study in the main text, we report the primary Recall@20 and NDCG@20 metrics.",
+      "page": 9,
+      "index": 5,
+      "width": 1056,
+      "height": 324
+    },
+    {
+      "url": "assets/figures/arxiv/2605.22073v1/fig-004.webp",
+      "caption": "Table 4: Popularity-stratified diagnostic and exposure track. Head, Mid, Tail, and Cold report Recall@20 within each itempopularity stratum; Head Exp. is the top-20 exposure share assigned to head items.",
+      "page": 9,
+      "index": 4,
+      "width": 1056,
+      "height": 203
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26631v1/fig-003.webp",
+      "caption": "Figure 4: Normalised MCDM preference scores for all benchmarks. Each panel shows the preference assigned by TOPSIS, VIKOR, COMET, PROMETHEE-II, and CoCoSo, together with the consensus mean (MEAN, solid black). The true support size (boxed on the horizontal axis) receives the highest consensus preference in every case.",
+      "page": 24,
+      "index": 3,
+      "width": 883,
+      "height": 773
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26631v1/fig-001.webp",
+      "caption": "Table 9: KO-PDE-IDENT screening results with Lasso replacing abess as the sparse-regression estimator (target FDR q= 0.50). The corresponding abess results are reproduced from the equicorrelated–e-BH row of Table 4 for direct comparison.",
+      "page": 39,
+      "index": 1,
+      "width": 541,
+      "height": 259
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26631v1/fig-002.webp",
+      "caption": "Table 10: Selective inference results for the seven benchmark PDEs at α= 0.10. The two flavours correspond to the active-set rule and the BIC stopping rule, both applied to the forward-stepwise path. Results are taken from a single representative run on each PDE.",
+      "page": 40,
+      "index": 2,
+      "width": 541,
+      "height": 260
+    }
+  ]
+}

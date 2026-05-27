@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-009.webp",
+      "caption": "Table 1 Selected recent studies in job, talent, and career-path recommendation.",
+      "page": 5,
+      "index": 9,
+      "width": 977,
+      "height": 1121
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-005.webp",
+      "caption": "Figure 1: End-to-end study design from public talent-history sources to repeated chronological evaluation.",
+      "page": 7,
+      "index": 5,
+      "width": 955,
+      "height": 346
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-008.webp",
+      "caption": "Table 2 ICT benchmark summary.",
+      "page": 8,
+      "index": 8,
+      "width": 642,
+      "height": 327
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-002.webp",
+      "caption": "Figure 2: CF-RL-TOPSIS late-fusion scoring pipeline.",
+      "page": 11,
+      "index": 2,
+      "width": 960,
+      "height": 192
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-001.webp",
+      "caption": "Table 3 Semantic proxies used in the TOPSIS branch.",
+      "page": 11,
+      "index": 1,
+      "width": 977,
+      "height": 233
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-007.webp",
+      "caption": "Table 4 Repeated-split ranking results over 10 chronological splits.",
+      "page": 13,
+      "index": 7,
+      "width": 977,
+      "height": 356
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-006.webp",
+      "caption": "Figure 3: Repeated-split NDCG@5 for selected baselines and hybrids on the two ICT benchmarks.",
+      "page": 14,
+      "index": 6,
+      "width": 857,
+      "height": 444
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-003.webp",
+      "caption": "Figure 4: Mean validation-selected full-hybrid branch weights on each benchmark.",
+      "page": 15,
+      "index": 3,
+      "width": 738,
+      "height": 258
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-004.webp",
+      "caption": "Table 5 Planned paired comparison statistics for the full hybrid.",
+      "page": 15,
+      "index": 4,
+      "width": 959,
+      "height": 256
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24155v1/fig-010.webp",
+      "caption": "Table 6 Worked JobHop interpretability example.",
+      "page": 16,
+      "index": 10,
+      "width": 965,
+      "height": 232
+    }
+  ]
+}

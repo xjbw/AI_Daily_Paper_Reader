@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23703v1/fig-001.webp",
+      "caption": "Figure 1: Probability of choosing the same product in t as in t− 1 or switching to another product in a setting with C = 10 categories and Jc = 10 products per category.",
+      "page": 10,
+      "index": 1,
+      "width": 931,
+      "height": 374
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23703v1/fig-005.webp",
+      "caption": "Figure 2: Simulation results for up to C = 200 categories with R = 25 datasets per setting and I = 40, J = 10, T = 20 and K = 5.",
+      "page": 12,
+      "index": 5,
+      "width": 928,
+      "height": 371
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23703v1/fig-004.webp",
+      "caption": "Table 1: Dynamic factor model: results averaged over R = 25 replications per setting; RMSE and accuracy are reported on the test data (rounded).",
+      "page": 13,
+      "index": 4,
+      "width": 687,
+      "height": 356
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23703v1/fig-002.webp",
+      "caption": "Figure 3: Mean own-price elasticities with 95% credibility intervals by category for C = 6 categories with Jc = 10 products per category.",
+      "page": 14,
+      "index": 2,
+      "width": 922,
+      "height": 446
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23703v1/fig-003.webp",
+      "caption": "Figure 4: Simulation results for standard normal priors and less informative N (0, 10) priors.",
+      "page": 18,
+      "index": 3,
+      "width": 930,
+      "height": 403
+    }
+  ]
+}

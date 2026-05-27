@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.25514v1/fig-001.webp",
+      "caption": "Figure 1: Overview of QGS, a generative framework for search. Unlike prior generative recommendation/search methods that model item-only sequences, QGS autoregressively models query-conditioned next-item prediction, explicitly capturing the query-conditioned nature of search behavior.",
+      "page": 2,
+      "index": 1,
+      "width": 686,
+      "height": 365
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25514v1/fig-003.webp",
+      "caption": "Figure 2: Overall framework of QGS. (Top) Each search interaction is encoded as a query-item pair token via an Item LLM and feature projection, then sequentially modeled by the Linear HSTU encoder; the encoder output is concatenated with the next query and scored against in-batch negatives via an InfoNCE loss. (Bottom-left) Internal structure of a Linear HSTU block (Section 3.5), which reduces per-layer complexity from 𝑂 (𝐿2) to 𝑂 (𝐿). (Bottom-right) HFG-Attention block (Section 3.6), which fuses sparse cross features with dense sequential representations for the final multi-task prediction.",
+      "page": 4,
+      "index": 3,
+      "width": 848,
+      "height": 529
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25514v1/fig-004.webp",
+      "caption": "Figure 3: Training loss curves with and without queryconditioned next-item prediction. The item-only objective suffers from high and volatile loss due to noisy supervision caused by query switches, while the query-conditioned objective converges to a significantly lower loss, confirming that the query is a necessary condition for clean supervision in generative search.",
+      "page": 5,
+      "index": 4,
+      "width": 497,
+      "height": 270
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25514v1/fig-002.webp",
+      "caption": "Figure 4: Query-conditioned InfoNCE training with padding and collision masking. Part 1 illustrates the training flow: HSTU outputs are concatenated with the next-query semantic embedding, passed through a shared prediction head, ℓ2-normalized, and scored against in-batch item embeddings. Part 2 visualizes the two masking strategies—the padding mask excludes invalid (padded) tokens, the collision mask excludes false negatives caused by duplicate items across sequences, and their combination yields the final masked logits used for the contrastive objective.",
+      "page": 7,
+      "index": 2,
+      "width": 686,
+      "height": 382
+    }
+  ]
+}

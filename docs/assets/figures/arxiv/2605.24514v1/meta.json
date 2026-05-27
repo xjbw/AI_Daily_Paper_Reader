@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.24514v1/fig-001.webp",
+      "caption": "Figure 1: Rank-1 streaming: drift diagnostics under different refresh policies. Left: relative Frobenius error ratio. Right: angle to the optimal rank-5 subspace.",
+      "page": 11,
+      "index": 1,
+      "width": 854,
+      "height": 347
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24514v1/fig-002.webp",
+      "caption": "Table 1: Overview of refresh and rank-selection policies. Each policy is defined in terms of the metrics from Section 2.5.",
+      "page": 11,
+      "index": 2,
+      "width": 977,
+      "height": 231
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24514v1/fig-006.webp",
+      "caption": "Figure 3: Runtime scaling with truncation rank k in two synthetic settings. Both panels show the expected super-linear growth in k, consistent with the small-core SVD cost.",
+      "page": 12,
+      "index": 6,
+      "width": 852,
+      "height": 305
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24514v1/fig-003.webp",
+      "caption": "Figure 4: Structural growth (left: rows, right: columns): error ratio under no refresh vs. refresh every 50 steps. Refresh maintains near-optimal error.",
+      "page": 13,
+      "index": 3,
+      "width": 852,
+      "height": 295
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24514v1/fig-005.webp",
+      "caption": "Figure 7: Finance application: k = 5: covariance and risk approximation for different refresh cadences. Errors are measured against the oracle rank–k model obtained from a full SVD of R1:t.",
+      "page": 17,
+      "index": 5,
+      "width": 852,
+      "height": 321
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24514v1/fig-004.webp",
+      "caption": "Figure 8: Finance application, rank–refresh trade-off across truncation ranks and refresh cadences: (a) accuracy of the equal-weight risk estimate; (b) per-update runtime cost.",
+      "page": 17,
+      "index": 4,
+      "width": 855,
+      "height": 386
+    }
+  ]
+}

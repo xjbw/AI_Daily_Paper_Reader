@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23702v1/fig-003.webp",
+      "caption": "Figure 1: Prompted formulation: changing the prompt switches the ranking task while keeping a single shared model. In the three inference boxes on the left, bold text marks the task head appended to the shared story prefix; placeholders such as {delta}, {dow} (day of the week), and {hour} are filled in at inference time, corresponding to when predictions are served so results can be personalized to that moment. The {user attributes} placeholder is filled with ordinary text, not special tokens, and may include categorical or numeric context such as country and device. This text interface makes arbitrary user attributes straightforward to add. All viewer journeys and outputs shown are synthetic illustrative examples. The same serialized story can therefore serve item, carousel, and search ranking by changing only the prompt suffix.",
+      "page": 2,
+      "index": 3,
+      "width": 1036,
+      "height": 511
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23702v1/fig-002.webp",
+      "caption": "Table 2: Main offline results. Bold values are best within each task and metric and statistically significant at 𝑝 < 0.05.",
+      "page": 7,
+      "index": 2,
+      "width": 1032,
+      "height": 327
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23702v1/fig-001.webp",
+      "caption": "Table 4: Coarse attribute ablation.",
+      "page": 7,
+      "index": 1,
+      "width": 484,
+      "height": 302
+    }
+  ]
+}

@@ -1,0 +1,815 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-27T21:11:47.198560+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 23,
+    "deep_cap": 6,
+    "deep_selected": 10,
+    "quick_candidates": 21,
+    "quick_skim_target": 11,
+    "quick_selected": 10,
+    "deep_selected_before_profile_limit": 14,
+    "quick_selected_before_profile_limit": 11,
+    "profile_daily_limits": {
+      "Rec": {
+        "deep": 10,
+        "quick": 10
+      }
+    },
+    "profile_limit_dropped_by_tag": {
+      "Rec": {
+        "deep": 4,
+        "quick": 1
+      }
+    },
+    "profile_limit_dropped": 5
+  },
+  "deep_dive": [
+    {
+      "id": "2605.27245v1",
+      "source": "arxiv",
+      "title": "Symbolic Regression via Latent Iterative Refinement",
+      "abstract": "Symbolic regression (SR) seeks closed-form mathematical expressions that fit observed data. Neural SR methods amortize the search by training an encoder to map observations directly to expressions in a single pass, but this amortized inference leaves a residual amortization gap between its one-shot prediction and the true posterior. We propose Latent Equation Embedding (LEE), a framework that closes this gap through iterative amortized inference in a functionally grounded latent space. LEE learns a shared latent space Z equipped with three components: an encoder f_theta that jointly embeds symbolic tokens and numerical observations into a single latent vector z; an expression decoder g_expr that reconstructs formulas from z; and an evaluation decoder g_eval that predicts function values from z, explicitly grounding the latent space in functional behavior. At inference, LEE performs iterative refinement by re-encoding decoded expressions jointly with observations, progressively improving the latent estimate. LEE uses the encoder itself as a learned inference optimizer: each re-encoding step implicitly computes the mismatch between the candidate and the data. Because g_eval is differentiable in z, we additionally interleave continuous gradient descent with discrete re-encoding, yielding a hybrid iterative and gradient refinement procedure. On SRBench across three noise levels, against 19 baselines spanning genetic programming, symbolic-neural hybrids, and pre-trained Transformers, LEE produces expressions 2--10x simpler than the strongest accuracy-oriented baselines, including Operon, GP-GOMEA, TPSR, RAG-SR, and GenSR, with complexity 8--11 versus 20--90. These results advance the low-complexity region of the accuracy-complexity Pareto frontier and show graceful degradation as noise increases.",
+      "authors": [
+        "Xieting Chu",
+        "Sriram Vishwanath",
+        "Vijay Ganesh"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-26T16:25:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.27245v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "latent iterative refinement for symbolic regression",
+      "llm_evidence_cn": "基于潜在迭代精化的符号回归方法",
+      "llm_evidence": "基于潜在迭代精化的符号回归方法",
+      "canonical_evidence": "基于潜在迭代精化的符号回归方法",
+      "llm_tldr_en": "Proposes a neural framework for symbolic regression using iterative amortized inference.",
+      "llm_tldr_cn": "提出利用迭代摊销推理的符号回归神经框架。",
+      "llm_tldr": "提出利用迭代摊销推理的符号回归神经框架。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "fundamental principles and methods of symbolic regression",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.22073v1",
+      "source": "arxiv",
+      "title": "Behavior-Guided Candidate Calibration for Multimodal Recommendation",
+      "abstract": "Multimodal recommendation benefits from content signals, but the gain depends on how those signals interact with the ranking pipeline. We find that moderate cross-view agreement helps, while stronger agreement suppresses recommendation-specific variation. Spectral analysis shows a clear split: low-frequency components capture shared structure, and higher-frequency components preserve more discriminative signal. Based on this finding, we introduce a behavior-guided candidate calibration model that converts training-only co-user overlap into signed candidate evidence and applies it only to the shortlist produced by the multimodal backbone. The backbone keeps the representation space stable; behavior evidence acts only where ranking is decided. Results on Amazon Baby, Sports, and Electronics show consistent gains over strong multimodal baselines. Code is available at https://github.com/LIZESHENG13/bridge.",
+      "authors": [
+        "Zesheng Li",
+        "Chengchang Pan",
+        "Honggang Qi"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-21T07:10:40+00:00",
+      "link": "https://arxiv.org/pdf/2605.22073v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "behavior-guided candidate calibration for multimodal recommendation",
+      "llm_evidence_cn": "多模态推荐的候选校准方法",
+      "llm_evidence": "多模态推荐的候选校准方法",
+      "canonical_evidence": "多模态推荐的候选校准方法",
+      "llm_tldr_en": "Proposes a method to calibrate candidate rankings using behavior signals for multimodal recommendation.",
+      "llm_tldr_cn": "提出利用行为信号校准多模态推荐候选排序的方法。",
+      "llm_tldr": "提出利用行为信号校准多模态推荐候选排序的方法。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.24155v1",
+      "source": "arxiv",
+      "title": "An Interpretable CF-RL-TOPSIS Fusion Model for Skills-Aware Talent Recommendation",
+      "abstract": "Effective skills-aware talent recommendation must balance behavioral transition patterns, trajectory-sensitive adaptation, and inspectable occupation-level criteria. Evidence from public benchmarks on how these signals interact, however, remains limited. This study proposes CF-RL-TOPSIS, an interpretable late-fusion model that integrates a transition-aware collaborative branch, a compact reinforcement-style occupation-family bandit, and an entropy-weighted TOPSIS branch constructed from six semantic proxies; the validation-selected fusion coefficients remain auditable. The model is evaluated on two frozen public ICT talent-history benchmarks, JobHop and Karrierewege, using repeated chronological top-5 ranking and paired Wilcoxon tests. On JobHop the full hybrid attains NDCG@5 = 0.3040 +/- 0.0073 and significantly surpasses repeat-last, item Markov, transition-aware collaborative filtering, the CF+TOPSIS hybrid, GRU4Rec, and SASRec (p <= 0.0039 across planned comparisons). On Karrierewege the hybrid remains competitive but does not significantly exceed the strongest Markov baseline, revealing a persistence-dominated setting in which the bandit branch appropriately shrinks to near-zero weight. Proxy-sensitivity, family-level deep Q-network, and runtime checks support this interpretation, and a worked user-level case shows how branch scores, criterion weights, and rank shifts can be inspected for an individual recommendation. The contribution is not a benchmark-agnostic superiority claim, but a reproducible account of the conditions under which transparent late fusion adds value beyond simple continuation heuristics. In semantically rich, non-saturating talent-history regimes the three branches reinforce one another; in persistence-dominated regimes the same architecture remains competitive through its collaborative backbone, with the adaptive branch correctly inactive.",
+      "authors": [
+        "Özkan Canay"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-05-22T19:22:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.24155v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "interpretable fusion model for talent recommendation",
+      "llm_evidence_cn": "可解释的人才推荐融合模型",
+      "llm_evidence": "可解释的人才推荐融合模型",
+      "canonical_evidence": "可解释的人才推荐融合模型",
+      "llm_tldr_en": "Proposes CF-RL-TOPSIS for interpretable skills-aware talent recommendation.",
+      "llm_tldr_cn": "提出CF-RL-TOPSIS用于可解释的技能感知人才推荐。",
+      "llm_tldr": "提出CF-RL-TOPSIS用于可解释的技能感知人才推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.24275v1",
+      "source": "arxiv",
+      "title": "Learning regime-dependent governing equations: A symbolic decision tree approach",
+      "abstract": "Many chemical engineering systems are governed by mechanisms that switch across operating regimes, making the data-driven discovery of regime-dependent governing equations essential for predictive modeling, optimization, and control. We propose symbolic decision trees for the data-driven discovery of regime-dependent governing equations. The method simultaneously learns interpretable splitting conditions to partition the input domain and local governing equations that describe each regime. To improve tractability, both the splitting conditions and governing equations are parametrized using basis functions, resulting in a mixed-integer optimization learning problem. We use the proposed approach to learn hybrid dynamical models and a constitutive equation for the zero-shear viscosity of polymer melts. Symbolic decision trees identify physically interpretable regimes and local governing equations while improving predictive accuracy relative to approaches that learn a single global model or use existing decision tree models. This framework provides an interpretable and generalizable route for discovering regime-dependent models in chemical engineering systems.",
+      "authors": [
+        "Ilias Mitrai",
+        "Tongjia Liu",
+        "Gabriel E. Sanoja"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY"
+      ],
+      "published": "2026-05-22T23:09:01+00:00",
+      "link": "https://arxiv.org/pdf/2605.24275v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "data-driven discovery of regime-dependent governing equations using symbolic decision trees",
+      "llm_evidence_cn": "使用符号决策树从数据中发现条件依赖的控制方程",
+      "llm_evidence": "使用符号决策树从数据中发现条件依赖的控制方程",
+      "canonical_evidence": "使用符号决策树从数据中发现条件依赖的控制方程",
+      "llm_tldr_en": "Proposes symbolic decision trees to discover interpretable regime-dependent equations from data.",
+      "llm_tldr_cn": "提出符号决策树以从数据中发现可解释的条件依赖方程。",
+      "llm_tldr": "提出符号决策树以从数据中发现可解释的条件依赖方程。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.25007v1",
+      "source": "arxiv",
+      "title": "Meta-Modal Agent: Sequential Evidence Routing for Missing-Modality Candidate Reranking",
+      "abstract": "Missing modalities cause severe failures in multimodal recommender systems. User histories, item text, and visual evidence are frequently absent during cold-start scenarios, exactly when recommendation quality matters most. Existing approaches recover absent signals through imputation, feature propagation, or generative reconstruction, but these strategies can inject unsupported evidence when the surviving signals are weak. We introduce the Meta-Modal Agent (MMA), a large language model based candidate-pool reranker that treats missingness as a sequential evidence-routing problem. MMA is trained with balanced missingness-task reinforcement learning over masked-modality episodes and is evaluated in two variants: MMA-Auto, which uses only automated text, image, and graph tools, and MMA-Interactive, which additionally permits clarification questions grounded in surviving modalities as an upper-bound diagnostic. MMA operates after a first-stage retriever has produced a candidate pool; it scores those candidates rather than retrieving items from the full catalog. Final reranking fuses MMA scores with first-stage retrieval scores selected on validation data. Our evaluation is organized around four evidence checks required for a robust missing-modality claim: oracle-free one-observed-modality availability (OOMA) robustness, per-modality OOMA breakdowns, fixed-pool full-catalog reranking, and a deterministic-router mechanism control. MMA-Auto improves target-positive OOMA NDCG@10 by 4.0% and fixed-pool full-catalog reranking NDCG@10 by 12.7% over the strongest non-interactive baseline. RuleRouter-Fuse, which uses the same tools and fusion rule without learned policy updates, underperforms MMA-Auto, supporting learned routing beyond deterministic tool fusion. MMA-Interactive adds a 4.1% upper-bound gain when clarification is available.",
+      "authors": [
+        "Jinze Wang",
+        "Yangchen Zeng",
+        "Tiehua Zhang",
+        "Lu Zhang",
+        "Yuze Liu",
+        "Zhishu Shen",
+        "Jiong Jin",
+        "Zhu Sun"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-24T11:22:03+00:00",
+      "link": "https://arxiv.org/pdf/2605.25007v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based reranker for missing-modality recommendation",
+      "llm_evidence_cn": "基于LLM的缺失模态重排序方法",
+      "llm_evidence": "基于LLM的缺失模态重排序方法",
+      "canonical_evidence": "基于LLM的缺失模态重排序方法",
+      "llm_tldr_en": "Introduces Meta-Modal Agent, an LLM reranker for missing-modality recommendation.",
+      "llm_tldr_cn": "提出元模态代理，一种用于缺失模态推荐的LLM重排序器。",
+      "llm_tldr": "提出元模态代理，一种用于缺失模态推荐的LLM重排序器。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.25514v1",
+      "source": "arxiv",
+      "title": "From Item-Only to Query-Item: Query-Conditioned Generative Search with QGS in Quark",
+      "abstract": "Generative sequence models have shown strong results in recommendation. Applying them to search ranking is more challenging. Search behavior is inherently query-driven. Each query switch introduces a sharp topic shift in the user's interaction history. Existing generative methods flatten queries and items into a single token sequence. They do not distinguish query boundaries. This causes the model to mix different query intents into one prediction target, resulting in noisy supervision.   We present Query-Conditioned Generative Search (QGS). QGS encodes each interaction as a (query, item) pair token. It trains with a query-conditioned next-item objective. The prediction target changes from a noisy marginal P(item_{t+1}|context_{<=t}) to a clean conditional P(item_{t+1}|context_{<=t}, query_{t+1}). This directly removes the semantic discontinuity caused by query switches.   Encoding long interaction histories with standard attention has quadratic cost. This is impractical under strict online latency budgets. We introduce a Linear HSTU encoder. It replaces full attention with causal linear recurrence. Per-layer complexity drops from O(L^2) to O(L) with no loss in ranking quality.   Traditional search ranking depends on hand-crafted features like text-matching scores, statistical signals, and behavioral features. We propose HFG-Attention to preserve them in the generative framework. It organizes heterogeneous features into semantic groups and fuses them through a dedicated attention block. This bridges sparse engineered signals with dense sequential representations.   QGS is deployed in the ranking module of Quark Search, a major commercial search engine in China. Online A/B tests show statistically significant gains: +0.62% CTR, +0.38% Click-Search Ratio, and +3.55% PV Duration over the production deep learning baseline.",
+      "authors": [
+        "Yanglong Song",
+        "Zihao Yang",
+        "Shuo Meng",
+        "Rujun Guo",
+        "Jin Zhang",
+        "Bin Wang",
+        "Shaoyu Liu",
+        "Xiaozhao Wang",
+        "Guanjun Jiang"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-25T07:18:51+00:00",
+      "link": "https://arxiv.org/pdf/2605.25514v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "query-conditioned generative search for ranking",
+      "llm_evidence_cn": "查询条件生成式搜索排名",
+      "llm_evidence": "查询条件生成式搜索排名",
+      "canonical_evidence": "查询条件生成式搜索排名",
+      "llm_tldr_en": "Proposes QGS for query-conditioned next-item prediction in search ranking.",
+      "llm_tldr_cn": "提出QGS用于搜索排序中的查询条件下一项预测。",
+      "llm_tldr": "提出QGS用于搜索排序中的查询条件下一项预测。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.25690v1",
+      "source": "arxiv",
+      "title": "GCIB: Graph Contrastive Information Bottleneck for Multi-Behavior Recommendation",
+      "abstract": "With the rapid emergence of multi-behavior learning in recommender systems, leveraging auxiliary user behaviors has proven effective for mitigating target-behavior data sparsity. Yet auxiliary behavior graphs frequently contain noisy or irrelevant interactions that do not align with the target task, impeding the learning of accurate user and item embeddings. Moreover, the scarcity of direct supervision from the target behavior complicates the extraction of informative collaborative signals. In this paper, we introduce GCIB (Graph Contrastive Information Bottleneck), a novel framework that denoises auxiliary behavior information and enriches target behavior representations at both the structural and feature levels. At the structural level, GCIB employs a Graph Information Bottleneck (GIB) objective to maximize mutual information between the denoised auxiliary graph and the target-behavior graph while minimizing mutual information with the original auxiliary graph. This formulation preserves task-relevant structural patterns and suppresses spurious interactions. At the feature level, we propose a cross-behavior Graph Contrastive Learning (GCL) scheme in which denoised auxiliary features and target-behavior features serve as complementary views for both users and items. By contrasting these views, GCIB enriches sparse target-behavior representations with semantics distilled from auxiliary behaviors. Extensive experiments demonstrate that GCIB outperforms state-of-the-art baselines, highlighting its ability to learn noise-resilient and target-aware representations for multi-behavior recommendation.",
+      "authors": [
+        "Likang Wu",
+        "Zihao Chen",
+        "Jianxin Zhang",
+        "Sangqi Zhu",
+        "Yuanyuan Ge",
+        "Haipeng Yang",
+        "Lei Zhang"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-25T10:46:15+00:00",
+      "link": "https://arxiv.org/pdf/2605.25690v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Graph contrastive information bottleneck framework for multi-behavior recommendation",
+      "llm_evidence_cn": "用于多行为推荐的图对比信息瓶颈框架",
+      "llm_evidence": "用于多行为推荐的图对比信息瓶颈框架",
+      "canonical_evidence": "用于多行为推荐的图对比信息瓶颈框架",
+      "llm_tldr_en": "Proposes GCIB to denoise auxiliary behaviors and improve recommendation via graph contrastive learning.",
+      "llm_tldr_cn": "提出GCIB通过图对比学习去噪辅助行为以提升推荐效果。",
+      "llm_tldr": "提出GCIB通过图对比学习去噪辅助行为以提升推荐效果。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.25726v1",
+      "source": "arxiv",
+      "title": "SIREN: Unified Multi-Granularity Semantic Interaction for Multi-Modal Lifelong User Interest Modeling",
+      "abstract": "Industrial recommender systems increasingly leverage lifelong user behavior histories and rich multi-modal content to capture evolving user preferences. However, effectively integrating multi-modal features into lifelong interest modeling remains challenging due to the inherent misalignment between multi-modal and collaborative spaces. Existing paradigms typically rely on separate modeling of multi-modal sequence and behavior sequence, and late fusion to alleviate the modality gap, which results in coarse-grained multi-modal representation and limited integration. In this paper, we propose SIREN, a unified multi-granularity semantic interaction framework for multi-modal lifelong user interest modeling. In the General Search Unit stage, we introduce two alternative retrieval strategies: multi-modal similarity-based soft retrieval for retrieval effectiveness, and Semantic ID (SemID)-based hard retrieval for efficient industrial serving. For the Exact Search Unit stage, we explicitly incorporate target-aware relevance via coarse similarity buckets and fine-grained prefix-encoded SemIDs, enabling unified interaction with collaborative ID features within the target-conditioned transformer architecture. Extensive experiments on the offline dataset demonstrate that SIREN achieves a state-of-the-art GAUC. Online A/B tests further demonstrate consistent GMV gains across multiple production scenarios, including +2.28% in Weixin Moments, +3.87% in Weixin Official Accounts, and +1.61% in Weixin Channels. From July 2025, SIREN has been fully launched for full-traffic serving in Tencent's advertising platform.",
+      "authors": [
+        "Yaqian Zhang",
+        "Ruyi Yu",
+        "Tianyi Li",
+        "Bohan Liu",
+        "Maoquan Ye",
+        "Ke Wang",
+        "Shifeng Wen",
+        "Junwei Pan",
+        "Lijie Wang",
+        "Qi Zhou",
+        "Yeshou Cai",
+        "Chengguo Yin",
+        "Lifeng Wang",
+        "Hui Li",
+        "Lei Xiao",
+        "Haijie Gu"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-25T11:33:27+00:00",
+      "link": "https://arxiv.org/pdf/2605.25726v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "multi-modal lifelong user interest modeling for recommendation",
+      "llm_evidence_cn": "多模态终身用户兴趣建模用于推荐",
+      "llm_evidence": "多模态终身用户兴趣建模用于推荐",
+      "canonical_evidence": "多模态终身用户兴趣建模用于推荐",
+      "llm_tldr_en": "SIREN framework integrates multi-modal features for lifelong user interest modeling in recommender systems",
+      "llm_tldr_cn": "SIREN框架整合多模态特征用于推荐系统中的终身用户兴趣建模",
+      "llm_tldr": "SIREN框架整合多模态特征用于推荐系统中的终身用户兴趣建模",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.25749v1",
+      "source": "arxiv",
+      "title": "DeGRe: Dense-supervised Generative Reranking for Recommendation",
+      "abstract": "In multi-stage recommender systems, reranking optimizes overall utility by capturing intra-list contextual dependencies, yet its central challenge lies in exploring optimal sequences within an exponentially large permutation space. Recent studies have shifted towards end-to-end generative frameworks, which typically leverage list-wise rewards or preference alignment to guide generator training. However, these methods still face two critical issues. First is the heuristic label bias. Existing methods often construct training targets based on simple rules, such as promoting clicked items to the top, while ignoring causal dependencies within the list context. Second is the credit assignment problem. Sparse list-level posterior rewards fail to directly guide intermediate steps in sequence generation, leading to ambiguous optimization directions.   To address these issues, we propose DeGRe (Dense-supervised Generative Reranking), a generative reranking framework that bridges the gap between offline exploration and online efficiency through dense supervision. The core of DeGRe lies in its offline-online decoupled design. During the offline phase, we introduce a Lookahead Evaluator based on cumulative regression, which leverages beam search to actively mine high-value lookahead sequences in the unexposed space. During training, we transform the step-wise value estimations from the evaluator into dense supervision signals and distill them into a lightweight Online Generator. This mechanism enables the generator to internalize lookahead planning capabilities, requiring only a single efficient greedy decoding pass during online inference to approximate the global optimum. Experiments demonstrate that DeGRe outperforms baseline models on public benchmarks and industrial datasets. We have successfully deployed DeGRe on Taobao Flash Shopping, significantly improving online recommendations.",
+      "authors": [
+        "Chaotian Song",
+        "Jingyao Zhang",
+        "Chenghao Chen",
+        "Zisen Sang",
+        "Dehai Zhao",
+        "Guodong Cao",
+        "Boxi Wu",
+        "Deng Cai",
+        "Jia Jia"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-05-25T12:00:42+00:00",
+      "link": "https://arxiv.org/pdf/2605.25749v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "dense-supervised generative reranking for recommendation",
+      "llm_evidence_cn": "用于推荐密集监督生成式重排序",
+      "llm_evidence": "用于推荐密集监督生成式重排序",
+      "canonical_evidence": "用于推荐密集监督生成式重排序",
+      "llm_tldr_en": "Proposes a dense-supervised generative reranking method to address label bias and credit assignment in recommender systems.",
+      "llm_tldr_cn": "提出密集监督生成式重排序方法，解决推荐系统中的标签偏差和信用分配问题。",
+      "llm_tldr": "提出密集监督生成式重排序方法，解决推荐系统中的标签偏差和信用分配问题。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.26631v1",
+      "source": "arxiv",
+      "title": "Data-driven sparse identification of governing PDEs via knockoff filters and multi-criteria trade-offs",
+      "abstract": "We propose KO-PDE-IDENT, a data-driven framework for identifying parsimonious partial differential equations (PDEs) with false discovery rate (FDR) control. PDE discovery from noisy observations is often hindered by extreme multicollinearity among candidate terms, which causes typical sparse-regression methods to select spurious terms. To address this problem, KO-PDE-IDENT initially mines a support set of potential candidate terms via model-X knockoff filters with finite-sample FDR control, then refines and ranks the surviving PDE alternatives. The framework integrates three components. First, knockoff feature statistics are constructed by coupling $\\ell_{0}$-constrained adaptive best-subset selection with SHapley Additive exPlanations (SHAP), yielding an effective and computationally efficient difference statistic. Second, a recursive feature elimination (RFE) procedure removes terms whose marginal contributions are dispensable and assesses statistical necessity through knockoff-perturbed hypothesis testing. Third, the final model selection is formulated as a multi-criteria decision-making (MCDM) problem, where the optimal governing equation is the alternative that best balances a wide range of criteria such as predictive accuracy, model complexity and coefficient uncertainty. We validate KO-PDE-IDENT on five canonical PDEs under severe noise corruption. Empirical results show that our framework can exactly recover the true PDE structure, eliminating false discoveries while retaining all true underlying terms, with low coefficient estimation error.",
+      "authors": [
+        "Pongpisit Thanasutives",
+        "Naichang Ke",
+        "Yoshinobu Kawahara"
+      ],
+      "primary_category": "stat.AP",
+      "categories": [
+        "stat.AP",
+        "cs.LG"
+      ],
+      "published": "2026-05-26T07:07:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.26631v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "data-driven sparse identification of governing PDEs",
+      "llm_evidence_cn": "数据驱动的控制方程稀疏辨识",
+      "llm_evidence": "数据驱动的控制方程稀疏辨识",
+      "canonical_evidence": "数据驱动的控制方程稀疏辨识",
+      "llm_tldr_en": "A framework for discovering PDEs from noisy data with false discovery rate control.",
+      "llm_tldr_cn": "一个从噪声数据中发现PDE并控制错误发现率的框架。",
+      "llm_tldr": "一个从噪声数据中发现PDE并控制错误发现率的框架。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "algorithms for scientific equation discovery and modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.22155v1",
+      "source": "arxiv",
+      "title": "Algebraic Machine Learning for Small-to-Medium Datasets Is Competitive against Strong Standard Baselines",
+      "abstract": "Symbolic methods are generally not considered competitive with strong modern learners on realistic supervised tasks. We evaluate Algebraic Machine Learning (AML), a framework that learns through subdirect decomposition of algebraic structure rather than numerical optimization, against standard baselines on image and tabular classification across varying training-set sizes. We find that AML trained only on training data without using validation or cross-validation outperforms a family of cross-validated baseline methods including CNNs on small to medium image datasets (50--2000 training examples). On tabular datasets in the same size range, XGBoost is overall the best performing method, but AML is nonetheless comparable to methods incorporating task-specific biases such as LightGBM and random forests. AML achieves this competitive performance across two very different types of datasets using a generic algebraic inductive bias, rather than the modality-specific biases built into standard baselines like CNNs for images or XGBoost for tabular data, and requires no cross validation because it has no task-dependent hyperparameters to tune.",
+      "authors": [
+        "David Mendez",
+        "Fernando Martin-Maroto",
+        "Gonzalo G. de Polavieja"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-21T08:25:22+00:00",
+      "link": "https://arxiv.org/pdf/2605.22155v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "symbolic learning via algebraic decomposition",
+      "llm_evidence_cn": "通过代数分解的符号学习",
+      "llm_evidence": "通过代数分解的符号学习",
+      "canonical_evidence": "通过代数分解的符号学习",
+      "llm_tldr_en": "Algebraic Machine Learning learns via subdirect decomposition, competing with neural nets on small data.",
+      "llm_tldr_cn": "代数机器学习通过子直分解学习，在小数据上可与神经网络竞争。",
+      "llm_tldr": "代数机器学习通过子直分解学习，在小数据上可与神经网络竞争。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "fundamental principles and methods of symbolic regression",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.21812v1",
+      "source": "arxiv",
+      "title": "Bridging the Cold-Start Gap: LLM-Powered Synthetic Data Generation for Natural Language Search at Airbnb",
+      "abstract": "Deploying natural language search systems presents a critical cold-start challenge: no real user queries to learn linguistic patterns, and no relevance labels to train ranking models. We present a framework for generating synthetic queries and labels using large language models (LLMs), powering model training and evaluation for Airbnb's natural language search.   For query generation, we combine contrastive listing pairs from booking sessions with seed queries from user research to balance realism and diversity, enabling a cold-to-warm start transition as real user data becomes available. For label generation, we introduce contrastive generation that produces topicality labels by construction, and Virtual Judge (VJ) labeling for broader coverage.   We compare our approach against a no-seed contrastive baseline and an InPars-style baseline. For query length, the InPars baseline produces verbose queries with KL divergence of 12.03 vs. real users; our seed-guided approach achieves 0.66, a 7.5x improvement. For attribute type distributions, our approach achieves the lowest KL divergence (0.04), outperforming even seed queries (0.09). Experiments show our approach produces harder evaluation examples than the no-seed baseline (79% vs. 97% pairwise accuracy), providing discriminative signal for model improvement. We deploy production pipelines generating synthetic examples daily for embedding-based retrieval and ranking evaluation.",
+      "authors": [
+        "Wendy Ran Wei",
+        "Hao Li",
+        "Weiwei Guo",
+        "Xiaowei Liu",
+        "Xueyin Chen",
+        "Dillon Davis",
+        "Malay Haldar",
+        "Soumyadip Banerjee",
+        "Kedar Bellare",
+        "Huiji Gao",
+        "Stephanie Moyerman",
+        "Sanjeev Katariya"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-20T23:18:49+00:00",
+      "link": "https://arxiv.org/pdf/2605.21812v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM-powered synthetic data generation for cold-start natural language search in e-commerce",
+      "llm_evidence_cn": "LLM驱动的冷启动自然语言搜索合成数据生成用于电子商务",
+      "llm_evidence": "LLM驱动的冷启动自然语言搜索合成数据生成用于电子商务",
+      "canonical_evidence": "LLM驱动的冷启动自然语言搜索合成数据生成用于电子商务",
+      "llm_tldr_en": "Generates synthetic queries and labels to bootstrap natural language search systems in e-commerce.",
+      "llm_tldr_cn": "生成合成查询和标签以启动电子商务中的自然语言搜索系统.",
+      "llm_tldr": "生成合成查询和标签以启动电子商务中的自然语言搜索系统.",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.22191v1",
+      "source": "arxiv",
+      "title": "Bandit Convex Optimization with Gradient Prediction Adaptivity",
+      "abstract": "Bandit convex optimization (BCO) is a fundamental online learning framework with partial feedback, where the learner observes only the loss incurred at the chosen decision point in each round. In this work, we investigate whether optimistic gradient predictions can improve worst-case regret guarantees in a prediction-adaptive manner. Specifically, given gradient predictions $m_t$, we seek regret bounds that scale with the cumulative prediction error $S_T=\\sum_{t=1}^T \\|\\nabla f_t(x_t)-m_t\\|^2.$ We first establish a negative result: under the single-point feedback protocol, an unavoidable $Ω(\\sqrt{T})$ regret lower bound persists even when $S_T=o(T)$, showing that the variance of gradient estimation fundamentally obscures the benefit of accurate predictions. To overcome this barrier, we propose \\emph{Two-Point Variance-Reduced Optimistic Gradient Descent} (TP-VR-OPT) for the two-point feedback setting. The key idea is a novel variance-reduced gradient estimator whose variance scales with the prediction error rather than the gradient norm. This yields a regret bound of $O\\big(\\sqrt{d\\,\\mathbb{E}[S_T]}\\big),$ where $d$ is the decision dimension. Complementing this result, we establish an information-theoretic lower bound that scales as $Ω(\\sqrt{\\mathbb{E}[S_T]})$, providing a fundamental characterization of the best achievable prediction-adaptive regret and showing that TP-VR-OPT is optimal up to a factor of $\\sqrt d$. We further develop adaptive variants that eliminate the need for prior knowledge of $\\mathbb{E}[S_T]$ or the horizon $T$, and extend our framework to non-stationary environments, establishing dynamic regret guarantees that adapt simultaneously to the cumulative prediction error and the comparator path length.",
+      "authors": [
+        "Shuche Wang",
+        "Adarsh Barik",
+        "Vincent Y. F. Tan"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.IT"
+      ],
+      "published": "2026-05-21T08:57:38+00:00",
+      "link": "https://arxiv.org/pdf/2605.22191v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Bandit convex optimization with gradient predictions",
+      "llm_evidence_cn": "带梯度预测的强盗凸优化",
+      "llm_evidence": "带梯度预测的强盗凸优化",
+      "canonical_evidence": "带梯度预测的强盗凸优化",
+      "llm_tldr_en": "Studies whether optimistic gradient predictions improve regret in bandit convex optimization.",
+      "llm_tldr_cn": "研究乐观梯度预测是否能改善强盗凸优化中的遗憾。",
+      "llm_tldr": "研究乐观梯度预测是否能改善强盗凸优化中的遗憾。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.22924v1",
+      "source": "arxiv",
+      "title": "Building a privacy-preserving Federated Recommender system for mobile devices",
+      "abstract": "Serving personalized content on mobile devices has traditionally required pooling sensitive user data on centralized servers, a practice increasingly at odds with modern privacy expectations and geographical regulations. We present a two-stage federated recommendation system pipeline for mobile devices, built around a principled separation between non-sensitive user preference data and sensitive mobile context data that never leaves the device. The first stage runs a collaborative filtering model on non-sensitive app-context data in the cloud to generate a shortlist of relevant items. The second stage re-ranks these candidates on-device using sensitive mobile signals, with only model updates/gradients ever leaving the device. We validate the approach on MovieLens, UCI Human Activity Recognition, and a proprietary pilot dataset, and deliver a production-ready implementation as a Kotlin Multiplatform library deployable on Android and iOS.",
+      "authors": [
+        "Aasheesh Singh"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.IR"
+      ],
+      "published": "2026-05-21T18:02:26+00:00",
+      "link": "https://arxiv.org/pdf/2605.22924v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "federated recommender system for mobile devices",
+      "llm_evidence_cn": "移动设备的联邦推荐系统",
+      "llm_evidence": "移动设备的联邦推荐系统",
+      "canonical_evidence": "移动设备的联邦推荐系统",
+      "llm_tldr_en": "A privacy-preserving federated recommender that uses on-device sensitive data.",
+      "llm_tldr_cn": "一种隐私保护的联邦推荐系统，在设备端使用敏感数据。",
+      "llm_tldr": "一种隐私保护的联邦推荐系统，在设备端使用敏感数据。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.23572v1",
+      "source": "arxiv",
+      "title": "HARNESS-LM: A Three-Phase Training Recipe for Harnessing SLMs in Sponsored Search Retrieval",
+      "abstract": "In the competitive landscape of sponsored search, balancing retrieval quality with production latency is a critical challenge. While large retrieval models based on Small Language Models (SLMs) such as Qwen3-Embedding-4B/8B set strong upper bounds on public benchmarks, their deployment in high-throughput, latency-sensitive environments remains impractical. In this paper, we present HARNESS-LM (HLM), a three-phase training framework for transferring the capabilities of large-scale retrievers into compact, cost-efficient models. The approach comprises: (1) training a high-performance reference (\"teacher\") retriever by fine-tuning a billion-parameter-scale SLM; (2) aligning query representations via an L2 objective to distill knowledge into a sub-600M parameter student encoder; and (3) applying a final contrastive refinement stage to optimize the student for retrieval performance. We also present a comprehensive empirical study of key design choices, including alignment objectives, embedding dimensionality, model scale, architecture, and optimization strategies, to identify configurations that are most effective in production settings. On a real-world Bing Ads evaluation benchmark, HLM recovers over 98% of the reference retriever's precision across multiple settings, while delivering up to 27x lower online query-encoder latency and 20x higher throughput on NVIDIA A100 GPUs. Online A/B testing on Bing Ads further shows a +1% Revenue, +0.6% Impression, and +0.4% Click uplift over the current ensemble of retrievers running in production with the deployed 190M parameter model, clearly highlighting the practical efficacy of the HLM recipe in a real-world sponsored search setting.",
+      "authors": [
+        "Vipul Gupta",
+        "Shikhar Mohan",
+        "Lakshya Kumar",
+        "Pranjal Chitale",
+        "Nikit Begwani",
+        "Amit Singh",
+        "Manik Varma"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-05-22T12:39:56+00:00",
+      "link": "https://arxiv.org/pdf/2605.23572v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Three-phase training for compact sponsored search retrieval",
+      "llm_evidence_cn": "三阶段训练用于紧凑型赞助搜索检索",
+      "llm_evidence": "三阶段训练用于紧凑型赞助搜索检索",
+      "canonical_evidence": "三阶段训练用于紧凑型赞助搜索检索",
+      "llm_tldr_en": "HARNESS-LM trains compact models for efficient sponsored search retrieval.",
+      "llm_tldr_cn": "HARNESS-LM训练紧凑模型用于高效赞助搜索检索。",
+      "llm_tldr": "HARNESS-LM训练紧凑模型用于高效赞助搜索检索。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.22613v1",
+      "source": "arxiv",
+      "title": "Evolutionary Multi-Task Optimization for LLM-Guided Program Discovery",
+      "abstract": "Recent LLM-guided evolutionary search methods have shown that iterative program mutation can discover strong algorithms, but they typically optimize each task independently, even when related tasks share reusable structure. We introduce Evolutionary Multi-Task Optimization (EMO) for LLM-guided program discovery, and propose EMO-STA (Shared-Then-Adapt), a two-stage framework that first evolves a shared archive of executable programs across a task family and then adapts selected shared candidates to each target task. Within EMO-STA, we explore multiple adaptation strategies, including warm-starting from the shared archive, adapting the best average shared program, and adapting the shared program that performs best on each target task. Across eight task families spanning continuous optimization, geometric construction, modeling, and algorithmic optimization, EMO-STA improves over matched-compute single-task evolution in most settings, with STA Best-Local providing the strongest in-distribution adaptation and STA Best-Shared yielding robust transfer to unseen tasks. Compute-allocation experiments show that allocating a substantial fraction of the family-level budget to shared evolution is consistently beneficial, with roughly balanced shared and adaptation budgets often being optimal. Beyond compute efficiency, we show that shared evolution can mitigate overfitting in low-evidence settings (e.g. few training data), including ARC tasks and time-series feature engineering, by favoring programs that generalize across all tasks rather than exploiting task-specific brittle artifacts.",
+      "authors": [
+        "Halil Alperen Gozeten",
+        "Xuechen Zhang",
+        "Emrullah Ildiz",
+        "Ege Onur Taga",
+        "Tara Javidi",
+        "Samet Oymak"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-21T15:28:03+00:00",
+      "link": "https://arxiv.org/pdf/2605.22613v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "evolutionary multi-task optimization for program discovery",
+      "llm_evidence_cn": "进化多任务优化用于程序发现",
+      "llm_evidence": "进化多任务优化用于程序发现",
+      "canonical_evidence": "进化多任务优化用于程序发现",
+      "llm_tldr_en": "Proposes EMO-STA framework to evolve shared programs via LLM-guided evolution, method transferable to symbolic regression",
+      "llm_tldr_cn": "提出EMO-STA框架通过LLM引导进化共享程序，方法可迁移至符号回归",
+      "llm_tldr": "提出EMO-STA框架通过LLM引导进化共享程序，方法可迁移至符号回归",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.23702v1",
+      "source": "arxiv",
+      "title": "TubiFM: Unified Item, Carousel, and Search Ranking for Streaming Discovery",
+      "abstract": "Personalized discovery systems often train separate models for item ranking, carousel ranking, and search, even though these tasks expose complementary signals from the same viewer journey: watches shape carousel and item ranking, search queries reveal intent even when they do not lead to a catalog match, and watch history helps interpret search as rewatching, continuation, or new discovery. We introduce the user story, a serialized representation that turns a user's cross-surface history - attributes, sessions, watch events with surface and carousel context, and search events - into a single token sequence. By interleaving pretrained language tokens with domain-specific event tokens, user stories let heterogeneous recommendation and search tasks be expressed as prompted next-token prediction over a shared grammar. TubiFM is one instantiation of this approach: a Llama 3.2 1B-based model trained on user stories and prompted to rank items, carousels, or search results without task-specific architectures. In offline evaluation, this single model outperforms specialist baselines across item, carousel, and search ranking. In online A/B tests, TubiFM significantly improves search total viewing time (TVT) by $+3.9\\%$ and carousel TVT by $+0.30\\%$. Item ranking is statistically neutral on TVT ($+0.14\\%$), but matches a mature production stack; across all three tasks, TubiFM serves on L40S GPUs and reduces p99 ranking latency from 500ms to 200ms. These results show that shared user stories can improve discovery while simplifying ranking systems.",
+      "authors": [
+        "Alexandre Salle",
+        "Chenglei Niu",
+        "Suchismit Mahapatra",
+        "Xiaoxiao Chen",
+        "Suvash Sedhain",
+        "Yaqi Wang",
+        "Shervin Shahryari",
+        "Saurabh Agrawal",
+        "Qiang Chen",
+        "Michael Tamir"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-22T14:53:00+00:00",
+      "link": "https://arxiv.org/pdf/2605.23702v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "unified item and carousel ranking for recommendation",
+      "llm_evidence_cn": "统一物品和轮播推荐的排序",
+      "llm_evidence": "统一物品和轮播推荐的排序",
+      "canonical_evidence": "统一物品和轮播推荐的排序",
+      "llm_tldr_en": "Proposes a unified model for item, carousel, and search ranking in streaming discovery.",
+      "llm_tldr_cn": "提出一个统一模型用于流媒体发现中的物品、轮播和搜索排序。",
+      "llm_tldr": "提出一个统一模型用于流媒体发现中的物品、轮播和搜索排序。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.23703v1",
+      "source": "arxiv",
+      "title": "Dynamic Consumer Demand at Large Scale",
+      "abstract": "We study consumer demand in large-scale retail settings with many products, multiple categories and repeated purchase behavior. While inertia and brand loyalty are well documented, existing discrete choice models typically focus on single categories or become computationally infeasible in high-dimensional environments. We propose a dynamic product-level factor model that captures heterogeneity in baseline preferences, price sensitivity and inertia through a shared latent factor structure. By factorizing individual-product coefficients, the model pools information across individuals and categories and allows for correlated heterogeneity. We estimate the model using Bayesian variational inference, enabling scalable estimation with tens of thousands of parameters. In a simulation study calibrated to realistic retail data, we show that the dynamic factor model substantially improves predictive performance relative to static factor models and mixed logit benchmarks, particularly when individual purchase histories are sparse. Accounting for inertia also leads to more elastic demand estimates, underscoring the importance of dynamics for measuring consumer responsiveness. Our results highlight dynamic factor models as a scalable and flexible approach for demand estimation in modern, high-dimensional retail markets.",
+      "authors": [
+        "Daniel Brunner",
+        "Florian Heiss",
+        "Anna B. Schmidt"
+      ],
+      "primary_category": "econ.EM",
+      "categories": [
+        "econ.EM"
+      ],
+      "published": "2026-05-22T14:53:15+00:00",
+      "link": "https://arxiv.org/pdf/2605.23703v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "dynamic product-level factor model for consumer demand in large-scale retail",
+      "llm_evidence_cn": "大规模零售中消费者需求的动态产品级因子模型",
+      "llm_evidence": "大规模零售中消费者需求的动态产品级因子模型",
+      "canonical_evidence": "大规模零售中消费者需求的动态产品级因子模型",
+      "llm_tldr_en": "Proposes a scalable factor model for consumer demand relevant to e-commerce recommendation.",
+      "llm_tldr_cn": "提出了一个与电商推荐相关的可扩展消费者需求因子模型。",
+      "llm_tldr": "提出了一个与电商推荐相关的可扩展消费者需求因子模型。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.25258v1",
+      "source": "arxiv",
+      "title": "First, do no harm: Breaking suicidogenic echo chambers in media recommendation",
+      "abstract": "Recommender systems generally optimises user engagement, but this approach is dangerous in mental health contexts. When vulnerable users show signs of suicidal ideation, standard algorithms often trap them in echo chambers of harmful content, worsening their psychological state. In response, we introduce RankAid, a re-ranking method that prioritises clinical safety alongside predictive relevance. It works as an add-on layer to existing models: it penalises risky items and boosts therapeutic content depending on the user's current level of vulnerability. We evaluated this approach using the MovieLens 1M dataset, where items were semantically annotated for clinical risk and therapeutic value using large language models. Our simulations show that our algorithm successfully blocks the recommendation of harmful content during crisis peaks, actively reshaping the feed to support emotional de-escalation. Furthermore, this safety intervention only causes a controlled, acceptable drop in standard accuracy metrics like NDCG. By using asymmetric hyperparameters, RankAid also gives system administrators the flexibility to tune the severity of the intervention based on specific clinical guidelines.",
+      "authors": [
+        "Alberto Díaz-Álvarez",
+        "Raúl Lara-Cabrera",
+        "Fernando Ortega-Requena",
+        "Víctor Ramos-Osuna"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI",
+        "cs.CY",
+        "cs.LG"
+      ],
+      "published": "2026-05-24T21:21:02+00:00",
+      "link": "https://arxiv.org/pdf/2605.25258v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "re-ranking method for safe recommendation",
+      "llm_evidence_cn": "安全推荐的重排序方法",
+      "llm_evidence": "安全推荐的重排序方法",
+      "canonical_evidence": "安全推荐的重排序方法",
+      "llm_tldr_en": "Introduces safety-aware re-ranking to prevent harmful echo chambers in recommendations.",
+      "llm_tldr_cn": "引入安全感知重排序以防止推荐中的有害回音室。",
+      "llm_tldr": "引入安全感知重排序以防止推荐中的有害回音室。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.24514v1",
+      "source": "arxiv",
+      "title": "Incremental SVD for Large-Scale Dynamic Matrices: Accuracy, Subspace Stability, Refresh Strategies, and Financial Factor-Based Risk Models",
+      "abstract": "Return panels, covariances, and large feature matrices evolve one observation or one entry at a time, yet downstream models require an up-to-date low-rank factorization $A_t \\approx U_t Σ_t V_t^\\top$ on every tick -- a regime where full SVD is prohibitive and existing alternatives sacrifice either singular vectors, singular values, or long-horizon stability. We present a practical, metric-driven study of Brand-style incremental SVD, built around a unified engine that handles row appends, column appends, rank-1 entry updates, and metrics tracking within a single framework, with two core contributions. For rank-1 entry updates, we derive an explicit projection-based rule $U'Σ'(V')^\\top = P_U(\\widehat{A} + δ\\,e_ie_j^\\top)P_V$ that keeps rank fixed while discarding only the out-of-subspace remainder in a quantifiable way, turning Brand's rank-suppression heuristic into an operational scheme. We then treat refresh scheduling as a first-class design axis, systematically comparing periodic, error-threshold, angle-threshold, and adaptive-rank policies on the accuracy-latency frontier. A unified framework tracks error ratios, principal angles, explained variance, and per-update runtime on long synthetic streams and a multi-asset ETF factor model for covariance and portfolio-risk estimation. With a sensible rank and refresh cadence, incremental SVD matches full-SVD accuracy within a few percent at a fraction of the cost, scaling to high-frequency regimes where batch SVDs are infeasible.",
+      "authors": [
+        "Stilyan Staykov"
+      ],
+      "primary_category": "math.NA",
+      "categories": [
+        "math.NA",
+        "q-fin.RM"
+      ],
+      "published": "2026-05-23T10:56:31+00:00",
+      "link": "https://arxiv.org/pdf/2605.24514v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "incremental SVD for large-scale dynamic matrices",
+      "llm_evidence_cn": "大规模动态矩阵的增量SVD",
+      "llm_evidence": "大规模动态矩阵的增量SVD",
+      "canonical_evidence": "大规模动态矩阵的增量SVD",
+      "llm_tldr_en": "An incremental SVD method for dynamic matrices applicable to recommender systems.",
+      "llm_tldr_cn": "一种适用于推荐系统的动态矩阵增量SVD方法。",
+      "llm_tldr": "一种适用于推荐系统的动态矩阵增量SVD方法。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

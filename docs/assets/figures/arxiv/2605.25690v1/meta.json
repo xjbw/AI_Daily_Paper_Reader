@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.25690v1/fig-005.webp",
+      "caption": "Figure 3. The overall structure of the presented GCIB model",
+      "page": 4,
+      "index": 5,
+      "width": 1012,
+      "height": 367
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25690v1/fig-003.webp",
+      "caption": "Table 2. Performance comparison of GCIB with different models across multiple datasets(HR@10 and NDCG@10)",
+      "page": 7,
+      "index": 3,
+      "width": 939,
+      "height": 376
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25690v1/fig-002.webp",
+      "caption": "Table 3. Performance comparison of GCIB with different models across multiple datasets (HR@20 and NDCG@20)",
+      "page": 7,
+      "index": 2,
+      "width": 939,
+      "height": 379
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25690v1/fig-004.webp",
+      "caption": "Figure 4. Analysis of global encoding layers LG and auxiliary/target behavior layers LM across multiple datasets",
+      "page": 8,
+      "index": 4,
+      "width": 1012,
+      "height": 261
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25690v1/fig-006.webp",
+      "caption": "Figure 5. Analysis of loss weights β and λ. (a)-(b) Tmall; (c)-(d) Taobao; (e)-(f) Yelp.",
+      "page": 9,
+      "index": 6,
+      "width": 488,
+      "height": 490
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25690v1/fig-001.webp",
+      "caption": "Figure 6. Visualization of user embedding distributions on Tmall: (a) initial state vs. (b) after GCIB training.",
+      "page": 15,
+      "index": 1,
+      "width": 1017,
+      "height": 415
+    }
+  ]
+}

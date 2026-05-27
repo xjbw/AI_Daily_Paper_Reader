@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-006.webp",
+      "caption": "Figure 2: Mean absolute error on the testing set as a function of the number of data in the training set for the different models.",
+      "page": 4,
+      "index": 6,
+      "width": 509,
+      "height": 376
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-009.webp",
+      "caption": "Figure 3: Mean absolute error on the testing set as a function of the distance from the origin for the different models.",
+      "page": 5,
+      "index": 9,
+      "width": 1070,
+      "height": 288
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-007.webp",
+      "caption": "Figure 4: Mean absolute error on the testing set as a function of the maximum number of features that can be used in the splitting conditions.",
+      "page": 5,
+      "index": 7,
+      "width": 508,
+      "height": 375
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-008.webp",
+      "caption": "Figure 5: Schematic of the interacting two-tank system.",
+      "page": 5,
+      "index": 8,
+      "width": 512,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-001.webp",
+      "caption": "Figure 6: Inlet flow rates and liquid level evolution",
+      "page": 6,
+      "index": 1,
+      "width": 509,
+      "height": 373
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-003.webp",
+      "caption": "Figure 7: Evolution of the liquid level in the first tank using the model discovered with the proposed approach and with sparse regression.",
+      "page": 7,
+      "index": 3,
+      "width": 1060,
+      "height": 626
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-002.webp",
+      "caption": "Figure 8: Polymer viscosity as a function of molecular weight for Mc = 31200 and ηc = 104.",
+      "page": 7,
+      "index": 2,
+      "width": 508,
+      "height": 390
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-004.webp",
+      "caption": "Figure 9: L2 error for the identified coefficients as a function of the noise level.",
+      "page": 8,
+      "index": 4,
+      "width": 512,
+      "height": 280
+    },
+    {
+      "url": "assets/figures/arxiv/2605.24275v1/fig-005.webp",
+      "caption": "Figure 10: L2 error for the identified coefficients in the splitting conditions as a function of the noise level.",
+      "page": 8,
+      "index": 5,
+      "width": 512,
+      "height": 301
+    }
+  ]
+}

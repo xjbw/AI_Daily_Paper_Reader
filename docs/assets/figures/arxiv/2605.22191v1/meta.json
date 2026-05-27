@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.22191v1/fig-001.webp",
+      "caption": "TABLE I: Summary of the regret bounds of our proposed algorithms and comparisons with most related works. The notation Õ(·) hides polylogarithmic factors. Our algorithms leverage the smoothness assumption to achieve prediction adaptivity, whereas baselines typically assume only Lipschitz continuity.",
+      "page": 2,
+      "index": 1,
+      "width": 1076,
+      "height": 263
+    }
+  ]
+}

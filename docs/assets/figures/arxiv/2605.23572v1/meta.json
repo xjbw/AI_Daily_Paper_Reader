@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23572v1/fig-004.webp",
+      "caption": "Figure 1: HLM: A three-phase training framework for developing effective and compact SLM retrievers.",
+      "page": 2,
+      "index": 4,
+      "width": 736,
+      "height": 246
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23572v1/fig-002.webp",
+      "caption": "Table 1: Teacher retrieval performance for symmetric Qwen3 retrievers when varying parameters and finetuning strategy.",
+      "page": 6,
+      "index": 2,
+      "width": 506,
+      "height": 248
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23572v1/fig-003.webp",
+      "caption": "Table 2: Effect of embedding dimension. Larger dimensions yield bigger gains for zero-shotmodels, while improvements saturate for fine-tunedmodels.",
+      "page": 6,
+      "index": 3,
+      "width": 506,
+      "height": 304
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23572v1/fig-001.webp",
+      "caption": "Table 3: Ablations on prompt, features, and loss.",
+      "page": 6,
+      "index": 1,
+      "width": 506,
+      "height": 248
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23572v1/fig-005.webp",
+      "caption": "Table 5: Ablations for query alignment with fixed teacher Qwen3-4B LoRA (rank=128).",
+      "page": 7,
+      "index": 5,
+      "width": 506,
+      "height": 258
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23572v1/fig-006.webp",
+      "caption": "Figure 3: 2-D projection of query (stars) and document (circles) embeddings across HLM training phases.",
+      "page": 9,
+      "index": 6,
+      "width": 814,
+      "height": 272
+    }
+  ]
+}

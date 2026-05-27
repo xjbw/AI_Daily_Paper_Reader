@@ -1,78 +1,78 @@
 ## 最新日报
-- 最新运行日期：2026-05-26
-- 运行时间：2026-05-26 21:08:52 UTC
+- 最新运行日期：2026-05-27
+- 运行时间：2026-05-27 21:18:44 UTC
 - 运行状态：成功
 - 本次总论文数：20
 - 精读区：10
 - 速读区：10
 
 ### 今日简报（AI）
-今日精选推荐系统与符号智能两大前沿，从参数优化到多源负采样，拆解公式发现与序列推荐的性能提升之道。  
-最值得关注：符号回归的“参数优化”新思路（满分论文）和推荐中融合分歧共识的多源负采样框架，两条路径均直击旧范式盲区。  
-建议先从满分论文入手，理解如何让小公式在坏参数上焕发新生，再将其优化思维迁移至你自己的推荐模型调参中。
-- 详情：[/202605/26/README](/202605/26/README)
+今日精研10篇前沿论文并速览10篇动态，聚焦符号回归与多模态推荐核心突破。  
+最值得关注的方向：符号回归借助潜在迭代精炼实现可解释科学发现，多模态推荐用行为引导校准大幅提升候选准确性。  
+建议读者从代数机器学习在小数据集上的竞争力或联邦推荐隐私保护设计入手，这两个应用路径更易落地。
+- 详情：[/202605/27/README](/202605/27/README)
 
 ### 精读区论文标签
-1. [When Good Equations Get Bad Scores: Improving Symbolic Regression Through Better Parameter Optimization](/202605/26/2605.23272v1-when-good-equations-get-bad-scores-improving-symbolic-regression-through-better-parameter-optimization)  
+1. [Symbolic Regression via Latent Iterative Refinement](/202605/27/2605.27245v1-symbolic-regression-via-latent-iterative-refinement)  
    标签：评分：10.0/10、query:rec
-   evidence：通过更好的参数优化改进符号回归
-2. [Divergence Meets Consensus: A Multi-Source Negative Sampling Framework for Sequential Recommendation](/202605/26/2605.19651v1-divergence-meets-consensus-a-multi-source-negative-sampling-framework-for-sequential-recommendation)  
+   evidence：基于潜在迭代精化的符号回归方法
+2. [Behavior-Guided Candidate Calibration for Multimodal Recommendation](/202605/27/2605.22073v1-behavior-guided-candidate-calibration-for-multimodal-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：序列推荐负采样
-3. [Symbolic Density Estimation for Discrete Distributions](/202605/26/2605.21813v1-symbolic-density-estimation-for-discrete-distributions)  
+   evidence：多模态推荐的候选校准方法
+3. [An Interpretable CF-RL-TOPSIS Fusion Model for Skills-Aware Talent Recommendation](/202605/27/2605.24155v1-an-interpretable-cf-rl-topsis-fusion-model-for-skills-aware-talent-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：使用进化搜索的符号密度估计
-4. [Generative Conversational Recommender System](/202605/26/2605.21987v1-generative-conversational-recommender-system)  
+   evidence：可解释的人才推荐融合模型
+4. [Learning regime-dependent governing equations: A symbolic decision tree approach](/202605/27/2605.24275v1-learning-regime-dependent-governing-equations-a-symbolic-decision-tree-approach)  
    标签：评分：9.0/10、query:rec
-   evidence：生成式对话推荐系统
-5. [Guiding Multi-Objective Genetic Programming with Description Length Improves Symbolic Regression Solutions](/202605/26/2605.22374v1-guiding-multi-objective-genetic-programming-with-description-length-improves-symbolic-regression-solutions)  
+   evidence：使用符号决策树从数据中发现条件依赖的控制方程
+5. [Meta-Modal Agent: Sequential Evidence Routing for Missing-Modality Candidate Reranking](/202605/27/2605.25007v1-meta-modal-agent-sequential-evidence-routing-for-missing-modality-candidate-reranking)  
    标签：评分：9.0/10、query:rec
-   evidence：使用描述长度的遗传编程符号回归
-6. [Expand More, Shrink Less: Shaping Effective-Rank Dynamics for Dense Scaling in Recommendation](/202605/26/2605.23191v1-expand-more-shrink-less-shaping-effective-rank-dynamics-for-dense-scaling-in-recommendation)  
+   evidence：基于LLM的缺失模态重排序方法
+6. [From Item-Only to Query-Item: Query-Conditioned Generative Search with QGS in Quark](/202605/27/2605.25514v1-from-item-only-to-query-item-query-conditioned-generative-search-with-qgs-in-quark)  
    标签：评分：9.0/10、query:rec
-   evidence：推荐系统中的密集缩放和嵌入崩溃
-7. [From Head to Tail: Asymmetric Knowledge Transfer in Long-tail Recommendation with Generative Semantic IDs](/202605/26/2605.23310v1-from-head-to-tail-asymmetric-knowledge-transfer-in-long-tail-recommendation-with-generative-semantic-ids)  
+   evidence：查询条件生成式搜索排名
+7. [GCIB: Graph Contrastive Information Bottleneck for Multi-Behavior Recommendation](/202605/27/2605.25690v1-gcib-graph-contrastive-information-bottleneck-for-multi-behavior-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：在电子商务中使用非对称知识转移的长尾推荐
-8. [Towards Generalizable and Efficient Large-Scale Generative Recommenders](/202605/26/2605.23312v1-towards-generalizable-and-efficient-large-scale-generative-recommenders)  
+   evidence：用于多行为推荐的图对比信息瓶颈框架
+8. [SIREN: Unified Multi-Granularity Semantic Interaction for Multi-Modal Lifelong User Interest Modeling](/202605/27/2605.25726v1-siren-unified-multi-granularity-semantic-interaction-for-multi-modal-lifelong-user-interest-modeling)  
    标签：评分：9.0/10、query:rec
-   evidence：将生成式推荐系统扩展至10亿参数
-9. [Rethinking Contrastive Learning for Graph Collaborative Filtering: Limitations and a Simple Remedy](/202605/26/2605.24015v1-rethinking-contrastive-learning-for-graph-collaborative-filtering-limitations-and-a-simple-remedy)  
+   evidence：多模态终身用户兴趣建模用于推荐
+9. [DeGRe: Dense-supervised Generative Reranking for Recommendation](/202605/27/2605.25749v1-degre-dense-supervised-generative-reranking-for-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：基于对比学习的图协同过滤推荐方法
-10. [Memento: Personalized RAG-Style Long-Retention Data Scaling for META Ads Recommendation](/202605/26/2605.24051v1-memento-personalized-rag-style-long-retention-data-scaling-for-meta-ads-recommendation)  
+   evidence：用于推荐密集监督生成式重排序
+10. [Data-driven sparse identification of governing PDEs via knockoff filters and multi-criteria trade-offs](/202605/27/2605.26631v1-data-driven-sparse-identification-of-governing-pdes-via-knockoff-filters-and-multi-criteria-trade-offs)  
    标签：评分：9.0/10、query:rec
-   evidence：面向Meta广告推荐的个性化RAG长留存数据扩展
+   evidence：数据驱动的控制方程稀疏辨识
 
 ### 速读区论文标签
-1. [Robust Personalized Recommendation under Hidden Confounding in MNAR](/202605/26/2605.21066v1-robust-personalized-recommendation-under-hidden-confounding-in-mnar)  
+1. [Algebraic Machine Learning for Small-to-Medium Datasets Is Competitive against Strong Standard Baselines](/202605/27/2605.22155v1-algebraic-machine-learning-for-small-to-medium-datasets-is-competitive-against-strong-standard-baselines)  
    标签：评分：8.0/10、query:rec
-   evidence：处理推荐中的隐藏混淆
-2. [When to Switch, Not Just What: Transition Quality Prediction in Clash Royale](/202605/26/2605.21868v1-when-to-switch-not-just-what-transition-quality-prediction-in-clash-royale)  
+   evidence：通过代数分解的符号学习
+2. [Building a privacy-preserving Federated Recommender system for mobile devices](/202605/27/2605.22924v1-building-a-privacy-preserving-federated-recommender-system-for-mobile-devices)  
    标签：评分：8.0/10、query:rec
-   evidence：将策略推荐重构为转换级决策问题，考虑转换成本
-3. [LLM Retrieval for Stable and Predictable Ad Recommendations](/202605/26/2605.21969v1-llm-retrieval-for-stable-and-predictable-ad-recommendations)  
+   evidence：移动设备的联邦推荐系统
+3. [TubiFM: Unified Item, Carousel, and Search Ranking for Streaming Discovery](/202605/27/2605.23702v1-tubifm-unified-item-carousel-and-search-ranking-for-streaming-discovery)  
    标签：评分：8.0/10、query:rec
-   evidence：广告推荐的稳定性和可预测性
-4. [Holomorphic Neural ODEs with Kolmogorov-Arnold Networks for Interpretable Discovery of Complex Dynamics](/202605/26/2605.22235v1-holomorphic-neural-odes-with-kolmogorov-arnold-networks-for-interpretable-discovery-of-complex-dynamics)  
+   evidence：统一物品和轮播推荐的排序
+4. [First, do no harm: Breaking suicidogenic echo chambers in media recommendation](/202605/27/2605.25258v1-first-do-no-harm-breaking-suicidogenic-echo-chambers-in-media-recommendation)  
    标签：评分：8.0/10、query:rec
-   evidence：使用KAN从数据中发现控制方程
-5. [Convergence Analysis of Evolution Strategies for Mixed-Integer Optimization](/202605/26/2605.21000v1-convergence-analysis-of-evolution-strategies-for-mixed-integer-optimization)  
+   evidence：安全推荐的重排序方法
+5. [Bridging the Cold-Start Gap: LLM-Powered Synthetic Data Generation for Natural Language Search at Airbnb](/202605/27/2605.21812v1-bridging-the-cold-start-gap-llm-powered-synthetic-data-generation-for-natural-language-search-at-airbnb)  
    标签：评分：7.0/10、query:rec
-   evidence：混合整数优化的进化策略可直接应用于符号回归
-6. [Support-aware offline policy selection for advertising marketplaces](/202605/26/2605.21736v1-support-aware-offline-policy-selection-for-advertising-marketplaces)  
+   evidence：LLM驱动的冷启动自然语言搜索合成数据生成用于电子商务
+6. [HARNESS-LM: A Three-Phase Training Recipe for Harnessing SLMs in Sponsored Search Retrieval](/202605/27/2605.23572v1-harness-lm-a-three-phase-training-recipe-for-harnessing-slms-in-sponsored-search-retrieval)  
    标签：评分：7.0/10、query:rec
-   evidence：广告市场离线策略选择
-7. [The Neural Compiler: Program-to-Network Translation for Hybrid Scientific Machine Learning](/202605/26/2605.22498v1-the-neural-compiler-program-to-network-translation-for-hybrid-scientific-machine-learning)  
+   evidence：三阶段训练用于紧凑型赞助搜索检索
+7. [Dynamic Consumer Demand at Large Scale](/202605/27/2605.23703v1-dynamic-consumer-demand-at-large-scale)  
    标签：评分：7.0/10、query:rec
-   evidence：将程序编译为可微分PyTorch模块用于方程发现
-8. [FashionLens: Toward Versatile Fashion Image Retrieval via Task-Adaptive Learning](/202605/26/2605.22552v1-fashionlens-toward-versatile-fashion-image-retrieval-via-task-adaptive-learning)  
+   evidence：大规模零售中消费者需求的动态产品级因子模型
+8. [Incremental SVD for Large-Scale Dynamic Matrices: Accuracy, Subspace Stability, Refresh Strategies, and Financial Factor-Based Risk Models](/202605/27/2605.24514v1-incremental-svd-for-large-scale-dynamic-matrices-accuracy-subspace-stability-refresh-strategies-and-financial-factor-based-risk-models)  
    标签：评分：7.0/10、query:rec
-   evidence：面向电商兴趣的统一时尚图像检索
-9. [Genetic Programming with Transformer-Based Mutation for Approximate Circuit Design](/202605/26/2605.21055v1-genetic-programming-with-transformer-based-mutation-for-approximate-circuit-design)  
+   evidence：大规模动态矩阵的增量SVD
+9. [Bandit Convex Optimization with Gradient Prediction Adaptivity](/202605/27/2605.22191v1-bandit-convex-optimization-with-gradient-prediction-adaptivity)  
    标签：评分：6.0/10、query:rec
-   evidence：遗传编程结合变换器变异用于进化设计
-10. [A Typed Tensor Language for Federated Learning](/202605/26/2605.21103v1-a-typed-tensor-language-for-federated-learning)  
+   evidence：带梯度预测的强盗凸优化
+10. [Evolutionary Multi-Task Optimization for LLM-Guided Program Discovery](/202605/27/2605.22613v1-evolutionary-multi-task-optimization-for-llm-guided-program-discovery)  
    标签：评分：6.0/10、query:rec
-   evidence：用于联邦学习的类型化张量语言
+   evidence：进化多任务优化用于程序发现
 

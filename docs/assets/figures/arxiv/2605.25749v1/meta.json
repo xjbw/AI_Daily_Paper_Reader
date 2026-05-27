@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.25749v1/fig-001.webp",
+      "caption": "Figure 1: Illustration of two core challenges in existing generative reranking methods.",
+      "page": 2,
+      "index": 1,
+      "width": 497,
+      "height": 273
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25749v1/fig-003.webp",
+      "caption": "Figure 2: Overall framework of DeGRe. In the offline phase, the Lookahead Evaluator constructs dense supervision signals through lookahead sequence mining. In the training phase, the Online Generator internalizes lookahead planning capabilities via hybrid distillation. In the online phase, the model achieves efficient inference with a single greedy decoding pass.",
+      "page": 4,
+      "index": 3,
+      "width": 860,
+      "height": 435
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25749v1/fig-004.webp",
+      "caption": "Figure 3: Illustration of the dense supervision construction process. At each step (e.g., 𝑡 = 1, 2), the Lookahead Evaluator determines the target decision (hard label 𝑣𝑖𝑡 , such as 𝑣2, 𝑣4) and constructs soft labels (𝑞𝑡 ) to preserve fine-grained ranking information. These dense signals, which combine deterministic and probabilistic information, are used to guide the training of the generator.",
+      "page": 5,
+      "index": 4,
+      "width": 832,
+      "height": 441
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25749v1/fig-002.webp",
+      "caption": "Table 2: Performance comparison of generators on the ML-1M, Taobao Ad, and Taobao Flash Shopping datasets. To ensure a fair comparison, all methods are evaluated by an independent external evaluator under a unified configuration.",
+      "page": 7,
+      "index": 2,
+      "width": 986,
+      "height": 217
+    }
+  ]
+}

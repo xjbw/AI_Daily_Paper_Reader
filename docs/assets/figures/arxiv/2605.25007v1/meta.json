@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.25007v1/fig-003.webp",
+      "caption": "Figure 1: Overview of MMA. The agent receives a shared candidate pool, routes among available evidence tools, treats Null returns as observations, and outputs candidate scores that are fused with first-stage retrieval scores for reranking.",
+      "page": 3,
+      "index": 3,
+      "width": 1028,
+      "height": 535
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25007v1/fig-004.webp",
+      "caption": "Table 1: Missingness-task families under leave-one-modalityout (LOMO). Each task is defined by a fixed mask m = [text, img, beh].",
+      "page": 4,
+      "index": 4,
+      "width": 493,
+      "height": 261
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25007v1/fig-002.webp",
+      "caption": "Figure 2: Performance and ablation analysis on OOMA NDCG@10. (a) Interactive upper-bound where MMAInteractive keeps Ask_User enabled. (b) Ablation study results (mean ± std, 5 seeds) showing MMA-Interactive as an upper bound.",
+      "page": 7,
+      "index": 2,
+      "width": 506,
+      "height": 250
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25007v1/fig-001.webp",
+      "caption": "Table 4: Per-modality OOMA NDCG@10 under the target-positive 100-item protocol. Each cell reports mean ± std over 5 seeds.",
+      "page": 7,
+      "index": 1,
+      "width": 602,
+      "height": 232
+    }
+  ]
+}
