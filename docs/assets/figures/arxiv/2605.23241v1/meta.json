@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-001.webp",
+      "caption": "Figure 1: RDB Predictive Tasks Require Multi-Faceted Information Across Perspectives and Granularities. We illustrate three downstream tasks in a real-world e-commerce RDB. Specifically, (a) relies primarily on node-level intrinsic attributes, such as user source; (b) depends more on subgraphlevel relational attributes that capture interaction patterns, such as interaction frequency and intensity; and (c) requires hybrid attributes to support fine-grained regression.",
+      "page": 2,
+      "index": 1,
+      "width": 502,
+      "height": 447
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-007.webp",
+      "caption": "Figure 2: The Overall Framework of RelPrism. (a) We first convert the RDB into a temporal heterogeneous graph. (b) Next, we construct multi-perspective node attributes: intrinsic attributes X𝐼 derived from the corresponding row’s raw data, relational attributes X𝑅 extracted from interaction information, and hybrid attributes that fuse both to encode composite information. (c) We then apply a multi-granularity clustering strategy independently to each perspective to construct corresponding multigranularity task pools: the Intrinsic Pool 𝑇𝑎𝑠𝑘𝐼 , the Relational Pool 𝑇𝑎𝑠𝑘𝑅 , and the Hybrid Pool 𝑇𝑎𝑠𝑘𝐻 . (d) Finally, we perform mixed task sampling from these task pools for pre-training and then obtain representations for downstream adaptation.",
+      "page": 4,
+      "index": 7,
+      "width": 1046,
+      "height": 502
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-002.webp",
+      "caption": "Table 1: PerformanceComparison on 50-Shot Classification (ROC-AUC ↑). Best results are bolded and second-best are underlined.",
+      "page": 7,
+      "index": 2,
+      "width": 1056,
+      "height": 205
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-003.webp",
+      "caption": "Table 2: Performance Comparison on 50-Shot Regression (MAE ↓). Best results are bolded and second-best are underlined.",
+      "page": 7,
+      "index": 3,
+      "width": 1056,
+      "height": 212
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-004.webp",
+      "caption": "Figure 3: 1-Shot and 5-Shot Classification and Regression Performance on 14 Tasks across 5 Datasets. For regression tasks, inverted MAE is used for visualization, where larger values indicate better performance.",
+      "page": 7,
+      "index": 4,
+      "width": 1051,
+      "height": 310
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-006.webp",
+      "caption": "Table 3: Performance Comparison in Data-Sufficient Scenarios. Best results are bolded and second-best are underlined.",
+      "page": 8,
+      "index": 6,
+      "width": 506,
+      "height": 288
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-009.webp",
+      "caption": "Table 4: Performance Comparison in Data-Sufficient Scenarios of Different RDB-to-Graph Constructions. FN denotes the RDL graph construction that treats fact-table rows as nodes, while FE represents interactions inherent to fact tables as edges. Best results are bolded. Best results are bolded.",
+      "page": 9,
+      "index": 9,
+      "width": 506,
+      "height": 360
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-010.webp",
+      "caption": "Table 5: Performance Comparison in 1-Shot under Different Task Pool Sampling Strategies. Best results are bolded, second best are underlined.",
+      "page": 9,
+      "index": 10,
+      "width": 506,
+      "height": 323
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-011.webp",
+      "caption": "Figure 6: Visualization of Item Examples from rel-amazon. For task item-churn, Item A shows strong interactions and does not churn (label=0), while Item B has weak historical engagement and churns (label=1). For task item-ltv, Item A combines high value with active interactions, leading to high LTV, whereas Item B has no future LTV after churn.",
+      "page": 9,
+      "index": 11,
+      "width": 502,
+      "height": 254
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-005.webp",
+      "caption": "Figure 7: Hyper-Parameter Sensitivity Analysis. We investigate the impact of the number of max clusters and metabatch size on 1-shot classification and regression tasks.",
+      "page": 10,
+      "index": 5,
+      "width": 496,
+      "height": 475
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23241v1/fig-008.webp",
+      "caption": "Table 6: Statistics of Datasets and Tasks.",
+      "page": 12,
+      "index": 8,
+      "width": 972,
+      "height": 505
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-007.webp",
+      "caption": "Figure 1: Illustration of differences between Static Profiling and Streaming Profiling. The streaming paradigm offers three key advantages: it highlights the user’s exact current focus (Currency), naturally fades outdated signals (Decay), and maps a clear timeline of identity evolution (Narrative).",
+      "page": 2,
+      "index": 7,
+      "width": 827,
+      "height": 452
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-011.webp",
+      "caption": "Figure 2: Overview of StreamProfileBench. Top: The data-curation pipeline of StreamProfileBench. Bottom: The Evaluation Method of StreamProfileBench.",
+      "page": 4,
+      "index": 11,
+      "width": 775,
+      "height": 447
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-001.webp",
+      "caption": "Table 4: Main results on StreamProfileBench across five Chinese social media platforms. We report the macroaveraged overall Recall (R̄) and the novelty-stability balance score (FNS",
+      "page": 6,
+      "index": 1,
+      "width": 941,
+      "height": 442
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-002.webp",
+      "caption": "Table 5: Overall decomposition of recall into stability and novelty dimensions. Best and second-best results are highlighted.",
+      "page": 6,
+      "index": 2,
+      "width": 375,
+      "height": 415
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-009.webp",
+      "caption": "Figure 3: Two-axis decomposition of streaming profiling capability. The x-axis is the external constraint budget B = 1 − δ/K (distractor robustness) and the y-axis is the internal recall ratio ρ = rn/rs (implicit allocation preference).",
+      "page": 7,
+      "index": 9,
+      "width": 446,
+      "height": 290
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-008.webp",
+      "caption": "Figure 4: Constraint lines and iso-FNS 1 contours of four representative models in the (RecallStab,RecallNovel) plane under α = 0.24. Solid lines denote each model’s constraint; dashed curves are the iso-FNS",
+      "page": 7,
+      "index": 8,
+      "width": 446,
+      "height": 330
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-010.webp",
+      "caption": "Figure 5: Step-wise performance under persona passing ablation. Solid lines: full; dashed lines: none.",
+      "page": 8,
+      "index": 10,
+      "width": 406,
+      "height": 553
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-012.webp",
+      "caption": "Table 9: Raw cross-platform data scale (single-day snapshot). Orders of magnitude vary by almost two decades across platforms, motivating the platform-adapted filtering and sampling strategies described in the remainder of this appendix.",
+      "page": 17,
+      "index": 12,
+      "width": 729,
+      "height": 183
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-013.webp",
+      "caption": "Table 10: Normalized user metadata schema. Identity-revealing fields (user_id, username) are hashed in the released version under the anonymization pipeline described in Section 3.",
+      "page": 17,
+      "index": 13,
+      "width": 771,
+      "height": 319
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-005.webp",
+      "caption": "Figure 6: Distribution of batch counts per Multi user across platforms. Most users produce 2–10 streaming steps within the 30-day window.",
+      "page": 21,
+      "index": 5,
+      "width": 461,
+      "height": 277
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-006.webp",
+      "caption": "Table 12: The ten PI categories covered by the protection pipeline and their fixed placeholders.",
+      "page": 21,
+      "index": 6,
+      "width": 625,
+      "height": 340
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-015.webp",
+      "caption": "Table 14: One prediction step from the curated Xiaohongshu subset, shown in its post-anonymisation form (step 1 of 7). Identifier fields follow the hashing scheme of Appendix C.3; bio and post content pass the PI pipeline unchanged because no spans match the ten protected categories. Posts are truncated for space; the full candidate pool, ground truth split (T new",
+      "page": 24,
+      "index": 15,
+      "width": 950,
+      "height": 1035
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-004.webp",
+      "caption": "Table 15: Platform context strings injected into the prompt template. Only these four fields change across the five datasets.",
+      "page": 26,
+      "index": 4,
+      "width": 923,
+      "height": 569
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-003.webp",
+      "caption": "Table 16: Decomposition of recall into stability (Tkeep) and novelty (Tnew) dimensions. Best and second-best results are highlighted. XHS denotes Xiaohongshu.",
+      "page": 26,
+      "index": 3,
+      "width": 954,
+      "height": 448
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25758v2/fig-014.webp",
+      "caption": "Table 17: Full per-platform breakdown of the four distractor error rates (%) across StreamProfileBench. XHS denotes Xiaohongshu. Lower is better.",
+      "page": 27,
+      "index": 14,
+      "width": 904,
+      "height": 902
+    }
+  ]
+}

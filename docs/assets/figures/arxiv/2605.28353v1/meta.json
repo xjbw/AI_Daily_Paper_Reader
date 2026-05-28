@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28353v1/fig-001.webp",
+      "caption": "Figure 2: Median fitness of the best found configuration against our baselines. Error bar shows the first and third quartiles. The truncated error bars from 192_vineyard and 678_visualizing_env are reaching 1.18 · 1011 and 1.55 · 1019, respectively.",
+      "page": 4,
+      "index": 1,
+      "width": 473,
+      "height": 869
+    }
+  ]
+}

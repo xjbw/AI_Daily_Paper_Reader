@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26819v1/fig-001.webp",
+      "caption": "Fig. 1. High-level architecture integrating User Interface, Knowledge Graph, Dense Retrieval Module, and Recommendation Algorithm.",
+      "page": 6,
+      "index": 1,
+      "width": 716,
+      "height": 336
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26819v1/fig-002.webp",
+      "caption": "Fig. 2. Graffoo diagram depicting the ontology module with information about content, courses and lectures",
+      "page": 7,
+      "index": 2,
+      "width": 616,
+      "height": 379
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26819v1/fig-003.webp",
+      "caption": "Fig. 3. Example query and user interface output. The interface displays three recommended courses with metadata and supporting transcript chunks. Some information has been modified for copyright and privacy reasons.",
+      "page": 10,
+      "index": 3,
+      "width": 725,
+      "height": 392
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26819v1/fig-004.webp",
+      "caption": "Table 2. Large-scale LLM-based evaluation on 152 queries. Percentages in parentheses report the relative improvement over the baseline. Bold values indicate the bestperforming method for each metric.",
+      "page": 14,
+      "index": 4,
+      "width": 716,
+      "height": 281
+    }
+  ]
+}

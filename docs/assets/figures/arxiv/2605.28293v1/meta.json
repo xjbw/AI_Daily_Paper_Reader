@@ -1,0 +1,134 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-001.webp",
+      "caption": "Figure 1. A toy example of proactive recommendation. By progressively blending genre (shown via pie charts), each intermediate item in the guidance path maintains the user’s engagement while gradually shifting his/her preferences from Sci-Fi to Comedy.",
+      "page": 1,
+      "index": 1,
+      "width": 494,
+      "height": 773
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-009.webp",
+      "caption": "Figure 2. Standard policy gradient estimation degenerates into generating nearly identical overlong paths. (Top row) Training dynamics under three reward configurations (CTR, IoI, IoR). Each subplot shows path length (solid) and diversity (dashed) for MovieLens-1M (red) and Amazon-Book (green). (Bottom row) Expected step-level reward E[rt] for each component on MovieLens-1M (red) and Amazon-Book (green). All components exhibit positive mean, enabling the length shortcut.",
+      "page": 3,
+      "index": 9,
+      "width": 809,
+      "height": 390
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-016.webp",
+      "caption": "Figure 3. Overview of our proposed ProRL. (Left) Standard policy gradient estimation suffers from the length shortcut. Since step-level rewards accumulate with positive mean ( ∑L t=1 E[rt] ∝ L), the Sequence-level Advantage (SAdv) and gradient signal are dominated by length variation, causing the model to extend paths rather than explore diverse alternatives. (Right) ProRL rectifies gradient estimation through two mechanisms. Stepwise Reward Centering (r̃t = rt − r̄) ensures that path extension yields zero expected gain. PositionSpecific Advantage Estimation (PAdv) computes step-adapted baselines for effective optimization.",
+      "page": 5,
+      "index": 16,
+      "width": 912,
+      "height": 298
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-005.webp",
+      "caption": "Table 1. Proactive Recommendation performance of all models on different datasets (SASRec as evaluator) in terms of CTR (i.e., HitRate), Coherence, IoI, and IoR. The best performances are highlighted in bold, and the second-best are underlined. The superscript * indicates the Improvement is statistically significant, where the p-value is less than 0.05.",
+      "page": 7,
+      "index": 5,
+      "width": 1008,
+      "height": 261
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-006.webp",
+      "caption": "Table 2. Cross-evaluator analysis evaluated by the unseen Evaluator GRU4Rec. The best performances are highlighted in bold, and the second-best are underlined. The superscript * indicates the Improvement is statistically significant, where the p-value is less than 0.05.",
+      "page": 7,
+      "index": 6,
+      "width": 1008,
+      "height": 243
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-004.webp",
+      "caption": "Table 3. Ablation Studies on ProRL",
+      "page": 7,
+      "index": 4,
+      "width": 488,
+      "height": 277
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-015.webp",
+      "caption": "Figure 4. Training dynamics of gradient estimators on MovieLens-1M, Steam, and Amazon-Book. All methods use identical multiobjective rewards with the same weights; only the gradient estimator differs. RF: REINFORCE (Eq. (3)); RTG: reward-to-go (Eq. (7)); GRPO: REINFORCE with path-level baseline; ProRL: position-specific advantage (Eq. (9)). ProRL achieves the best balance between path feasibility (CTR) and guidance effectiveness (IoI, IoR), while RTG sacrifices guidance metrics for higher CTR.",
+      "page": 9,
+      "index": 15,
+      "width": 951,
+      "height": 467
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-010.webp",
+      "caption": "Figure 5. Prompt and item profile for MovieLens-1M dataset.",
+      "page": 18,
+      "index": 10,
+      "width": 810,
+      "height": 415
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-008.webp",
+      "caption": "Table 10. Hyperparameter settings categorized by training stages.",
+      "page": 22,
+      "index": 8,
+      "width": 763,
+      "height": 597
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-007.webp",
+      "caption": "Table 11. Experimental Results on Different Datasets",
+      "page": 22,
+      "index": 7,
+      "width": 800,
+      "height": 279
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-011.webp",
+      "caption": "Figure 6. The impact of pre-training maturity on reinforcement learning efficiency. We evaluate the performance of ProRL across different stages of the pre-training process (1%, 33%, 66%, and 100% completion) on the MovieLens-1M dataset. The results indicate that a sufficiently converged semantic prior is a prerequisite for effective RL optimization, as it effectively constrains the action space and mitigates the sparse reward challenge in proactive guidance.",
+      "page": 23,
+      "index": 11,
+      "width": 999,
+      "height": 322
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-014.webp",
+      "caption": "Figure 7. Robustness analysis across varying target selection schemes and guidance difficulties. We evaluate the performance on three datasets under Random Selection and Filtered Selection (20th, 40th, and 60th percentiles of interaction willingness). Higher percentiles represent higher guidance difficulty (lower user interest). Our method consistently outperforms baselines across all metrics, CTR, Coherence, IoI, and IoR, demonstrating superior robustness regardless of target accessibility.",
+      "page": 24,
+      "index": 14,
+      "width": 1002,
+      "height": 929
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-002.webp",
+      "caption": "Table 12. Proactive Recommendation performance of all models on different datasets (BERT4Rec as evaluator) in terms of CTR (i.e., HitRate), Coherence, IoI, and IoR. The best performances are highlighted in bold. The superscript * indicates the Improvement is statistically significant, where the p-value is less than 0.05.",
+      "page": 25,
+      "index": 2,
+      "width": 1014,
+      "height": 619
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-003.webp",
+      "caption": "Table 13. Proactive Recommendation performance of all models on different datasets (LightSANs as evaluator) in terms of CTR (i.e., HitRate), Coherence, IoI, and IoR. The best performances are highlighted in bold. The superscript * indicates the Improvement is statistically significant, where the p-value is less than 0.05.",
+      "page": 26,
+      "index": 3,
+      "width": 1008,
+      "height": 256
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-012.webp",
+      "caption": "Figure 8. Sensitivity analysis of fixed reward offset on Amazon-Book using IoI as the sole reward. The color gradient indicates offset magnitude (darker = more negative). Small offsets (light orange) lead to maximum-length paths (length shortcut), while large offsets (dark orange) cause path collapse to near-zero length. ProRL (blue stars) achieves stable, moderate path lengths through data-driven reward centering without manual tuning.",
+      "page": 27,
+      "index": 12,
+      "width": 594,
+      "height": 244
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28293v1/fig-013.webp",
+      "caption": "Figure 9. Performance comparison across varying path lengths on the MovieLens-1M (A, B) and Amazon-Book (C, D) datasets.",
+      "page": 27,
+      "index": 13,
+      "width": 920,
+      "height": 527
+    }
+  ]
+}

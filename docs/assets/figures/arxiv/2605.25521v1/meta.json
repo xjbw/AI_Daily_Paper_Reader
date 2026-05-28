@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.25521v1/fig-002.webp",
+      "caption": "Figure 1: An Overview of PQ execution and its inefficiencies.",
+      "page": 2,
+      "index": 2,
+      "width": 456,
+      "height": 361
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25521v1/fig-005.webp",
+      "caption": "Figure 2: Illustration of the PQ workflow.",
+      "page": 3,
+      "index": 5,
+      "width": 506,
+      "height": 246
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25521v1/fig-006.webp",
+      "caption": "Figure 3: Experimental results related to the sensitive coupling of search quality and PQ overheads.",
+      "page": 5,
+      "index": 6,
+      "width": 1002,
+      "height": 199
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25521v1/fig-001.webp",
+      "caption": "Figure 5: Design overview of CS-PQ.",
+      "page": 6,
+      "index": 1,
+      "width": 506,
+      "height": 250
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25521v1/fig-004.webp",
+      "caption": "Figure 7: Overall comparison of index construction time at comparable Recall@10 levels.",
+      "page": 10,
+      "index": 4,
+      "width": 1003,
+      "height": 254
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25521v1/fig-003.webp",
+      "caption": "Figure 8: PQ construction time comparison under varying PQ code and codebook sizes.",
+      "page": 10,
+      "index": 3,
+      "width": 1026,
+      "height": 257
+    }
+  ]
+}

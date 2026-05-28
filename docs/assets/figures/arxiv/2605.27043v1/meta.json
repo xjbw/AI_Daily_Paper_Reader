@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.27043v1/fig-002.webp",
+      "caption": "Figure 1: Hierarchical Causal Entanglement. Bottom (Micro-Latent): Only the red subset {tic} causally drives Y ; the blue subset {tjnc} contains spurious factors correlated with Z. Middle (MesoLatent): Micro-variables abstract into causal (TC) and non-causal (TnC) clusters. Top (Observed): We observe only the entangled treatment T = m(TC , TnC), which creates the spurious backdoor path T ← TnC ← Z → Y that standard models will exploit.",
+      "page": 3,
+      "index": 2,
+      "width": 460,
+      "height": 370
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27043v1/fig-001.webp",
+      "caption": "Figure 3: Synthetic SCM, sweep over outcome-noise scale σY ∈ [0, 1] across 2,000 seeds per noise level. Lines are per-seed medians; shaded bands are the inter-quartile range across seeds. Left: intervention sensitivity |Ŷ (T )− Ŷ (T ′)|, where T ′ resamples the non-causal coordinates of T ; lower is better, with 0 indicating that the model has not absorbed any signal from TnC . Right: paired ∆MAE = MAECRL −MAEbaseline per seed, centred on the zero line. The CRL penalty does not degrade predictive performance, and is in fact slightly better at higher noise levels.",
+      "page": 7,
+      "index": 1,
+      "width": 771,
+      "height": 307
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27043v1/fig-003.webp",
+      "caption": "Figure 4: Progressive removal of non-causal leakage. The objective J(g) is plotted as a function of the penalty weight λ for representations retaining different amounts of the non-causal component TnC . Since TnC contributes confounder information without adding outcome information beyond TC , representations with more non-causal leakage incur a larger penalty. The purely causal representation g(T ) = TC achieves the highest score among the tested representations.",
+      "page": 18,
+      "index": 3,
+      "width": 664,
+      "height": 379
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27043v1/fig-004.webp",
+      "caption": "Figure 5: Lossless regime and critical penalty weight. The objective J(g) is plotted as a function of λ for stochastic compressed representations G = TC + ϵG, where ϵG ∼ N (0, σ2 G). The dashed curve corresponds to the uncompressed causal representation σ2 G = 0. For small λ, preserving the full causal component is optimal; for larger λ, compression can become preferable because the reduction in confounder information outweighs the utility loss.",
+      "page": 19,
+      "index": 4,
+      "width": 664,
+      "height": 446
+    }
+  ]
+}

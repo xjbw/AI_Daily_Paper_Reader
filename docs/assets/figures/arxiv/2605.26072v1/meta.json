@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26072v1/fig-002.webp",
+      "caption": "Figure 2: Visualization of the active query synthesis and approximation framework, using a color similarity embedding to estimate a user’s preferred shade of blue. Info-Synth first generates an optimal continuous query (p̃, q̃). In the continuous setting, this query is used directly. In the constrained setting, it is approximated for a fixed dataset using either Pair M-dist (p1, q1) or Pair Opt-dist (p2, q2), depending on dimensionality. The oracle’s response (y) to the selected query is then used to update the user preference estimates.",
+      "page": 2,
+      "index": 2,
+      "width": 826,
+      "height": 440
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26072v1/fig-003.webp",
+      "caption": "Figure 3: Query synthesis performance comparison between different AL methods and Random on synthetic datasets. The plots correspond to datasets in 4D comparing different synthesis methods in ((a), (b), (c)) and with 500 points comparing synthesis with discrete methods in (d). In the MSE plots, the y-axis corresponds to the MSE between the true point and the estimated point. In the Kendall Tau distance plots, the y-axis corresponds to the KT distance computed between the estimated user-item distances against the ground truth user-item distances. For both metrics, lower values indicate a better performance.",
+      "page": 8,
+      "index": 3,
+      "width": 814,
+      "height": 180
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26072v1/fig-001.webp",
+      "caption": "Figure 12: Different trajectories considered in the experiments",
+      "page": 26,
+      "index": 1,
+      "width": 826,
+      "height": 204
+    }
+  ]
+}

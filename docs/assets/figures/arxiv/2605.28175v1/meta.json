@@ -1,0 +1,86 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-003.webp",
+      "caption": "Figure 1: Illustration of existing RAGRec methods and our proposed MixRAGRec methods. (a) Existing RAGRec methods apply the same KG retrieval granularity to all queries, causing either noise from over-retrieval or missing knowledge from under-retrieval; (b) Our MixRAGRec routes queries of different complexity to appropriate retrieval granularity, improving the utility–cost trade-off.",
+      "page": 2,
+      "index": 3,
+      "width": 482,
+      "height": 312
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-005.webp",
+      "caption": "Figure 2: The overview of theMixRAGRec, which consists of three agents: (1)Mixture-of-Experts Retrieval Agent selects a retrieval expert to obtain structured knowledge, (2) Knowledge Preference Alignment Agent converts the retrieved KG knowledge into an LLM-friendly representation, and (3) Contrastive Learning-reinforced Recommendation Agent produces the recommendation. Mixture-of-Experts Multi-Agent Policy Optimization (MMAPO) jointly optimizes these agents under a shared objective.",
+      "page": 3,
+      "index": 5,
+      "width": 927,
+      "height": 512
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-004.webp",
+      "caption": "Table 2: Performance comparison across LLM-based recommendation baselines and KG-RAG methods. Best results are in bold and the second-best results are underlined.",
+      "page": 7,
+      "index": 4,
+      "width": 942,
+      "height": 575
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-007.webp",
+      "caption": "Figure 4: Ablation results of MixRAGRec and five variants on MovieLens-1M and LFM-1K with the LLaMA3-8B backbone. We report Accuracy, Recall@3, and Recall@5.",
+      "page": 8,
+      "index": 7,
+      "width": 484,
+      "height": 611
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-001.webp",
+      "caption": "Table 4: Hyper-parameter settings of MixRAGRec.",
+      "page": 11,
+      "index": 1,
+      "width": 324,
+      "height": 500
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-002.webp",
+      "caption": "Table 7: General prompt template for the Knowledge Preference Alignment Agent.",
+      "page": 15,
+      "index": 2,
+      "width": 972,
+      "height": 1011
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-010.webp",
+      "caption": "Table 8: General prompt template for the Contrastive Learning-reinforced Recommendation Agent.",
+      "page": 16,
+      "index": 10,
+      "width": 972,
+      "height": 548
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-009.webp",
+      "caption": "Table 9: Case study on Movie with Expert 2 (TripleRetriever).",
+      "page": 17,
+      "index": 9,
+      "width": 972,
+      "height": 729
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-006.webp",
+      "caption": "Table 10: Case study on Movie with Expert 3 (SubgraphRetriever).",
+      "page": 18,
+      "index": 6,
+      "width": 972,
+      "height": 900
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28175v1/fig-008.webp",
+      "caption": "Table 11: Case study on Music with Expert 1 (DirectGenerator).",
+      "page": 19,
+      "index": 8,
+      "width": 972,
+      "height": 511
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-003.webp",
+      "caption": "Figure 1: General approach for systems following differential equations: We assume knowledge of a time series of training trajectories in phase space, consisting of points and the numerical values of their time derivatives. If values for the derivatives are not directly available, we assume that they can be approximated numerically. The data are assumed to be subject to a system of ordinary differential equations. By comparing evaluations of the true equations at these points with derivatives obtained from the model, the product-unit model fits the inputs to linear combinations of monomials to approximate the original equations, i.e., we learn the right-hand side (RHS) of equations ẋj . Furthermore, the derived equations permit prediction of future system states. The stability of trajectories generated from the model’s equations can be assessed using the effective prediction time (EPT), which indicates the point at which the predicted trajectory diverges from the true trajectory.",
+      "page": 2,
+      "index": 3,
+      "width": 882,
+      "height": 497
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-008.webp",
+      "caption": "Figure 2: A simulated trajectory derived from the modified Lorenz system Lorenz_Fract. The structure consists of two loops of similar size, which are joined together by a narrow tube at their edges.",
+      "page": 5,
+      "index": 8,
+      "width": 492,
+      "height": 454
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-001.webp",
+      "caption": "Figure 3: Two example trajectories of the Lorenz63 system, each consisting of 500 points. The initial coordinates are randomly generated within the interval [−2, 2], as indicated by the red cube. The subsequent 499 points are computed using the fourth-order Runge-Kutta (RK4) method with a step size of ∆t = 0.001. For clarity, only every 20th point along a trajectory is shown.",
+      "page": 6,
+      "index": 1,
+      "width": 492,
+      "height": 470
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-006.webp",
+      "caption": "Figure 4: Effect of erroneous model parameters on the dynamic behavior of the system. (a) Comparison of simulated trajectories obtained for the true Lorenz63 system (gray line) and a corrupted Lorenz63 system (blue and red lines),",
+      "page": 8,
+      "index": 6,
+      "width": 1017,
+      "height": 830
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-004.webp",
+      "caption": "Figure 5: Heatmap of the number of correctly identified terms across different combinations of points and trajectories. The number of erroneous terms is indicated in brackets. For illustration, the minimum number of product units required is used for each system. When at least 3000 points and their derivatives are supplied for training, the model consistently identifies the precise terms and rarely introduces spurious ones.",
+      "page": 10,
+      "index": 4,
+      "width": 506,
+      "height": 775
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-002.webp",
+      "caption": "Figure 6: Dependence of the number of correctly identified terms in the Lorenz63 model on the number of product units in the network (a), and dependence of the test loss on the number of correctly identified terms (b). For 5− 7 product units, all terms are correctly identified in at least 75% of cases, and for 8− 10 product units in at least 25% of cases (a). The test loss is indicative of the number of correctly identified terms (b).",
+      "page": 11,
+      "index": 2,
+      "width": 506,
+      "height": 656
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-007.webp",
+      "caption": "Figure 7: Heatmap of the effective prediction time for systems recovered by the product-unit model under varying",
+      "page": 12,
+      "index": 7,
+      "width": 506,
+      "height": 771
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27158v1/fig-005.webp",
+      "caption": "Figure 8: Human walking acceleration signals predicted by the product-unit model. (a) True signal trajectory (black) and product-unit model output (steel-blue) in the x, y, and z directions. Data from the first ten seconds are used for training, as indicated by the dashed black line. The inferred system precisely predicts the further course of ay and az",
+      "page": 13,
+      "index": 5,
+      "width": 976,
+      "height": 1092
+    }
+  ]
+}

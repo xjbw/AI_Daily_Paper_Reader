@@ -1,0 +1,737 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-28T21:06:09.110151+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 17,
+    "deep_cap": 6,
+    "deep_selected": 8,
+    "quick_candidates": 19,
+    "quick_skim_target": 11,
+    "quick_selected": 10,
+    "deep_selected_before_profile_limit": 8,
+    "quick_selected_before_profile_limit": 11,
+    "profile_daily_limits": {
+      "Rec": {
+        "deep": 10,
+        "quick": 10
+      }
+    },
+    "profile_limit_dropped_by_tag": {
+      "Rec": {
+        "deep": 0,
+        "quick": 1
+      }
+    },
+    "profile_limit_dropped": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2605.26424v1",
+      "source": "arxiv",
+      "title": "Uniboost: Global Coordination with Value Alignment for Fair and Efficient Traffic Allocation",
+      "abstract": "With the rapid evolution of internet services, recommendation systems have become indispensable. In particular, the blending (re-ranking) stage plays a pivotal role in allocating traffic across diverse business objectives. However, existing approaches often suffer from coupled allocation plans, score inflation, and a lack of interpretability. To address these challenges, we propose Uniboost, a unified traffic allocation framework. Uniboost introduces a posterior value alignment mechanism that calibrates abstract model scores to anchor metrics with explicit business semantics, significantly enhancing interpretability. Furthermore, it employs an independent linear boosting paradigm to decouple complex weighting schemes, enabling precise attribution of each plan's contribution. We validate the effectiveness of Uniboost through online A/B tests and in-depth data analysis, demonstrating three key findings: 1) Reducing the overall weight of weighted scores effectively mitigates unintended business interference, yielding a more efficient micro-level traffic allocation strategy; 2) Post-hoc analyses and aggregated dashboards provide intuitive, macro-level insights that guide the design of the overall traffic allocation mechanism; 3) The proposed \"Effective Completion Score\" serves as an easily obtainable post-metric that offers a reliable anchor for content recommendation pipelines. Collectively, our experiments show that Uniboost not only improves traffic allocation efficiency and recommendation performance at the micro level but also provides macro-level guidance for system iteration. Thus, this work provides an efficient and controllable traffic regulation solution for large-scale industrial recommendation systems.",
+      "authors": [
+        "Ge Fan",
+        "Nan Zhao",
+        "Kai Meng",
+        "Cong Luo",
+        "Yang Fu",
+        "Huiping Chu",
+        "Jialin Liu",
+        "Yuning Jiang",
+        "Bo Zheng"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-05-26T01:22:04+00:00",
+      "link": "https://arxiv.org/pdf/2605.26424v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "proposes unified traffic allocation framework for recommendation blending stage in e-commerce",
+      "llm_evidence_cn": "为电商推荐混合排序阶段提出统一流量分配框架",
+      "llm_evidence": "为电商推荐混合排序阶段提出统一流量分配框架",
+      "canonical_evidence": "为电商推荐混合排序阶段提出统一流量分配框架",
+      "llm_tldr_en": "Uniboost improves fairness and interpretability in recommendation traffic allocation via value alignment and linear boosting",
+      "llm_tldr_cn": "Uniboost通过价值对齐和线性提升改善推荐流量分配的公平性和可解释性",
+      "llm_tldr": "Uniboost通过价值对齐和线性提升改善推荐流量分配的公平性和可解释性",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27043v1",
+      "source": "arxiv",
+      "title": "Causal Representation Learning for Generalisable Recommendation",
+      "abstract": "Predictive models trained on observational data often fail to generalise to the distributions they encounter when deployed, especially when the training data is a product of the system being optimised. Recommender systems are a canonical example: they are trained on interaction logs confounded by the deployed policy, past user behaviour, and platform filtering. As a result, the training distribution differs substantially from the candidate distribution scored at serving time, a gap that makes offline metrics unreliable predictors of online performance. We address the distribution shift problem with a method motivated by causal representation learning (CRL). We propose an information-theoretic disentanglement criterion and prove that its optimum depends only on the causal components of the input. We then derive a tractable variational lower bound that makes the criterion optimisable from finite observational data alone. The scope of our method is narrower than that of much of the CRL literature, in that we target better generalisation under distribution shift, not full identification of all latent causal factors. This narrower target is what makes the method practical, requiring only the existing confounded logs, applying to any standard supervised model, and adding no inference-time cost. Our headline evaluation is an A/B test with millions of users on Spotify, applied to a production ranker for personalised playlist generation. A capacity-matched CRL variant performed on par offline but delivered substantial online gains in listener engagement. Complementary evidence on the public KuaiRand recommendation dataset and a synthetic benchmark with known causal structure shows the same pattern: offline parity with baseline, gains under distribution shift. Across all three settings, adding our causal disentanglement objective yields meaningfully better out-of-distribution generalisation.",
+      "authors": [
+        "Yorgos Felekis",
+        "Michael O'Riordan",
+        "Oriol Corcoll",
+        "Ciarán M. Gilligan-Lee"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG",
+        "stat.ME"
+      ],
+      "published": "2026-05-26T13:58:36+00:00",
+      "link": "https://arxiv.org/pdf/2605.27043v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly addresses distribution shift in recommendation via causal representation learning",
+      "llm_evidence_cn": "通过因果表示学习直接解决推荐系统中的分布偏移问题",
+      "llm_evidence": "通过因果表示学习直接解决推荐系统中的分布偏移问题",
+      "canonical_evidence": "通过因果表示学习直接解决推荐系统中的分布偏移问题",
+      "llm_tldr_en": "Proposes causal representation learning method to improve recommendation generalization under distribution shift",
+      "llm_tldr_cn": "提出因果表示学习方法以提高推荐系统在分布偏移下的泛化能力",
+      "llm_tldr": "提出因果表示学习方法以提高推荐系统在分布偏移下的泛化能力",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27158v1",
+      "source": "arxiv",
+      "title": "Model discovery for dynamical systems with complex-valued product units",
+      "abstract": "Discovering the governing equations of a dynamical system from observed trajectories provides deeper insight into its structure than mere prediction of future states. We present a data-driven approach to model discovery based on complex-valued product-unit networks, in which each unit represents a complex monomial and the network output is a sparse linear combination of such monomials. In contrast to established library-based methods such as SINDy, our approach does not require a predefined set of candidate functions: the relevant monomials, including those with fractional or negative exponents, are learned directly from data. Across four chaotic benchmark systems (Lorenz63, Lorenz84, the Four-Wing attractor, and a fractional variant of Lorenz63), we recover the exact governing equations in 90% of trials for the first three systems, and in 70-90% of trials for the fractional case, using at least 3000 training points. Applied to real-world human-gait accelerometer signals, the model produced stable trajectories with bounded prediction errors, corresponding to an RMSE of approximately 12-14% of the signal amplitude range over a test horizon three times longer than the training interval, demonstrating its potential for high-dimensional systems in which analytic equations are unavailable.",
+      "authors": [
+        "Martin Brückmann",
+        "Babette Dellen",
+        "Uwe Jaekel"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-26T15:18:47+00:00",
+      "link": "https://arxiv.org/pdf/2605.27158v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "model discovery for dynamical systems using complex-valued product units",
+      "llm_evidence_cn": "使用复数乘积单元进行动力系统模型发现",
+      "llm_evidence": "使用复数乘积单元进行动力系统模型发现",
+      "canonical_evidence": "使用复数乘积单元进行动力系统模型发现",
+      "llm_tldr_en": "Introduces a data-driven approach to discover governing equations using product-unit networks.",
+      "llm_tldr_cn": "提出使用乘积单元网络从数据中发现控制方程的方法。",
+      "llm_tldr": "提出使用乘积单元网络从数据中发现控制方程的方法。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27656v1",
+      "source": "arxiv",
+      "title": "Developing an Intelligent Job Recommendation System Using Semantic Retrieval and Explainable AI Techniques",
+      "abstract": "Online recruitment platforms require recommendation methods capable of retrieving relevant job opportunities from large and heterogeneous collections of job postings. Keyword-based search is efficient and interpretable, but it may fail to retrieve relevant postings when equivalent roles are expressed using different terminology. This study presents a metadata-driven job recommendation system that combines TF-IDF lexical matching, Sentence-BERT semantic retrieval, query-aware filtering, optional Cross-Encoder re-ranking, and explanation generation. The proposed system utilizes structured metadata fields including job title, company name, location, seniority level, job function, employment type, and industry without relying on full job descriptions or user interaction histories. Experiments conducted on a cleaned LinkedIn job posting dataset containing 31262 records demonstrate that the best hybrid configuration achieved a Precision at 10 score of 0.8032 and an nDCG at 10 score of 0.9496. Under the internal evaluation protocol, Cross-Encoder re-ranking improved Precision at 10 from 0.7896 to 0.7948 and nDCG at 10 from 0.9666 to 0.9739. These findings indicate that lexical and semantic retrieval techniques can be effectively combined to provide explainable job recommendations when only structured metadata is available.",
+      "authors": [
+        "Hussein Al Awad",
+        "Khaled Fathi Omar"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-26T20:16:42+00:00",
+      "link": "https://arxiv.org/pdf/2605.27656v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Job recommendation system using semantic retrieval and XAI",
+      "llm_evidence_cn": "使用语义检索和可解释AI的职位推荐系统",
+      "llm_evidence": "使用语义检索和可解释AI的职位推荐系统",
+      "canonical_evidence": "使用语义检索和可解释AI的职位推荐系统",
+      "llm_tldr_en": "Presents a metadata-driven job recommendation system with TF-IDF, Sentence-BERT, and explainable AI.",
+      "llm_tldr_cn": "提出基于元数据的职位推荐系统，结合TF-IDF、Sentence-BERT和可解释AI。",
+      "llm_tldr": "提出基于元数据的职位推荐系统，结合TF-IDF、Sentence-BERT和可解释AI。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27704v1",
+      "source": "arxiv",
+      "title": "Joint Optimization of Relevance and Engagement in Multi-Task Ranking for E-Commerce with Efficient LLM Supervision",
+      "abstract": "Optimizing industrial search ranking models solely for user engagement signals often introduces systematic biases, prioritizing popular or price-anchored items that may not satisfy semantic intent. We present a production-scale multi-task ranking system that integrates semantic relevance as a primary optimization objective, enabling explicit and controllable relevance-engagement trade-offs. Our architecture employs an ordinal relevance head that predicts cumulative probabilities over relevance thresholds, preserving the inherent ordering of labels. These outputs are integrated with engagement heads through a unified value model scoring function, enabling systematic balancing of semantic quality and short-term behavioral signals. To provide high-quality supervision for this multi-task framework, we utilize fine-tuned lightweight Large Language Models (LLMs) to generate three-level ordinal relevance labels: irrelevant, moderately relevant, and highly relevant. We address challenges regarding label distribution sensitivity and ensure high alignment with human annotations to enable efficient labeling for over 100 million query-item pairs. Evaluation across offline metrics, including NDCG@10, and online A/B experiments demonstrates that our approach significantly improves semantic alignment while preserving core engagement objectives.",
+      "authors": [
+        "Luming Chen",
+        "Jiaqi Xi",
+        "Raghav Saboo",
+        "Kenny Chi",
+        "Martin Wang",
+        "Sudeep Das",
+        "Danny Nightingale",
+        "Aditya Dodda",
+        "Elyse Winer",
+        "Akshad Viswanathan"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-26T21:26:17+00:00",
+      "link": "https://arxiv.org/pdf/2605.27704v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "E-commerce multi-task ranking with LLM supervision",
+      "llm_evidence_cn": "电商多任务排序与LLM监督",
+      "llm_evidence": "电商多任务排序与LLM监督",
+      "canonical_evidence": "电商多任务排序与LLM监督",
+      "llm_tldr_en": "Proposes a multi-task ranking system for e-commerce that optimizes relevance and engagement using LLM supervision.",
+      "llm_tldr_cn": "提出电商多任务排序系统，利用LLM监督优化相关性与用户参与。",
+      "llm_tldr": "提出电商多任务排序系统，利用LLM监督优化相关性与用户参与。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28175v1",
+      "source": "arxiv",
+      "title": "Mixture-of-Experts Knowledge Graph Retrieval-Augmented Generation for Multi-Agent LLM-based Recommendation",
+      "abstract": "Large language models (LLMs) have recently been adopted for recommendations due to their ability to understand user intent and item semantics. However, LLM-based recommender systems often rely on parametric knowledge and suffer from outdated knowledge, motivating knowledge graph retrieval-augmented generation (KG-RAG) to ground recommendations on structured, up-to-date KGs. Despite this promise, effective KG-RAG in recommendations faces great challenges. First, users' queries vary in complexity and require KG knowledge at different granularities, whereas existing methods adopt a one-size-fits-all retrieval strategy, leading to over-retrieval for simple queries and under-retrieval for complex ones. In addition, augmenting LLMs with KG knowledge requires translating graph-structured data into linear text, which may introduce noise and cause structural information loss. Moreover, the selection of retrieval granularity lacks direct supervision and must be inferred from the final recommendation after alignment and downstream utilization, making query-aware retrieval hard to learn end-to-end. To address these issues, we propose MixRAGRec, a cooperative multi-agent framework for KG-RAG recommendations. MixRAGRec integrates a Mixture-of-Experts Retrieval Agent that routes each query to a KG retrieval expert with different granularities, a Knowledge Preference Alignment Agent that converts structured knowledge into LLM-friendly natural language, and a Contrastive Learning-reinforced Recommendation Agent trained with contrastive preference feedback. Notably, we introduce Mixture-of-Experts Multi-Agent Policy Optimization (MMAPO) to train three agents under a unified objective. Extensive experiments on real-world datasets demonstrate the effectiveness of our framework.",
+      "authors": [
+        "Shijie Wang",
+        "Chengyi Liu",
+        "Yujuan Ding",
+        "Shanru Lin",
+        "See-Kiong Ng",
+        "Xu Xin",
+        "Wenqi Fan"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-27T08:56:57+00:00",
+      "link": "https://arxiv.org/pdf/2605.28175v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "directly addresses LLM-based recommendation with KG-RAG",
+      "llm_evidence_cn": "直接处理基于LLM的推荐与知识图谱检索增强生成",
+      "llm_evidence": "直接处理基于LLM的推荐与知识图谱检索增强生成",
+      "canonical_evidence": "直接处理基于LLM的推荐与知识图谱检索增强生成",
+      "llm_tldr_en": "Proposes MoE-KG-RAG for multi-agent LLM-based recommendation, tackling retrieval granularity challenges.",
+      "llm_tldr_cn": "提出MoE-KG-RAG用于多智能体LLM推荐，解决检索粒度问题。",
+      "llm_tldr": "提出MoE-KG-RAG用于多智能体LLM推荐，解决检索粒度问题。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28293v1",
+      "source": "arxiv",
+      "title": "ProRL: Effective Reinforcement Learning for Proactive Recommendation via Rectified Policy Gradient Estimation",
+      "abstract": "Proactive Recommender Systems (PRSs) aim to guide user preference shift toward target items by generating paths of intermediate recommendations. Reinforcement learning (RL) provides a principled framework for optimizing such sequential decision tasks, as path rewards can naturally capture both short-term acceptance and long-term guidance effectiveness. However, naively applying policy gradients to PRS results in deficient gradient estimation. We identify two deficiencies: (1) path-level rewards decompose into step-level rewards with positive mean, creating a length-dependent bias that causes gradients to favor path extension over meaningful exploration; (2) weighting each step by the entire path-level reward ignores the decomposition structure, leading to high gradient variance. To rectify these two deficiencies, we propose an effective RL framework ProRL with two novel mechanisms for proactive recommendation. First, Stepwise Reward Centering subtracts expected rewards to neutralize length-dependent bias, ensuring that path extension yields zero expected gradient signal. Second, Position-Specific Advantage Estimation leverages the reward decomposition structure to compute step-dependent baselines, reducing gradient variance. Together, these mechanisms yield policy gradients that precisely target path quality. Our experiments on three real-world datasets demonstrate that ProRL significantly outperforms state-of-the-art PRSs. Our code is available at https://github.com/hongruhou89/ProRL.",
+      "authors": [
+        "Hongru Hou",
+        "Tiehua Mei",
+        "Denghui Geng",
+        "Jinhui Huang",
+        "Ao Xu",
+        "Hengrui Chen",
+        "Jiaqing Liang",
+        "Deqing Yang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-27T10:43:37+00:00",
+      "link": "https://arxiv.org/pdf/2605.28293v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "RL-based proactive recommendation algorithm",
+      "llm_evidence_cn": "基于强化学习的主动推荐算法",
+      "llm_evidence": "基于强化学习的主动推荐算法",
+      "canonical_evidence": "基于强化学习的主动推荐算法",
+      "llm_tldr_en": "Proposes ProRL for proactive recommendation via rectified policy gradient",
+      "llm_tldr_cn": "提出ProRL通过校正策略梯度实现主动推荐",
+      "llm_tldr": "提出ProRL通过校正策略梯度实现主动推荐",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28353v1",
+      "source": "arxiv",
+      "title": "Improving Evaluation of Recombination-based Cartesian Genetic Programming",
+      "abstract": "Cartesian Genetic Programming has traditionally been using mutation as its main and often sole genetic operator to drive evolutionary search. Despite advancements in recent years, recombinationbased approaches have long been avoided, due to apparent lack of performance gains. This study examines two recently suggested recombination-based operators, subgraph crossover and discrete phenotypic recombination on SRBench, a benchmarking platform for symbolic regression. Using the implementations provided in the TinyverseGP framework, we perform hyperparameter optimisation of the respective representations with these two operators. Our work demonstrates that hyperparameter optimisation can lead to improvements in performance for recombination-based Cartesian Genetic Programming.",
+      "authors": [
+        "Duy Long Tran",
+        "Anja Jankovic",
+        "Marie Anastacio",
+        "Holger Hoos",
+        "Roman Kalkreuth"
+      ],
+      "primary_category": "cs.NE",
+      "categories": [
+        "cs.NE",
+        "cs.AI",
+        "cs.SC"
+      ],
+      "published": "2026-05-27T11:54:14+00:00",
+      "link": "https://arxiv.org/pdf/2605.28353v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Recombination-based Cartesian Genetic Programming for symbolic regression",
+      "llm_evidence_cn": "基于重组的笛卡尔遗传编程用于符号回归",
+      "llm_evidence": "基于重组的笛卡尔遗传编程用于符号回归",
+      "canonical_evidence": "基于重组的笛卡尔遗传编程用于符号回归",
+      "llm_tldr_en": "Hyperparameter optimization improves recombination-based CGP on symbolic regression benchmarks.",
+      "llm_tldr_cn": "超参数优化改进了基于重组的CGP在符号回归基准上的表现。",
+      "llm_tldr": "超参数优化改进了基于重组的CGP在符号回归基准上的表现。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.23265v1",
+      "source": "arxiv",
+      "title": "Fairness in Aggregation: Optimal Top-$k$ and Improved Full Ranking",
+      "abstract": "Ensuring fairness in algorithmic ranking systems is a critical challenge with significant societal implications for hiring, recommendations, web search, and data management. Standard methods for aggregating multiple preference orders into a consensus ranking may perpetuate and even amplify the lack of representation of underrepresented groups. To address this, recent research has focused on incorporating fairness constraints to ensure the presence of different groups in the top-$k$ positions of the final aggregate ranking.   We study two fairness-aware variants under the well-known Spearman footrule, which corresponds to the $L_1$ distance between rankings. First, we address the practically salient task of computing a fair aggregate top-$k$ ranking -- crucial in settings like recommendations and hiring where selection is primarily based on the top-$k$ results -- and present the first optimal algorithm for this problem. Second, we consider fair (full) rank aggregation over all candidates (not specifically on top-$k$). We already know of a $3$-approximation for this fair rank aggregation variant (Wei et al., SIGMOD'22; Chakraborty et al., NeurIPS'22), whereas an exact algorithm exists for the corresponding unconstrained (unfair) version (Dwork et al., WWW'01). Closing the computational gap between fair and unconstrained rank aggregation has remained a tantalizing open problem. We make significant progress by giving a $2$-approximation algorithm for fair (full) rank aggregation, improving substantially over the previous $3$-approximation. Further, we complement our theoretical contributions with experiments on different real-world datasets, which corroborate our theoretical results and demonstrate strong empirical performance relative to state-of-the-art baselines.",
+      "authors": [
+        "Diptarka Chakraborty",
+        "Arya Mazumdar",
+        "Barna Saha",
+        "Alvin Hong Yao Yan"
+      ],
+      "primary_category": "cs.DS",
+      "categories": [
+        "cs.DS"
+      ],
+      "published": "2026-05-22T06:10:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.23265v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "fairness in ranking algorithms for recommendations",
+      "llm_evidence_cn": "推荐中排序算法的公平性",
+      "llm_evidence": "推荐中排序算法的公平性",
+      "canonical_evidence": "推荐中排序算法的公平性",
+      "llm_tldr_en": "Studies fairness-aware ranking aggregation for top-k and full rankings, applicable to recommendation systems.",
+      "llm_tldr_cn": "研究公平性感知的排序聚合，适用于推荐系统。",
+      "llm_tldr": "研究公平性感知的排序聚合，适用于推荐系统。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.23241v1",
+      "source": "arxiv",
+      "title": "RelPrism: A Multi-Faceted Pre-training Framework with Self-Generated Tasks for Relational Databases",
+      "abstract": "Relational databases (RDBs) remain the cornerstone of modern data systems and support diverse predictive tasks. Recent relational deep learning (RDL) methods enable end-to-end prediction by converting RDBs into graphs, where rows are represented as nodes and inter-table interactions are represented as edges, and then applying graph-based models for representation learning. Despite the strong capability of RDL, effective self-supervised pre-training for RDBs remains non-trivial. RDB tasks often require multi-faceted information across different perspectives and granularities. For example, user churn classification may rely more on interaction patterns, whereas consumption value prediction requires both user-item behaviors and intrinsic user attributes for fine-grained regression. Such heterogeneous needs challenge RDB representation learning, as pre-training objectives should cover comprehensive information for downstream adaptation. However, existing SSL methods typically derive supervision from a single facet, such as node-level intrinsic attributes or subgraph-level relational structures, providing limited adaptability. To this end, we propose RelPrism, a multi-faceted self-supervised learning framework for RDBs. RelPrism constructs intrinsic, relational, and hybrid attributes from distinct perspectives, and applies multi-granularity clustering to each perspective to form corresponding pseudo-task pools. Pre-training over these pools exposes representations to broader perspectives and granularity levels, yielding a stronger basis for downstream adaptation. Experiments on 14 tasks across 5 real-world datasets show that RelPrism improves ROC-AUC by 4.15% for classification and reduces MAE by 10.75% for regression over state-of-the-art baselines. Our code is available at https://anonymous.4open.science/r/RelPrism.",
+      "authors": [
+        "Jinyu Yang",
+        "Cheng Yang",
+        "Junze Chen",
+        "Zedi Liu",
+        "Muhan Zhang",
+        "Hanyang Peng",
+        "Chuan Shi"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-22T05:19:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.23241v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "pre-training framework for relational databases enabling user-item behavior prediction",
+      "llm_evidence_cn": "关系数据库预训练框架支持用户-物品行为预测",
+      "llm_evidence": "关系数据库预训练框架支持用户-物品行为预测",
+      "canonical_evidence": "关系数据库预训练框架支持用户-物品行为预测",
+      "llm_tldr_en": "Proposes multi-faceted pre-training for relational databases to support e-commerce prediction tasks.",
+      "llm_tldr_cn": "提出多面预训练框架用于关系数据库，支持电商预测任务。",
+      "llm_tldr": "提出多面预训练框架用于关系数据库，支持电商预测任务。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.21758v1",
+      "source": "arxiv",
+      "title": "A Causal Argumentation Method for Explainability of Machine Learning Models",
+      "abstract": "Explainable AI (XAI) methods identify which features are relevant to a model's predictions but often fail to clarify why certain decisions are made. In this work, we present a novel method that integrates causality with argument-based reasoning to explain why models may be making predictions. Our approach first identifies causal relationships among variables using causal discovery methods and then translates these into a Bipolar Argumentation Framework (BAF) to represent supportive and opposing interactions among features. By using semi-stable semantics, we find extensions of features that explain why certain outcomes may have been chosen. We demonstrate our method on two benchmark datasets and compare its results against standard post-hoc explainability approaches.",
+      "authors": [
+        "Henry Salgado",
+        "Meagan R. Kendall",
+        "Martine Ceberio"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-20T21:40:44+00:00",
+      "link": "https://arxiv.org/pdf/2605.21758v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "causal argumentation for model explainability",
+      "llm_evidence_cn": "因果论证用于模型可解释性",
+      "llm_evidence": "因果论证用于模型可解释性",
+      "canonical_evidence": "因果论证用于模型可解释性",
+      "llm_tldr_en": "Causal argumentation method for explaining machine learning predictions.",
+      "llm_tldr_cn": "用于解释机器学习预测的因果论证方法。",
+      "llm_tldr": "用于解释机器学习预测的因果论证方法。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "interpretability and transparency of symbolic regression models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.25592v1",
+      "source": "arxiv",
+      "title": "Optimal Design for Multinomial Logit Model with Applications to Best Assortment Identification",
+      "abstract": "We study optimal experimental design for multinomial logit (MNL) bandits, where an agent repeatedly selects a subset of $K$ items from a ground set of size $N$ and observes single-choice feedback. Unlike linear or generalized linear bandits, MNL bandits have a combinatorial action space, which makes classical optimal design approaches and naive optimization over all subsets computationally intractable. We propose a computationally efficient optimal design framework for MNL models that achieves both statistical efficiency and scalability through two complementary approaches: (i) an exact or certified-approximate reformulation of the design oracle as a $0$-$1$ mixed-integer linear program (MILP) with solver-certified early stopping, and (ii) a fully polynomial-time lifted design that replaces the nonlinear objective with a tractable surrogate. Using the Kiefer-Wolfowitz equivalence theorem, we establish near G-optimality guarantees and characterize the induced statistical-computational trade-offs. As an application, we develop a best assortment identification algorithm for MNL bandits with linear utilities and non-uniform revenues, and prove an instance-dependent sample complexity of $\\tilde{O}\\big(\\frac{d \\log N}{Δ^2}\\big)$, where $d$ is the feature dimension, $N$ is the number of arms, and $Δ$ is the minimum revenue gap.",
+      "authors": [
+        "Joongkyu Lee",
+        "Min-hwan Oh"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-05-25T08:41:56+00:00",
+      "link": "https://arxiv.org/pdf/2605.25592v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Optimal experimental design for MNL bandits in assortment recommendation",
+      "llm_evidence_cn": "MNL模型的最优实验设计，用于商品组合推荐",
+      "llm_evidence": "MNL模型的最优实验设计，用于商品组合推荐",
+      "canonical_evidence": "MNL模型的最优实验设计，用于商品组合推荐",
+      "llm_tldr_en": "Efficient optimal design for MNL bandits enabling best assortment identification in recommendation",
+      "llm_tldr_cn": "高效MNL模型最优设计，实现推荐中最优商品组合识别",
+      "llm_tldr": "高效MNL模型最优设计，实现推荐中最优商品组合识别",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.25509v1",
+      "source": "arxiv",
+      "title": "Guided Flow Matching for Forward and Inverse PDE Problems with Sparse Observations: Algorithm and Theory",
+      "abstract": "Reconstructing PDE solutions from sparse observations is a core challenge in scientific computing. We present FM4PDE, a flow-matching generative framework that learns the joint distribution of PDE coefficients (or initial states) and solutions (or final states), enabling both forward simulation and inverse recovery with limited paired data. At inference, sampling is guided by a composite loss that enforces agreement with sparse measurements and reduces the PDE residual; we support deterministic, stochastic, and hybrid samplers. We provide error guarantees for these guided procedures. For the deterministic optimizer, a coercivity condition ensures trajectory boundedness and a phase-wise contraction yields logarithmic complexity in the target accuracy. For the stochastic sampler, we introduce adaptive guidance and assume dissipativity of the velocity field to obtain uniform moment bounds independent of the noise-floor parameter. This leads to polynomial-time error bounds, and a matching lower bound shows constant guidance induces an unavoidable positive bias, motivating adaptivity. A hybrid deterministic-stochastic analysis is also provided. Experiments on static and time-dependent benchmark PDEs demonstrate competitive accuracy and faster inference than diffusion-based generative models.",
+      "authors": [
+        "Xifeng Zhang",
+        "Jin Zhao"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-05-25T07:14:11+00:00",
+      "link": "https://arxiv.org/pdf/2605.25509v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "flow matching for PDE discovery with sparse data",
+      "llm_evidence_cn": "流匹配用于稀疏数据的偏微分方程发现",
+      "llm_evidence": "流匹配用于稀疏数据的偏微分方程发现",
+      "canonical_evidence": "流匹配用于稀疏数据的偏微分方程发现",
+      "llm_tldr_en": "Flow-matching generative framework for solving forward and inverse PDE problems from sparse observations.",
+      "llm_tldr_cn": "流匹配生成框架用于从稀疏观测求解正向和逆向偏微分方程问题。",
+      "llm_tldr": "流匹配生成框架用于从稀疏观测求解正向和逆向偏微分方程问题。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "algorithms for scientific equation discovery and modeling",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.23753v1",
+      "source": "arxiv",
+      "title": "SeedER: Seed-and-Expand Retrieval from Knowledge Graphs",
+      "abstract": "Knowledge graphs (KGs) offer a rich representation for relational knowledge, but their irregular structure makes retrieval challenging: ego-graph expansion grows rapidly, and dense embedding methods struggle with multi-hop compositional queries. Existing agent-based graph exploration approaches, while expressive, are often too expensive for large-scale retrieval. We introduce SeedER (Seed-and-Expand Retrieval), a retrieval framework that explicitly leverages KG structure through iterative, low-cost expansion. SeedER first seeds a compact set of core nodes using lightweight dense and entity-based retrieval, then selectively expands this set via a learned graph-aware policy trained with reinforcement learning. This design decomposes global reasoning into reusable local decisions, enabling efficient discovery of query-relevant nodes while tightly controlling expansion cost. We show theoretical limitations of dense retrieval on compositional graph queries, and establish advantages of SeedER from both compositional generalization and graph-constrained submodular optimization perspectives. Empirically, SeedER substantially improves recall with compact candidate sets over strong dense and graph-augmented baselines, making it an effective first-stage retriever for knowledge-intensive reasoning systems.",
+      "authors": [
+        "Hamed Shirzad",
+        "Frederik Wenkel",
+        "Dominique Beaini",
+        "Danica J. Sutherland",
+        "Emmanuel Noutahi"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-22T15:26:31+00:00",
+      "link": "https://arxiv.org/pdf/2605.23753v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "knowledge graph retrieval approach applicable to recommendation",
+      "llm_evidence_cn": "适用于推荐的知识图谱检索方法",
+      "llm_evidence": "适用于推荐的知识图谱检索方法",
+      "canonical_evidence": "适用于推荐的知识图谱检索方法",
+      "llm_tldr_en": "Proposes SeedER, a seed-and-expand retrieval framework for knowledge graphs with learned policy, useful for recommendation.",
+      "llm_tldr_cn": "提出SeedER，一种基于种子扩展的知识图谱检索框架，适用于推荐系统。",
+      "llm_tldr": "提出SeedER，一种基于种子扩展的知识图谱检索框架，适用于推荐系统。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.25758v2",
+      "source": "arxiv",
+      "title": "StreamProfileBench: A Benchmark for Fine-Grained User Profile Inference in Real-World Streaming Scenarios",
+      "abstract": "Large Language Models (LLMs) have reshaped user profiling, yet current evaluations mainly focus on static data snapshots. This paradigm overlooks the reality of personalized systems, where User-Generated Content (UGC) arrives continuously and fine-grained profile evolve rapidly. To bridge this gap, we introduce StreamProfileBench, a large-scale benchmark for fine-grained streaming user profiling. We formalize streaming user profiling as a continuous state maintenance task and curate a highly authentic dataset comprising over 120,000 UGC posts from 7,000+ real users across five diverse platforms. By leveraging the temporal correlation of user interests, we further propose a novel, annotation-free evaluation framework. Extensive experiments across 14 leading LLMs reveal that continuous profile updating remains an open challenge. Models exhibit a systemic conservative bias, over-retaining past interests while failing to recognize interest decay. Ablation experiments further validate the practical utility and necessity of the streaming paradigm.",
+      "authors": [
+        "Sizhe Wang",
+        "Feiyu Duan",
+        "Juelin Wang",
+        "Liwen Zhang",
+        "Zhongyu Wei"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL"
+      ],
+      "published": "2026-05-25T12:10:15+00:00",
+      "link": "https://arxiv.org/pdf/2605.25758v2",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "streaming user profile benchmark for e-commerce personalization",
+      "llm_evidence_cn": "流式用户画像基准用于电商个性化",
+      "llm_evidence": "流式用户画像基准用于电商个性化",
+      "canonical_evidence": "流式用户画像基准用于电商个性化",
+      "llm_tldr_en": "Introduces a benchmark for fine-grained streaming user profiling to enhance recommendation systems.",
+      "llm_tldr_cn": "提出细粒度流式用户画像基准以提升推荐系统。",
+      "llm_tldr": "提出细粒度流式用户画像基准以提升推荐系统。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.25521v1",
+      "source": "arxiv",
+      "title": "CS-PQ: Cache-Friendly SIMD Product Quantization for Large-Scale ANNS Index Construction",
+      "abstract": "Product Quantization (PQ) construction is deeply integrated into vector index construction for Approximate Nearest Neighbor Search (ANNS). The rapid growth in vector dimensionality and volume has significantly increased the computational cost of PQ. Existing GPU-based PQ accelerations are ill-suited for PQ construction due to its \"one-to-one\" execution pattern (one compute, one data load, i.e., data transfer overhead dominates). Although CPU-based solutions are prevalent, they are essentially general-purpose designs that fail to capture the intrinsic characteristics of PQ construction.In this paper, we propose CS-PQ, a Cache-friendly, SIMD-optimized PQ framework based on modern CPUs. CS-PQ introduces a vector-oriented SIMD paradigm that decouples quantization granularity from SIMD width by vectorizing across PQ centroids rather than subvector dimensions. It further restructures the execution pipeline to improve cache locality and reformulates PQ computation to eliminate redundant operations while preserving correctness. Experiments on large-scale datasets show that CS-PQ achieves up to 10.7 times speedup over state-of-the-art CPU-based PQ implementations without sacrificing ANNS accuracy.",
+      "authors": [
+        "Y. T. Ma",
+        "K. C. Huang",
+        "X. K. Jiang",
+        "M. L. Wang",
+        "X. Yao",
+        "R. H. Chen",
+        "G. Zhang",
+        "Z. L. Shao"
+      ],
+      "primary_category": "cs.DB",
+      "categories": [
+        "cs.DB"
+      ],
+      "published": "2026-05-25T07:21:54+00:00",
+      "link": "https://arxiv.org/pdf/2605.25521v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient PQ for ANNS used in recommendation systems",
+      "llm_evidence_cn": "用于推荐系统中近似最近邻搜索的高效乘积量化",
+      "llm_evidence": "用于推荐系统中近似最近邻搜索的高效乘积量化",
+      "canonical_evidence": "用于推荐系统中近似最近邻搜索的高效乘积量化",
+      "llm_tldr_en": "Proposes cache-friendly SIMD PQ for large-scale ANNS index construction",
+      "llm_tldr_cn": "提出缓存友好的SIMD乘积量化用于大规模ANNS索引构建",
+      "llm_tldr": "提出缓存友好的SIMD乘积量化用于大规模ANNS索引构建",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.26819v1",
+      "source": "arxiv",
+      "title": "RAGEAR: Retrieval-Augmented Graph-Enhanced Academic Recommender",
+      "abstract": "We present RAGEAR (Retrieval-Augmented Graph-Enhanced Academic Recommender), a neurosymbolic recommender system for academic course recommendation. RAGEAR combines dense retrieval over full lecture transcripts with a symbolic Knowledge Graph modelling courses, lessons, transcript chunks, credits, study plans, and curricular information. The Knowledge Graph supports symbolic filtering and contextualisation based on structured constraints, such as credits, academic disciplines, study plans, and prerequisites. Unlike metadata-based approaches, it exploits fine-grained instructional content by retrieving transcript chunks semantically aligned with a student's query. The main contribution is a graph-aware aggregation function that propagates chunk-level evidence to course-level recommendations. The score combines three factors: the share of retrieved similarity associated with a course, the rank-based strength of its relevant chunks, and the distribution of evidence across lessons. We evaluate RAGEAR on 152 student-like queries through a human evaluation sample and a large-scale LLM-based relevance assessment. Results show that lecture transcripts improve over metadata-only retrieval, and that RAGEAR further improves ranking quality over a transcript-based normalized SumP baseline, especially for top-ranked recommendations.",
+      "authors": [
+        "Francesco Granata",
+        "Lorenzo Lamazzi",
+        "Misael Mongiovì",
+        "Francesco Poggi",
+        "Valeria Secchini"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-26T10:37:44+00:00",
+      "link": "https://arxiv.org/pdf/2605.26819v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Retrieval-augmented graph-enhanced academic recommender",
+      "llm_evidence_cn": "检索增强图增强学术推荐器",
+      "llm_evidence": "检索增强图增强学术推荐器",
+      "canonical_evidence": "检索增强图增强学术推荐器",
+      "llm_tldr_en": "Neurosymbolic recommender combining dense retrieval and knowledge graphs for course recommendation.",
+      "llm_tldr_cn": "结合密集检索和知识图谱的神经符号推荐器用于课程推荐。",
+      "llm_tldr": "结合密集检索和知识图谱的神经符号推荐器用于课程推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.26072v1",
+      "source": "arxiv",
+      "title": "Active Query Synthesis for Preference Learning",
+      "abstract": "Efficient learning of user preferences is crucial for many modern decision making systems but typically requires costly labeled data. Active learning reduces this cost, yet standard methods are computationally expensive due to pool-based evaluation. Further, most methods assume all query feedback is equally reliable, ignoring that pairwise queries between nearly identical or entirely dissimilar items yield ambiguous, low-confidence responses. To address the issue of feedback reliability, we introduce a novel confidence aware response model that explicitly accounts for these ambiguous comparisons. To overcome the computational bottleneck of pool-based evaluation, we propose an active query synthesis framework, Info-Synth that generates optimal queries by maximizing a mutual information-based objective within a continuous space. Moreover, we propose two strategies, Pair M-dist and Pair Opt-dist, that extend Info-Synth to select effective queries even when restricted to finite query pools. We demonstrate our framework's versatility and performance across synthetic preference learning, constrained text summary datasets, and subjective, continuous-space controller gain tuning for a simulated mobile robot.",
+      "authors": [
+        "Namrata Nadagouda",
+        "Nauman Ahad",
+        "Maegan Tucker",
+        "Mark A. Davenport"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-25T17:37:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.26072v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "active query synthesis for preference learning",
+      "llm_evidence_cn": "主动查询合成用于偏好学习",
+      "llm_evidence": "主动查询合成用于偏好学习",
+      "canonical_evidence": "主动查询合成用于偏好学习",
+      "llm_tldr_en": "Proposes Info-Synth that generates optimal queries for preference learning",
+      "llm_tldr_cn": "提出Info-Synth生成最优查询以学习偏好",
+      "llm_tldr": "提出Info-Synth生成最优查询以学习偏好",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
