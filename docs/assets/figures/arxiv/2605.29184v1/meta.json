@@ -1,0 +1,190 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-016.webp",
+      "caption": "Figure 1. Conceptual overview of the Influence-Guided Symbolic Regression (IGSR) framework. The system operates via a Propose-andPrune Cycle embedded within a Monte Carlo Tree Search. An LLM agent generates candidate basis functions ψj(x) based on problem context. These terms are evaluated to compute weights wj and per-term influence scores ∆j . A deterministic selector retains terms with the highest influence (or in the IGSR-Agent variant, a secondary LLM performs this selection). This feedback loop allows the system to iteratively refine the equation structure, balancing exploration of new functional forms with exploitation of high-influence components.",
+      "page": 4,
+      "index": 16,
+      "width": 903,
+      "height": 373
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-004.webp",
+      "caption": "Table 2. 2a, Benchmark Datasets Evaluation. Test MSE (mean±95 % CI) on held-out data for six benchmarks. IGSR demonstrates competitive or superior performance, particularly among interpretable models. Results on 25 seeds; GPT-4o as LLM backbone. Three vertical subsections correspond to baseline classes: (1) white-box non-LLM baselines, (2) white-box LLM baselines, (3) black-box baselines (dark gray font). Dashes (—) indicate “unable to run”, reason clarified in footnote. Average rank computed for white-box methods only. 2b, LLM-SRBench Evaluation. Performance aggregated across 128 discovery problems in Physics, Biology, Material Science, and Chemistry. We report the average rank achieved by each method (best result in bold, second best underlined) under a fixed token budget. IGSR variants outperform the baselines in both predictive performance (NMSE and Acc0.1) and structural recovery metrics (Term Recall and Symbolic Accuracy), all metrics defined in Appendix E. GPT-4o-mini LLM backbone, 5 seeds per problem.",
+      "page": 7,
+      "index": 4,
+      "width": 1022,
+      "height": 286
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-020.webp",
+      "caption": "Table 5. Extended Comparison: Context and Implementation. This table provides complementary details to Table 1, focusing on data requirements, system types, search mechanisms, and typical domains. Note that while IGSR and AFE both handle feature generation, they serve distinct operational goals (Scientific Discovery vs. Predictive Accuracy on Tabular Data).",
+      "page": 24,
+      "index": 20,
+      "width": 1037,
+      "height": 191
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-001.webp",
+      "caption": "Table 7. Performance and Symbolic Metrics on LLM-SRBench. We report the Normalized Mean Squared Error (NMSE) and Accuracy within 10% tolerance (Acc0.1) for both In-Distribution (ID) and Out-Of-Distribution (OOD) test sets. We also report Term Recall and Symbolic Accuracy to evaluate the recovered equations. As NMSR varies greatly across problems and is affected by outliers, we report this as Median [IQR]. Overall results aggregated across the four Scientific Domains are shown. Formatting: For each column, the best result is bolded and the second best is underlined. Values: Metrics are reported as Median [IQR] for NMSE, and Mean ± Standard Deviation for others.",
+      "page": 43,
+      "index": 1,
+      "width": 1017,
+      "height": 210
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-019.webp",
+      "caption": "Table 8. Average Rank by LLM-SRBench Scientific Domain. We report the average rank (lower is better) for ID (In-Distribution) and OOD (Out-Of-Distribution) predictive performance, as well as symbolic recovery metrics. The best performing method in each column is bolded, and the second best is underlined.",
+      "page": 44,
+      "index": 19,
+      "width": 725,
+      "height": 1252
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-012.webp",
+      "caption": "Table 9. Performance and Symbolic Metrics by LLM-SRBench Scientific Domain. We report the Normalized Mean Squared Error (NMSE) and Accuracy within 10% tolerance (Acc0.1) for both In-Distribution (ID) and Out-Of-Distribution (OOD) test sets. We also report Term Recall and Symbolic Accuracy to evaluate the recovered equations. As NMSR varies greatly across problems and is affected by outliers, we report this as Median [IQR]. Formatting: For each column, the best result is bolded and the second best is underlined. Values: Metrics are reported as Median [IQR] for NMSE, and Mean ± Standard Deviation for others.",
+      "page": 45,
+      "index": 12,
+      "width": 1017,
+      "height": 1013
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-011.webp",
+      "caption": "Figure 5. Visualization of Structural Fidelity vs. Predictive Accuracy on LLM-SRBench. We plot the Out-of-Distribution (OOD) NMSE (log scale, lower is better, axis reversed such that lower values are to the right) against Term Recall (higher is better) for all method-problem pairs. Markers distinguish the discovery methods, while the colors distinguish the Scientific Domains (Physics, Biology, Material Science, Chemistry). IGSR tends to occupy the ideal top-right quadrant more than the baselines, except for the Materials Science domain, where it tends to underperform on Term Recall.",
+      "page": 46,
+      "index": 11,
+      "width": 888,
+      "height": 630
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-017.webp",
+      "caption": "Figure 6. SHAP analysis of the IGSR-discovered equation for RNA Polymerase II pausing from Experiment 1. Each “feature” in the SHAP analysis corresponds to a basis function term ψj(x) from the equation. (a) Beeswarm plot showing the distribution of SHAP values for the most important equation terms. Each point is a SHAP value for a term and a sample, colored by the value of the evaluated basis function ψj(x) (red for high, blue for low). (b) Custom bar plot illustrating global term importance (mean absolute SHAP value) and the direction of influence. Red bars indicate a general positive correlation between the value of ψj(x) and its contribution to the pause score (Spearman’s ρ > 0), while blue bars indicate a negative correlation (Spearman’s ρ < 0).",
+      "page": 49,
+      "index": 17,
+      "width": 897,
+      "height": 811
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-014.webp",
+      "caption": "Figure 7. SHAP analysis of the IGSR-discovered equation for RNA Polymerase II pausing from Experiment 2. Analogous to Figure 6, but for Experiment 2.",
+      "page": 50,
+      "index": 14,
+      "width": 897,
+      "height": 838
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-008.webp",
+      "caption": "Figure 8. Illustration of IGSR Equation Discovery Process. Test MSE achieved versus MCTS nodes expanded for two example IGSR runs (Run A: green, Run B: blue) on the Lung Cancer (with Chemo. & Radio.) dataset. Points A0, A9, A50 for Run A, and B0, B1, B9, B13, B36 for Run B, indicate instances where a new, more accurate equation was discovered. The equations corresponding to these points are detailed below.",
+      "page": 54,
+      "index": 8,
+      "width": 991,
+      "height": 618
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-009.webp",
+      "caption": "Table 12. Extended Ablation Study. We disentangle the effects of MCTS, Influence Feedback, and the term Pruning Approach (Deterministic vs. LLM). Results are test NMSE (lower is better) averaged over 25 seeds with 95% confidence intervals. (Not Valid) indicates an invalid combination: influence feedback cannot be ablated for deterministic pruning.",
+      "page": 54,
+      "index": 9,
+      "width": 1029,
+      "height": 192
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-002.webp",
+      "caption": "Figure 9. Convergence Efficiency: IGSR vs. GPLearn. Test MSE (mean ± 95% CI over 10 seeds) versus number of major evaluation iterations for IGSR (MCTS expansions) and GPLearn (generations) on the Lung Cancer (with Chemo. & Radio.) dataset. IGSR demonstrates faster convergence to a lower MSE, indicating superior search efficiency.",
+      "page": 58,
+      "index": 2,
+      "width": 795,
+      "height": 548
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-013.webp",
+      "caption": "Figure 10. MSE (± 95% CI error bars) on benchmark datasets for ZeroShot, ZeroOptim, ICL, and IGSR across various base LLMs, including open-weight models. Each subfigure represents a different dataset. IGSR outperforms the other methods across the datasets and base LLMs with few exceptions. Note: The y axis (MSE) scale is logarithmic. For each dataset: the MSE range is different for the ZeroShot baseline, as its performance is significantly worse; the other methods are shown over matching ranges for clarity.",
+      "page": 60,
+      "index": 13,
+      "width": 999,
+      "height": 1216
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-005.webp",
+      "caption": "Table 14. Performance with Increasing Numbers of Irrelevant Features. Test MSE (mean ± 95% CI) on the Lung Cancer (with Chemo. & Radio.) dataset, augmented with varying numbers of normally distributed, irrelevant features. Results are averaged over 25 seeds. Lower MSE is better. “+0 Features” corresponds to the original dataset.",
+      "page": 61,
+      "index": 5,
+      "width": 1045,
+      "height": 207
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-007.webp",
+      "caption": "Figure 11. Distribution of influence values ∆ on Lung Cancer (with Chemo. & Radio.) (symlog x–axis; extreme outliers clipped at the 0.01% tails for legibility).",
+      "page": 66,
+      "index": 7,
+      "width": 1006,
+      "height": 962
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-015.webp",
+      "caption": "Figure 12. Distribution of influence values ∆ on RNA Polymerase (symlog x–axis; extreme outliers clipped).",
+      "page": 67,
+      "index": 15,
+      "width": 1005,
+      "height": 962
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-018.webp",
+      "caption": "Figure 13. Collinearity stress test for influence-based pruning on Lung Cancer (with Chemo. & Radio.), 15 seeds. Variables: x = tumor volume, C = chemo. concentration, uc = chemo. dosage, d = radiotherapy dose. Setup. A 14-term candidate pool mixes the 6 ground-truth basis functions with 4 correlated clones and 4 distractors (a). Each clone vρ of a variable v∈{C, uc, d} is constructed as vρ = v + sd(v) √ ρ−2−1 ε, ε∼N (0, 1), so that Corr(v, vρ) ≈ ρ. Clones share the signal group of their original (e.g. {C, Cρ}). After fitting with all 14 terms on train, per-term influence is computed on validation, aggregated across outputs via max, and the top-K (K=6) terms are retained, matching the default pruning protocol. Result. The default no-refit influence correctly identifies all 6 signal groups in every seed, even at ρ=0.999. Refit-aware variants yield identical selections but are ≈2–7× slower (full refit requires p separate least-squares solves).",
+      "page": 68,
+      "index": 18,
+      "width": 931,
+      "height": 336
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-022.webp",
+      "caption": "Figure 15. Pairwise Jaccard similarity of discovered term sets across 25 seeds on Lung Cancer (with Chemo. & Radio.), after canonicalization. Seeds are sorted by validation MSE (shown in parentheses). The dark top-left block (J≈1) is the near-exact-recovery tier; the lower-right cluster is internally similar but approximates the Gompertz nonlinearity differently. Mean pairwise J = 0.65.",
+      "page": 69,
+      "index": 22,
+      "width": 706,
+      "height": 633
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-023.webp",
+      "caption": "Figure 16. Distribution of pairwise Jaccard similarity over the 300 seed pairs (same data as Figure 15). Mean = 0.65, median = 0.50. The mass at J = 1 corresponds to seed pairs with identical canonical term sets (86 of 300 pairs).",
+      "page": 69,
+      "index": 23,
+      "width": 683,
+      "height": 388
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-006.webp",
+      "caption": "Table 20. Comparison of IGSR vs. IGSR-TLO. Test MSE (mean ± 95% CI) across all benchmark datasets. Results are averaged over 25 seeds. Lower is better. Bold indicates the better-performing variant for each dataset (if confidence intervals overlap, only the mean of the better-performing variant is bold.)",
+      "page": 71,
+      "index": 6,
+      "width": 725,
+      "height": 200
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-010.webp",
+      "caption": "Table 23. Comparison against Automated Feature Engineering (AFE) Baselines. We evaluate IGSR against traditional white-box AFE (AutoFeat with LASSO regressor, SyMANTIC), a tree-optimized AFE method (OpenFE + XGBoost), and an LLM-based AFE framework (CAAFE, adapted for regression). Because methods like CAAFE inherently evaluate all raw features globally, we also report an IGSR + Base Feat. Imp. variant where the LLM is provided with the relative importances of the top 20 raw features (computed once a priori via Ridge regression on standardized training data) to aid in navigating complex feature spaces while preserving symbolic sparsity. Evaluated over 25 seeds, IGSR and its variant maintain superior predictive accuracy, though CAAFE performs comparably to default IGSR on the RNAPol dataset. Notably, traditional AFE methods struggled on the high-dimensional RNAPol dataset: AutoFeat and OpenFE timed out due to combinatorial explosion, while SyMANTIC exceeded memory limits (496GB RAM). IGSR overcomes these limitations via semantic priors. Abbreviations and configuration: As per the main benchmark experiment (Table 2a).",
+      "page": 74,
+      "index": 10,
+      "width": 1037,
+      "height": 220
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-003.webp",
+      "caption": "Table 31. Computational Cost and Performance Comparison. Benchmarks on the Lung Cancer (with Chemo. & Radio.) dataset. Cost is based on GPT-4o API pricing at the time of experimentation.",
+      "page": 79,
+      "index": 3,
+      "width": 1033,
+      "height": 206
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29184v1/fig-021.webp",
+      "caption": "Table 32. Performance Comparison Under a Fixed Token Budget (≈265k Tokens). Results on the Lung Cancer (with Chemo. & Radio.) dataset, averaged over 5 seeds.",
+      "page": 80,
+      "index": 21,
+      "width": 1043,
+      "height": 267
+    }
+  ]
+}

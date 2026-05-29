@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29322v1/fig-002.webp",
+      "caption": "Table 1: Performance comparison with LLM-as-Extractor baselines across four benchmark datasets using SASRec backbone. The best results are shown in bold, and the second-best are underlined. ‘*’ denotes a statistically significant improvement over all baselines (𝑝 < 0.05, one-tailed t-test).",
+      "page": 3,
+      "index": 2,
+      "width": 1052,
+      "height": 211
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29322v1/fig-001.webp",
+      "caption": "Table 2: Performance comparison against LLM-as-Extractor baselines across two SR backbones on the Beauty and Yelp datasets. The best performance is highlighted in bold, and the second-best is underlined.",
+      "page": 4,
+      "index": 1,
+      "width": 452,
+      "height": 423
+    }
+  ]
+}

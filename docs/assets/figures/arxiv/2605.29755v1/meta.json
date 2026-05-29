@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29755v1/fig-004.webp",
+      "caption": "Figure 1: The overall architecture of the Rec-Distill framework. The left side illustrates teacher scaling to maximize ΔGainscale. The right side depicts the student model with its decoupled-tower structure, designed to maximize distillation transferability 𝜂.",
+      "page": 4,
+      "index": 4,
+      "width": 844,
+      "height": 469
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29755v1/fig-001.webp",
+      "caption": "Figure 2: The hybrid batch-streaming distillation pipeline. Batch distillation enables fast initial convergence, while streaming distillation ensures continuous adaptation to real-time data distribution shifts.",
+      "page": 6,
+      "index": 1,
+      "width": 844,
+      "height": 502
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29755v1/fig-003.webp",
+      "caption": "Figure 3: Distillation transferability as a function of student model capacity. Smaller students still benefit from distillation, but transferability drops as the teacher-student capacity gap increases.",
+      "page": 8,
+      "index": 3,
+      "width": 406,
+      "height": 302
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29755v1/fig-005.webp",
+      "caption": "Figure 4: Student scaling trend before and after distillation. Distillation raises the overall AUC curve while preserving the relative scaling behavior of the Base model.",
+      "page": 9,
+      "index": 5,
+      "width": 406,
+      "height": 300
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29755v1/fig-002.webp",
+      "caption": "Table 10: Online performance improvements (+Δ%) across different scenarios.",
+      "page": 10,
+      "index": 2,
+      "width": 456,
+      "height": 339
+    }
+  ]
+}

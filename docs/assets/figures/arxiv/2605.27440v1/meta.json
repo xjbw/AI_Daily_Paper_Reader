@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.27440v1/fig-001.webp",
+      "caption": "Table 3: Consensus-recommendation Jaccard summary. Cosmetic paraphrase sits 21–32 percentage points below the rerun-stability baseline; constraint-adding paraphrase (pooled) sits 37–48 percentage points below. Clustered 95% CIs on the paraphrase numbers (cosmetic [0.215, 0.361]; constraintadding pool [0.098, 0.175]) are far below the rerun-stability baseline at every endpoint.",
+      "page": 7,
+      "index": 1,
+      "width": 977,
+      "height": 223
+    }
+  ]
+}

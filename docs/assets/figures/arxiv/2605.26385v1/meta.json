@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26385v1/fig-005.webp",
+      "caption": "Figure 2. (Left) Credit-assignment issue of V-PG and (Right) Concept of the “credit-assigned” PG.",
+      "page": 4,
+      "index": 5,
+      "width": 917,
+      "height": 242
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26385v1/fig-003.webp",
+      "caption": "Table 2. Comparing PG methods with a single logit model",
+      "page": 8,
+      "index": 3,
+      "width": 963,
+      "height": 227
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26385v1/fig-004.webp",
+      "caption": "Figure 3. Comparing the training stability and convergence performance (policy value) of each PG with varying # of candidates (K). Each line shows the learning curve for a single random seed (i.e., 10 random seed results can overlap). The vertical lines indicate training termination; any line appearing before 500K gradient steps signifies an interruption due to gradient overflow. Two horizontal lines show the 100% (top) and 95% (bottom) lines of the V-PG-SwR policy values, to compare the convergence speed of each method.",
+      "page": 8,
+      "index": 4,
+      "width": 967,
+      "height": 217
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26385v1/fig-001.webp",
+      "caption": "Figure 4. Comparison of the computational time for running 1K gradient steps. We ran each PG method for 10 random seeds. The result reports the mean and standard deviation of the runtime, excluding trials in which gradient overflow occurred. The left figure uses M = 1 (i.e., single logit model), and the right figure uses L = 1 (i.e., final ranking length is 1).",
+      "page": 22,
+      "index": 1,
+      "width": 967,
+      "height": 196
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26385v1/fig-002.webp",
+      "caption": "Figure 7. Comparing the training process of each PG method with varying candidate sizes (K) in the real-data experiment.",
+      "page": 22,
+      "index": 2,
+      "width": 995,
+      "height": 223
+    }
+  ]
+}

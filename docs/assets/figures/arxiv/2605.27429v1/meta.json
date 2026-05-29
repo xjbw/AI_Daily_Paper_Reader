@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.27429v1/fig-003.webp",
+      "caption": "Figure 1: Ocean4Rec overview. Item OCEAN profiles are generated offline from content metadata, user OCEAN profiles are computed from recent profiled interactions, and request-time reranking combines base model score, OCEAN compatibility, and catalog recency without an online LLM call.",
+      "page": 3,
+      "index": 3,
+      "width": 1056,
+      "height": 529
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27429v1/fig-002.webp",
+      "caption": "Table 2: Same-candidate Top1000 temporal-holdout ablation. Values are rounded offline point estimates within the same generator and cutoff; relative deltas in text use full precision.",
+      "page": 6,
+      "index": 2,
+      "width": 1056,
+      "height": 269
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27429v1/fig-001.webp",
+      "caption": "Table 3: Secondary diagnostics. VOD rows use the same temporal holdout and Top1000 candidate sets as Table 2. Public rows use sampled public subsets and Top20 candidates, so absolute values must not be compared across VOD and public blocks. HR@20 on public Top20 rows is candidate-set recall rather than a rank-sensitive reranking metric. These rows are protocol sanity checks, not the main evidence.",
+      "page": 6,
+      "index": 1,
+      "width": 1056,
+      "height": 240
+    }
+  ]
+}

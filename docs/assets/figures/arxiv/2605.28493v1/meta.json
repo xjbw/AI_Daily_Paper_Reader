@@ -1,0 +1,94 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-004.webp",
+      "caption": "Fig. 1. An illustration of our proposed Uncertainty-Guided Future Supervision.",
+      "page": 2,
+      "index": 4,
+      "width": 694,
+      "height": 260
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-001.webp",
+      "caption": "Fig. 2. Overview of the proposed UFRec framework. (1) The sequential recommendation backbone (left) encodes the user’s historical interaction sequence into a latent state h to predict the immediate next item 𝑣𝑢 𝑡+1. (2) The uncertainty-guided future supervision module (middle) performs parallel multi-step future prediction. It incorporates a novel uncertainty-aware mechanism that computes the entropy of the main prediction to dynamically modulate the auxiliary loss weight 𝜔 . (3) The future-aware contrastive learning module (right) captures global preference trends by aligning the projected current state h𝑧 with a future horizon representation z derived from the ground-truth future sequence. Note that components (2) and (3) are only utilized during training and introduce no additional computational overhead during inference.",
+      "page": 6,
+      "index": 1,
+      "width": 889,
+      "height": 404
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-009.webp",
+      "caption": "Table 2. Dataset statistics.",
+      "page": 12,
+      "index": 9,
+      "width": 716,
+      "height": 229
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-005.webp",
+      "caption": "Table 3. Performance comparison of different methods on four datasets (HR@10 and NDCG@10). Bold font indicates the best performance, while underlined values represent the second-best. Our method achieves state-of-the-art results among all methods, as confirmed by a paired t-test with a significance level of 0.01.",
+      "page": 14,
+      "index": 5,
+      "width": 895,
+      "height": 511
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-002.webp",
+      "caption": "Table 4. Performance comparison of different methods on four datasets (HR@20 and NDCG@20). Bold font indicates the best performance, while underlined values represent the second-best. Our method achieves state-of-the-art results among all methods, as confirmed by a paired t-test with a significance level of 0.01.",
+      "page": 15,
+      "index": 2,
+      "width": 898,
+      "height": 1105
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-011.webp",
+      "caption": "Fig. 3. Generalizability analysis of UFRec across different sequential recommendation models. We compare the original performance of SASRec, LLM-ESR, and DuoRec against their variants enhanced with our framework (denoted as “+UF”).",
+      "page": 16,
+      "index": 11,
+      "width": 711,
+      "height": 760
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-008.webp",
+      "caption": "Fig. 4. Hyperparameter study of maximum future time step 𝐾 on four datasets.",
+      "page": 17,
+      "index": 8,
+      "width": 685,
+      "height": 262
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-007.webp",
+      "caption": "Table 5. Ablation study on all datasets.",
+      "page": 17,
+      "index": 7,
+      "width": 537,
+      "height": 298
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-006.webp",
+      "caption": "Fig. 5. Hyperparameter study of 𝜏 , and 𝜆 on four datasets.",
+      "page": 18,
+      "index": 6,
+      "width": 684,
+      "height": 515
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-010.webp",
+      "caption": "Fig. 6. Performance comparison on different user groups.",
+      "page": 20,
+      "index": 10,
+      "width": 744,
+      "height": 505
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28493v1/fig-003.webp",
+      "caption": "Fig. 7. Impact of Uncertainty-Guided Modulation on Future Supervision. The results demonstrate that while indiscriminate future supervision (Backbone + FS) degrades performance, the uncertainty-guided approach yields significant improvements.",
+      "page": 21,
+      "index": 3,
+      "width": 737,
+      "height": 518
+    }
+  ]
+}

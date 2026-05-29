@@ -1,0 +1,102 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-012.webp",
+      "caption": "Figure 1: Fraction of points in knn(q) which hash collide with q and c respectively. Measured by applying 1000 random functions from Hrp to 100 random queries, over the MirFlickr Dino2 dataset. It is possible for q to collide with only a small fraction of knn(q), whereas this is not possible for an element c ∈ Φ.",
+      "page": 5,
+      "index": 12,
+      "width": 976,
+      "height": 365
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-003.webp",
+      "caption": "Figure 2: Comparison of query algorithm for: abstract LSH-based ANN model (above) and our modification (below).",
+      "page": 7,
+      "index": 3,
+      "width": 786,
+      "height": 989
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-011.webp",
+      "caption": "Figure 3: Recall results for an RP-Forest and MQ-Forest consisting of y trees. Note that the degree of vertical difference between the two curves represents improvement; lower is better. For example, MirFlickr can be searched at a recall of approximately 75% in 96 trees for RP-Forest, and approximately 43 for MQ-Forest whilst reducing the number of distance calculations.",
+      "page": 9,
+      "index": 11,
+      "width": 976,
+      "height": 689
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-006.webp",
+      "caption": "Figure 4: Distance computations for an RP-Forest and MQ-Forest consisting of y trees.",
+      "page": 10,
+      "index": 6,
+      "width": 976,
+      "height": 690
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-001.webp",
+      "caption": "Figure 5: RP-Forest and MQ-Forest: Recall vs Queries Per Second. Note the log-scale y axis. Searching for k = 20 near neighbours.",
+      "page": 11,
+      "index": 1,
+      "width": 979,
+      "height": 792
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-010.webp",
+      "caption": "Figure 6: Fraction of points in knn(q) which collide with q (left column) and c (right column). Measured using 1000 randomly drawn hash binary functions and 100 queries.",
+      "page": 13,
+      "index": 10,
+      "width": 976,
+      "height": 1278
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-002.webp",
+      "caption": "Figure 7: Average value of κ from estimating c via a random selection of 100 elements the m nearest neighbours.",
+      "page": 15,
+      "index": 2,
+      "width": 444,
+      "height": 1235
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-005.webp",
+      "caption": "Figure 8: Aggregated off-diagonal covariance values when applying a large number of binary hash functions to ⟨c⟩ (blue) and q (orange) as instances of u. Measured over 100 random queries.",
+      "page": 22,
+      "index": 5,
+      "width": 976,
+      "height": 679
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-007.webp",
+      "caption": "Figure 9: Rate of change of the candidate set after trees in an RP-Forest are searched. k = 100.",
+      "page": 23,
+      "index": 7,
+      "width": 976,
+      "height": 598
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-009.webp",
+      "caption": "Figure 10: The distributions of co-ordinate 0 of c− q, ⟨ĉ⟩ − q, and ⟨ĉ⟩ − c over 5000 queries.",
+      "page": 28,
+      "index": 9,
+      "width": 490,
+      "height": 372
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-008.webp",
+      "caption": "Figure 11: The distributions of co-ordinate 0 of c and ⟨ĉ⟩ over 5000 queries.",
+      "page": 28,
+      "index": 8,
+      "width": 490,
+      "height": 373
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23807v1/fig-004.webp",
+      "caption": "Figure 12: Empirical observations vs theoretical model of the distribution of co-ordinate 0 if ⟨ĉ⟩−c over 5000 separate queries.",
+      "page": 29,
+      "index": 4,
+      "width": 490,
+      "height": 379
+    }
+  ]
+}

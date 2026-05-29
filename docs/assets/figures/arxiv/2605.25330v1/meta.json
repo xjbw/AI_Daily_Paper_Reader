@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.25330v1/fig-001.webp",
+      "caption": "Figure 1: (a) Overview of SID-based generative recommendation. (b) Under zero collision, each SID sequence identifies one item; under SID collision, the same SID sequence maps to multiple items, inflating estimates of item-level performance.",
+      "page": 2,
+      "index": 1,
+      "width": 499,
+      "height": 336
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25330v1/fig-004.webp",
+      "caption": "Figure 2: Collision-corrected evaluation. The expanded item ranking determines how a SID-level hit is credited under item-level top-𝐾 evaluation.",
+      "page": 3,
+      "index": 4,
+      "width": 456,
+      "height": 567
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25330v1/fig-002.webp",
+      "caption": "Table 3: Native vs. +ZCR performance under collision-corrected item-level metrics. Red subscripts denote relative changes over the paired native tokenizer. MQL4GRec is a zero-collision reference without a native counterpart. Results are averaged over three seeds. Per-cell standard deviations across seeds range from 0.0001 to 0.0032 (median 0.0011)",
+      "page": 7,
+      "index": 2,
+      "width": 1070,
+      "height": 602
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25330v1/fig-007.webp",
+      "caption": "Figure 3: Case study of reassignment within one Beauty/RKMeans collision group (prefix [127, 244, 179]). (a) Native collision before reassignment. (b) Greedy sequential reassignment. (c) ZCRminimum-cost reassignment, whose joint minimum is identified by Eq. 10 over all 𝑉 last-level codes. Positions are schematic, and costs are computed in the original residual space.",
+      "page": 8,
+      "index": 7,
+      "width": 448,
+      "height": 525
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25330v1/fig-005.webp",
+      "caption": "Table 4: Comparison of four existing tokenizers in terms of collision rate (Coll.%), recommendation performance (H@10, IH@10), and inflation ratio (Infl.%) before collisionresolution post-processing.",
+      "page": 8,
+      "index": 5,
+      "width": 494,
+      "height": 440
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25330v1/fig-006.webp",
+      "caption": "Table 5: Reassignment cost under the zero-collision constraint. 𝑛reass denotes the number of reassigned items, while∑ Δ𝐷 denotes the total increase in assignment cost.",
+      "page": 8,
+      "index": 6,
+      "width": 500,
+      "height": 299
+    },
+    {
+      "url": "assets/figures/arxiv/2605.25330v1/fig-003.webp",
+      "caption": "Figure 5: 𝑡-SNE visualization of item embeddings onCell andYelp, underQwen3 textual embeddings andPPMI+SVD collaborative embeddings. Different colors of data points indicate distinct highlighted SID groups, and light grey points belong to other collision groups.",
+      "page": 10,
+      "index": 3,
+      "width": 889,
+      "height": 340
+    }
+  ]
+}

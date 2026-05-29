@@ -1,0 +1,981 @@
+Title: Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation
+
+URL Source: https://arxiv.org/pdf/2605.28493v1
+
+Published Time: Thu, 28 May 2026 01:45:47 GMT
+
+Number of Pages: 24
+
+Markdown Content:
+# Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 
+
+## ZIQIANG CUI, City University of Hong Kong, China 
+
+## XING TANG, Shenzhen Technology University, China 
+
+## PEIYANG LIU, Peking University, China 
+
+## XIAOKUN ZHANG, City University of Hong Kong, China 
+
+## SHIWEI LI, Huazhong University of Science and Technology, China 
+
+## XIUQIANG HE, Shenzhen Technology University, China 
+
+## CHEN MA, City University of Hong Kong, China 
+
+Sequential recommendation effectively models dynamic user interests but continues to face challenges related to data sparsity. While self-supervised learning has alleviated this issue to some extent, most existing methods focus exclusively on immediate next-item prediction during training, thereby neglecting the rich information embedded in longer-term future interactions. Although a few studies have explored the utilization of future data, existing attempts typically apply future supervision signals with uniform intensity across all samples, which may lead to suboptimal solutions. In this paper, we propose an adaptive future learning framework, UFRec ,which encourages the model to look further ahead when it is confident in the current state, while focusing on the immediate task when it is uncertain. Specifically, UFRec incorporates an Uncertainty-Guided Future Supervision module that dynamically modulates the weight of multi-step future supervision based on the model’s confidence in the primary next-item prediction task. Furthermore, we complement step-wise future supervision with a Future-Aware Contrastive Learning module that treats the future trajectory as a holistic entity. Notably, both auxiliary modules are utilized exclusively during training and incur no inference overhead. Extensive experiments on four benchmark datasets demonstrate that our method significantly outperforms state-of-the-art approaches by effectively leveraging future data. Our code is available at https://github.com/ziqiangcui/UFRec. CCS Concepts: • Information systems → Recommender systems .Additional Key Words and Phrases: Sequential Recommendation, Self-Supervised Learning, Future Supervision 
+
+ACM Reference Format: 
+
+Ziqiang Cui, Xing Tang, Peiyang Liu, Xiaokun Zhang, Shiwei Li, Xiuqiang He, and Chen Ma. 2018. Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation. In Proceedings of Make sure to enter the correct conference title from your rights confirmation email (Conference acronym ’XX). ACM, New York, NY, USA, 24 pages. https://doi.org/XXXXXXX.XXXXXXX 
+
+Authors’ Contact Information: Ziqiang Cui, ziqiang.cui@my.cityu.edu.hk, City University of Hong Kong, Hong Kong, China; Xing Tang, xing.tang@ hotmail.com, Shenzhen Technology University, Shenzhen, China; Peiyang Liu, liupeiyang@pku.edu.cn, Peking University, Beijing, China; Xiaokun Zhang, dawnkun1993@gmail.com, City University of Hong Kong, Hong Kong, China; Shiwei Li, lishiwei@hust.edu.cn, Huazhong University of Science and Technology, Wuhan, China; Xiuqiang He, hexiuqiang@sztu.edu.cn, Shenzhen Technology University, Shenzhen, China; Chen Ma, chenma@cityu.edu.hk, City University of Hong Kong, Hong Kong, China. Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. 
+
+© 2018 Copyright held by the owner/author(s). Publication rights licensed to ACM. Manuscript submitted to ACM Manuscript submitted to ACM 1
+
+> arXiv:2605.28493v1 [cs.IR] 27 May 2026
+
+2 Ziqiang Cui et al. Flat Distribution (Confused)        
+
+> I know the t+1
+> step, let’s learn
+> farther ahead.
+> Let’s primarily
+> focus on t+1
+> step.
+> Sharp Distribution (Confident)
+> t+1 t+2 t+3 t+1 t+2 t+3
+> High Weight Low Weight
+> a. Model is sure about next item b. Model is NOT sure about next item
+> Fig. 1. An illustration of our proposed Uncertainty-Guided Future Supervision.
+
+1 Introduction 
+
+Recommender systems play a critical role in alleviating information overload by filtering vast amounts of content and delivering personalized suggestions. To capture dynamic user interests, sequential recommendation has emerged as a key research area. Unlike static models that treat user interactions as isolated events, sequential recommendation explicitly models the temporal dependencies and evolving patterns within a user’s historical behaviors, achieving notable results. Consequently, this paradigm has been widely adopted by major online platforms such as YouTube and Amazon. Despite significant advancements in sequential recommendation, the field remains constrained by the sparsity of user-item interactions, a problem characterized by users with limited history and items receiving scant attention. To mitigate this challenge, numerous studies have introduced auxiliary self-supervised signals to enhance data utilization [ 22 , 35 , 37 ,40 , 46 , 51 , 53 ]. This paradigm typically involves training on auxiliary objectives where ground-truth samples are derived directly from the raw data. A prominent example is S3-Rec [ 52 ], which employs four self-supervised objectives to learn correlations among attributes, items, subsequences, and sequences via mutual information maximization. Furthermore, contrastive learning has emerged as a dominant self-supervised approach by constructing positive pairs and minimizing their distance in the representation space to capture intrinsic patterns. Within this framework, some methods generate contrastive pairs by creating semantically related views of the same sequence via data augmentation [ 21 , 23 , 39 ], while others identify similar users as positive pairs through clustering or retrieval mechanisms [2, 3, 22]. While existing self-supervised methods have proven effective, they suffer from suboptimal data utilization due to their exclusive reliance on the immediate next item for supervision. This narrow focus discards the valuable information contained in longer-term interactions, leading to model myopia: representations struggle to capture evolving long-term preferences and become susceptible to short-term noise or accidental clicks. To address this, we propose leveraging multi-step future behaviors as auxiliary supervisory signals during training. While the primary task remains next-item prediction, incorporating these future interactions offers three distinct benefits. First, it transforms sparse one-step signals into denser supervision. Second, it encourages the model to look beyond the immediate horizon, thereby improving its understanding of interest evolution. Finally, by integrating behaviors over multiple steps, the model can more effectively filter out isolated anomalies to identify consistent user preferences, ensuring more robust supervision. However, the effective utilization of future interactions remains a significant challenge. To the best of our knowledge, only two works have investigated this area: DSSRec [ 20 ], which predicts future intentions via clustering and disentangled 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 3representations, and FENRec [ 10 ], which incorporates future supervision using time-dependent soft labels. Crucially, both methods apply future supervision indiscriminately across all samples. Although predicting multi-step future behaviors can theoretically increase supervision density, enforcing such objectives uniformly is problematic. Specifically, if a model exhibits high uncertainty in predicting the immediate next item, it implies an inadequate understanding of the user’s current preference. Compelling the model to predict distant interactions under these conditions introduces unreliable signals that may conflict with the primary task. This risks degrading the learned representations, thereby further impairing performance on the main objective (i.e., next item prediction). Therefore, we argue that the effective utilization of future data should take into account the model’s confidence in the current state. Motivated by this, we propose Uncertainty-Guided Future Learning for Sequential Rec ommendation ( UFRec ). UFRec is a model-agnostic framework designed to effectively leverage future interactions as auxiliary signals during training. UFRec incorporates an uncertainty-guided future supervision module. Specifically, we quantify the model’s uncertainty in the primary next-item prediction task based on Shannon entropy, where the uncertainty is subsequently utilized to dynamically adjust the weight of the auxiliary future supervision loss. This mechanism ensures that the model assigns less weight to future supervision when it lacks confidence in the immediate next step. Conversely, when the model is confident in its current prediction, it is encouraged to leverage future information more aggressively. To further enhance representation quality, we complement the step-wise supervision with a future-aware contrastive learning module that treats the future trajectory as a holistic entity. This module explicitly aligns the user’s current representation with their own “future horizon” while distinguishing it from the future trajectories of other users, thereby refining the learned representations. Crucially, all auxiliary objectives in our framework serve strictly as training-time regularizations. During inference, the auxiliary modules are detached, incurring zero additional computational overhead compared to the backbone model. Extensive experiments on four benchmark datasets validate the superiority of our method. Our contributions are summarized as follows: 
+
+• We propose an Uncertainty-Guided Future Supervision mechanism that adaptively leverages multi-step future interactions as auxiliary signals during training. By dynamically modulating the future supervision weight based on the uncertainty of the primary next-item prediction, we effectively utilize valuable future data while preventing negative interference with the primary task. 
+
+• We introduce a Future-Aware Contrastive Learning module to capture holistic preference trends beyond step-wise accuracy. This component aligns the user’s current representation with their specific future horizon while distinguishing it from others, thereby capturing holistic preference evolution and enhancing the discriminative power of the learned representations. 
+
+• We conduct extensive experiments on four real-world benchmark datasets. The results demonstrate that our framework significantly outperforms state-of-the-art sequential recommendation methods, and further anal-yses validate the effectiveness of each module and the framework’s strong generalizability across different recommendation backbones. 
+
+2 Related Work 
+
+In this section, we review the literature closely related to our proposed framework. We first summarize the evolution of sequential recommendation models, highlighting the shift from traditional probabilistic methods to advanced deep learning-based architectures. Subsequently, we discuss the application of self-supervised learning in recommender systems. 
+
+> Manuscript submitted to ACM
+
+4 Ziqiang Cui et al. 
+
+2.1 Sequential Recommendation 
+
+The progression of sequential recommendation (SR) methodologies has been marked by a shift from probabilistic modeling to advanced representation learning. Initially, user behavior sequences were typically formulated as Markov chains [ 6, 26 ]. However, the emergence of deep learning introduced powerful architectures like Convolutional Neural Networks (CNNs) and Recurrent Neural Networks (RNNs) to the domain, resulting in superior predictive capabilities [ 8,9 , 30 ]. A major paradigm shift occurred with the adoption of attention mechanisms [ 15 , 48 ]; SASRec [ 13 ] was the first to leverage self-attention for SR, a concept further extended by BERT4Rec [ 29 ] through bidirectional encoding to capture comprehensive context. Contemporary research continues to build on these foundations, with recent studies integrating graph neural networks and enhanced self-attention layers to further optimize recommendation performance [ 7, 28 , 38 , 47 ]. Recently, the field has witnessed a surge of interest in adapting Large Language Models (LLMs) for SR [ 17 , 32 ]. Generally, LLMs are employed either as direct recommenders or as enhancers for extracting semantic information [ 1 , 14 , 16 , 25 , 50 ]. In the former paradigm, user behaviors and item descriptions are converted into textual prompts, allowing the LLM to generate recommendations directly based on its pre-trained knowledge or through supervised fine-tuning. In the latter paradigm [ 1, 18 , 25 , 34 , 41 , 50 ], LLMs are leveraged to process textual data and integrate rich semantic representations into traditional ID-based models, thereby combining the reasoning power of LLMs with the efficiency of collaborative filtering. However, all these methods rely on the immediate next item as the supervision label, thereby overlooking the valuable information embedded in future items. 
+
+2.2 Self-Supervised Learning 
+
+Self-supervised learning trains networks using auxiliary objectives, where ground-truth labels are automatically derived from raw data [ 24 , 45 ]. It has been widely adopted to mitigate data sparsity by constructing rich supervisory signals directly from the data itself [ 4 , 11 , 12 , 22 , 33 , 35 –37 , 40 , 42 –44 , 46 , 51 , 53 ]. For instance, S3-Rec [ 52 ] devises four auxiliary self-supervised objectives to learn correlations among attributes, items, subsequences, and sequences via mutual information maximization. In addition, BERT4Rec[ 29 ] adopts a Cloze objective, predicting randomly masked items within a sequence by conditioning jointly on their left and right contexts. However, most existing methods fail to leverage future interactions. To address this, Ma et al . [20] proposed a disentangled sequence-to-sequence self-supervision strategy that mines long-term signals by reconstructing future sequence representations in the latent space. Furthermore, Huang et al. [10] introduced FENRec, which enhances sequential recommendation by employing time-dependent soft labeling to utilize future interactions and incorporating enduring hard negative samples. While these two works demonstrate the value of future signals, they suffer from a common drawback: they apply future supervision indiscriminately to all samples. When the model exhibits high uncertainty in predicting the immediate next item—indicating an insufficient grasp of the user’s current preference—forcing it to predict distant future interactions introduces unreliable supervisory signals. This noise propagation can degrade the quality of learned representations. In contrast to these static approaches, our method introduces an uncertainty-aware mechanism. We quantify the model’s uncertainty in the primary next-item prediction task and dynamically adjusts the weight of the auxiliary future supervision loss. This ensures that the model assigns lower importance to future supervision when confidence in the immediate next step is low, thereby adaptively suppressing unreliable signals derived from uncertain states. As a pivotal paradigm in self-supervised learning, contrastive learning derives informative supervisory signals from unlabeled data and has been widely adopted in recent years. For instance, CL4SRec [ 39 ] employs three data-level augmentation operators (cropping, masking, and reordering) to generate positive pairs, thereby promoting 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 5representational invariance. In addition, CoSeRec [ 19 ] proposes substituting specific items within a sequence with semantically similar alternatives. At the model level, DuoRec [ 23 ] generates positive pairs by forward-passing an input sequence twice using distinct dropout masks. Additionally, ICLRec [ 2 ] extracts user intent from sequential data to perform contrastive learning between user and intent representations. More recently, SRA-CL [ 3 ] leverages the semantic understanding capabilities of LLMs to guide the construction of contrastive samples, generating more rational positive pairs and further improving performance. Despite the effectiveness of these approaches, they fail to incorporate future interactions within user sequences. In contrast to existing methods, we propose a future-aware contrastive learning method, which aligns the user’s current representation with a pooled representation of their “future horizo” while distinguishing it from the future trajectories of other users. 
+
+3 Problem Formulation 
+
+In this work, we focus on the task of sequential recommendation, which aims to predict the next item a user will interact with by modeling their historical interaction patterns. Let U and V denote the sets of users and items, respectively. For each user 𝑢 ∈ U , the historical interactions are arranged chronologically as a sequence S𝑢 = [𝑣 𝑢  
+
+> 1
+
+, 𝑣 𝑢  
+
+> 2
+
+, . . . , 𝑣 𝑢   
+
+> | S 𝑢 |
+
+], where 
+
+𝑣 𝑢 𝑖 ∈ V represents the item interacted with at the 𝑖 -th step, and |S 𝑢 | denotes the total number of interactions for user 𝑢 .Given a user interaction sequence S𝑢 , the primary objective is to predict the item with which the user is most likely to interact at the next time step. During the training phase, existing methods often divide the original sequence into multiple subsequences to enrich the training data [ 10 , 13 , 21 , 23 ]. Specifically, each user sequence S𝑢 is processed into multiple training instances. A single training instance is defined by a prefix subsequence S𝑢  
+
+> 1: 𝑡
+
+= [𝑣 𝑢  
+
+> 1
+
+, 𝑣 𝑢  
+
+> 2
+
+, . . . , 𝑣 𝑢 𝑡 ], where 1 < 𝑡 + 1 ≤ |S 𝑢 |. Formally, the entire training set D is constructed by collecting all valid input-target pairs across all users: 
+
+D = {(S 𝑢  
+
+> 1: 𝑡
+
+, 𝑣 𝑢 𝑡 +1) | 𝑢 ∈ U , 1 < 𝑡 + 1 ≤ |S 𝑢 |} . (1) The objective for each instance is to predict the immediate next item 𝑣 𝑢 𝑡 +1 given the context S𝑢  
+
+> 1: 𝑡
+
+. Consequently, the model is trained to minimize the negative log-likelihood: 
+
+L = −∑︁   
+
+> 𝑢 ∈ U | S 𝑢 | − 1
+
+∑︁  
+
+> 𝑡 =1
+
+log 𝑃 (𝑣 𝑢 𝑡 +1 | S 𝑢  
+
+> 1: 𝑡
+
+). (2) In this paper, while we adhere to the standard sequential recommendation formulation, we extend the training paradigm by introducing future interactions beyond the immediate next item (i.e., 𝑣 𝑢 𝑡 +2, . . . , 𝑣 𝑢 𝑡 +𝐾 ) as auxiliary supervision signals. It should be noted that these future signals are exclusively utilized during the training phase to enhance representation learning. During the inference phase, our framework strictly follows the standard setting, focusing solely on predicting the immediate next item 𝑣 𝑢 𝑡 +1 based on the historical context S𝑢  
+
+> 1: 𝑡
+
+.
+
+4 Methodology 
+
+This section details the proposed UFRec framework, as illustrated in Figure 2. We first formulate the sequential recommendation backbone, then introduce the uncertainty-guided future supervision and future-aware contrastive learning modules. Finally, we introduce the training objective of our approach. For clarity, Table 1 summarizes the key notations used throughout this paper. 
+
+> Manuscript submitted to ACM
+
+6 Ziqiang Cui et al. Embedding Layer 
+
+…    
+
+> Transformer Block
+> Transformer Block
+> 𝐿
+> Prediction Head
+> …
+> …
+> Prediction
+> Head
+> Prediction
+> Head …
+> ℒ!
+> High Weight
+> Entropy
+> Calculation ℋ(𝒚 &)
+> Weight Modulation
+> 𝜔 = exp( -ℋ(𝒚 &)/𝜏 )
+> Low Weight High Uncertainty
+> Low Uncertainty
+> 𝜈 "#$
+> %
+> 𝜈 $
+> %𝜈 &
+> %𝜈 "
+> %
+
+…[ ]     
+
+> 𝜈 "#&
+> %
+> 𝜈 "#'
+> %
+> Distribution 𝒚 &
+> Main Loss
+> 𝑘 =2
+> 𝑘 =𝐾
+> Projector
+> 𝜙 ((0)
+> Projector
+> 𝜙 ((0)
+> 𝒉
+> 𝒉 (&)
+> 𝒉 (')
+
+Uncertainty -Guided Future Supervision Sequential Recommendation Backbone 
+
+(Next Item Prediction) 
+
+Future -Aware Contrastive Learning          
+
+> 𝜔
+> … ℒ+, 𝜈 "#&
+> %
+> 𝜈 "#'
+> %…
+> …
+> Future
+> Horizon
+> Pooling
+> Embedding Layer
+> …
+> Holistic
+> Future
+> Projector
+> ℒ+-
+> Contrastive
+> Loss
+> Adaptive
+> Future Loss
+> …
+> 𝒉 𝒛
+> 𝒛
+> 𝒛 /
+> Negative Samples
+> (Other Users’ Futures)
+> 𝒆 "#$
+> %
+> 𝒆 "#'
+> %
+> Stop Gradient
+> Total Loss: ℒ=ℒ!+ℒ+, +𝜆 ℒ+-
+> 𝜈 "#$
+> %
+> 𝒆 "#&
+> %
+> Future Sequence
+
+Fig. 2. Overview of the proposed UFRec framework. (1) The sequential recommendation backbone (left) encodes the user’s historical interaction sequence into a latent state h to predict the immediate next item 𝑣 𝑢 𝑡 +1. (2) The uncertainty-guided future supervision module (middle) performs parallel multi-step future prediction. It incorporates a novel uncertainty-aware mechanism that computes the entropy of the main prediction to dynamically modulate the auxiliary loss weight 𝜔 . (3) The future-aware contrastive learning module (right) captures global preference trends by aligning the projected current state h𝑧 with a future horizon representation z
+
+derived from the ground-truth future sequence. Note that components (2) and (3) are only utilized during training and introduce no additional computational overhead during inference. Table 1. Summary of notations used in the UFRec model 
+
+Notation Description 
+
+U, V Sets of users and items, respectively. 
+
+S𝑢 The historical interaction sequence of user 𝑢 .
+
+𝑣 𝑢 𝑡 The item interacted with by user 𝑢 at the 𝑡 -th step. 
+
+M The item embedding matrix. 
+
+h The final representation of the user’s current state at step 𝑡 .
+
+ˆy The predicted probability distribution over candidate items for the next step. 
+
+𝐾 The number of future steps for auxiliary supervision. 
+
+h(𝑘 ) The user intent projected 𝑘 steps into the future. 
+
+𝜔 The uncertainty-guided adaptive weight for future supervision. 
+
+z The future horizon representation derived from ground-truth future items. 
+
+h𝑧 The projected user preference representation for contrastive learning. 
+
+L𝑀 Main objective loss for next-item prediction. 
+
+L𝐹𝑆 Uncertainty-guided future supervision loss. 
+
+L𝐹𝐶 Future-aware contrastive learning loss. 
+
+Manuscript submitted to ACM Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 7
+
+4.1 Sequential Recommendation Backbone 
+
+Our proposed framework is inherently model-agnostic and designed for seamless integration with various sequential recommendation models. To facilitate the presentation of our approach and in accordance with established research protocols [21–23], we employ the Transformer architecture [31] as the representative backbone model. 
+
+4.1.1 Embedding Layer . We utilize an item embedding matrix M ∈ R| V | × 𝑑 to project item IDs into a 𝑑 -dimensional latent space, where |V | denotes the size of the item vocabulary. Given a sequence S𝑢  
+
+> 1: 𝑡
+
+= [𝑣 𝑢  
+
+> 1
+
+, 𝑣 𝑢  
+
+> 2
+
+, . . . , 𝑣 𝑢 𝑡 ], we retrieve the corresponding item embeddings from the embedding matrix to form E ∈ R𝑡 ×𝑑 . To preserve position information, we add learnable position embeddings P ∈ R𝑡 ×𝑑 . The final input representation of the sequence is formulated as H = E + P,where H ∈ R𝑡 ×𝑑 .
+
+4.1.2 Sequence Encoder . Following the embedding layer, the input vector sequence H propagates through 𝐿 Trans-former blocks [ 31 ] to learn complex sequential patterns. Each Transformer block consists of a self-attention layer and a feed-forward network. This process is formulated as: 
+
+H𝐿 = Transformer (H),
+
+h = H𝐿 [𝑡 ], (3) where H𝐿 denotes the output of the final layer. We utilize the vector at the last position 𝑡 , denoted as h ∈ R𝑑 , as the final representation of the user’s current state. 
+
+4.1.3 Main Objective . Based on the user representation at time step 𝑡 , we calculate the probability distribution over all candidate items. It is computed as: 
+
+ˆy = softmax (hM T), (4) where ˆy ∈ R| V | , with ˆ𝑦 𝑣 representing the probability of item 𝑣 being the next interaction. For training, we adopt the same cross-entropy loss function as our baseline methods [10, 22, 23]: 
+
+L𝑀 = − log 
+
+
+
+ˆ𝑦 𝑣 𝑢 𝑡 +1
+
+
+
+, (5) where ˆ𝑦 𝑣 𝑢 𝑡 +1 specifically denotes the predicted probability assigned to the ground truth next item 𝑣 𝑢 𝑡 +1.
+
+4.2 Uncertainty-Guided Future Supervision 
+
+While the primary objective is to predict the immediate next item 𝑣 𝑢 𝑡 +1, relying solely on this single signal may lead to short-sightedness and sparse data supervision, causing suboptimal representation learning. To address this, we propose leveraging future interactions beyond the next one as auxiliary supervision signals . It is important to note that this auxiliary task is conducted only during the training phase. Since the training sample S𝑢  
+
+> 1: 𝑡
+
+= [𝑣 𝑢  
+
+> 1
+
+, 𝑣 𝑢  
+
+> 2
+
+, . . . , 𝑣 𝑢 𝑡 ] is a subsequence extracted from the user’s complete history S𝑢 , we have access to the subsequent ground-truth items in S𝑢 
+
+beyond time step 𝑡 , provided the sequence has not ended. 
+
+4.2.1 Parallel Multi-Step Projection . While standard models typically predict only the immediate next step ( 𝑡 + 1), we extend our model to predict 𝐾 − 1 additional consecutive future steps ( 𝑡 + 2, . . . , 𝑡 + 𝐾 ). Unlike autoregressive approaches that generate predictions recursively, our method performs these additional 𝐾 −1 predictions simultaneously in a parallel manner, ensuring efficient generation. 
+
+> Manuscript submitted to ACM
+
+8 Ziqiang Cui et al. Let h denote the sequence representation at step 𝑡 used for the next-item prediction task (as defined in Equation 3). To avoid interfering with the latent space of the main task, we employ separate projection heads. Specifically, for the 
+
+𝑘 -th future step ( 1 < 𝑘 ≤ 𝐾 ), we transform the current state h via a step-specific projector 𝜙 𝑘 (·) :
+
+h(𝑘 ) = 𝜙 𝑘 (h), (6) where h(𝑘 ) represents the user intent projected 𝑘 steps into the future from time 𝑡 and h(1) = h. Each projector is designed to be lightweight, comprising a single linear layer followed by a ReLU activation. Crucially, to ensure high training efficiency, these 𝐾 − 1 projections are computed in parallel from the base representation h. Given these projected representations, we can compute the probability distribution over items for the 𝑘 -th future step (i.e., (𝑡 + 𝑘 )-th time step), denoted as ˆy(𝑘 ) , as follows: 
+
+ˆy(𝑘 ) = softmax (h(𝑘 ) MT). (7) 
+
+4.2.2 Uncertainty-Guided Modulation . However, indiscriminately incorporating future predictions can be detri-mental if the current state estimation is unreliable. Since the primary objective of sequential recommendation is next item prediction, incorporating distant future supervision signals when the immediate next item prediction is inaccurate can introduce noise and exacerbate model performance issues. To resolve this, we introduce an uncertainty-aware mechanism that dynamically modulates the intensity of future supervision. Specifically, we first quantify the uncertainty of the main task using the Shannon Entropy [27]: 
+
+H ( ˆy) = −∑︁  
+
+> 𝑣 ∈ V
+
+ˆ𝑦 𝑣 · log ( ˆ𝑦 𝑣 ) . (8) Here, ˆy denotes the model’s predicted probability distribution for the next item, as defined in Equation 4. A high entropy value implies high uncertainty, suggesting that the model struggles to perform the primary task of next-item prediction; conversely, a low entropy value indicates that the model is confident in its current prediction. Based on the entropy, we design a weighting function to adaptively modulate the intensity of future supervision signals in response to changes in model uncertainty. Specifically, the weight is formulated as: 
+
+𝜔 = exp 
+
+
+
+− H ( ˆy)
+
+𝜏 
+
+
+
+, (9) where the temperature parameter 𝜏 governs the sensitivity of the decay, determining how strictly high-entropy states are penalized. The exponential function maps non-negative entropy values to a normalized range of (0, 1]. Consequently, when the model is highly confident (low entropy), the weight of the future supervision loss approaches 1, encouraging the model to learn farther ahead. Conversely, as uncertainty increases, the weight decays toward 0; this assigns minimal importance to distant future supervision, forcing the model to prioritize the current main task prediction. Notably, 𝜔 is detached from the computation graph to prevent gradient backpropagation. 
+
+4.2.3 Future Supervision Objective . To formulate the future supervision objective, we employ the cross-entropy loss to minimize the discrepancy between the predicted distribution ˆy(𝑘 ) and the ground truth 𝑣 𝑢 𝑡 +𝑘 for each future step 
+
+𝑘 ∈ 2, . . . , 𝐾 . This loss is computed for all 𝐾 − 1 future steps but is crucially modulated by an uncertainty-guided weight specific to the current sample to control its influence dynamically. The final learning objective is defined as: 
+
+L𝐹𝑆 = −𝜔 · 1
+
+𝐾 − 1
+
+> 𝐾
+
+∑︁ 
+
+> 𝑘 =2
+
+log 
+
+
+
+ˆ𝑦 (𝑘 ) 
+
+> 𝑣 𝑢 𝑡 +𝑘
+
+
+
+, (10) 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 9where 𝜔 modulates the magnitude of the future loss, as defined in Equation 9. Unlike a static hyperparameter, 𝜔 ( ˆy) is an instance-dependent variable. When the model is confident in predicting the next step for the current sample, it assigns a larger weight to more distant steps; conversely, when the model encounters an uncertain sample, it reduces the focus on future steps. This mechanism ensures that the auxiliary future supervision is dynamically weighted according to the model’s confidence in the next-item prediction for the current sample. Let |S 𝑢 | denote the length of the user’s full interaction sequence. Since the farthest future target item 𝑣 𝑢 𝑡 +𝐾 is available only if the user’s history is sufficiently long, this future supervision loss is computed only for samples where 𝑡 + 𝐾 ≤ |S 𝑢 |.
+
+4.3 Future-Aware Contrastive Learning 
+
+While the uncertainty-guided future supervision task focuses on step-wise accuracy, we further introduce a future-aware contrastive learning task which treats the future trajectory as a whole. The core intuition is that the latent representation of a user’s current history should be more semantically similar to their own future trajectory than to the future trajectories of other users. 
+
+4.3.1 Future Horizon Pooling . To represent the holistic future preference trend rather than individual step-wise item IDs, we construct a “Future Horizon” representation using a pooling operation. For a training sequence S𝑢  
+
+> 1: 𝑡
+
+, given the ground-truth subsequent sequence [𝑣 𝑢 𝑡 +1, . . . , 𝑣 𝑢 𝑡 +𝐾 ], we aggregate the corresponding item embeddings via mean pooling: 
+
+z = 1
+
+𝐾 
+
+> 𝐾
+
+∑︁ 
+
+> 𝑘 =1
+
+e𝑢 𝑡 +𝑘 , (11) where e𝑢 𝑡 +𝑘 denotes the embedding of the item at step 𝑡 + 𝑘 . The vector z serves as a condensed anchor of the user’s future interests. Note that this calculation is performed only for samples that possess a complete subsequent sequence of 𝐾 future interactions in the training set. 
+
+4.3.2 Holistic Future Projection . Directly aligning the user preference representation h with the future horizon representation z may conflict with the main task, as h is primarily optimized for next-item prediction. To address this, we project h into a separate latent space, which facilitates the contrastive learning task without interfering with the main objective. Formally, the holistic future projection is defined as: 
+
+h𝑧 = Wh + b, (12) where W ∈ R𝑑 ×𝑑 and b ∈ R𝑑 are learnable parameters. 
+
+4.3.3 Future Contrastive Objective . We employ the InfoNCE loss to perform the contrastive learning task. In our contrastive framework, the user’s future horizon representation z is regarded as the positive sample for the projected user preference representation h𝑧 , while the remaining 𝑁 − 1 future horizon representations z′ ∈ Z′ of other users within the same batch are treated as negative samples, where 𝑁 is the batch size. The objective is to maximize the similarity of the positive pair while minimizing the similarity with negative pairs: 
+
+L𝐹𝐶 = − log exp (sim (h𝑧 · z)) 
+
+exp (sim (h𝑧 · z)) + Íz′ ∈Z′ exp (sim (h𝑧 · z′)) , (13) where sim (· , ·) is the dot product similarity, Z′ denotes the set of negative samples for h𝑧 in the same batch. Optimizing this objective enables the model to discriminate the current user’s future horizon from those of others by leveraging the projected user preference representation, thereby improving representation quality. 
+
+> Manuscript submitted to ACM
+
+10 Ziqiang Cui et al. 
+
+Algorithm 1 Training Procedure of the Proposed Framework 
+
+Input: Training set D, Hyperparameters 𝐾, 𝜏, 𝜆 .
+
+Output: Trained model parameters Θ. 
+
+> 1:
+
+Initialize model parameters Θ (including item embedding matrix M).  
+
+> 2:
+
+for each iteration do  
+
+> 3:
+
+Sample a sequence prefix S𝑢  
+
+> 1: 𝑡
+
+from D. 
+
+> 4:
+
+// 1. Sequential Recommendation Backbone  
+
+> 5:
+
+Compute input embeddings H corresponding to S𝑢  
+
+> 1: 𝑡
+
+. 
+
+> 6:
+
+Encode sequence: H𝐿 = Transformer (H). 
+
+> 7:
+
+Obtain current state representation: h = H𝐿 [𝑡 ]. 
+
+> 8:
+
+Compute main prediction: ˆy = softmax (hM T). 
+
+> 9:
+
+Calculate main task loss: L𝑀 = − log ( ˆ𝑦 𝑣 𝑢 𝑡 +1 ). 
+
+> 10:
+
+// 2. Uncertainty-Guided Future Supervision  
+
+> 11:
+
+Calculate entropy: H ( ˆy) = − Í ˆ𝑦 𝑣 log ( ˆ𝑦 𝑣 ). 
+
+> 12:
+
+Compute adaptive weight: 𝜔 ( ˆy) = exp (−H ( ˆy)/ 𝜏 ) (detached).  
+
+> 13:
+
+Project to future steps in parallel: {h(𝑘 ) }𝐾 𝑘 =2 = {𝜙 𝑘 (h)} 𝐾 𝑘 =2. 
+
+> 14:
+
+Compute weighted future loss: L𝐹𝑆 = − 𝜔 ( ˆy) 
+
+> 𝐾 −1
+
+Í𝐾 𝑘 =2 log ( ˆ𝑦 (𝑘 ) 
+
+> 𝑣 𝑢 𝑡 +𝑘
+
+). 
+
+> 15:
+
+// 3. Future-Aware Contrastive Learning  
+
+> 16:
+
+Aggregate future horizon: z = 1
+
+> 𝐾
+
+Í𝐾 𝑘 =1 e𝑢 𝑡 +𝑘 . 
+
+> 17:
+
+Project current state: h𝑧 = Wh + b. 
+
+> 18:
+
+Calculate contrastive loss L𝐹𝐶 using Equation (13).  
+
+> 19:
+
+// 4. Optimization  
+
+> 20:
+
+Total Loss: L = L𝑀 + L 𝐹𝑆 + 𝜆 L𝐹𝐶 . 
+
+> 21:
+
+Update parameters Θ via backpropagation: Θ ← Θ − 𝜂 ∇Θ L. 
+
+> 22:
+
+end for 
+
+4.4 Training and Inference 
+
+Algorithm 1 details the training process of our method. The final training objective comprises three components: the primary task loss L𝑀 , which calculates the prediction loss for the next item; the uncertainty-guided future supervision loss L𝐹𝑆 for the future 𝐾 − 1 steps beyond the next item; and the future-aware contrastive loss L𝐹𝐶 , which serves as a regularization term. The total loss is formulated as: 
+
+L = L𝑀 + L 𝐹𝑆 + 𝜆 L𝐹𝐶 , (14) where 𝜆 controls the weight of the contrastive loss. Algorithm 2 details the inference process of our method. During the inference phase, only the primary task of next-item prediction is performed, while the two auxiliary future learning tasks are discarded, since they are utilized exclusively during the training phase to improve representation quality. Consequently, our framework enhances representation learning without introducing any additional computational overhead during inference. 
+
+5 Efficiency Analysis 
+
+In this section, we analyze the time complexity of our proposed framework during both training and inference phases. 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 11 
+
+Algorithm 2 Inference Procedure of the Proposed Framework 
+
+Input: Trained model parameters Θ (including item embedding matrix M), User’s historical sequence S𝑢  
+
+> 1: 𝑡
+
+, Recommen-dation list size 𝑁 .
+
+Output: Top-𝑁 recommended items R𝑢 for the next timestep.  
+
+> 1:
+
+// 1. Sequence Encoding  
+
+> 2:
+
+Compute input embeddings H corresponding to S𝑢  
+
+> 1: 𝑡
+
+. 
+
+> 3:
+
+Encode sequence: H𝐿 = Transformer (H). 
+
+> 4:
+
+Obtain current state representation: h = H𝐿 [𝑡 ]. 
+
+> 5:
+
+// 2. Score Computation and Ranking  
+
+> 6:
+
+Compute prediction scores for all candidate items: ˆy = softmax (hM T). 
+
+> 7:
+
+Rank all items in descending order based on their predicted probabilities in ˆy. 
+
+> 8:
+
+Select the Top-𝑁 items with the highest scores to form the recommendation list R𝑢 . 
+
+> 9:
+
+return R𝑢 
+
+5.1 Training Efficiency 
+
+The computational cost of our framework during training comprises the sequential recommendation backbone and the two proposed auxiliary tasks. 
+
+• Backbone Complexity: Following the standard Transformer architecture [ 31 ], the computational complexity is dominated by the self-attention mechanism. For a sequence of length 𝑡 and hidden dimension 𝑑 , the complexity per layer is O( 𝑡 2𝑑 + 𝑡𝑑 2). With 𝐿 layers, the total backbone complexity is O( 𝐿 (𝑡 2𝑑 + 𝑡𝑑 2)) .
+
+• Auxiliary Task Overhead: The Uncertainty-Guided Future Supervision introduces 𝐾 − 1 parallel projectors. As described in Eq. 6, each projector is implemented as a single linear layer followed by a ReLU activation. The computational complexity for generating 𝐾 − 1 future states is O(( 𝐾 − 1) · 𝑑 2), where 𝐾 is very small. However, thanks to the parallel design, these projections are implemented as a single batched matrix multiplication. Thus, the effective latency on parallel hardware (e.g., GPUs) is comparable to a single projection O( 𝑑 2), resulting in minimal overhead. The entropy calculation is linear with respect to the vocabulary size O(|V |) . The Future-Aware Contrastive Learning involves a pooling operation and a projection head. The pooling is O( 𝐾 · 𝑑 ). The projection head is a single linear layer, resulting in a complexity of O( 𝑑 2).
+
+Comparison: Although the proposed modules introduce a theoretical complexity of O( 𝐾𝑑 2 + |V |) , the effective overhead is negligible. As established, 𝐾 is very small, and the parallel design reduces the latency of the projections to near O( 𝑑 2). This is insignificant compared to the standard sequential backbone, where the quadratic complexity of 
+
+O( 𝐿 (𝑡 2𝑑 + 𝑡𝑑 2)) dominates. 
+
+5.2 Inference Efficiency 
+
+A distinct advantage of our framework is its zero-overhead inference. As detailed in the previous section, the auxiliary components, specifically the uncertainty-guided future supervision and the future-aware contrastive learning, are strictly training-time regularization tools. During the inference phase, these modules are detached. The model structure reverts exactly to the base sequence encoder (Equation 3) followed by the main prediction head. Therefore, the inference time complexity is identical to the underlying backbone model. Consequently, our method improves recommendation accuracy through enhanced representation learning without incurring any latency penalty in real-time deployment. 
+
+> Manuscript submitted to ACM
+
+12 Ziqiang Cui et al. 
+
+> Table 2. Dataset statistics.
+
+Datasets #Users #Items #Actions Avg. Length Density Yelp 19,936 14,587 207,952 10.4 0.07% Sports 35,598 18,357 296,337 8.3 0.05% Beauty 22,363 12,101 198,502 8.8 0.07% Office 4,905 2,420 53,258 10.9 0.45% 
+
+6 Experiments 
+
+In this section, we conduct extensive experiments to address the following research questions: 
+
+• RQ1 : Does UFRec consistently outperform existing sequential recommendation baselines? 
+
+• RQ2 : How well does UFRec generalize across different backbone SR architectures? 
+
+• RQ3 : What is the contribution of each core component in UFRec, and is each component necessary for the overall performance? 
+
+• RQ4 : How do key hyperparameters affect the performance of UFRec? 
+
+• RQ5 : How robust is the proposed model against varying user sequence lengths and data sparsity? 
+
+• RQ6 : What is the role of uncertainty-guided modulation when utilizing future supervision signals? 
+
+6.1 Experimental Settings 
+
+6.1.1 Datasets . To comprehensively evaluate the effectiveness of our proposed approach, we conduct experiments on four real-world datasets from diverse application domains: Yelp 1 and three subsets from the Amazon review corpus 2
+
+(Sports, Beauty, and Office). Table 2 summarizes the statistics of these collections. Specifically, the datasets are introduced as follows: 
+
+• Yelp : This dataset serves as a standard and widely adopted benchmark for point-of-interest (POI) and local business recommendation. It provides comprehensive real-world data focusing on the interaction patterns between users and local businesses. The extensive user-item interaction graph makes it highly suitable for evaluating the effectiveness of recommendation models in capturing implicit user preferences for local services. 
+
+• Sports (Sports and Outdoors) : Derived from the extensive Amazon review corpus, this dataset focuses on the e-commerce domain of sporting goods, fitness equipment, and outdoor gear. It contains rich user-item interactions which capture users’ diverse preferences in recreational activities. 
+
+• Beauty : Also extracted from the Amazon review corpus, this dataset represents user interactions with cosmetics, skincare, and personal care products. It exhibits distinct user purchasing behaviors and interaction patterns compared to other domains, providing a valuable scenario for evaluating the robustness and generalization capabilities of recommendation models across different types of consumer goods. 
+
+• Office : As another subset of the Amazon corpus, this dataset records user interactions with various office-related items. 
+
+> 1https://www.yelp.com/dataset
+> 2http://jmcauley.ucsd.edu/data/amazon/ Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 13 Consistent with established preprocessing protocols in recent recommendation literature [ 19 , 21 , 39 ], we utilize the 5-core versions of these datasets. Specifically, the data has been reduced to extract subsets by filtering out users and items with fewer than five interaction records. 
+
+6.1.2 Evaluation Metrics . To evaluate model performance, we employ two widely recognized metrics: Hit Rate (HR) and Normalized Discounted Cumulative Gain (NDCG). Following established protocols [ 7 , 13 , 34 , 49 ], we report HR@ 𝑚 
+
+and NDCG@ 𝑚 for 𝑚 ∈ { 10 , 20 }.For dataset partitioning, we utilize the standard chronological leave-one-out strategy. Specifically, for each user, the final interaction is designated for testing, the penultimate interaction for validation, and the remaining historical interactions for training. During the training process, we employed early stopping with a patience of 10 epochs based on the validation accuracy to prevent overfitting. Furthermore, to ensure an unbiased and fair evaluation, we evaluate the ranking of predictions across the entire item set, including users’ historically interacted items, rather than relying on negative sampling. 
+
+6.1.3 Baseline Methods . To ensure a comprehensive assessment, we compare our method with 13 baseline methods, categorized into three groups: classical methods (GRU4Rec, Caser, SASRec, BERT4Rec), LLM-enhanced methods (LRD, LLM-ESR), and self-supervised learning-based methods ( S3-Rec , CL4SRec, CoSeRec, ICLRec, DuoRec, ICSRec, FENRec). 
+
+• GRU4Rec [9] applies recurrent neural networks (RNN) to sequential recommendation. 
+
+• Caser [ 30 ] utilizes a CNN-based approach to model high-order relationships in the context of sequential recommendation. 
+
+• SASRec [13] is the first work to utilize the self-attention mechanism for sequential recommendation. 
+
+• BERT4Rec [29] employs the BERT [5] framework to capture the context information of user behaviors. 
+
+• LRD [ 41 ] is an LLM-based method. It leverages LLMs to discover new relations between items and reconstructs one item based on the relation and another item. 
+
+• LLM-ESR [ 18 ] is also an LLM-based method. It addresses the long-tail problem by simultaneously leveraging collaborative signals and semantic information through the dual-view modeling and self-distillation. 
+
+• S3-Rec [52] leverages four self-supervised objectives to uncover the inherent correlations within the data. 
+
+• CL4SRec [39 ] proposes three random augmentation operators to generate positive samples for contrastive learning. 
+
+• CoSeRec [ 19 ] introduces two additional informative augmentation operators, building upon the foundation of CL4SRec. 
+
+• ICLRec [ 2] clusters user interests into distinct categories and brings the representations of users with similar interests closer together. 
+
+• DuoRec [ 23 ] combines a model-level dropout augmentation and a sampling strategy for choosing hard positive samples. 
+
+• ICSRec [ 22 ] is an improvement on ICLRec, further segmenting a user’s sequential behaviors into multiple subsequences to generate finer-grained user intentions for contrastive learning. 
+
+• FENRec [ 10 ] enhances sequential recommendation by employing time-dependent soft labeling to utilize future interactions and incorporating enduring hard negative samples. 
+
+6.1.4 Implementation Details . We implemented all baseline methods using their officially released code. All experi-ments were conducted on a single NVIDIA A6000 GPU. For consistency, the embedding dimension was fixed at 64 
+
+> Manuscript submitted to ACM
+
+14 Ziqiang Cui et al. 
+
+> Table 3. Performance comparison of different methods on four datasets ( HR@10 and NDCG@10 ). Bold font indicates the best performance, while underlined values represent the second-best. Our method achieves state-of-the-art results among all methods, as confirmed by a paired t-test with a significance level of 0.01.
+
+Model Yelp Sports Beauty Office HR@10 NDCG@10 HR@10 NDCG@10 HR@10 NDCG@10 HR@10 NDCG@10 
+
+GRU4Rec 0.0364 0.0172 0.0178 0.0091 0.0325 0.0166 0.0543 0.0262 Caser 0.0389 0.0212 0.0261 0.0138 0.0341 0.0239 0.0581 0.0291 SASRec 0.0571 0.0306 0.0326 0.0184 0.0598 0.0308 0.0795 0.0345 BERT4Rec 0.0580 0.0316 0.0281 0.0142 0.0526 0.0282 0.0826 0.0374 LRD 0.0698 0.0358 0.0397 0.0210 0.0684 0.0312 0.0926 0.0441 LLM-ESR 0.0672 0.0367 0.0426 0.0228 0.0752 0.0435 0.0975 0.0496 S3-Rec 0.0608 0.0337 0.0336 0.0185 0.0619 0.0323 0.0937 0.0422 CL4SRec 0.0581 0.0312 0.0382 0.0217 0.0654 0.0350 0.0698 0.0325 CoSeRec 0.0608 0.0306 0.0426 0.0231 0.0726 0.0410 0.0792 0.0419 ICLRec 0.0596 0.0322 0.0429 0.0238 0.0741 0.0405 0.0928 0.0408 DuoRec 0.0702 0.0378 0.0471 0.0240 0.0830 0.0425 0.1028 0.0501 ICSRec 0.0711 0.0381 0.0482 0.0241 0.0839 0.0428 0.1045 0.0509 FENRec 0.0735 0.0394 0.0511 0.0244 0.0854 0.0435 0.1004 0.0502 
+
+UFRec 0.0800 0.0426 0.0543 0.0257 0.0914 0.0459 0.1105 0.0535 
+
+Improv. 8.84% 8.12% 6.26% 5.33% 7.03% 5.52% 5.74% 5.11% 
+
+across all models. Our sequential recommendation model utilizes a Transformer architecture consisting of two layers with two attention heads per layer. The model was trained using the Adam optimizer with a batch size of 256 and a learning rate of 0.001. Following standard practice in the literature [ 22 , 23 ], the maximum sequence length was set to 50 for all datasets. We performed hyperparameter tuning on the validation set, selecting the coefficient 𝜆 from the set 
+
+{0.01 , 0.05 , 0.1, 0.2, 0.5, 1.0}. Similarly, 𝐾 and 𝜏 were tuned over the sets {2, 3, 4, 5} and {1, 2, 3, 4, 5, 6}, respectively. We employed early stopping with a patience of 10 epochs based on the validation accuracy. All experiments were repeated three times to ensure reliability, and the results were averaged to provide a fair comparison. 
+
+6.2 Comparison Results (RQ1) 
+
+Tables 3 and 4 present the comprehensive comparative results against 13 baseline methods across four datasets, evaluated by HR@ 𝑚 and NDCG@ 𝑚 (𝑚 ∈ { 10 , 20 }). Each experiment is conducted three times, and the average values are reported. Overall, the performance of the evaluated methods exhibits distinct patterns based on their underlying paradigms, which can be summarized as follows: 
+
+• Performance of Traditional Methods: Among the traditional approaches, GRU4Rec and Caser exhibit the weakest performance. While attention-based models like SASRec and BERT4Rec achieve noticeable improvements by capturing bidirectional or self-attentive item dependencies, they still demonstrate mediocre performance overall. This limitation primarily stems from their reliance on sparse interaction data without the guidance of auxiliary supervision signals. 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 15 
+
+> Table 4. Performance comparison of different methods on four datasets ( HR@20 and NDCG@20 ). Bold font indicates the best performance, while underlined values represent the second-best. Our method achieves state-of-the-art results among all methods, as confirmed by a paired t-test with a significance level of 0.01.
+
+Model Yelp Sports Beauty Office HR@20 NDCG@20 HR@20 NDCG@20 HR@20 NDCG@20 HR@20 NDCG@20 
+
+GRU4Rec 0.0637 0.0245 0.0279 0.0116 0.0499 0.0209 0.0961 0.0357 Caser 0.0659 0.0276 0.0352 0.0168 0.0510 0.0205 0.1042 0.0396 SASRec 0.0895 0.0392 0.0478 0.0222 0.0877 0.0378 0.1335 0.0478 BERT4Rec 0.0908 0.0393 0.0444 0.0185 0.0789 0.0349 0.1429 0.0515 LRD 0.1085 0.0458 0.0605 0.0261 0.0980 0.0433 0.1491 0.0609 LLM-ESR 0.1064 0.0453 0.0646 0.0279 0.1068 0.0521 0.1526 0.0633 S3-Rec 0.0958 0.0439 0.0510 0.0229 0.0937 0.0403 0.1562 0.0566 CL4SRec 0.0921 0.0392 0.0553 0.0244 0.0985 0.0410 0.1295 0.0492 CoSeRec 0.0974 0.0415 0.0636 0.0275 0.1031 0.0488 0.1368 0.0508 ICLRec 0.0965 0.0428 0.0639 0.0282 0.1059 0.0488 0.1524 0.0546 DuoRec 0.1079 0.0467 0.0692 0.0290 0.1202 0.0524 0.1619 0.0639 ICSRec 0.1086 0.0472 0.0712 0.0294 0.1208 0.0529 0.1645 0.0645 FENRec 0.1112 0.0489 0.0735 0.0300 0.1223 0.0536 0.1598 0.0632 
+
+UFRec 0.1233 0.0535 0.0798 0.0321 0.1304 0.0555 0.1708 0.0680 
+
+Improv. 10.88% 9.41% 8.57% 7.00% 6.62% 3.54% 3.82% 5.43% 
+
+• Superiority of LLM-based Methods: In contrast to traditional models, LLM-based methods (LRD, LLM-ESR) show highly competitive results. For instance, LLM-ESR significantly outperforms traditional baselines on the Beauty and Office datasets across all metrics. This substantial performance leap is attributed to the large language models’ superior capacity for semantic understanding, which effectively alleviates the data sparsity issue inherent in pure ID-based sequential recommendation. 
+
+• Effectiveness of Self-Supervised Learning (SSL): SSL methods (S3-Rec, CL4SRec, CoSeRec, ICLRec, DuoRec, ICSRec, FENRec) consistently surpass traditional methods, as their auxiliary supervision signals enhance the utilization of limited data. Within this category, FENRec generally demonstrates superior performance compared to most other baselines on the Yelp, Sports, and Beauty datasets. This success is attributed to FENRec’s incorpora-tion of future interactions as supervision signals via time-dependent soft labeling. However, on the Office dataset, ICSRec slightly edges out FENRec (e.g., achieving an HR@10 of 0.1045 compared to FENRec’s 0.1004), indicating that FENRec’s strategy of time-dependent soft labeling lacks adaptability across varying data distributions. 
+
+• State-of-the-Art Performance of UFRec: Most importantly, our proposed method, UFRec, consistently and significantly outperforms all baseline methods across all four datasets and all evaluation metrics. For example, UFRec achieves remarkable relative improvements of up to 10.88% in HR@20 and 9.41% in NDCG@20 on the Yelp dataset. The fundamental limitation of the strongest baseline, FENRec, is that it applies future supervision indiscriminately to all samples, failing to account for the model’s uncertainty regarding the current prediction. In contrast, UFRec quantifies uncertainty in the primary next-item prediction task using Shannon entropy, allowing it to dynamically adjust the weight of the auxiliary future supervision loss. This mechanism ensures that the 
+
+> Manuscript submitted to ACM
+
+16 Ziqiang Cui et al. 
+
+> Fig. 3. Generalizability analysis of UFRec across different sequential recommendation models. We compare the original performance of SASRec, LLM-ESR, and DuoRec against their variants enhanced with our framework (denoted as “+UF”).
+
+model assigns less attention to future supervision when it lacks confidence in the immediate next step, thereby preventing noise propagation. These consistent improvements are validated by a paired t-test with a significance level of 𝑝 < 0.01 , confirming the effectiveness and robustness of our uncertainty-guided approach. 
+
+6.3 Generalizability to Different SR Models (RQ2) 
+
+In this section, we evaluate the generalizability and flexibility of our proposed method, positioning it not merely as a standalone model, but as a versatile future learning framework capable of seamlessly integrating with and enhancing various mainstream sequential recommendation architectures. To comprehensively demonstrate this plug-and-play capability, we carefully selected representative models from three distinct paradigms to serve as base encoders: SASRec, representing the foundational self-attention mechanism in traditional methods; LLM-ESR, representing the cutting-edge 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 17 
+
+> Table 5. Ablation study on all datasets.
+
+Metric w/o L𝐹𝑆 w/o UG w/o L𝐹𝐶 UFRec 
+
+Yelp HR@20 0.1202 0.1187 0.1207 0.1233 
+
+NDCG@20 0.0514 0.0511 0.0516 0.0535 
+
+Sports HR@20 0.0749 0.0741 0.0767 0.0798 
+
+NDCG@20 0.0303 0.0295 0.0307 0.0321 
+
+Beauty HR@20 0.1268 0.1232 0.1281 0.1304 
+
+NDCG@20 0.0541 0.0508 0.0543 0.0555 
+
+Office HR@20 0.1682 0.1575 0.1678 0.1708 
+
+NDCG@20 0.0661 0.0620 0.0653 0.0680 0.16              
+
+> 0.18
+> 0.10
+> 0.12
+> 12345
+> 0.06
+> 0.08
+> K
+> HR@20
+> 0.05
+> 0.06
+> 0.07
+> 12345
+> 0.03
+> K
+> NDCG@20
+> Yelp Sports Beauty Office
+> Fig. 4. Hyperparameter study of maximum future time step 𝐾 on four datasets.
+
+semantic understanding capabilities of LLM-based approaches; and DuoRec, serving as a strong baseline for contrastive self-supervised learning methods. During the training phase, we preserved the original primary loss functions and network structures of these backbone models, while elegantly incorporating our uncertainty-guided future learning objectives, specifically the uncertainty-guided future supervision loss L𝐹𝑆 and the future-aware contrastive loss L𝐹𝐶 ,as auxiliary regularization signals. The comparative results, visually presented in Figure 3, clearly indicate that the variants enhanced with our framework (denoted with the suffix “+UF”) consistently and significantly outperform their original vanilla versions across all three model categories and across all evaluated datasets. Specifically, the integration of our framework yields remarkable relative performance gains, with improvements ranging from 7.5% to 13.6% in the HR@20 metric and 7.4% to 13.3% in the NDCG@20 metric. It is particularly noteworthy that even for highly optimized and advanced models like LLM-ESR and DuoRec, our method still manages to extract additional performance gains by effectively leveraging future interaction signals while dynamically mitigating uncertainty noise. Ultimately, these compelling findings validate that UFRec is a highly robust, model-agnostic framework capable of universally boosting the predictive accuracy of diverse sequential recommendation models. 
+
+> Manuscript submitted to ACM
+
+18 Ziqiang Cui et al. 0.16                        
+
+> 0.17
+> 0.18
+> 0.12
+> 0.13
+> 123456
+> 0.07
+> 0.08
+> HR@20
+> 0.05
+> 0.06
+> 0.07
+> 123456
+> 0.03
+> NDCG@20
+> 0.16
+> 0.17
+> 0.12
+> 0.13
+> 0.01 0.05 0.1 0.2 0.5 1.0
+> 0.07
+> 0.08
+> HR@20
+> 0.05
+> 0.06
+> 0.07
+> 0.01 0.05 0.1 0.2 0.5 1.0
+> 0.03
+> NDCG@20
+> Yelp Sports Beauty Office
+
+Fig. 5. Hyperparameter study of 𝜏 , and 𝜆 on four datasets. 
+
+6.4 Ablation Study (RQ3) 
+
+In this section, we conduct an ablation study to evaluate the individual contribution of each core component within the UFRec framework. The results, summarized in Table 5, demonstrate the impact of removing individual modules. We define the variants as follows: “w/o L𝐹𝑆 ” removes the uncertainty-guided future supervision entirely; “w/o UG” retains future supervision but removes the uncertainty guidance mechanism, meaning the supervision is no longer modulated by uncertainty; and “w/o L𝐹𝐶 ” removes the future-aware contrastive learning module. Overall, the results indicate that removing any component leads to performance degradation, confirming the necessity of each module. Specifically, the variants “w/o L𝐹𝑆 ” and “w/o L𝐹𝐶 ” exhibit significant performance drops, highlighting the critical roles of both auxiliary tasks. Notably, the “w/o UG” variant exhibits an even more severe decline than removing future supervision entirely. In this setting, future supervision is applied indiscriminately to all samples with equal weight, regardless of the model’s prediction uncertainty. This drastic performance degradation validates the critical role of the uncertainty guidance mechanism in regulating future supervision. 
+
+6.5 Hyperparameter Study (RQ4) 
+
+In this section, we investigate the sensitivity and impact of three key hyperparameters essential to our framework: 𝐾 , 𝜏 ,and 𝜆 . Specifically, 𝐾 represents the maximum future time step for look-ahead supervision, 𝜏 denotes the temperature parameter controlling the uncertainty guidance in Equation (9), and 𝜆 serves as the balancing weight for the future-aware contrastive loss. Figure 4 illustrates the performance trends of HR@20 and NDCG@20 across the four datasets as 𝐾 
+
+varies. We consistently observe that the recommendation accuracy initially improves as 𝐾 increases, but subsequently 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 19        
+
+> Table 6. Data statistics of the Yelp and Sports datasets across different user sequence length groups (i.e., =5,6−8, and >8).
+
+Datasets Yelp Sports #length =5 6-8 >8 =5 6-8 >8 #users 5235 7152 7549 11416 14209 9973 #items 9968 12536 14539 15548 17477 17994 #actions 26175 48284 133493 57080 95564 143693 sparsity 99.95% 99.95% 99.88% 99.97% 99.96% 99.92% declines after reaching a peak. Optimal performance is achieved at 𝐾 = 4 for the Yelp dataset and at 𝐾 = 2 for the other three datasets. We attribute this distinct trend to a fundamental trade-off between future data utilization and auxiliary task difficulty. While increasing 𝐾 introduces additional supervisory signals from the future, thereby enhancing data efficiency and enriching the learned representations, larger values inherently increase the predictive difficulty of the auxiliary task. Consequently, excessively difficult auxiliary tasks can introduce noise and interfere with the primary next-item prediction objective, ultimately leading to performance degradation. Furthermore, the temperature parameter 
+
+𝜏 critically controls the smoothing of the adaptive weight 𝜔 . As shown in Figure 5, the optimal value for 𝜏 typically falls within the moderate range of 3 to 5. Values outside this optimal range result in a weight distribution that is either excessively sharp (acting like a rigid hard selection) or overly smooth (failing to distinguish between high and low confidence predictions), both of which lead to suboptimal performance. Finally, increasing the contrastive learning weight 𝜆 yields an initial improvement in overall model performance, followed by a noticeable decline. Empirical results indicate that the optimal values for 𝜆 generally fall within the relatively small range of 0.05 to 0.2. This trend is entirely anticipated, given that the contrastive learning loss primarily functions as a regularizer to refine representation learning; setting this weight too high causes the auxiliary contrastive loss to dominate the training process, thereby overshadowing and hindering the primary recommendation task. 
+
+6.6 Robustness w.r.t. User Sequence Length (RQ5) 
+
+To further examine the robustness of our model against varying degrees of data sparsity, we categorize user sequences into three distinct groups based on their historical length (i.e., = 5, 6 − 8, and > 8). Specifically, the group with a length of = 5 represents extremely sparse users who possess the bare minimum of interactions, effectively simulating cold-start scenarios; the 6 − 8 group corresponds to users with moderate interaction histories; and the > 8 group denotes relatively active users equipped with richer historical contexts. The detailed statistical information regarding the users, items, actions, and sparsity levels for each group is summarized in Table 6. Following this categorization, Figure 6 presents the performance comparison results on the Yelp and Sports datasets. By comparing our model with the strongest baseline FENRec, we make the following key observations: 1) The performance of both models inevitably deteriorates as interaction frequency decreases. This trend clearly highlights the profound influence of data sparsity, as shorter sequences provide insufficient historical context to accurately capture underlying user preferences. 2) Our method UFRec consistently outperforms the competitive baseline FENRec across every user group. Most notably, even for the group with the most limited data (sequence length of 5), our model maintains a significant performance lead. This demonstrates the positive impact of our uncertainty-aware future learning approach, which effectively extracts richer supervisory signals from limited interactions to alleviate data sparsity. Ultimately, these findings underscore the robustness and adaptability of our model across various degrees of data sparsity in user sequences. 
+
+> Manuscript submitted to ACM
+
+20 Ziqiang Cui et al. =5 6~8 >8       
+
+> Sequence length
+> 0.06
+> 0.07
+> 0.08
+> 0.09
+> HR@20
+> Yelp
+> FENRec
+> UFRec
+> =5 6~8 >8
+> Sequence length
+> 0.030
+> 0.032
+> 0.034
+> 0.036
+> 0.038
+> NDCG@20
+> Yelp
+> FENRec
+> UFRec
+> =5 6~8 >8
+> Sequence length
+> 0.02
+> 0.03
+> 0.04
+> 0.05
+> 0.06
+> HR@20
+> Sports
+> FENRec
+> UFRec
+> =5 6~8 >8
+> Sequence length
+> 0.0100
+> 0.0125
+> 0.0150
+> 0.0175
+> 0.0200
+> 0.0225
+> NDCG@20
+> Sports
+> FENRec
+> UFRec
+
+Fig. 6. Performance comparison on different user groups. 
+
+6.7 In-depth Analysis of Uncertainty-Guided Modulation (RQ6) 
+
+In this section, we provide further analysis to explicitly demonstrate the efficacy of uncertainty-guided modulation in enhancing future supervision. Specifically, employing the Transformer described in Section 4.1 as the foundational backbone, we compare the performance of the backbone integrated with standard, unweighted future supervision (Backbone + Future Supervision) against the backbone equipped with uncertainty-guided future supervision (Backbone + Uncertainty-Guided Future Supervision). The empirical results on the Beauty and Office datasets, illustrated in Figure 7, reveal that directly incorporating raw future supervision signals into the backbone not only fails to yield improvements but actually degrades overall performance. This suggests that the indiscriminate introduction of future supervision across all training instances likely introduces substantial noise into the learning process. This observation corroborates our core hypothesis: when the model exhibits high uncertainty in predicting the immediate next item—indicating an insufficient grasp of the user’s current dynamic state—forcing it to simultaneously predict distant future interactions overwhelms its learning capacity, turning otherwise valid future signals into a source of optimization interference. In contrast, integrating uncertainty-guided future supervision results in significant performance gains. This reaffirms that uncertainty-guided modulation acts as a crucial adaptive gate, effectively regulating the intensity of future supervision signals based on the model’s real-time uncertainty regarding the primary task. Consequently, the model dynamically acquires additional supervision signals when confident in its current predictions, while intelligently attenuating the influence of future supervision to focus on the primary task when uncertain, thereby safeguarding the representation learning process and enhancing overall performance. 
+
+> Manuscript submitted to ACM
+
+Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 21 Beauty Office      
+
+> 0.070
+> 0.080
+> 0.090
+> 0.100
+> 0.110
+> HR@10
+> Beauty Office
+> 0.035
+> 0.038
+> 0.040
+> 0.043
+> 0.045
+> 0.048
+> 0.050
+> 0.053
+> NDCG@10
+> Beauty Office
+> 0.100
+> 0.110
+> 0.120
+> 0.130
+> 0.140
+> 0.150
+> 0.160
+> 0.170
+> HR@20
+> Beauty Office
+> 0.040
+> 0.045
+> 0.050
+> 0.055
+> 0.060
+> 0.065
+> NDCG@20
+> Backbone Backbone + Future Supervision Backbone + Uncertainty-Guided Future Supervision
+
+Fig. 7. Impact of Uncertainty-Guided Modulation on Future Supervision. The results demonstrate that while indiscriminate future supervision (Backbone + FS) degrades performance, the uncertainty-guided approach yields significant improvements. 
+
+7 Conclusion 
+
+In this paper, we identified a critical limitation in existing sequential recommendation models: their predominant reliance on immediate next-item supervision, which restricts their ability to capture long-term preference evolution. While incorporating multi-step future interactions offers a promising solution, we demonstrated that applying such supervision indiscriminately can introduce detrimental noise. To overcome this, we proposed UFRec, a model-agnostic framework designed to adaptively leverage future interactions. At the core of UFRec are two complementary modules. First, the Uncertainty-Guided Future Supervision mechanism quantifies the model’s confidence of the primary next-item prediction using Shannon entropy, dynamically modulating the weight of multi-step future supervisions. Second, the Future-Aware Contrastive Learning module treats the future trajectory as a holistic entity, explicitly ensuring that a user’s current representation is more similar to their own future horizon than to the future trajectories of other users. Extensive experiments conducted on four real-world benchmark datasets validate the superiority of our approach. UFRec consistently outperforms 13 state-of-the-art baselines. Furthermore, our in-depth analyses demonstrate the framework’s strong generalizability across different backbone architectures and its robustness against severe data sparsity. As a training-time regularization strategy, UFRec enhances representation learning without introducing any additional computational overhead during the inference phase, making it highly efficient for real-world deployment. In future work, we plan to explore more sophisticated methods for modeling future horizons, such as leveraging Large Language Models to infer latent future intents, and extending our uncertainty-guided mechanism to other sequence-based tasks. 
+
+> Manuscript submitted to ACM
+
+22 Ziqiang Cui et al. 
+
+Acknowledgments 
+
+This work is supported by the Early Career Scheme (No.CityU 21219323) and the General Research Fund (No.CityU 11220324) of the University Grants Committee (UGC), the NSFC Young Scientists Fund (No.9240127), and the Donation for Research Projects (No.9229164 and No.9229216). 
+
+References 
+
+[1] Artun Boz, Wouter Zorgdrager, Zoe Kotti, Jesse Harte, Panos Louridas, Dietmar Jannach, and Marios Fragkoulis. 2024. Improving sequential recommendations with llms. arXiv preprint arXiv:2402.01339 (2024). [2] Yongjun Chen, Zhiwei Liu, Jia Li, Julian McAuley, and Caiming Xiong. 2022. Intent contrastive learning for sequential recommendation. In 
+
+Proceedings of the ACM Web Conference 2022 . 2172–2182. [3] Ziqiang Cui, Yunpeng Weng, Xing Tang, Xiaokun Zhang, Shiwei Li, Peiyang Liu, Bowei He, Dugang Liu, Weihong Luo, Chen Ma, et al . 2025. Semantic retrieval augmented contrastive learning for sequential recommendation. In The Thirty-ninth Annual Conference on Neural Information Processing Systems .[4] Ziqiang Cui, Haolun Wu, Bowei He, Ji Cheng, and Chen Ma. 2024. Context Matters: Enhancing Sequential Recommendation with Context-aware Diffusion-based Contrastive Learning. In Proceedings of the 33rd ACM International Conference on Information and Knowledge Management . 404–414. [5] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. 2018. Bert: Pre-training of deep bidirectional transformers for language understanding. arXiv preprint arXiv:1810.04805 (2018). [6] Ruining He and Julian McAuley. 2016. Fusing similarity models with markov chains for sparse sequential recommendation. In 2016 IEEE 16th international conference on data mining (ICDM) . IEEE, 191–200. [7] Xiangnan He, Kuan Deng, Xiang Wang, Yan Li, Yongdong Zhang, and Meng Wang. 2020. Lightgcn: Simplifying and powering graph convolution network for recommendation. In Proceedings of the 43rd International ACM SIGIR conference on research and development in Information Retrieval .639–648. [8] Balázs Hidasi and Alexandros Karatzoglou. 2018. Recurrent neural networks with top-k gains for session-based recommendations. In Proceedings of the 27th ACM international conference on information and knowledge management . 843–852. [9] Balázs Hidasi, Alexandros Karatzoglou, Linas Baltrunas, and Domonkos Tikk. 2015. Session-based recommendations with recurrent neural networks. 
+
+arXiv preprint arXiv:1511.06939 (2015). [10] Yu-Hsuan Huang, Ling Lo, Hongxia Xie, Hong-Han Shuai, and Wen-Huang Cheng. 2025. Future Sight and Tough Fights: Revolutionizing Sequential Recommendation with FENRec. In Proceedings of the AAAI Conference on Artificial Intelligence , Vol. 39. 11826–11834. [11] Ashish Jaiswal, Ashwin Ramesh Babu, Mohammad Zaki Zadeh, Debapriya Banerjee, and Fillia Makedon. 2020. A survey on contrastive self-supervised learning. Technologies 9, 1 (2020), 2. [12] Yangqin Jiang, Yuhao Yang, Lianghao Xia, and Chao Huang. 2024. Diffkg: Knowledge graph diffusion model for recommendation. In Proceedings of the 17th ACM international conference on web search and data mining . 313–321. [13] Wang-Cheng Kang and Julian McAuley. 2018. Self-attentive sequential recommendation. In 2018 IEEE international conference on data mining (ICDM) . IEEE, 197–206. [14] Lei Li, Yongfeng Zhang, and Li Chen. 2023. Prompt distillation for efficient llm-based recommendation. In Proceedings of the 32nd ACM International Conference on Information and Knowledge Management . 1348–1357. [15] Yuanzi Li, Xuri Ge, Jingyu Zhao, Yidan Wang, Jiyuan Yang, Zhumin Chen, Zhaochun Ren, and Xin Xin. 2026. R2NS: Recall and Re-ranking of Negative Samples for Sequential Recommendation. In Proceedings of the ACM Web Conference 2026 . 6331–6341. [16] Jiayi Liao, Sihang Li, Zhengyi Yang, Jiancan Wu, Yancheng Yuan, Xiang Wang, and Xiangnan He. 2024. Llara: Large language-recommendation assistant. In Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval . 1785–1795. [17] Jianghao Lin, Xinyi Dai, Yunjia Xi, Weiwen Liu, Bo Chen, Hao Zhang, Yong Liu, Chuhan Wu, Xiangyang Li, Chenxu Zhu, et al . 2025. How can recommender systems benefit from large language models: A survey. ACM Transactions on Information Systems 43, 2 (2025), 1–47. [18] Qidong Liu, Xian Wu, Yejing Wang, Zijian Zhang, Feng Tian, Yefeng Zheng, and Xiangyu Zhao. 2024. LLM-ESR: Large Language Models Enhancement for Long-tailed Sequential Recommendation. In The Thirty-eighth Annual Conference on Neural Information Processing Systems .[19] Zhiwei Liu, Yongjun Chen, Jia Li, Philip S Yu, Julian McAuley, and Caiming Xiong. 2021. Contrastive self-supervised sequential recommendation with robust augmentation. arXiv preprint arXiv:2108.06479 (2021). [20] Jianxin Ma, Chang Zhou, Hongxia Yang, Peng Cui, Xin Wang, and Wenwu Zhu. 2020. Disentangled self-supervision in sequential recommenders. In 
+
+Proceedings of the 26th ACM SIGKDD international conference on knowledge discovery & data mining . 483–491. [21] Xiuyuan Qin, Huanhuan Yuan, Pengpeng Zhao, Junhua Fang, Fuzhen Zhuang, Guanfeng Liu, Yanchi Liu, and Victor Sheng. 2023. Meta-optimized Contrastive Learning for Sequential Recommendation. In Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval . 89–98. [22] Xiuyuan Qin, Huanhuan Yuan, Pengpeng Zhao, Guanfeng Liu, Fuzhen Zhuang, and Victor S Sheng. 2024. Intent Contrastive Learning with Cross Subsequences for Sequential Recommendation. In Proceedings of the 17th ACM International Conference on Web Search and Data Mining . 548–556. Manuscript submitted to ACM Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation 23 
+
+[23] Ruihong Qiu, Zi Huang, Hongzhi Yin, and Zijian Wang. 2022. Contrastive learning for representation degeneration problem in sequential recommendation. In Proceedings of the fifteenth ACM international conference on web search and data mining . 813–823. [24] Xubin Ren, Wei Wei, Lianghao Xia, and Chao Huang. 2025. A comprehensive survey on self-supervised learning for recommendation. Comput. Surveys 58, 1 (2025), 1–38. [25] Yankun Ren, Zhongde Chen, Xinxing Yang, Longfei Li, Cong Jiang, Lei Cheng, Bo Zhang, Linjian Mo, and Jun Zhou. 2024. Enhancing sequential recommenders with augmented knowledge from aligned large language models. In Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval . 345–354. [26] Steffen Rendle, Christoph Freudenthaler, and Lars Schmidt-Thieme. 2010. Factorizing personalized markov chains for next-basket recommendation. In Proceedings of the 19th international conference on World wide web . 811–820. [27] Claude E Shannon. 1948. A mathematical theory of communication. The Bell system technical journal 27, 3 (1948), 379–423. [28] Yixin Su, Wei Jiang, Fangquan Lin, Cheng Yang, Sarah M Erfani, Junhao Gan, Yunxiang Zhao, Ruixuan Li, and Rui Zhang. 2025. Intrinsic and Extrinsic Factor Disentanglement for Recommendation in Various Context Scenarios. ACM Transactions on Information Systems 43, 3 (2025), 1–32. [29] Fei Sun, Jun Liu, Jian Wu, Changhua Pei, Xiao Lin, Wenwu Ou, and Peng Jiang. 2019. BERT4Rec: Sequential recommendation with bidirectional encoder representations from transformer. In Proceedings of the 28th ACM international conference on information and knowledge management .1441–1450. [30] Jiaxi Tang and Ke Wang. 2018. Personalized top-n sequential recommendation via convolutional sequence embedding. In Proceedings of the eleventh ACM international conference on web search and data mining . 565–573. [31] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. 2017. Attention is all you need. Advances in neural information processing systems 30 (2017). [32] Hao Wang, Wei Guo, Luankang Zhang, Jin Yao Chin, Yufei Ye, Huifeng Guo, Yong Liu, Defu Lian, Ruiming Tang, and Enhong Chen. 2025. Generative large recommendation models: emerging trends in llms for recommendation. In Companion Proceedings of the ACM on Web Conference 2025 . 49–52. [33] Yanling Wang, Yuchen Liu, Qian Wang, Cong Wang, and Chenliang Li. 2023. Poisoning self-supervised learning based sequential recommendations. In Proceedings of the 46th international ACM SIGIR conference on research and development in information retrieval . 300–310. [34] Yuling Wang, Changxin Tian, Binbin Hu, Yanhua Yu, Ziqi Liu, Zhiqiang Zhang, Jun Zhou, Liang Pang, and Xiao Wang. 2024. Can Small Language Models be Good Reasoners for Sequential Recommendation?. In Proceedings of the ACM on Web Conference 2024 . 3876–3887. [35] Jiancan Wu, Xiang Wang, Fuli Feng, Xiangnan He, Liang Chen, Jianxun Lian, and Xing Xie. 2021. Self-supervised graph learning for recommendation. In Proceedings of the 44th international ACM SIGIR conference on research and development in information retrieval . 726–735. [36] Jiafeng Xia, Dongsheng Li, Hansu Gu, Tun Lu, Peng Zhang, Li Shang, and Ning Gu. 2025. Oracle-guided Dynamic User Preference Modeling for Sequential Recommendation. In Proceedings of the Eighteenth ACM International Conference on Web Search and Data Mining . 363–372. [37] Lianghao Xia, Chao Huang, Chunzhen Huang, Kangyi Lin, Tao Yu, and Ben Kao. 2023. Automated Self-Supervised Learning for Recommendation. In Proceedings of the ACM Web Conference 2023 . 992–1002. [38] Lianghao Xia, Chao Huang, Yong Xu, and Jian Pei. 2022. Multi-behavior sequential recommendation with temporal graph transformer. IEEE Transactions on Knowledge and Data Engineering (2022). [39] Xu Xie, Fei Sun, Zhaoyang Liu, Shiwen Wu, Jinyang Gao, Jiandong Zhang, Bolin Ding, and Bin Cui. 2022. Contrastive learning for sequential recommendation. In 2022 IEEE 38th international conference on data engineering (ICDE) . IEEE, 1259–1273. [40] Jingcao Xu, Chaokun Wang, Cheng Wu, Yang Song, Kai Zheng, Xiaowei Wang, Changping Wang, Guorui Zhou, and Kun Gai. 2023. Multi-behavior self-supervised learning for recommendation. In Proceedings of the 46th international ACM SIGIR conference on research and development in information retrieval . 496–505. [41] Shenghao Yang, Weizhi Ma, Peijie Sun, Qingyao Ai, Yiqun Liu, Mingchen Cai, and Min Zhang. 2024. Sequential recommendation with latent relations based on large language model. In Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval . 335–344. [42] Yuhao Yang, Chao Huang, Lianghao Xia, and Chenliang Li. 2022. Knowledge graph contrastive learning for recommendation. In Proceedings of the 45th international ACM SIGIR conference on research and development in information retrieval . 1434–1443. [43] Yihang Yin, Qingzhong Wang, Siyu Huang, Haoyi Xiong, and Xiang Zhang. 2022. Autogcl: Automated graph contrastive learning via learnable view generators. In Proceedings of the AAAI conference on artificial intelligence , Vol. 36. 8892–8900. [44] Junliang Yu, Hongzhi Yin, Xin Xia, Tong Chen, Lizhen Cui, and Quoc Viet Hung Nguyen. 2022. Are graph augmentations necessary? simple graph contrastive learning for recommendation. In Proceedings of the 45th international ACM SIGIR conference on research and development in information retrieval . 1294–1303. [45] Junliang Yu, Hongzhi Yin, Xin Xia, Tong Chen, Jundong Li, and Zi Huang. 2023. Self-supervised learning for recommender systems: A survey. IEEE Transactions on Knowledge and Data Engineering 36, 1 (2023), 335–355. [46] Dan Zhang, Yangliao Geng, Wenwen Gong, Zhongang Qi, Zhiyu Chen, Xing Tang, Ying Shan, Yuxiao Dong, and Jie Tang. 2024. RecDCL: Dual Contrastive Learning for Recommendation. In Proceedings of the ACM on Web Conference 2024 . 3655–3666. [47] Mengqi Zhang, Shu Wu, Xueli Yu, Qiang Liu, and Liang Wang. 2022. Dynamic graph neural networks for sequential recommendation. IEEE Transactions on Knowledge and Data Engineering 35, 5 (2022), 4741–4753. [48] Xiaokun Zhang, Bo Xu, Zhaochun Ren, Xiaochen Wang, Hongfei Lin, and Fenglong Ma. 2024. Disentangling id and modality effects for session-based recommendation. In Proceedings of the 47th international ACM SIGIR conference on research and development in information retrieval . 1883–1892. Manuscript submitted to ACM 24 Ziqiang Cui et al. 
+
+[49] Xiaokun Zhang, Bo Xu, Youlin Wu, Yuan Zhong, Hongfei Lin, and Fenglong Ma. 2024. FineRec: Exploring Fine-grained Sequential Recommendation. In Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval . 1599–1608. [50] Yuyue Zhao, Jiancan Wu, Xiang Wang, Wei Tang, Dingxian Wang, and Maarten de Rijke. 2024. Let me do it for you: Towards llm empowered recommendation via tool learning. In Proceedings of the 47th International ACM SIGIR Conference on Research and Development in Information Retrieval . 1796–1806. [51] Ziwen Zhao, Yixin Su, Yuhua Li, Yixiong Zou, Ruixuan Li, and Rui Zhang. 2025. A Survey on Self-Supervised Graph Foundation Models: Knowledge-Based Perspective. IEEE Transactions on Knowledge and Data Engineering (2025). [52] Kun Zhou, Hui Wang, Wayne Xin Zhao, Yutao Zhu, Sirui Wang, Fuzheng Zhang, Zhongyuan Wang, and Ji-Rong Wen. 2020. S3-rec: Self-supervised learning for sequential recommendation with mutual information maximization. In Proceedings of the 29th ACM international conference on information & knowledge management . 1893–1902. [53] Xin Zhou, Aixin Sun, Yong Liu, Jie Zhang, and Chunyan Miao. 2023. Selfcf: A simple framework for self-supervised collaborative filtering. ACM Transactions on Recommender Systems 1, 2 (2023), 1–25. Manuscript submitted to ACM

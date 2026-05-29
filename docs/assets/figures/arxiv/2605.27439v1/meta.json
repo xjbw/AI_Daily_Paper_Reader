@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.27439v1/fig-002.webp",
+      "caption": "Table 1: Per-cell brand-mention density on the 50-prompt corpus. Within OpenAI, the withingeneration mini → non-mini jump (gpt-5.4-mini→ gpt-5.4) lifts distinct brands per run from 7.7 to 10.6 (+38%); the cross-generation mini → gpt-5.5 jump more than doubles density (7.7 → 16.4) but mixes class and generation effects. Within Anthropic, opus surfaces slightly fewer distinct brands than sonnet at the same generation (12.4–13.0 vs. 13.5).",
+      "page": 10,
+      "index": 2,
+      "width": 833,
+      "height": 186
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27439v1/fig-001.webp",
+      "caption": "Table 2: Per-(cell × tier) surface rate with clustered-bootstrap 95% CIs (1,000 iterations resampling the 50-prompt corpus with replacement at the prompt level). The point estimate is the fraction of (run × tier-brand) pairs in which the brand appears in the run’s completion text under any judge. Split into two blocks for legibility: head/mid tiers (top, rates in the 0.4–5.3% range) and long-tail/regional tiers (bottom, rates roughly an order of magnitude smaller). The CIs are wider than Wilson intervals over (run × brand) cells would suggest — the right clustering unit is the prompt, not the (run × brand) observation — and they should be the reference for which between-cell differences are statistically distinguishable.",
+      "page": 10,
+      "index": 1,
+      "width": 740,
+      "height": 405
+    }
+  ]
+}

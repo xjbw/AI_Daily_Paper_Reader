@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29141v1/fig-001.webp",
+      "caption": "Fig. 1. Limitations of existing recommender systems (primarily rely on implicit feedback while overlooking explicit contextual feedback) and framework of LLM-based RecSys with explicit contextual feedback, which incorporates explicit contextual feedback to achieve fine-grained user preference alignment through user profile construction, context-aware retrieval, adaptive reranking, and scalable trade-offs.",
+      "page": 2,
+      "index": 1,
+      "width": 752,
+      "height": 533
+    }
+  ]
+}

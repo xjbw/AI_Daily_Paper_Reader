@@ -1,0 +1,842 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-29T21:45:13.045227+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 15,
+    "deep_cap": 6,
+    "deep_selected": 10,
+    "quick_candidates": 14,
+    "quick_skim_target": 11,
+    "quick_selected": 10,
+    "deep_selected_before_profile_limit": 10,
+    "quick_selected_before_profile_limit": 11,
+    "profile_daily_limits": {
+      "Rec": {
+        "deep": 10,
+        "quick": 10
+      }
+    },
+    "profile_limit_dropped_by_tag": {
+      "Rec": {
+        "deep": 0,
+        "quick": 1
+      }
+    },
+    "profile_limit_dropped": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2605.26717v1",
+      "source": "arxiv",
+      "title": "L2Rec: Towards Dual-View Understanding of LLMs for Personalized Recommendation",
+      "abstract": "Adapting large language models (LLMs) for personalized recommendation requires aligning their general-purpose capabilities with user-specific preferences while effectively leveraging both behavioral and semantic signals. Existing approaches typically integrate these signals at either the input level (e.g., injecting behavioral embeddings into the token space) or the output level (e.g., contrastive alignment of separate encoders), suffering from distribution gaps or lack of end-to-end task supervision. In this work, we introduce L2Rec, which unifies behavioral and semantic understanding at the parameter level of LLMs. Our key insight is that the same set of Transformer parameters can serve as a shared medium for both views: by applying view-specific, personalized low-rank perturbations via a Dual-view Personalized Mixture-of-Experts (DPMoE) mechanism, L2Rec enables a single LLM backbone to produce complementary behavioral and semantic adaptations for each user with minimal representation-level misalignment. An adaptive cross-view fusion module further integrates the dual-view outputs into a unified user preference. Experiments on four datasets show that L2Rec consistently outperforms state-of-the-art baselines, and online A/B testing on a large-scale industrial platform validates significant improvements in key engagement metrics.",
+      "authors": [
+        "Pingjun Pan",
+        "Tingting Zhou",
+        "Peiyao Lu",
+        "Tingting Fei",
+        "Hongxiang Chen",
+        "Chuanjiang Luo"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-26T08:57:19+00:00",
+      "link": "https://arxiv.org/pdf/2605.26717v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Personalized recommendation via dual-view LLM understanding",
+      "llm_evidence_cn": "通过双视图LLM理解进行个性化推荐",
+      "llm_evidence": "通过双视图LLM理解进行个性化推荐",
+      "canonical_evidence": "通过双视图LLM理解进行个性化推荐",
+      "llm_tldr_en": "L2Rec unifies behavioral and semantic signals at parameter level for better recommendation",
+      "llm_tldr_cn": "L2Rec在参数层面统一行为与语义信号提升推荐效果",
+      "llm_tldr": "L2Rec在参数层面统一行为与语义信号提升推荐效果",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27429v1",
+      "source": "arxiv",
+      "title": "Ocean4Rec: Offline LLM-Derived OCEAN Profiles for Request-Time VOD Reranking",
+      "abstract": "Industrial video-on-demand (VOD) recommenders need richer content understanding, but LLM-as-reranker designs repeat prompt construction, token generation, model invocation, output parsing, and fallback handling for each request. In high-volume latency-sensitive services, these request-time operations complicate throughput planning, tail-latency control, capacity isolation, and predictable operation. This paper presents Ocean4Rec, a reranking layer that uses an LLM only offline to materialize item OCEAN profiles from content metadata. Items are mapped into Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism scores, while user profiles are built by time-decayed aggregation of recently clicked and deep-linked items in the same five-dimensional space. At request time, Ocean4Rec joins precomputed item profiles, user profiles, base recommender scores, and catalog recency, then performs numeric reranking without an LLM call. On anonymized Samsung Smart TV VOD logs, same-candidate Top1000 temporal-holdout offline evaluations show that Ocean4Rec improves NDCG@20 over a stronger non-OCEAN Base+Recency ordering by 7.6% for an NCF generator and 61.5% for a LightGCN generator. HR@20 is inconclusive for NCF and improves by 67.3% for LightGCN, reflecting sparse exact-item replay labels and the strength of recency as an industrial baseline. The result should be read as offline replay evidence for a bounded auxiliary content-taste feature that preserves the deployability advantage of a request-time-LLM-free serving path.",
+      "authors": [
+        "Wonkyun Kim",
+        "Sehyun Bae",
+        "Kwanki Ahn",
+        "Mungyu Bae",
+        "Saeun Choi",
+        "Soyeon You",
+        "Chandra Prabhakar",
+        "Sehyun Kim"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-22T04:04:44+00:00",
+      "link": "https://arxiv.org/pdf/2605.27429v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM-based reranking for VOD recommendations",
+      "llm_evidence_cn": "基于LLM的VOD推荐重排序",
+      "llm_evidence": "基于LLM的VOD推荐重排序",
+      "canonical_evidence": "基于LLM的VOD推荐重排序",
+      "llm_tldr_en": "Offline LLM-derived OCEAN profiles for efficient request-time VOD reranking.",
+      "llm_tldr_cn": "离线LLM生成的OCEAN画像用于高效请求时VOD重排序。",
+      "llm_tldr": "离线LLM生成的OCEAN画像用于高效请求时VOD重排序。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27439v1",
+      "source": "arxiv",
+      "title": "Prominence-Stratified Failure Modes in Retrieval-Augmented Commercial Recommendation: A 37,000-Run Audit",
+      "abstract": "AI assistants like ChatGPT and Claude are recommendation engines, not search engines: they answer commercial queries by directly nominating brands rather than returning a list of links. Marketing to AI is therefore a broader problem than \"show up in search\" -- positioning, content, and product fit matter as much as discoverability. We audit ~37,000 production runs across four model configurations and 215 commercially-framed prompts spanning 19 sectors, evaluated against a 533-brand reference catalog stratified into five prominence tiers (L1 category leaders to L5 regional players) sourced from external authority lists. The ladder proxies a brand's awareness footprint within its sector, not revenue or market share. The failure mode differs sharply by tier. L1 brands appear in nearly every relevant retrieval but win only 25-41% of the recommendation slots they reach -- the leverage is differentiation, not visibility. L2 challengers carry the highest conversion rates of any tier (37-52%) but lose to persona-mediated substitution on the Anthropic models. L3 mid-market brands are the inflection level: aggregate coverage drops to 88%, conversion to 34-40%, and persona effects peak. L4 specialists and L5 regional players face catastrophic invisibility -- 48-52% never surface in any of the 37,000 runs. No uniform optimization recipe wins; the right marketing investment depends on where the brand sits on the prominence ladder.",
+      "authors": [
+        "Will Jack",
+        "Noah Lehman",
+        "Keller Maloney",
+        "Sarah Xu"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-22T17:16:18+00:00",
+      "link": "https://arxiv.org/pdf/2605.27439v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "audits commercial recommendation in AI assistants",
+      "llm_evidence_cn": "审计AI助手中的商业推荐",
+      "llm_evidence": "审计AI助手中的商业推荐",
+      "canonical_evidence": "审计AI助手中的商业推荐",
+      "llm_tldr_en": "Audits failure modes in retrieval-augmented commercial recommendation.",
+      "llm_tldr_cn": "审计检索增强的商业推荐中的失败模式。",
+      "llm_tldr": "审计检索增强的商业推荐中的失败模式。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.27856v1",
+      "source": "arxiv",
+      "title": "Fine-Tuned LLM as a Complementary Predictor Improving Ads System",
+      "abstract": "Recommendation systems power engagement and monetization across feeds, ads, and short-video platforms, but translating the latest advances in Large Language Models into Recommendation Systems (RecSys) gains remains rare, particularly in advertising and production-scale real-world industry setups. Prior real-world LLM successes typically fall into three buckets: (a) generative retrieval that directly predicts the next items for candidate generation, (b) late-stage re-ranking that uses LLMs, and (c) auxiliary signal enrichment with LLMs. We introduce a complementary paradigm for ads: a fine-tuned open-source LLM used not as a ranker, but as an ads-specific ancillary predictor, forecasting likely advertisers from user profiles and histories. This LLM-driven advertiser prediction augments conventional candidate generation and provides informative priors to downstream ranking. Developed in a large-scale production advertising system, our approach produces substantial offline improvements and measurable online business impact, demonstrating that LLM world knowledge and predictive capacity can be efficiently harnessed. Beyond validating LLMs for ads applications, our results show that targeted ancillary predictions can unlock end-to-end gains across both retrieval and late-stage ranking, offering a practical path to LLM-enhanced recommendation at scale.",
+      "authors": [
+        "Hui Yang",
+        "Daiwei He",
+        "Kevin Jiang",
+        "Taejin Park",
+        "Kungang Li",
+        "Jiajun Luo",
+        "Yuying Chen",
+        "Xinyi Zhang",
+        "Sihan Wang",
+        "Haoyu He",
+        "Yu Liu",
+        "Lakshmi Manoharan",
+        "David Xue",
+        "Shubham Barhate",
+        "Runze Su",
+        "Duna Zhan",
+        "Ling Leng",
+        "Siping Ji",
+        "Jinfeng Zhuang",
+        "Alice Wu",
+        "Leo Lu",
+        "Han Sun",
+        "Zhifang Liu"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-27T02:19:40+00:00",
+      "link": "https://arxiv.org/pdf/2605.27856v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM as complementary predictor for ads recommendation",
+      "llm_evidence_cn": "LLM作为广告推荐的辅助预测器",
+      "llm_evidence": "LLM作为广告推荐的辅助预测器",
+      "canonical_evidence": "LLM作为广告推荐的辅助预测器",
+      "llm_tldr_en": "Fine-tuned LLM predicts advertisers to improve ads recommendation systems.",
+      "llm_tldr_cn": "微调LLM预测广告主以改进广告推荐系统。",
+      "llm_tldr": "微调LLM预测广告主以改进广告推荐系统。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28493v1",
+      "source": "arxiv",
+      "title": "Looking Farther with Confidence: Uncertainty-Guided Future Learning for Sequential Recommendation",
+      "abstract": "Sequential recommendation effectively models dynamic user interests but continues to face challenges related to data sparsity. While self-supervised learning has alleviated this issue to some extent, most existing methods focus exclusively on immediate next-item prediction during training, thereby neglecting the rich information embedded in longer-term future interactions. Although a few studies have explored the utilization of future data, existing attempts typically apply future supervision signals with uniform intensity across all samples, which may lead to suboptimal solutions. In this paper, we propose an adaptive future learning framework, UFRec, which encourages the model to look further ahead when it is confident in the current state, while focusing on the immediate task when it is uncertain. Specifically, UFRec incorporates an Uncertainty-Guided Future Supervision module that dynamically modulates the weight of multi-step future supervision based on the model's confidence in the primary next-item prediction task. Furthermore, we complement step-wise future supervision with a Future-Aware Contrastive Learning module that treats the future trajectory as a holistic entity. Notably, both auxiliary modules are utilized exclusively during training and incur no inference overhead. Extensive experiments on four benchmark datasets demonstrate that our method significantly outperforms state-of-the-art approaches by effectively leveraging future data.",
+      "authors": [
+        "Ziqiang Cui",
+        "Xing Tang",
+        "Peiyang Liu",
+        "Xiaokun Zhang",
+        "Shiwei Li",
+        "Xiuqiang He",
+        "Chen Ma"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-27T13:51:23+00:00",
+      "link": "https://arxiv.org/pdf/2605.28493v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sequential recommendation with uncertainty-guided future learning",
+      "llm_evidence_cn": "基于不确定性引导的未来学习序列推荐",
+      "llm_evidence": "基于不确定性引导的未来学习序列推荐",
+      "canonical_evidence": "基于不确定性引导的未来学习序列推荐",
+      "llm_tldr_en": "Proposes UFRec, an adaptive future learning framework for sequential recommendation",
+      "llm_tldr_cn": "提出UFRec，一种自适应未来学习框架用于序列推荐",
+      "llm_tldr": "提出UFRec，一种自适应未来学习框架用于序列推荐",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29141v1",
+      "source": "arxiv",
+      "title": "Toward User Preference Alignment in LLM Recommendation via Explicit Context Feedback",
+      "abstract": "Traditional recommender systems (RecSys) primarily infer user preferences from implicit signals (such as clicks, watches, and purchases), often neglecting the rich explicit contextual feedback users provide through verbal text, like comments and reviews. This explicit context feedback captures the nuanced reasons behind user decisions regarding their preferences. In addition, it offers critical heterogeneous information for user preference alignment and more explainable recommendations. Overlooking such signals can lead to misaligned user preferences and further reinforce filter bubbles, as algorithms fail to understand the \"semantic context\" behind user choices. Recent advances in Large Language Models (LLMs) present new opportunities to harness user-generated content for more accurate and diverse recommendations, yet current LLM-based recommendations still focus on using item meta-data and underutilize this resource. In this paper, we advocate for prioritizing explicit context feedback in the next generation of LLM-based RecSys. We review the evolution of recommendation paradigms, highlight the value of context-rich feedback, call for new benchmarks and metrics, and introduce frameworks for integrating explicit user signals into scalable LLM-driven RecSys. Centering on user-preference modeling, we aim to foster more personalized, transparent, and explainable RecSys online platforms.",
+      "authors": [
+        "Weizhi Zhang",
+        "Wooseong Yang",
+        "Yuxin Cui",
+        "Zhaohui Guo",
+        "Hins Hu",
+        "Liangwei Yang",
+        "Henry Peng Zou",
+        "Qifei Wang",
+        "Hanqing Zeng",
+        "Jiayi Liu",
+        "Yinglong Xia",
+        "Philip S. Yu"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-27T22:10:33+00:00",
+      "link": "https://arxiv.org/pdf/2605.29141v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "LLM recommendation with explicit context feedback",
+      "llm_evidence_cn": "基于显式上下文反馈的LLM推荐",
+      "llm_evidence": "基于显式上下文反馈的LLM推荐",
+      "canonical_evidence": "基于显式上下文反馈的LLM推荐",
+      "llm_tldr_en": "Uses LLMs and explicit user context for better recommendation alignment",
+      "llm_tldr_cn": "利用LLM和显式用户上下文实现更好的推荐对齐",
+      "llm_tldr": "利用LLM和显式用户上下文实现更好的推荐对齐",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29184v1",
+      "source": "arxiv",
+      "title": "Influence-Guided Symbolic Regression: Scientific Discovery via LLM-Driven Equation Search with Granular Feedback",
+      "abstract": "Large Language Models (LLMs) offer a promising avenue for scientific discovery, yet their application to symbolic regression is often constrained by inefficient search strategies and coarse feedback signals. Current methods typically guide LLMs using scalar metrics (e.g., global Mean Squared Error), which fail to identify which components of a proposed equation are driving performance or causing error. We introduce \\textit{Influence-Guided Symbolic Regression} (IGSR), a method that frames equation discovery as an iterative two-step process combining diverse term generation with rigorous selection: an LLM generates candidate basis functions $ψ_j(\\mathbf{x})$ for a linear model, which are then evaluated using granular influence scores $Δ_j$. These scores quantify each term's marginal contribution to generalization accuracy, enabling an influence-guided pruning process that systematically refines the model structure. Integrating this mechanism into a Monte Carlo Tree Search (MCTS) enables navigating the combinatorial search space while balancing exploration of novel functional forms with exploitation of high-influence components. We demonstrate IGSR's effectiveness on a diverse suite of benchmarks, including LLM-SRBench, pharmacological PKPD models, an epidemiological simulation, and real-world genomic data. Notably, we validate the framework's capacity for genuine discovery in a case study using a high-dimensional biological dataset, in which IGSR identified a novel relationship between DNA methylation and RNA Polymerase II pausing; a hypothesis that was subsequently supported via wet-lab experimentation.",
+      "authors": [
+        "Evgeny S. Saveliev",
+        "Samuel Holt",
+        "Nabeel Seedat",
+        "David L. Bentley",
+        "Jim Weatherall",
+        "Mihaela van der Schaar"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-27T23:48:01+00:00",
+      "link": "https://arxiv.org/pdf/2605.29184v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Influence-Guided Symbolic Regression using LLM for equation search with granular feedback",
+      "llm_evidence_cn": "使用大语言模型进行方程搜索并提供精细反馈的引导式符号回归",
+      "llm_evidence": "使用大语言模型进行方程搜索并提供精细反馈的引导式符号回归",
+      "canonical_evidence": "使用大语言模型进行方程搜索并提供精细反馈的引导式符号回归",
+      "llm_tldr_en": "IGSR uses LLM-driven term generation and selection for symbolic regression.",
+      "llm_tldr_cn": "IGSR使用大语言模型驱动项生成和选择进行符号回归。",
+      "llm_tldr": "IGSR使用大语言模型驱动项生成和选择进行符号回归。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "fundamental principles and methods of symbolic regression",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29322v1",
+      "source": "arxiv",
+      "title": "ACE: Anisotropy-Controllable Embedding for LLM-enhanced Sequential Recommendation",
+      "abstract": "Recent advances in the LLM-as-Extractor paradigm leverage large language models (LLMs) to transfer semantically rich item embeddings into sequential recommendation (SR) backbones. However, LLM-generated embeddings often suffer from strong anisotropy. Most vectors are concentrated in similar directions, resulting in a geometric imbalance that makes it difficult to adapt to collaborative signals during fine-tuning. To address this challenge, we propose Anisotropy-Controllable Embedding (ACE), which explicitly controls the anisotropy of LLM-generated embeddings. Specifically, ACE utilizes a linear autoencoder (LAE) to reshape the embedding distribution while preserving its semantic structure. In this process, the L2-regularization term mitigates the anisotropy by controlling the dispersion of embedding dimensions, while the reconstruction loss maintains semantic relationships among items. That is, ACE balances geometric uniformity and semantic embedding preservation for more stable learning. Extensive experiments demonstrate that ACE consistently outperforms existing LLM-enhanced SR models, yielding improvements of up to 12.4% and 11.8% in Recall@20 and NDCG@20, respectively.",
+      "authors": [
+        "Dongcheol Lee",
+        "Hye-young Kim",
+        "Jongwuk Lee"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-28T03:56:46+00:00",
+      "link": "https://arxiv.org/pdf/2605.29322v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "sequential recommendation with LLM embeddings",
+      "llm_evidence_cn": "利用LLM嵌入的序列推荐",
+      "llm_evidence": "利用LLM嵌入的序列推荐",
+      "canonical_evidence": "利用LLM嵌入的序列推荐",
+      "llm_tldr_en": "ACE controls anisotropy of LLM embeddings for better sequential recommendation.",
+      "llm_tldr_cn": "ACE控制LLM嵌入的各向异性以改进序列推荐。",
+      "llm_tldr": "ACE控制LLM嵌入的各向异性以改进序列推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29755v1",
+      "source": "arxiv",
+      "title": "Rec-Distill: An Industrial Distillation Pipeline for Large-Scale Recommendation Models",
+      "abstract": "Large recommendation models have demonstrated substantial potential gains under scaling laws, yet these gains are difficult to realize in industrial recommendation systems because real-world deployment requires lightweight models with strict serving efficiency and latency guarantees. This creates a fundamental gap between offline model scaling and online deployment. In this work, we present Rec-Distill, an industrial distillation pipeline that transfers the performance gains of large-scale recommendation modeling to efficient serving models. Rec-Distill combines large-teacher scaling with student-side transfer optimization through decoupled training, black-box distillation, debiasing mechanism, and a hybrid batch-streaming pipeline for dynamic recommendation environments. Across multiple recommendation and advertising scenarios on real-world platforms, our framework scales teacher models up to 24B dense parameters and 20K behavior sequence length, while enabling lightweight students to recover a substantial portion of teacher gains, with distillation transferability exceeding 60% in the best setting. Extensive offline and online experiments further show that these transferred gains consistently translate into measurable business improvements under industrial constraints. These results demonstrate that Rec-Distill provides a practical framework for distilling large-scale recommendation models into deployable, cost-efficient serving systems, while also establishing a reliable path toward scaling recommendation models to even larger regimes in the future.",
+      "authors": [
+        "Haoran Ding",
+        "Wenlin Zhao",
+        "Yuchen Jiang",
+        "Juren Li",
+        "Jie Zhu",
+        "Xinchun Li",
+        "Yishujie Zhao",
+        "Yi Zhang",
+        "Ao Qiao",
+        "Jianhui Dong",
+        "Cheng Chen",
+        "Ziyan Gong",
+        "Deping Xie",
+        "Peng Xu",
+        "Zikai Wang",
+        "Yuwei Wang",
+        "Huizhi Yang",
+        "Zhe Chen",
+        "Yuchao Zheng"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-28T10:59:07+00:00",
+      "link": "https://arxiv.org/pdf/2605.29755v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "industrial distillation pipeline for large-scale recommendation models",
+      "llm_evidence_cn": "大规模推荐模型的工业蒸馏流程",
+      "llm_evidence": "大规模推荐模型的工业蒸馏流程",
+      "canonical_evidence": "大规模推荐模型的工业蒸馏流程",
+      "llm_tldr_en": "Rec-Distill transfers performance gains of large recommendation models to efficient serving models.",
+      "llm_tldr_cn": "Rec-Distill将大型推荐模型的性能优势转移至高效服务模型。",
+      "llm_tldr": "Rec-Distill将大型推荐模型的性能优势转移至高效服务模型。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.30207v1",
+      "source": "arxiv",
+      "title": "Persona Conditioning of Brand Recommendations in Retrieval-Augmented Commercial Chat: A Prominence-Stratified Cross-Provider Audit",
+      "abstract": "The same prompt -- \"best CRM software\" -- reaches AI assistants from buyers in widely different contexts: a solo founder, an enterprise VP, a UK SMB owner. We audit how strongly that contextual variation reshapes which brands the model recommends. The audit samples 2,000 runs over a design space of 10 personas x 8 prompts x 3 model configurations x N=10 reps, with the two OpenAI cells at full 8-prompt coverage and the Anthropic sonnet-4.6 / low cell at 4-prompt coverage. Prefixing the user message with a persona drops the recommendation-set similarity (Jaccard) by Delta = -0.12 to -0.20 relative to a same-persona baseline (clustered 95% CIs exclude zero on all three measured cells; the sonnet cell's CI rests on only 4 prompt clusters and is correspondingly wider). The effect is sharply prominence-stratified: category leaders are persona-resistant (~80% same-brand consistency across personas), but mid-market brands swap up to 75% of the recommendation set as the persona changes. The Anthropic model shows a larger point-estimate effect than the OpenAI configurations, though clustered CIs overlap for the closer contrast (sonnet vs. OpenAI/high); the asymmetry is consistent with Anthropic's more retrieval-unattributed generation route (43-52% recommendations without observed retrieval-layer evidence, vs OpenAI's 8-29%, documented in Jack 2026). Any measurement of AI brand perception must condition on the buyer persona supplying the query: the same prompt produces materially different recommendation sets depending on who the model thinks is asking, and a measurement protocol that aggregates across personas systematically obscures that variation. The effect concentrates at mid-market and is largest on the most priors-reliant generation route in our audit, consistent with persona responsiveness growing as models lean more on training-data priors and richer context integration.",
+      "authors": [
+        "Will Jack",
+        "Noah Lehman",
+        "Keller Maloney",
+        "Sarah Xu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-28T16:43:38+00:00",
+      "link": "https://arxiv.org/pdf/2605.30207v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "e-commerce brand recommendations",
+      "llm_evidence_cn": "电商品牌推荐",
+      "llm_evidence": "电商品牌推荐",
+      "canonical_evidence": "电商品牌推荐",
+      "llm_tldr_en": "Audits how persona context alters brand recommendations in commercial chat",
+      "llm_tldr_cn": "审计人物背景如何改变商业聊天中的品牌推荐",
+      "llm_tldr": "审计人物背景如何改变商业聊天中的品牌推荐",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.25330v1",
+      "source": "arxiv",
+      "title": "How Reliable Are Semantic-ID Tokenizer Comparisons in Generative Recommendation?",
+      "abstract": "In Semantic-ID (SID) based generative recommendation, each item is represented as a sequence of discrete codes, and an autoregressive model is trained to generate the SID sequence of the next item; top-K performance is then measured by checking whether the SID sequence of the target item appears among the generated sequences. This evaluation protocol equates SID-level matching with item-level recommendation, an equivalence that holds only when every SID sequence maps to a single item. We show this assumption breaks down in practice: because tokenizers compress item features into a code space, semantically similar but collaboratively distinct items are frequently assigned the same SID sequence. Across four datasets and five representative tokenizers, the fraction of items involved in such collisions reaches 30.5%, so matching a shared SID sequence identifies only a collision group rather than the target item. Consequently, SID-level metrics overestimate item-level performance (Hit@10 is inflated by up to 103.36%), and the inflation grows with the collision rate. To support faithful comparison, we develop collision-aware item-level metrics computed directly from generated SID sequences, together with a post-tokenizer procedure that reassigns last-level SIDs at minimum cost to obtain a collision-free assignment for any existing tokenizer. Our results indicate that SID-level rankings in prior work should be interpreted with caution, and that reliable tokenizer evaluation requires either item-level correction or collision-free SID assignments.",
+      "authors": [
+        "Qian Zhang",
+        "Lech Szymanski",
+        "Haibo Zhang",
+        "Jeremiah D. Deng"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-25T01:22:45+00:00",
+      "link": "https://arxiv.org/pdf/2605.25330v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generative recommendation with semantic IDs",
+      "llm_evidence_cn": "基于语义ID的生成式推荐",
+      "llm_evidence": "基于语义ID的生成式推荐",
+      "canonical_evidence": "基于语义ID的生成式推荐",
+      "llm_tldr_en": "Reveals reliability issues in semantic-ID tokenizer comparisons for generative recommendation.",
+      "llm_tldr_cn": "揭示了生成式推荐中语义ID分词器比较的可靠性问题。",
+      "llm_tldr": "揭示了生成式推荐中语义ID分词器比较的可靠性问题。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.27737v1",
+      "source": "arxiv",
+      "title": "Bounded-Compute Multimodal Regression for Product-Rating Prediction",
+      "abstract": "Vision-language models (VLMs) are increasingly attractive for multimodal quality assessment, but their default reliance on autoregressive text generation and dynamic visual processing is poorly matched to scalar regression under strict latency budgets. We present a bounded-compute adaptation of SmolVLM2-256M-Video-Instruct for product-rating prediction in the LoViF 2026 Efficient VLM challenge. Motivated by recent multimodal engagement-prediction results showing that feature-based regression can outperform token-based score generation, we replace the language-modeling head with a lightweight two-layer MLP fed by pooled decoder states, and we enforce deterministic inputs through fixed 384x384 images and truncated metadata. Across controlled ablations, static global image processing slightly outperforms dynamic tiling, and scaling from 100K to 16M training examples substantially improves validation correlation. Under the official held-out evaluation, our 228M-parameter model achieves 0.39 PLCC and 0.40 CES, providing a strong and reproducible baseline for resource-constrained multimodal regression.",
+      "authors": [
+        "William Leach",
+        "Ru He",
+        "Sizhuo Ma",
+        "Yizhen Jia",
+        "Min Cao",
+        "Jian Wang",
+        "Rick Cao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-26T22:27:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.27737v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "product-rating prediction for e-commerce",
+      "llm_evidence_cn": "面向电子商务的产品评分预测",
+      "llm_evidence": "面向电子商务的产品评分预测",
+      "canonical_evidence": "面向电子商务的产品评分预测",
+      "llm_tldr_en": "Bounded-compute multimodal regression for product rating prediction in e-commerce.",
+      "llm_tldr_cn": "基于有限计算的多模态回归用于电子商务产品评分预测。",
+      "llm_tldr": "基于有限计算的多模态回归用于电子商务产品评分预测。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.23807v1",
+      "source": "arxiv",
+      "title": "Dynamic Query Modification for Binary Locality Sensitive Hashing",
+      "abstract": "Our context of interest is how binary locality sensitive hash (LSH) functions can be used to solve the approximate near neighbour (ANN) problem, which seeks to find the k closest elements of some dataset X to some further point q presented as a query. Binary locality sensitive function families H are sets of functions each which accept a point and return a binary value. A function is locality sensitive if and only if the output of the function is more likely to be equal (a 'hash collision') if two close vectors are used as input than if two far vectors are used. A data structure can be built by generating binary hash codes for each member of X, which are generated by drawing and applying one or more functions from H. When q is presented as a query, the same set of functions is applied to it and those elements of X with equal binary hash codes are retrieved. In this paper we introduce dynamic query modification. This process changes q at query time to form a new value c, which by theoretical and experimental analysis we prove has two significant advantages. Firstly, the hash output of c collides with near neighbours with a greater probability than q. Secondly, we show there is little chance of c failing to collide with any near neighbours; a property which we demonstrate is not true for q. To demonstrate the efficacy of the technique, we define a novel structure MQ-Forest, a modified version of RP-Forest. Both are binary LSH-based ANN mechanisms, but MQ-Forest dynamically estimates a value for c during the query process. We show that MQ-Forest reduces both build and query times by up to 40% when measured over several large, high-dimensional benchmark datasets.",
+      "authors": [
+        "Ben Claydon",
+        "Richard Connor",
+        "Alan Dearle"
+      ],
+      "primary_category": "cs.CG",
+      "categories": [
+        "cs.CG"
+      ],
+      "published": "2026-05-22T16:11:00+00:00",
+      "link": "https://arxiv.org/pdf/2605.23807v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Locality sensitive hashing for approximate nearest neighbor in recommendation",
+      "llm_evidence_cn": "用于推荐中近似最近邻的局部敏感哈希",
+      "llm_evidence": "用于推荐中近似最近邻的局部敏感哈希",
+      "canonical_evidence": "用于推荐中近似最近邻的局部敏感哈希",
+      "llm_tldr_en": "Proposes dynamic query modification for binary LSH to improve approximate near neighbor search.",
+      "llm_tldr_cn": "提出动态查询修改的二元LSH以改进近似最近邻搜索",
+      "llm_tldr": "提出动态查询修改的二元LSH以改进近似最近邻搜索",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.26385v1",
+      "source": "arxiv",
+      "title": "Credit-assigned Policy Gradient for Early Stage Retrieval in Two-stage Ranking",
+      "abstract": "Large-scale search, recommendation, and retrieval-augmented generation (RAG) systems typically employ a two-stage architecture: an early-stage ranker (ESR) generates a candidate set, which is subsequently re-ranked by a late-stage ranker (LSR). While there are many reinforcement learning (RL) methods for training the LSR, end-to-end training of the ESR has proven challenging. In particular, naive application of \"vanilla\" policy gradient (V-PG) is not scalable for candidate-set sizes relevant for practical use due to exploding variance. This issue arises because V-PG propagates the gradient to the joint probability of the candidate sets, ignoring the contribution of each specific item in the candidate set to the reward. To mitigate this issue, we propose a novel \"credit-assigned\" policy gradient (CA-PG), which computes gradients with respect to the probability that the target item is chosen in any candidate set, i.e. marginalizing over all candidate sets that contain it. Our theoretical analysis reveals that CA-PG significantly reduces the variance of V-PG by marginalizing over the specific composition of the candidate set, while preserving the ability to learn the correct ranking of items under a reasonably aligned LSR policy. Experiments on both synthetic and real-world data demonstrate that CA-PG improves the convergence speed and training stability for ESRs utilizing the canonical Plackett-Luce model, especially when the candidate-set size is large.",
+      "authors": [
+        "Haruka Kiyohara",
+        "Mihaela Curmei",
+        "Ariel Evnine",
+        "Shankar Kalyanaraman",
+        "Israel Nir",
+        "Ana-Roxana Pop",
+        "Nitzan Razin",
+        "Sarah Dean",
+        "Thorsten Joachims",
+        "Udi Weinsberg"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI",
+        "stat.ML"
+      ],
+      "published": "2026-05-25T23:17:37+00:00",
+      "link": "https://arxiv.org/pdf/2605.26385v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Credit-assigned policy gradient for early stage retrieval in two-stage ranking",
+      "llm_evidence_cn": "信用分配策略梯度用于两阶段排序中的早期检索",
+      "llm_evidence": "信用分配策略梯度用于两阶段排序中的早期检索",
+      "canonical_evidence": "信用分配策略梯度用于两阶段排序中的早期检索",
+      "llm_tldr_en": "Proposes a reinforcement learning method for training early-stage rankers in recommendation systems.",
+      "llm_tldr_cn": "提出用于推荐系统早期排序器训练的强化学习方法。",
+      "llm_tldr": "提出用于推荐系统早期排序器训练的强化学习方法。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.28626v1",
+      "source": "arxiv",
+      "title": "When Interpretability Is Unequally Distributed: Fairness in Hybrid Interpretable Models",
+      "abstract": "Hybrid interpretable models combine a transparent component with a black-box model by assigning some examples to the former and deferring the rest to the latter. While this design enables flexible tradeoffs between accuracy and interpretability, it also raises a distinct procedural fairness concern: some demographic groups may systematically receive interpretable decisions, while others are disproportionately routed to a black box.   We formalize this issue as Interpretability Coverage Disparity (ICD), a demographic-parity-style measure applied to the routing decision of hybrid interpretable models. Using tools from predictive multiplicity, we study ICD across four hybrid interpretable learning methods, three standard fairness benchmark datasets, and multiple sensitive attributes. Our experiments reveal substantial ICD in intermediate transparency regimes, where both the interpretable and black-box components are actively used. We further show that simple coverage-disparity constraints can significantly reduce ICD in exact hybrid learning methods, with marginal impact on accuracy and sparsity. In several settings, ICD mitigation also improves standard algorithmic fairness metrics. These results show that hybrid interpretable models should be audited not only for predictive fairness, but also for how they allocate interpretability across individuals and groups.",
+      "authors": [
+        "Ziba Jabbar Zare",
+        "Ulrich Aïvodji",
+        "Julien Ferry",
+        "Thibaut Vidal"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-27T15:33:00+00:00",
+      "link": "https://arxiv.org/pdf/2605.28626v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "studies interpretability disparity in hybrid models relevant to symbolic regression transparency",
+      "llm_evidence_cn": "研究混合模型的可解释性差异，与符号回归透明性相关",
+      "llm_evidence": "研究混合模型的可解释性差异，与符号回归透明性相关",
+      "canonical_evidence": "研究混合模型的可解释性差异，与符号回归透明性相关",
+      "llm_tldr_en": "Analyzes fairness of interpretability in hybrid models, informing transparent symbolic regression.",
+      "llm_tldr_cn": "分析混合模型的可解释性公平性，为透明符号回归提供参考。",
+      "llm_tldr": "分析混合模型的可解释性公平性，为透明符号回归提供参考。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "interpretability and transparency of symbolic regression models",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.25211v1",
+      "source": "arxiv",
+      "title": "Evolving Causal Regulatory Networks (ECR-Net)",
+      "abstract": "Modern machine learning models excel at pattern recognition but remain brittle, often failing to generalize out of distribution (OOD) because they capture spurious correlations rather than the underlying causal data-generating process. Current causal discovery methods, while powerful, typically assume a static graph structure, rendering them unable to model systems that adapt or undergo structural changes across different environments. We introduce ECR-Net, Evolving Causal Regulatory Networks, a novel, bio-inspired framework for adaptive causal mechanism discovery. Our approach models the data-generating process not as a static graph, but as a dynamic system analogous to a Gene Regulatory Network (GRN), composed of localized, recursive functions where variables can activate and inhibit one another. To discover the latent structure of this network, we employ an evolutionary search algorithm that evolves a population of candidate regulatory graphs, optimizing for a fitness function that measures how well the simulated system dynamics reconstruct the observed data. The key innovation of ECR-Net is its ability to model structural adaptation, it explicitly ingests shifts in the data's statistical properties as signals of an environmental shock. In response, the evolutionary search identifies parsimonious modifications to the causal graph topology, such as link inhibitions or activations that explain the new data regime. We posit that ECR-Net represents a new class of adaptive Structural Causal Models capable of discovering how and why a system's fundamental rules change, offering a path toward robust generalization in complex, non-stationary systems.",
+      "authors": [
+        "Govind Vallabhasseri Binish",
+        "Abdhul Ahadh",
+        "Rano Roy Kavanal",
+        "Arya Ukunde"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-24T18:19:59+00:00",
+      "link": "https://arxiv.org/pdf/2605.25211v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "uses evolving framework reminiscent of genetic programming for symbolic regression",
+      "llm_evidence_cn": "使用类似遗传编程的演化框架，可应用于符号回归",
+      "llm_evidence": "使用类似遗传编程的演化框架，可应用于符号回归",
+      "canonical_evidence": "使用类似遗传编程的演化框架，可应用于符号回归",
+      "llm_tldr_en": "Proposes evolving causal networks with recursive functions, method transferable to symbolic regression.",
+      "llm_tldr_cn": "提出演化因果网络，递归函数方法可迁移至符号回归。",
+      "llm_tldr": "提出演化因果网络，递归函数方法可迁移至符号回归。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.27440v1",
+      "source": "arxiv",
+      "title": "Paraphrase Brittleness in Production Retrieval-Augmented Commercial Recommendation: Reproducibility Below the Rerun-Stability Baseline",
+      "abstract": "Small changes to how a buyer phrases a question -- \"best CRM\" vs \"top CRM\" vs \"best CRM for a SaaS startup\" -- produce substantially different brand recommendations from AI assistants. Across ~6,000 paraphrase runs and ~6,000 same-prompt rerun controls on OpenAI and Anthropic models, the recommendation-set similarity (Jaccard) between two paraphrases of the same underlying buying intent is 0.288 for cosmetic rewordings (clustered 95% CI [0.215, 0.361]) and 0.135 for constraint-adding rewordings ([0.098, 0.175], pooling region/language and specificity-ladder axes) -- both far below the 0.50-0.61 same-prompt rerun baseline. The prompt string, not the underlying buyer intent, is the dominant input to which brands surface. Increasing reasoning effort does not narrow the gap (bounded by +/-0.05). This is a direct challenge to an increasingly popular AEO/GEO practice. Tracking a brand's \"AI visibility\" by counting brand mentions over a fixed set of prompts produces a metric whose dominant source of variance is which paraphrase the tracker happens to issue, not the model's behavior toward the brand: the same buyer intent in two natural paraphrases produces recommendation sets that overlap 14-29% in Jaccard versus 50-61% for same-prompt reruns. Sampling more paraphrases per intent reduces the artifact in principle, and efficient multi-prompt evaluation methods exist in the academic literature, but the natural buyer-phrasing space is much larger than the benchmark-scale prompt sets those methods have been validated on, and far beyond what any commercial tracker issues per brand-intent combination. Prompt-by-prompt mention tracking is therefore structurally unstable as a unit of measurement; meaningful improvement likely requires a different unit rather than a larger prompt set.",
+      "authors": [
+        "Will Jack",
+        "Noah Lehman",
+        "Keller Maloney",
+        "Sarah Xu"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.AI"
+      ],
+      "published": "2026-05-22T17:23:02+00:00",
+      "link": "https://arxiv.org/pdf/2605.27440v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "brittleness in commercial recommendation systems",
+      "llm_evidence_cn": "商业推荐系统中的脆弱性",
+      "llm_evidence": "商业推荐系统中的脆弱性",
+      "canonical_evidence": "商业推荐系统中的脆弱性",
+      "llm_tldr_en": "Paraphrase brittleness in retrieval-augmented commercial recommendation.",
+      "llm_tldr_cn": "检索增强商业推荐中的释义脆弱性。",
+      "llm_tldr": "检索增强商业推荐中的释义脆弱性。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.29268v1",
+      "source": "arxiv",
+      "title": "Compute Allocation in Evolutionary Search: From Depth-Breadth to Multi-Armed Bandits",
+      "abstract": "LLM-guided evolutionary search (Evolve systems) has reached state-of-the-art results on mathematical and combinatorial tasks, yet most existing systems report only the best of many runs and leave the run-to-run distribution undocumented. We ask how a fixed budget of LLM calls should be allocated, and how reliably a single run reaches the reported numbers. Sweeping the depth-breadth grid over five models and three tasks, we identify two empirical regularities: a fitness-compute envelope along which capability ordering largely collapses on effective FLOPs, and a bilinear depth-breadth fit with task-specific interaction; both are gated by model-task capability. Motivated by these regularities, we propose BaSE (Bandit-based Self-Evolving), a multi-armed bandit that allocates LLM calls across parallel trajectories. Without changing the model, prompt, or evaluator, BaSE improves mean fitness by 12.3% over the strongest island-protocol baseline across 8 (model, task) cells, with the largest gains on high-variance settings: a reliability gain from allocation alone.",
+      "authors": [
+        "Sixue Xing",
+        "Haoyu He",
+        "Kerui Wu",
+        "Zhuo Yang",
+        "Haozheng Luo",
+        "Tianfan Fu",
+        "Aarthy Nagarajan"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.LG",
+        "cs.NE"
+      ],
+      "published": "2026-05-28T02:37:51+00:00",
+      "link": "https://arxiv.org/pdf/2605.29268v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM-guided evolutionary search for mathematical tasks",
+      "llm_evidence_cn": "LLM引导的进化搜索用于数学任务",
+      "llm_evidence": "LLM引导的进化搜索用于数学任务",
+      "canonical_evidence": "LLM引导的进化搜索用于数学任务",
+      "llm_tldr_en": "Proposes BaSE for compute allocation in LLM-guided evolutionary search to improve reliability",
+      "llm_tldr_cn": "提出BaSE在LLM引导进化搜索中分配计算资源提升可靠性",
+      "llm_tldr": "提出BaSE在LLM引导进化搜索中分配计算资源提升可靠性",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "evolutionary algorithms and genetic programming for symbolic regression",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.27450v1",
+      "source": "arxiv",
+      "title": "Context Features Are Cheap: Rank-Aware Decomposition for Efficient Feature Interaction in Recommender Systems",
+      "abstract": "Modern industrial recommender systems use a deep ranking model to score N candidates against the same user and context features. Standard implementations broadcast context features early in the forward pass, redundantly computing context-only operations N times per request. We present a rank-aware decomposition applicable to the dominant interaction mechanisms in modern recommender architectures-Factorization Machine (FM) pairwise products, Deep Cross Network (DCNv2) cross layers, self-attention, and fully connected (FC) projection layers-built on a single algebraic principle: any linear or bilinear operation over a rank-partitioned input admits an exact block decomposition that moves context-only computation from once-per-candidate to once-per-request, identity-equivalent to the original model. Closed-form analysis and controlled ablation verify that savings scale quadratically with the number of context features. Applied to a production DLRM-style ranker without any architectural change, the decomposition increases per-pod throughput by 87.5% (a 47% reduction in peak pod count) at identical model predictions.   The identity-equivalent decomposition applies only at the first layer of cross networks and self-attention, since each layer mixes ranks in its output. To extend savings across depth, we further introduce rDCN, an architectural variant of DCNv2 that maintains rank discipline across depth and matches DCNv2 accuracy within training noise at 67% fewer total FLOPs, and sketch an analogous architectural variant for self-attention.",
+      "authors": [
+        "Yevgeny Tkach"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR",
+        "cs.LG"
+      ],
+      "published": "2026-05-24T13:35:36+00:00",
+      "link": "https://arxiv.org/pdf/2605.27450v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "rank-aware decomposition for recommender feature interaction",
+      "llm_evidence_cn": "推荐系统中特征交互的秩感知分解",
+      "llm_evidence": "推荐系统中特征交互的秩感知分解",
+      "canonical_evidence": "推荐系统中特征交互的秩感知分解",
+      "llm_tldr_en": "Proposes rank-aware decomposition to reduce redundant computation in deep ranking models.",
+      "llm_tldr_cn": "提出秩感知分解以减少深度排序模型中的冗余计算。",
+      "llm_tldr": "提出秩感知分解以减少深度排序模型中的冗余计算。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.29517v1",
+      "source": "arxiv",
+      "title": "FLASH-MAXSIM: IO-Aware Fused Kernels for Late-Interaction Scoring",
+      "abstract": "Late-interaction retrieval (ColBERT, ColPali) scores a query against a document with the MaxSim operator: for every query token, the maximum similarity over the document tokens, summed over   query tokens. The standard implementation materializes the full query-token x document-token similarity tensor in GPU memory; for visual ColPali at 10K documents this tensor alone is 21 GB in   FP16, created only to be reduced to one score per document and discarded. It exhausts a 40 GB GPU and bounds the achievable batch size in both inference and training. We present   Flash-MaxSim, an IO-aware fused GPU kernel that computes exactly the same scores without ever materializing the tensor, by streaming query and document tiles through on-chip SRAM and folding   the row-maximum reduction into the same pass. We extend the IO-aware principle through the training backward pass, an inverse-grid CSR construction that reuses the forward argmax for an   atomic-free, destination-owned gradient reduction, and through INT8xINT8 quantization and variable-length (padding-free) scoring. Flash-MaxSim is up to 3.9x faster on an A100 (4.7x on an   H100) than naive PyTorch at matched precision, uses up to 16x less inference memory and ~28x less training memory, unlocks corpus and batch sizes that exhaust PyTorch entirely, preserves the   exact ranking (100% top-20 agreement with an FP32 reference)",
+      "authors": [
+        "Roi Pony",
+        "Adi Raz Goldfarb",
+        "Idan Friedman",
+        "Daniel Ezer",
+        "Udi Barzelay"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-28T07:38:27+00:00",
+      "link": "https://arxiv.org/pdf/2605.29517v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "efficient GPU kernel for late-interaction retrieval used in recommendation",
+      "llm_evidence_cn": "用于推荐中后期交互检索的高效GPU核",
+      "llm_evidence": "用于推荐中后期交互检索的高效GPU核",
+      "canonical_evidence": "用于推荐中后期交互检索的高效GPU核",
+      "llm_tldr_en": "Flash-MaxSim avoids materializing large tensors for MaxSim scoring in late-interaction retrieval",
+      "llm_tldr_cn": "Flash-MaxSim避免物化大型张量，用于后期交互检索的MaxSim评分",
+      "llm_tldr": "Flash-MaxSim避免物化大型张量，用于后期交互检索的MaxSim评分",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

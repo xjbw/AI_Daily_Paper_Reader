@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.27450v1/fig-001.webp",
+      "caption": "Figure 2: Throughput normalized to the (𝐾 = 8, 𝑀 = 4) vanilla baseline. Left panel (a) varies 𝐾 with𝑀=4 fixed; right panel (b) varies𝑀 with 𝐾=8 fixed. The vertical gap between the two curves in each panel is the throughput gain delivered by rank-aware decomposition at that configuration.",
+      "page": 8,
+      "index": 1,
+      "width": 1012,
+      "height": 355
+    }
+  ]
+}

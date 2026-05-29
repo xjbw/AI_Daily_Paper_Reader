@@ -1,0 +1,126 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-001.webp",
+      "caption": "Figure 1: Cost–performance frontier on n=26 Circle Packing (CP).",
+      "page": 1,
+      "index": 1,
+      "width": 430,
+      "height": 290
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-009.webp",
+      "caption": "Figure 2: Fitness versus effective FLOPs. Solid lines report Vmax over sweeped depth-breadth allocations; dashed lines report the pure best-of-N baseline (T = 1). Vertical gap between solid and dashed curves is the gain of ’evolving’ from using evaluator feedback across generations rather than spending the full budget on one generation of parallel samples.",
+      "page": 4,
+      "index": 9,
+      "width": 451,
+      "height": 316
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-004.webp",
+      "caption": "Figure 4: Per-run greedy fitness trajectories at T=512, N=1 on Qwen3-8B. Greedy reliably reaches high fitness in CP, while several seeds in MMD and HT stagnate at suboptimal values.",
+      "page": 7,
+      "index": 4,
+      "width": 844,
+      "height": 228
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-008.webp",
+      "caption": "Table 3: Minimum generation (Gen.) and cumulative FLOPs (×1015) required for ≥ 90% samples to reach thresholds (≥ τ ) with Qwen3-8B as the base LLM. Unreached thresholds are denoted as “—”. The minimum generation and FLOPs for each threshold are bolded.",
+      "page": 8,
+      "index": 8,
+      "width": 941,
+      "height": 261
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-013.webp",
+      "caption": "Table 4: Capability gate per model×task cell. VT=1 is the best-of-N fitness, Vmax the best over all depths, penBoN = Vmax − VT=1, and p the depth permutation test. 1.7B/4B evaluated at C=128, all others at C=512.",
+      "page": 12,
+      "index": 13,
+      "width": 458,
+      "height": 330
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-006.webp",
+      "caption": "Figure 5: One healthy (top) and one stuck (bottom) greedy run per task at Greedy T=512, N=1 on Qwen3-8B. Each title gives the run number (out of 10), the generation at which the displayed program was the running best, the normalized fitness, and the task’s raw metric. CP: the unit square is filled with 26 non-overlapping circles; MMD: 16 points; the red bar is the closest pair (dmin) and the blue dashed bar the farthest pair (dmax); HT: 11 points inside the equilateral triangle; the red shaded triplet is the smallest of the ( 11 3 ) =165 triangles, which sets the score.",
+      "page": 14,
+      "index": 6,
+      "width": 896,
+      "height": 570
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-002.webp",
+      "caption": "Figure 6: Cross-model allocation and performance scaling. Top: near-optimal depth T ∗(C) as a function of total LLM call budget. Bottom: best attainable mean fitness Vmax(C) at the same budgets. The depth curves do not form a single transferable law, while Vmax(C) is substantially smoother and more capability-ordered.",
+      "page": 15,
+      "index": 2,
+      "width": 451,
+      "height": 418
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-015.webp",
+      "caption": "Figure 7: Final fitness of repeated runs under an identical configuration. Each dot is one run; horizontal bars mark the mean (dashed), and IQM (solid). For every configuration, repeated runs spread over a range of final fitness rather than collapsing to a single value. Grey dashed line: initial-program fitness.",
+      "page": 16,
+      "index": 15,
+      "width": 744,
+      "height": 506
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-011.webp",
+      "caption": "Table 5: Nested model comparison on the five main-experiment cells. M0: budget-only (c=0, a=b). M1: bilinear (Equation (2)). M2/M3/M4: M1 plus log2 T , plus log2 N , or plus both. pF columns give the F-test p-value for the richer model vs. M1.",
+      "page": 17,
+      "index": 11,
+      "width": 679,
+      "height": 187
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-012.webp",
+      "caption": "Figure 8: Fitness of children from a single mutation step. Distribution of child fitness at T = 1, where all children share the initial program as parent (log count axis). One application of the LLM mutation operator already spreads child fitness broadly across [0, 1] instead of concentrating them near the parent; this step-level spread is the source of the run-to-run spread in Figure 7.",
+      "page": 17,
+      "index": 12,
+      "width": 930,
+      "height": 249
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-007.webp",
+      "caption": "Figure 9: Bilinear-fit quality R2 C versus best fitness Vmax (at C=512) across the eleven (model, task) cells. Qwen3 cells (blue ramp) cluster in the upper-right; Llama-3.1-8B cells (purple, black outline) sit below the R2 = 0.7 threshold even when Vmax is high (CP/Llama at Vmax = 0.843 but R2 C = 0.33). The bilinear regularity’s lower boundary is therefore not strictly a capability floor.",
+      "page": 18,
+      "index": 7,
+      "width": 451,
+      "height": 335
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-010.webp",
+      "caption": "Table 7: Bilinear fitness-gap model (Equation (2)) fit on sub-ceiling cells of the C = 512 sweeps. Permutation p-values test c ̸= 0 (10,000 shuffles). ∗∗∗p < 0.001, ∗∗p < 0.01, ∗p < 0.05. Top block (main-experiment models): bilinear form fits cleanly across all three tasks (R2 ∈ [0.75, 0.92]), with task-dependent c — CP has no significant interaction (broad plateau), while MMD and HT have significant negative interactions (interior ridge). Bottom block (smaller-model regime): well-fit rows (R2 ≥ 0.72) all satisfy |c| ≤ 0.024, consistent with a flattened version of the same surface; weak-model configurations (HT Llama, MMD 1.7B, CP Llama) fail to enter the sub-ceiling regime and the form does not describe them (R2 ≤ 0.36); significance stars for these rows should be disregarded.",
+      "page": 19,
+      "index": 10,
+      "width": 663,
+      "height": 301
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-014.webp",
+      "caption": "Table 8: Pairwise best-fitness comparisons: each block adapts one parent sampling protocol (greedy protocol with different breadth N or island protocols including OpenEvolve, CodeEvolve, and ShinkaEvolve) into a baseline self-evolving process as described in Algorithm 1 and BaSE as described in Algorithm 2, where BaSE includes three bandit algorithms (UCB, EXP3.P, and Thompson sampling). The best mean fitness score in each block is bolded.",
+      "page": 20,
+      "index": 14,
+      "width": 950,
+      "height": 826
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-003.webp",
+      "caption": "Table 9: Minimum generation (Gen.) and cumulative FLOPs (×1015) required for ≥ 90% of replicates to reach thresholds (≥ τ ) with three LLM models. Unreached thresholds are denoted as “—”. The minimum generation and FLOPs for each threshold are bolded.",
+      "page": 21,
+      "index": 3,
+      "width": 946,
+      "height": 468
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29268v1/fig-005.webp",
+      "caption": "Table 10: BaSE running-max fitness at T = 512 versus bandit arm-pool size K ∈ {2, 5, 10, 20, 50}. The largest mean within each (Model, Task) block is bolded.",
+      "page": 22,
+      "index": 5,
+      "width": 950,
+      "height": 1391
+    }
+  ]
+}
