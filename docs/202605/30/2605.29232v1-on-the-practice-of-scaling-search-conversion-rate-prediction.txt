@@ -1,0 +1,363 @@
+Title: On the Practice of Scaling Search Conversion Rate Prediction
+
+URL Source: https://arxiv.org/pdf/2605.29232v1
+
+Published Time: Fri, 29 May 2026 00:27:04 GMT
+
+Number of Pages: 16
+
+Markdown Content:
+# On the Practice of Scaling Search Conversion Rate Prediction 
+
+James Pak Jyun-Yu Jiang Fan Zhang Sen Wang Taekmin Kim Henry Tsai Vijay Rajaram Juexin Lin Mohitdeep Singh Alessandro Magnani Johnny Chen Qian Zhao Rao Fu Zhirong Liang Jordan Gilliland Winter Jiao 
+
+Coupang 
+
+{mipak, jyjiang, fazhang1, sewang1, takim856, mitsai, vijay, julin9 mosingh, almagnan, jichen9, qizhao, rao, zhliang, cjg, dojiao}@coupang.com 
+
+## Abstract 
+
+Scaling a Search Conversion Rate (CVR) prediction model, especially in high-traffic environments, presents a challenge: superior model quality needs to be balanced with strict constraints on training cost and serving latency. This paper details an effective approach for scaling modern search CVR prediction models. We begin with an empirical study to understand the scaling performance of search CVR models, analyzing how quality improves as we scale three key factors of model backbone computation, the size of embedding parameters, and the volume of training data. We use a large-scale production dataset, comprising over a year of customer in-teraction logs from a high-traffic e-commerce platform, to evaluate the scalability of several state-of-the-art architectures and their ensembles. Our key findings are: (1) selecting the right backbone and scaling factors is crucial; (2) the impact of scaling backbone, embedding, and data is largely independent and additive, which has implications for more efficient scaling exploration; (3) a streamlined warmstart strategy can accelerate training iterations while simplifying new up-dates; (4) inference optimization strategies such as decoupled graph execution and dynamic batching can enable low-latency GPU serving even for high-capacity models. Compared to a baseline of a pre-scaling production model, we ultimately deployed a model trained on 2.5x larger training data with 8x more inference com-pute while having minimal latency impact. Online A/B tests also demonstrate that our launches achieved a combined +2.6% gain in a key metric of search conversion rate. 
+
+## 1 Introduction 
+
+Conversion Rate (CVR) prediction is central to search and recommendation systems, in various domains including e-commerce [ 3]. While deep learning has already delivered significant gains in model quality [ 37 ], its true potential lies in its ability to scale, enabling more complex architectures and better generalization over massive datasets. However, effectively realizing these scaling benefits remains a challenge, particularly in the search domain, where it is less well-studied. Scaling CVR models is challenging as many studies demonstrate that incremental returns usually diminish rapidly along scaling [ 30 ]. First, the architecture of CVR prediction models is highly heterogeneous to model diverse inputs, so the scaling effects would be misaligned across different components like diverse scaling factors and embeddings. The embedded-centric architecture also introduces the majority of parameters concentrated in large embedded tables used to represent categorical features [ 17 ]. Second, the complex model inputs comprise a mixture of categorical and continuous features from customer profiles, query context, and item attributes. CVR models could have a hard time dealing with the balance between memorization and generalization. The 
+
+Preprint. 
+
+> arXiv:2605.29232v1 [cs.IR] 28 May 2026
+
+heterogeneity and amount of these features also complicate the preprocessing and generation of large volume of training data. Lastly, online CVR systems operate under both strict inference latency and resource constraints, precluding the use of excessively slow or large architectures. A promising approach for recommendation systems to achieve more predictable model scaling is to replace engineered engagement features with sequences of raw engagement actions [ 22 , 31 , 30 ]. Directly modeling the full history of raw engagement actions across all users presents a high degree of computational challenges. Moreover, search CVR presents different challenges compared to non-search recommendation problems. search contexts involve numerous point-in-time features and specific query intents that may not generalize well to sequential inputs for other sessions. For example, the price and availability of a certain item are important features that can vary over time, or a current customer query could be completely irrelevant to previous searches. Lastly, for both search and recommendation CVR models, the architectural backbones of many state-of-the-art frameworks are not inherently aligned with those of language models, which have shown predictable scaling [ 33 , 37 ]. In this paper, our objective is to uncover a generalizable and robust scaling mechanism for search CVR models through systematic experimentation. To this end, we comprehensively evaluate several leading state-of-the-art architectures and their ensemble variants. Specifically, we decompose the models into three primary scaling dimensions: backbone, embeddings, and data, followed by an in-depth analysis of the scalability properties and effective scaling recipes for each dimension. Finally, we demonstrate that inference optimizations can unlock the ability to serve the resulting scaled models with minimal cost or latency impact. We verify the effectiveness and real-world impact of the resulting models through large-scale online A/B experiments. The main contributions of our work are summarized as follows: • We methodically investigate the scalability properties and practical impact of each scaling factor in state-of-the-art search CVR models. Our findings provide generalizable guidance for practitioners, helping them prioritize exploration efforts when scaling models in production settings. • Leveraging the observed scaling properties of the data dimension, we propose a practical strategy to accelerate model selection: first conduct architecture search and hyperparameter optimization on smaller datasets, then transfer the selected configuration to the full-scale dataset for final training and deployment. • We propose a streamlined warm-starting technique during model training that significantly reduces the time required for routine model development in production. • To support the deployment of large-scale CVR models, we also present a practical framework for optimizing GPU efficiency in real-world serving environments. • Experimental results on a large-scale customer dataset confirm the validity of our analysis and the effectiveness of the proposed scaling mechanisms. Furthermore, large-scale online A/B testing demonstrates tangible real-world improvements across multiple key success metrics, including a +2.6% increase in search customer conversion rate. 
+
+Disclaimer: Our framework is designed without any inclusion of customer personally identifiable information (PII). To ensure privacy, we utilize model features and training data that preclude the identification of any specific individual. 
+
+## 2 Preliminaries on Conversion Rate Prediction 
+
+We first provide a preliminary overview of modern machine learning frameworks for CVR prediction. In this work, we consider purchases as the target conversion behavior. Given a query q submitted by a customer u and a set of exposed candidate items D = {di}, the goal of the CVR prediction task is to produce a ranking score f (u, q, d i) for each candidate item di by modeling the probability that the customer u would convert to a purchase of d: P (Purchase | u, q, d i). Note that the problem statements in studies could slightly vary based on different business goals like advertising [ 37 ] and recommendation [ 3 ], but the general foundational mechanisms should be similar across business domains. 2Representation       
+
+> Transformation
+> …
+> …
+> …
+> …
+> …
+> …
+> Sequential
+> Features
+> …
+> Numerical
+> Features
+> Categorical
+> Features
+> Text
+> Features
+> …
+> Feature
+> Extraction
+> Raw Model
+> Inputs
+> Backbone Model / Architecture
+> Feature
+> Interaction
+> Hidden Representation
+> …
+> Expert 1 Expert 2 Expert E
+> Tower 1 Tower 2 Tower T …
+> …
+> Output 1 Output 2 Output T
+> Gate 1
+> Gate K
+> ⋮
+
+Figure 1: Overall CVR Model Framework. 
+
+2.1 CVR Model Framework 
+
+As shown in Figure 1, most modern CVR prediction models can be generalized to three components, namely (1) feature extraction, (2) feature interaction, and (3) representation transformation [16]. 
+
+Feature Extraction. The raw inputs of a CVR model can be diverse and complex, including statistical features, text [ 18 ], contextual data [ 19 ], and many other attributes. However, most of these inputs cannot be directly consumed by machine learning models since they could be non-standardized. Accordingly, CVR models need to process and transform the raw inputs into dense vectors as machine-readable representations. We categorize model inputs into numerical, categorical, text, and sequential features [ 3 ], with the following conventional feature extraction methods: • Each numerical feature is applied with normal standardization and log1p transformation [ 20 ] as two normalized features. • Each categorical feature is designated to an embedding layer to map discrete categories to continuous embedding vectors [3]. • Each text feature is first tokenized into character n-grams [ 1 , 5] and then mapped into n-gram embeddings, followed by an average pooling layer to derive the text embedding. • Each sequential feature is a temporal sequence of historical customer actions on items that is encoded into dense customer embeddings by sequence modeling for better personalization [ 37 ]. Note that the customer embeddings do not utilize any personally identifiable information. In this study, we focus on scaling multiple embedding features that are critical to search conversion rate prediction, such as query embedding and item embeddings. 
+
+Feature Interaction. The implicit semantics contained within the varied inputs are a critical part of CVR prediction. To capture the complex relationships among dense vectors from feature extraction, the feature interaction module functions as the cornerstone in modern CVR models. Specifically, a backbone model or an ensemble of backbones, such as Deep & Cross Networks [ 26 , 27 ] and Transformer [ 35 ], serves to map these dense embeddings into a rich, high-order hidden representation. 3In this paper, we focus mainly on exploring several strategies to scale up the feature interaction component of CVR models as described in Section 3. 
+
+Representation Transformation. To predict diverse customer behaviors, different forms of rep-resentations are needed in CVR prediction models. These are typically multi-task models in order to capture such behavior, combining conversion rate prediction with other correlated tasks such as click-through rate prediction (CTR). It is important to transform the shared output from the feature interaction module into a customized representation for each prediction task and capture task-specific information. In this paper, we choose the Multi-gate Mixture of Experts (MMoE) architecture [ 14 ]for representation transformation. Note that this work does not include the study of this component, which is left to future work. 
+
+2.2 Learning Objectives and Optimization Training Label Collection. To collect high-quality labels for training, we use customer engagement behaviors within a certain attribution window starting from item impressions on search results. This delay is crucial for correctly attributing conversions that are not immediate. For example, a customer might add an item to their cart but only complete the purchase a day later; the attribution approach ensures that this delayed purchase is successfully linked back to the original search impression. 
+
+Multi-task Learning. The target conversion behaviors (e.g. purchases in this work) are usually extremely sparse compared to total exposures. To enrich learning signals and smooth the learning process, it is common and useful to take advantage of other engagement behaviors, such as clicks and add-to-carts [ 37 ]. Hence, it is natural to apply multi-task learning to simultaneously learn to predict different behaviors. For each learning task t, we use the Softmax cross-entropy loss [2] for optimization as: 
+
+Lt = − X
+
+> i
+
+yi,t log exp ( si,t )
+
+P 
+
+> j
+
+exp ( sj,t ) ,
+
+where yi,t denotes if the item di results in the engagement behavior for the task t; si,t is the predicted logit on the task t for the item di. The overall learning objective can then be simply calculated as the summation of the losses of all learning tasks. For optimization, in this work, we use Adam optimizer [ 13 ] with a portion of the first epoch for learning rate warm-up and use a cosine decay until the end of training [4]. 
+
+## 3 Efficient Model Scaling 
+
+For model scaling, we hypothesize that we can achieve considerable quality gains with more compu-tation, more model parameters, and more training data. However, scaling up models also typically leads to higher cost and more demanding hardware requirements. Therefore, how to predictably but efficiently scale up models becomes a difficult challenge. In this work, we explore the following three strategies to scale up CVR models: • Backbone Scaling increases the computational intensity in the backbone of the feature interaction module. This typically reduces training throughput as the floating-point operations (FLOPs) per sample increase. • Embedding Scaling increases the number of model parameters by expanding the dimension or quantity of embedding tables. While often computationally efficient, this significantly grows the memory footprint, which can trigger memory bottlenecks. • Data Scaling involves training on a larger corpus by extending the data duration or increasing the sampling rate. This results in longer training cycles that may become infeasible under strict training budgets. 
+
+3.1 Backbone Scaling 
+
+The effectiveness of machine learning models is significantly driven by their ability to leverage additional computational capacity [ 23 ]. In modern CVR prediction, this capacity is largely dictated 4by the architecture and configuration of the backbone models within the feature interaction module. In this paper, we explore two directions: (1) scaling individual backbone models across different scaling factors and (2) scaling the computation architecture for feature interaction by ensembling heterogeneous backbones. 
+
+Individual Backbone Scaling. For the selection of backbone models, we consider several con-ventional state-of-the-art models including DCNv2 [ 27 ], MaskNet [ 28 ], Transformers [ 25 ] and RankMixer [ 35 ]. We begin by discussing the model architecture family and its associated scaling factors. 
+
+The Deep and Cross Family. The family of models aims to combine standard fully connected deep neural network layers (FC-DNN) with Hadamard-product-based cross-feature interaction layers. We explore DCNv2 and MaskNet . Although both models are conceptually similar, they differ in their cross-interaction logic. DCNv2 computes 
+
+xl+1 = x0 ⊙ (UlVlxl) + xl,
+
+whereas MaskNet uses 
+
+xl+1 = Ul(ReLU (Vlx0)) ⊙ xl.
+
+Bias terms are omitted for clarity. To enhance the expressive power of these cross layers in an unbounded way, we propose to scale the input x0 via one-layer relu projection, addressing the bottleneck in DCNv2 where interaction rank is limited by the input vector length. Regarding FC-DNN connectivity, MaskNet positions the DNN immediately following the cross-network output. It utilizes n MaskNet blocks, Mi(x, x0), whose outputs can be concatenated in parallel as: Concat (M0(x0, x0), M 1(x0, x0), · · · , M n(x0, x0)); 
+
+or stacked sequentially as: 
+
+Mn(. . . (M2(M1(x0, x0), x0), . . . , x0)
+
+Following these operations, the resulting hidden representation is projected directly to the output logit for prediction. This architectural flexibility mirrors DCNv2, which permits the FC-DNN to be either stacked after the cross-layer output or integrated in parallel via concatenation. To evaluate the impact of these architectural choices, we identify four key scaling factors: • Cross Width: the projected cross-input dimension • Deep Width: the FC-DNN hidden dimension • Parallel Mask Blocks: number of MaskNet parallel blocks • Sequential Mask Blocks: number of MaskNet stacked blocks 
+
+The Sequence Model Family. Modern CVR models increasingly leverage sequence embeddings to unlock the power of architectures like Transformers and RankMixer. While Transformers excel at capturing high-order, contextual interactions through self-attention, RankMixer enhances scalability by replacing quadratic attention with efficient multi-head token mixing. To integrate non-sequential signals, such as 3-month aggregate conversion rates, we adopt the established practice of concatenating and uniformly partitioning features into a sequence of “global tokens.”[ 29 , 35 ] To enhance representational power, we apply a non-linear projection to raw features prior to splitting, mirroring techniques used in Cross-Net architectures. To assess the impact of different architectural choices, we identify five key scaling factors: • dmodel : the size of the input embedding • Sequence Length: the number of sequential “global tokens” • ffn dim : the dimension size in the ffn layers • The number of model layers • The number of attention heads 
+
+Backbone Model Ensemble. To properly derive an ensemble of backbone models into a CVR model, we use deep hierarchical ensemble network (DHEN) [ 33 , 37 ]. We aim to understand how the improvements add up for backbone combinations with different ensemble approaches. 53.2 Embedding Scaling 
+
+Modern conversion prediction and recommendation models rely on embedding techniques to handle categorical features with high cardinality item IDs and text tokens. These trainable embedding tables usually account for a meaningful portion of the model parameters [ 16 ]. Accordingly, a natural way to scale up models is expanding these tables in order to enhance the representational capacity of the model. In this work, we explore two factors for embedding scaling: (1) the size of embedding dimensions and (2) the vocabulary size. While wider dimensions improve the richness of the continuous representations, extending the vocabulary allows the model to distinguish between a broader range of features. To manage the massive cardinality of features like n-grams, we rely on a hashing trick [ 11 ], which allows precise control over vocabulary size by adjusting the hashing modulus divisor. 
+
+3.3 Data Scaling 
+
+Learning from historical engagement behaviors is a standard approach in CVR modeling. From a learning signal perspective, scaling training data by increasing the sampling rate or time duration enhance model quality and generalizability [ 32 ]. Larger datasets provide more comprehensive coverage of customer behaviors, particularly for torso and tail search queries where engagement is inherently sparse. Extended training windows enable the model to capture diverse temporal patterns and evolving user interests. In production, feature sets evolve dynamically; newer data partitions tend to exhibit superior feature coverage as additional signals are integrated. While generating all features across the full training lookback period is ideal, it is often infeasible. Thus, we employ a technique of populating missing features with a unique ‘unseen’ placeholder, evaluating whether the substantial cost of extensive backfilling yields commensurate performance gains. Recognizing that data scaling is not a “free lunch,” we prioritize targeted feature exploration, backfilling only a scoped subset of high-impact signals. 
+
+## 4 Experiments 
+
+Experimental Datasets. For experiments, we used 70 days of anonymized purchase data for model training, while more or less days of training data are also considered in the study of data scaling. Each training sample is a search result list of items with at least one purchase. We consider purchase engagements as positive labels for the learning-to-rank softmax loss [2] to train the model. 
+
+Backbone Models and Features. As mentioned in Section 3, we use DCNv2 [ 27 ], MaskNet [ 28 ], Transformers [ 25 ], and RankMixer [ 35 ] as backbone models. Our models utilize various features that include query-item engagement features, query engagement features, item engagement features, query-item understanding features and customers’ past engagement sequences. The models also utilizes raw query, item title, and document ID features, with their embeddings learned jointly during training. 
+
+Evaluation Metrics. For evaluation, we compute the mean average precision (mAP) of all searches to customer purchases for seven days in the future because we have found that this metric correlates well with online customer engagement. Formally, mAP in our experiments can be derived as: mAP = 1
+
+> Q
+
+PQq=1 AP q , where AP q =
+
+Pnk=1 (precision @k × item purchased @k)
+
+Number of purchased items for query q .
+
+Note that because most queries result in a single purchase, the value of this metric closely approx-imates the Mean Reciprocal Rank (MRR). In our experiments, we will report the relative offline metric difference (% of mAP) of model changes. 6Backbone Scaling Factor Values ∆mAP ∆Training Throughput Inference FLOPs ( ×10 7)Factor V1, V2, V3, V4 V1 V2 V3 V4 V1 V2 V3 V4 V1 V2 V3 V4 DCNv2 Cross Width 1k , 2k, 4k, 8k +0.00% +0.12% +0.18% +0.18% +0.00% -1.85% -13.89% -39.63% 4.17 6.37 12.03 28.37 Deep Width 1k , 2k, 4k, 6k +0.00% -0.01% +0.10% +0.15% +0.00% -7.41% -16.85% -38.33% 4.17 7.63 18.32 34.04 MaskNet Cross Width 512, 1k, 2k , 4k +0.23% +0.40% +0.52% +0.64% +0.93% +3.70% -0.93% -27.13% 2.87 4.70 10.89 33.31 Deep Width 512, 1k , 2k, 4k +0.55% +0.52% +0.53% +0.54% 0.00% -0.93% -14.63% -18.61% 9.62 10.89 13.41 18.45 Parallel Blocks 1, 2, 4, 8 +0.50% +0.52% +0.56% +0.60% +5.56% -0.93% -19.81% -31.30% 6.27 10.89 20.12 38.59 Sequential Blocks 1, 2, 4, 8 +0.51% +0.51% +0.53% +0.42% -7.59% +0.00% -13.43% -28.61% 6.27 9.00 14.45 25.36 Transformer                                                                                                                            
+
+> dmodel 32 , 64, 128, 192 -0.01% +0.21% +0.25% +0.26% -1.85% +0.93% -13.89% -33.33% 0.87 1.85 5.18 10.19 Sequence Length 16 , 32, 64, 128 -0.01% +0.18% +0.33% +0.46% -1.85% -10.65% -18.33% -52.13% 0.87 1.75 4.22 12.01 # of Layers 1, 2, 4, 8 -0.03% -0.01% +0.01% -0.03% +14.81% -1.85% -10.83% -22.04% 0.78 0.87 1.04 1.39 # of Heads 1, 2, 4, 8 -0.01% -0.01% -0.02% +0.01% +0.93% -1.85% -14.91% -10.00% 0.83 0.87 0.93 1.07 ffn dim 128, 256 , 512, 1k -0.02% -0.01% -0.03% -0.04% +5.56% -1.85% -12.22% +2.78% 0.81 0.87 0.97 1.18 RankMixer
+> dmodel 64 , 128, 256, 384 +0.17% +0.37% +0.50% +0.53% -0.93% -20.09% -33.24% -51.11% 1.78 4.40 13.43 27.49 Sequence Length 8, 16 , 32, 64 -0.02% +0.17% +0.34% +0.32% 0.00% -0.93% -22.69% -41.76% 0.99 1.78 39.80 10.91 # of Layers 1, 2, 4, 8 +0.15% +0.17% +0.20% +0.21% -3.70% -0.93% -14.26% -27.04% 1.67 1.78 1.99 2.43 ffn dim 128, 256 , 512, 1k +0.19% +0.17% +0.16% +0.17% -7.78% -0.93% -5.56% -2.78% 1.67 1.78 1.99 2.42
+
+Table 1: Relative changes in mAP and training throughput across scaling factors with inference FLOPs against DCNv2 baseline. Bold factors are the default values for each backbone (the default MaskNet is configured without sequential blocks). 0.1 0.5            
+
+> GFLOPs (Log Scale)
+> 0.2
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> mAP Gain (%)
+> (Parallel) DCNv2
+> 0.1 0.5
+> GFLOPs (Log Scale)
+> MaskNet
+> 0.1 0.5
+> GFLOPs (Log Scale)
+> RankMixer
+> 0.1 0.5
+> GFLOPs (Log Scale)
+> Transformer
+> # of Heads # of Layers # of Parallel Mask Blocks # of Sequential Mask Blocks ffn dim dmodel Cross Width Deep Width Seq Len
+
+Figure 2: FLOPs vs mAP gain against DCNv2 for different scaling factors. 
+
+4.1 Results on Backbone Scaling 
+
+To evaluate backbone scaling, we comprehensively scale each model along every scaling factor highlighted in Section 3.1. Table 1 presents the relative changes observed when utilizing different backbones in the feature interaction module. 
+
+Model Backbone. Figure 2 compares mAP across several backbone models with more data points. Initially, we observed that sequence models outperform DCNv2 within a similar FLOPs budget. This aligns with prior findings for models of this scale (about 10 8 FLOPs) [ 29 ], which noted that Transformers generally outperform DLRM-family models. However, our well-tuned MaskNet exceeds the performance of sequence models. We conjecture that MaskNet outperforms sequence models with attention and rank-mixing by more effectively capturing feature interactions through its cross-scaling mechanism.Regarding hardware efficiency, Table 1 shows that MaskNet V4 variants incur a 29% throughput drop at 2.5 × 10 8 FLOPs. However, sequence models yield similar or lower throughput at only half that computational load, suggesting that MaskNet is significantly more efficient per FLOP. Beyond throughput, we observed critical distinctions in memory consumption across architectures. Despite having comparable FLOP counts, sequence models exhibit disproportionate memory over-head, which impedes scaling beyond 6× the baseline factor values (see Table 1). This is primarily attributable to the memory required to store hidden states per timestamp and attention matrices for backpropagation, which leads to out-of-memory (OOM) errors significantly earlier than their deep-and-cross counterparts. The memory bottleneck becomes more pronounced in deeper sequence models. Overall, we aim to highlight that selecting the right backbone considering performance and efficiency is critical for production viability. 
+
+Scaling Factors. Selecting the right scaling factors is also essential: for example, we find scaling 
+
+cross-width scaling is more effective than deep-width scaling. Similarly, for Transformers, scaling the sequence length emerges as the most effective factor. We hypothesize that the superiority of these specific axes stems from the nature of search and recommendation tasks, which prioritize explicit high-order feature interactions. This capability is enhanced by expanding cross-layers in MaskNets and sequence capacity in Transformers, as both facilitate more exhaustive feature crossing. To investigate this behavior, we conducted a permutation feature importance analysis, measuring mAP fluctuations after shuffling individual features and feature pairs across the top-performing model 7Feature Category Importance Model Type Engagement Item/Query Understanding 
+
+MaskNet 47.90% 52.10% RankMixer 46.14% 53.86% Transformer 44.03% 55.97% DCNv2 42.36% 57.64% Table 2: Normalized second-order feature importance (interactions between customer embeddings and other feature categories) for the top-performing variant of each backbone. Note the mAP ranking of the top variant from Table 1 also follow this order: MaskNet, RankMixer, Transformer, and finally DCNv2. variants. While first-order feature importance remains consistent across all models, second-order interactions involving customer embeddings exhibit significant variance. As shown in Table 2, higher mAP score models correlate with a second-order feature importance distribution that closely aligns with that of MaskNet. This may suggest that the ability to accurately learn feature crosses is a primary driver of superior predictive performance. 
+
+Scaling Properties. Consistent with scaling laws observed in LLMs and prior research, we observe log-linear improvements across backbones and most scaling factors. However, as certain axes demonstrate greater scaling efficiency compared to others, identifying which factors to scale is as vital as initial backbone selection. 
+
+4.2 Results on Embedding Scaling 
+
+For embedding scaling, we measure the mAP increase as we scale the embedding vocab size and dimension of different embeddings of item IDs, queries, and product titles. For item embedding scaling, we explored increasing both the embedding dimension and the vocab-ulary size. To scale the vocabulary, we simply increased the hash modulo, as our system utilizes item ID hashing. As shown in Table 3, scaling the embedding dimension proved significantly more effective than increasing the vocabulary size. Specifically, doubling the embedding size yielded greater performance gains than a 10x increase in vocabulary size. We hypothesize that this is due to the heavy concentration of user interactions on a small subset of “top items.” Furthermore, we observed that the gains from these two scaling dimensions are largely additive, suggesting they capture complementary information. 
+
+Embedding Dimension Vocab Size 16 32 64 128 
+
+1x +0.00% +0 .05% +0 .10% +0 .12% 
+
+10x +0 .02% +0 .09% +0 .13% +0 .16% 
+
+Table 3: Impact of scaling a MaskNet model on mAP from a baseline 1x vocab size and 16 embedding dimension. For queries and product titles, we focused on scaling the dimension size of token embeddings as the basis for text embeddings with a pooling layer. Our findings indicate that doubling the query embedding size yields a gain of 0.03% mAP, after which the performance plateaus. For product titles, embedding scaling provides no gain at all. We hypothesize that scaling text embeddings does not work as categorical features like item IDs because individual text tokens need to be shared and universal for general texts. Compared to categorical features with very specific semantics, each text token could be more general in describing various knowledge with other tokens, so it is limited to scale the embedding dimension of tokens when the key is the mixture of different text tokens. 
+
+4.3 Results on Data Scaling 
+
+Figure 3 illustrates that the mAP gain across varying training data volumes follows a predictable log-linear scaling law. Because training cost and time increase linearly with data volume, the diminishing returns visible in the flattening curve make simple volume scaling highly cost-ineffective 8100 200 300 400 500 
+
+Training Duration (Days)    
+
+> 0.0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1.0
+> 1.2
+> mAP Gain (%)
+> Fit (All Data): y= 0.39ln( x)1.29
+
+Figure 3: Impact of data scaling for a MaskNet model on mAP. 
+
+Training Days Coverage of Personalization Embeddings Full Coverage Recent 300 days only 
+
+300 1.00% 0.97% 400 1.02% 1.02% 500 1.05% 1.03% Table 4: Summary of mAP gains for a MaskNet model with different sizes of training data and different coverage of personalization embeddings, which are constructed by only historical item engagement without any personally identifiable information. for production environments. We mitigate this training efficiency bottleneck through our streamlined warmstart strategy, detailed in Section 4.5. In addition to diminishing marginal returns, a longer training window also introduces a feature gap, as historical logs usually lack newly developed signals. To assess feature availability, we compared a full feature set against a configuration where personalization embeddings were restricted to the most recent 300 days. Note that personalization embeddings only consider historical item engagements as an input sequence and do not involve any personally identifiable information. As shown in Table 4, this coverage gap did not meaningfully degrade performance. This key observation facilitates a more targeted feature exploration strategy, allowing us to prioritize high-signal, recent data for new features without the need for expensive historical backfilling or simulation. 0.04 0.06 0.08 0.10 0.12 0.14  
+
+> Computational Cost (GFLOPS)
+> 0.350
+> 0.375
+> 0.400
+> 0.425
+> 0.450
+> 0.475
+> 0.500
+> mAP Gain against D (DCNv2) (%)
+> T + D
+> T + M
+> R + D
+> R + M
+> D + M
+> T + D + M
+> R + D + M (T + M)^2
+> T + M | D + M
+> T (Transformer)
+> R (RankMixer)
+> M (MaskNet)
+> Scaled Masked Net
+
+Compute Cost vs mAP Performance 
+
+> 2-Model Ensemble
+> 3-Model Ensemble
+> 2-layer DHEN
+> Single Component
+> Scaled Masked Net
+
+Figure 4: FLOPs vs mAP gain for models and scaling factors. 94.4 The Compound Effect of Scaling 
+
+We look at how combining different model backbones and scaling up data, compute, and embeddings affects performance. Crucially, we test if these benefits add up when used together. Proving that these methods can be used independently allows us to optimize each one separately, making our overall development much faster. 
+
+Backbone Ensemble. We explore DHEN [ 37 , 33 ] as a scaling strategy with multiple high-performance backbone models. As shown in Figure 4, while single-layer model ensembles con-sistently outperform individual components in terms of mAP, they are ultimately surpassed by our optimized single-model architectures when evaluating the mAP-compute tradeoff. The consistent mAP improvements of DHENs make it a reliable choice for immediate production gains [ 37 ]. However, proper scaling a single backbone is the more sustainable path toward long-term model Pareto-optimality. 
+
+Backbone/Embedding + Data Scaling. Figure 5 illustrates the mAP gain with different sizes of training data on different model backbones and sizes of item embedding dimension. Our analysis indicates that relative performance remains consistent across different sizes of training data. It enables a more efficient research trajectory, as architectural refinements can be validated on smaller datasets while maintaining generalizability to full-scale training.      
+
+> 35 70 140 300
+> 0
+> 0.5
+> 1
+> 1.5
+> Duration of Training Data (days)
+> ∆mAP (%) Transformer (Seq Len 16) Transformer (Seq Len 128) MaskNet (Cross Width 512) MaskNet (Cross Width 4096)
+> (a) Model Backbone
+> 35 70 140
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+> 1.2
+> Duration of Training Data (days)
+> ∆mAP (%)
+> Emb dim 16
+> Emb dim 32
+> Emb dim 64
+> Emb dim 128
+> Emb dim 256
+> (b) Embedding Dimension
+
+Figure 5: Performance gains over different durations of training data with (a) different model backbones and with (b) different item embedding dimension sizes for MaskNet. 
+
+All Scaling Combined. Table 5 summarizes the mAP improvements relative to the baseline. We observe that scaling the training duration, backbone, and embedding size together achieves a 0.74% improvement, demonstrating that these scaling effects are complementary and largely additive, allowing us to experiment with each independently before combining them. 
+
+Scaling Dimension Model Scaling Impact mAP Gains (%) 
+
+Data +0.47% Backbone +0.10% Embedding +0.13% 
+
+Combined +0.74% 
+
+Table 5: Incremental and cumulative performance gains over a pre-scaling MaskNet model. The combined model integrates all scaling optimizations. 10 4.5 Training and Serving Optimization 
+
+Our optimization strategy addresses two primary constraints: serving latency and training iteration speed. We prioritize several key initiatives—training warmstarts, decoupled CPU-GPU execution, and dynamic batching—while further reducing compute overhead through continuous feature pruning and moving feature preprocessing outside model execution. 
+
+Streamlined Warmstart for Faster Training Iterations. Rapid online A/B testing necessitates frequent offline model iterations, making training efficiency critical. To accelerate convergence and reduce resource consumption, we implemented a warmstart strategy. We aim to streamline training iterations without sacrificing model quality. We first train a high-capacity base model (e.g. one year of data with an 8x backbone) and subsequently fine-tune the entire architecture on the most recent 140 days. A primary challenge in warmstarting is that feature changes often alter the input dimensionality, rendering previous checkpoints incompatible. Our design mitigates this by projecting the input state into a fixed-dimensional hidden layer as shown in Section 3.1. This allows us to initiate training from existing models without concern for internal parameter compatibility or manual coordination. When features are added or removed, we re-initialize only the initial projection weights while warming all subsequent parameters simultaneously. This unified update philosophy (i.e. warming all available layers at once and updating every parameter) ensures that the fine-tuning process is as seamless as training from scratch. Our evaluation demonstrates that this strategy has a negligible impact on mAP, meaning a fine-tuned model matches the quality of one trained from scratch. This facilitates rapid feature iteration and maintains high model quality while substantially reducing training overhead. To prevent cumulative drift and maintain reproducibility, we re-train the base model on a periodic cadence or after the launch of significant model improvements. 
+
+Inference Performance Optimization. We optimized our serving architecture to meet latency SLOs under dynamic load. • Hybrid CPU-GPU Execution: Initial profiling revealed GPU communication bottlenecks, making CPU-only inference faster. By splitting the graph—pinning preprocessing to the CPU and the backbone to the GPU, we reduced the P99 latency by 2.6x from 82ms to 32ms as shown in Figure 6. • Dynamic Batching Strategy: To maximize GPU saturation, we employed a dual-batching ap-proach. Client-Side Batching groups candidate items upstream, allowing GPUs to process 20x larger batches with minimal latency overhead as shown in Figure 6. For high-concurrency traffic, 
+
+Server-Side Batching dynamically aggregates independent requests. By tuning the batch timeout to an optimal 10ms, we increased peak throughput by 4.4x as shown in Table 6 while maintaining acceptable latency limits.               
+
+> 050 100 150 200 250 300 350 400 450 500 550 600
+> 0
+> 25
+> 50
+> 75
+> 100
+> Batch Size P99 Latency (ms) CPU GPU (unoptimized) GPU (optimized)
+
+Figure 6: P99 latency of CPU serving, as well as unoptimized and optimized GPU serving with hybrid CPU-GPU execution. 
+
+4.6 Online A/B Tests 
+
+The systematic scaling of our models yielded substantial cumulative gains across all key performance indicators. As shown in Table 7, a combined +2.1% increase in offline mAP was observed alongside a +2.6% lift in search conversion rate, as measured via online A/B testing. To remain latency-neutral, we employed a phased launch strategy, scaling model complexity to 8x FLOPs in tandem with dedicated inference optimization. Notably, while a cold-start approach would have incurred a +264% 11 Batch timeout Peak QPS at 50ms Peak QPS at 75ms 
+
+0ms (w/o dynamic batching) 4.2k 4.6k 5ms 14.0k 3.33x 17.1k 3.72x 10ms 13.6k 3.24x 20.1k 4.37x 
+
+15ms 13.8k 3.29x 19.9k 4.33x 20ms 7.0k 1.67x 14.0k 3.04x 25ms 6.1k 1.45x 11.7k 2.54x 30ms 5.6k 1.33x 9.7k 2.11x Table 6: Impact of server-side batching timeout on Peak QPS under different P99 latency constraints. QPS denotes thousands of items processed per second. 
+
+Experiment ∆ Offline ∆ Online Search Inference mAP Conversion Rate FLOPs 
+
+Embedding + Backbone Scaling 1.5% 1.9% 8x 
+
+Data Scaling 0.6% 0.7% 1x Overall Impact +2.1% +2.6% 8x 
+
+Table 7: Gains of offline mAP and online search conversion rate from launches of backbone and data scaling. Inference FLOPs are reported relative to the pre-scaling baseline. training time overhead, our streamlined warmstart strategy reduced this to just +36%, unlocking higher iteration frequency and velocity of model updates. 
+
+## 5 Related Work 
+
+Conversion Rate Prediction. The prediction of conversion rate (CVR) is one of the most critical components in large-scale online e-commerce systems, such as product search [ 34 ] and advertis-ing [ 36 ]. Unlike early-stage logistic regression [ 15 ] and decision tree [ 7] based CVR models that rely on hand-crafted features and feature engineering, recent deep learning models are trending towards learning hidden representations from raw input. In particular, these models can be decomposed into three components, including feature extraction, feature interaction, and representation transforma-tion [ 31 ]. In this paper, we focus on examining the scaling capability for the feature interaction component and shared our learning on how to efficiently scale CVR models. Existing studies utilize a variety of model backbones to represent feature interactions. A line of research [ 3 , 34 ] focuses on capturing higher-order interactions through the use of explicit feature crossing architectures [ 6]. Moreover, Deep & Cross Network [ 26 ] and DCNv2 [ 27 ] use the cross network for higher-order interactions among features, while MaskNet [ 28 ] leverages the instance-guided mask to learn cross-feature representations efficiently. The rise of Transformers and self-attention [ 25 ] further stimulates several works to model more comprehensive interactions [ 35 , 32 ]. Furthermore, making ensembles of heterogeneous model backbones is also a popular research field [ 33 ]. In our study, we incorporate a variety of backbones to explore best practices for efficient model scaling. 
+
+CVR Model Improvement Levers. Modern Search CVR models employ several specialized levers to optimize quality. To deal with label sparsity, the models leverage Multi-Task Learning to mitigate label sparsity by incorporating auxiliary signals like clicks and add-to-carts [ 14 , 24 ]. To handle high-cardinality features, efficient embedding hashing techniques are explored [ 21 , 10 ]. Some works explore architectures that naturally fuse sequential user actions with metadata like price and category [ 9, 35 ]. Finally, the integration of Learning-to-Rank shifts the objective from pointwise classification to listwise preference optimization, ensuring more accurate result ordering [ 20 ]. As detailed in Section 2, our architecture incorporates refined versions of each of these components. While further optimization of individual modules remains a subject for future work, the paper focuses on the impact of model scaling. 
+
+CVR Model Scaling. To improve CVR models, scaling has emerged as a primary lever for quality gains. Current research generally follows two trajectories. The first focuses on input scaling, where models are designed to ingest raw customer engagement sequences (often exceeding O(10 5) actions) 12 directly from logs [ 31 ]. The second focuses on architectural scaling, seeking to establish predictable scaling laws for model backbones [ 29 ]. Similar to the foundational work in LLMs [ 12 , 8 ], these studies indicate that performance follows a power-law relationship relative to model parameters, dataset size, and compute. Building on these laws, industry practitioners aim to reach Pareto frontiers by optimizing model stacking and identifying architectures with superior scaling properties [ 33 , 37 , 32 ]. Despite the traction, empirical evidence remains inconsistent. Some studies suggest that returns diminish rapidly as models scale [ 30 ]. We posit that this discrepancy arises from a lack of granularity; unlike LLMs, which have well-defined scaling dimensions, CVR scaling remains under-explored. In this study, we provide a nuanced analysis of scaling search CVR models across three critical dimensions: model backbones, embeddings, and training data. 
+
+## 6 Conclusion 
+
+In this paper, we provide an effective and general mechanism to scale modern search CVR prediction systems with an empirical study. First, we identify the independence of scaling effects across variables so that we can accelerate exploration by individually examining each feasible dimension. Second, the trends of data scaling can be consistent across different model backbones, enabling a more efficient trajectory for model scaling exploration. Last but not least, we also present infrastructure optimization needed for online serving of scaled CVR models, as well as warmstart for training performance optimization. Online A/B tests show that successful model deployments significantly enhance customer engagement business metrics, notably a 2.6% gain in search conversion rate. The insights of this work can be concluded as follows: (1) Mileage may vary when it comes to scaling approaches. It may or may not work in particular cases, such as some factors of backbone scaling in our study. More exhaustive exploration is essential to identify the best scaling recipe. We expedite the exploration by identifying promising candidates through individual model scaling and relying on an empirical observation that a model would consistently outperform another model if it performs better with smaller training data. (2) Although DHEN-based ensemble models consistently outperform their individual models in our study, optimized models with a single model backbone can still outperform ensemble models under the same FLOPs budget. In terms of long-term benefits, we suggest focusing on scaling single model backbone over ensemble-based approach for both simplicity and ease of recurring model development. (3) To accelerate training updates, warmstart is an efficient approach to speed up the training efficiency and reduce resource consumption. (4) A combination of inference optimization strategies, such as hardware selection, execution graph placement, and request batching, may be required in order to successfully meet online serving constraints of scaled-up CVR models. 
+
+## References 
+
+[1] Andrés Abeliuk, Behrooz Lari, Anthony Sun, Xinyu Liu, Shobana Jameel, and Wei Chang. Que2search: fast and accurate query and document understanding for search at Facebook. In 
+
+Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining , pages 2455–2465. ACM, 2020. [2] Sebastian Bruch, Xuanhui Wang, Michael Bendersky, and Marc Najork. An analysis of the softmax cross entropy loss for learning-to-rank with binary relevance. In Proceedings of the 2019 ACM SIGIR international conference on theory of information retrieval , pages 75–78, 2019. [3] Heng-Tze Cheng, Levent Koc, Jeremiah Harmsen, Tal Shaked, Tushar Chandra, Hrishi Aradhye, Glen Anderson, Greg Corrado, Wei Chai, Mustafa Ispir, et al. Wide & deep learning for recommender systems. In Proceedings of the 1st workshop on deep learning for recommender systems , pages 7–10, 2016. [4] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. In Proceedings of the 2019 Confer-ence of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long and Short Papers) , pages 4171–4186, Minneapolis, Minnesota, June 2019. Association for Computational Linguistics. [5] Daniel Gillick, David Ryan, Shankar Kumar, Andrew Kunchukuttan, and Colin Cherry. CLD3: Google’s compact language detector 3, 2019. 13 [6] Huifeng Guo, Ruiming Tang, Yunming Ye, Zhenguo Li, and Xiuqiang He. Deepfm: afactorization-machine based neural network for ctr prediction. arXiv preprint arXiv:1703.04247 ,2017. [7] Xinran He, Junfeng Pan, Ou Jin, Tianbing Xu, Bo Liu, Tao Xu, Yanxin Shi, Antoine Atallah, Ralf Herbrich, Stuart Bowers, et al. Practical lessons from predicting clicks on ads at facebook. In Proceedings of the eighth international workshop on data mining for online advertising ,pages 1–9, 2014. [8] Jordan Hoffmann, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai, Eliza Rutherford, Diego de las Casas, Lisa Anne Hendricks, Johannes Welbl, Aidan Clark, Tom Hennigan, Eric Noland, Katie Millican, George van den Driessche, Bogdan Damoc, Aurelia Guy, Simon Osindero, Karen Simonyan, Erich Elsen, Jack W. Rae, Oriol Vinyals, and Laurent Sifre. Training compute-optimal large language models. arXiv preprint arXiv:2203.15556 ,2022. [9] Yunwen Huang, Shiyong Hong, Xijun Xiao, Jinqiu Jin, Xuanyuan Luo, Zhe Wang, Zheng Chai, Shikang Wu, Yuchao Zheng, and Jingjian Lin. Hyformer: Revisiting the roles of sequence modeling and feature interaction in ctr prediction, 2026. [10] Wang-Cheng Kang, Derek Zhiyuan Cheng, Tiansheng Yao, Xinyang Yi, Ting Chen, Lichan Hong, and Ed H. Chi. Deep hash embeddings for efficient registry-free recommendation. In 
+
+Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery & Data Mining ,pages 798–808, New York, NY, USA, 2021. ACM. [11] Wang-Cheng Kang, Derek Zhiyuan Cheng, Tiansheng Yao, Xinyang Yi, Ting Chen, Lichan Hong, and Ed H Chi. Learning to embed categorical features without embedding tables for recommendation. In Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery & Data Mining , pages 840–850, 2021. [12] Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B. Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361 , 2020. [13] Diederik P Kingma. Adam: A method for stochastic optimization. arXiv preprint arXiv:1412.6980 , 2014. [14] Jiaqi Ma, Zhe Zhao, Xinyang Yi, Jilin Chen, Lichan Hong, and Ed H. Chi. Modeling task relationships in multi-task learning with multi-gate mixture-of-experts. In Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining , pages 1930–1939. Association for Computing Machinery (ACM), 2018. [15] H Brendan McMahan, Gary Holt, David Sculley, Michael Young, Dietmar Ebner, Julian Grady, Lan Nie, Todd Phillips, Eugene Davydov, Daniel Golovin, et al. Ad click prediction: a view from the trenches. In Proceedings of the 19th ACM SIGKDD international conference on Knowledge discovery and data mining , pages 1222–1230, 2013. [16] Maxim Naumov, Dheevatsa Mudigere, Hao-Jun Michael Shi, Jianyu Huang, Narayanan Sun-daraman, Jongsoo Park, Xiaodong Wang, Udit Gupta, Carole-Jean Wu, Alisson G. Azzolini, Dmytro Dzhulgakov, Andrey Mallevich, Ilia Cherniavskii, Yinghai Lu, Raghuraman Krish-namoorthi, Ansha Yu, Volodymyr Kondratenko, Stephanie Pereira, Xianjie Chen, Wenlin Chen, Vijay Rao, Bill Jia, Liang Xiong, and Misha Smelyanskiy. Deep learning recommendation model for personalization and recommendation systems. CoRR , abs/1906.00091, 2019. [17] Maxim Naumov, Dheevatsa Mudigere, Hao-Jun Michael Shi, Jianyu Huang, Narayanan Sun-daraman, Jongsoo Park, Xiaodong Wang, Udit Gupta, Carole-Jean Wu, Alisson G Azzolini, et al. Deep learning recommendation model for personalization and recommendation systems. 
+
+arXiv preprint arXiv:1906.00091 , 2019. [18] Wentao Ouyang, Rui Dong, Xiuwu Zhang, Chaofeng Guo, Jinmei Luo, Xiangzheng Liu, and Yanlong Du. Contrastive learning for conversion rate prediction. In Proceedings of the 46th International ACM SIGIR Conference on Research and Development in Information Retrieval ,pages 1909–1913, 2023. 14 [19] Xiaofeng Pan, Ming Li, Jing Zhang, Keren Yu, Hong Wen, Luping Wang, Chengjun Mao, and Bo Cao. Metacvr: Conversion rate prediction via meta learning in small-scale recommendation scenarios. In Proceedings of the 45th International ACM SIGIR Conference on Research and Development in Information Retrieval , pages 2110–2114, 2022. [20] Zhen Qin, Le Yan, Honglei Zhuang, Yi Tay, Rama Kumar Pasumarthi, Xuanhui Wang, Michael Bendersky, and Marc Najork. Are neural rankers still outperformed by gradient boosted decision trees? In International Conference on Learning Representations , 2021. [21] Hao-Jun Michael Shi, Dheevatsa Mudigere, Maxim Naumov, and Jiyan Yang. Compositional embeddings using complementary partitions for memory-efficient recommendation systems. In 
+
+Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining , pages 165–175, New York, NY, USA, 2020. ACM. [22] Fei Sun, Jun Liu, Jian Wu, Changhua Pei, Xiao Lin, Wenwu Ou, and Peng Jiang. Bert4rec: Sequential recommendation with bidirectional encoder representations from transformer. In Pro-ceedings of the 28th ACM international conference on information and knowledge management ,pages 1441–1450, 2019. [23] Richard Sutton. The bitter lesson. Incomplete Ideas (blog) , 13(1):38, 2019. [24] Hongyan Tang, Junning Liu, Ming Zhao, and Xudong Gong. Progressive layered extraction (ple): A novel multi-task learning (mtl) model for personalized recommendations. In Proceedings of the 14th ACM Conference on Recommender Systems , pages 269–278, New York, NY, USA, 2020. ACM. [25] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez, Łukasz Kaiser, and Illia Polosukhin. Attention is all you need. Advances in neural information processing systems , 30, 2017. [26] Ruoxi Wang, Bin Fu, Gang Fu, and Mingliang Wang. Deep & cross network for ad click predictions. In Proceedings of the ADKDD’17 , pages 1–7. 2017. [27] Ruoxi Wang, Rakesh Shivanna, Derek Cheng, Sagar Jain, Dong Lin, Lichan Hong, and Ed Chi. DCN V2: Improved deep & cross network and practical lessons for web-scale learning to rank systems. In Proceedings of The Web Conference 2021 , pages 1785–1797, 2021. [28] Zhiqiang Wang, Qingyun She, and Junlin Zhang. Masknet: Introducing feature-wise multi-plication to ctr ranking models by instance-guided mask. arXiv preprint arXiv:2102.07619 ,2021. [29] Songpei Xu, Shuo Wang, Daning Guo, Xinxin Guo, Qiang Xiao, Bi Huang, Guohao Wu, and Chen Luo. Climber: Toward efficient scaling laws for large recommendation models. arXiv preprint arXiv:2502.09888 , 2025. [30] Bencheng Yan, Yuejie Lei, Zhiyuan Zeng, Di Wang, Kaiyi Lin, Pengjie Wang, Jian Xu, and Bo Zheng. From scaling to structured expressivity: Rethinking transformers for ctr prediction. 
+
+arXiv preprint arXiv:2511.12081 , 2025. [31] Jiaqi Zhai, Lucy Liao, Xing Liu, Yueming Wang, Rui Li, Xuan Cao, Leon Gao, Zhaojie Gong, Fangda Gu, Michael He, et al. Actions speak louder than words: Trillion-parameter sequential transducers for generative recommendations. arXiv preprint arXiv:2402.17152 , 2024. [32] Buyun Zhang, Liang Luo, Yuxin Chen, Jade Nie, Xi Liu, Daifeng Guo, Yanli Zhao, Shen Li, Yuchen Hao, Yantao Yao, Guna Lakshminarayanan, Ellie Dingqiao Wen, Jongsoo Park, Maxim Naumov, and Wenlin Chen. Wukong: Towards a scaling law for large-scale recommendation, 2024. [33] Buyun Zhang, Liang Luo, Xi Liu, Jay Li, Zeliang Chen, Weilin Zhang, Xiaohan Wei, Yuchen Hao, Michael Tsang, Wenjun Wang, et al. Dhen: A deep and hierarchical ensemble network for large-scale click-through rate prediction. arXiv preprint arXiv:2203.11014 , 2022. 15 [34] Guorui Zhou, Na Mou, Ying Fan, Qi Pi, Weijie Bian, Chang Zhou, Xiaoqiang Zhu, and Kun Gai. Deep interest evolution network for click-through rate prediction. In Proceedings of the AAAI conference on artificial intelligence , volume 33, pages 5941–5948, 2019. [35] Jie Zhu, Zhifang Fan, Xiaoxie Zhu, Yuchen Jiang, Hangyu Wang, Xintian Han, Haoran Ding, Xinmin Wang, Wenlin Zhao, Zhen Gong, et al. Rankmixer: Scaling up ranking models in industrial recommenders. arXiv preprint arXiv:2507.15551 , 2025. [36] Jieming Zhu, Jinyang Liu, Shuai Yang, Qi Zhang, and Xiuqiang He. Open benchmarking for click-through rate prediction. In Proceedings of the 30th ACM international conference on information & knowledge management , pages 2759–2769, 2021. [37] Jinfeng Zhuang, Yinrui Li, Runze Su, Ke Xu, Zhixuan Shao, Kungang Li, Ling Leng, Han Sun, Meng Qi, Yixiong Meng, et al. On the practice of deep hierarchical ensemble network for ad conversion rate prediction. In Companion Proceedings of the ACM on Web Conference 2025 ,pages 671–680, 2025. 16

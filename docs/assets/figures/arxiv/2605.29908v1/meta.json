@@ -1,0 +1,134 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-002.webp",
+      "caption": "Figure 1. An illustration of the proposed sparsification approach for polynomial regression on the mcycle dataset (Silverman, 1985) (d = 12, n = 128). Left: Model-only sparsification identifies two prunable features (marked in red), but treats every sample as equally relevant for model fit, including six known outliers (•). Right: Joint learning of per-weight (γ) and per-sample (λ) parameters via the marginal likelihood not only sparsifies features akin to model-only ARD, but additionally identifies and automatically downweighs noisy samples. This permits data diagnostics and leads to better posterior predictive fit (here, for 10-fold cross-validation with EM, an RMSE of 23.6 vs. 24.6 and NLL of 4.61 vs. 4.67).",
+      "page": 2,
+      "index": 2,
+      "width": 1017,
+      "height": 375
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-014.webp",
+      "caption": "Table 2. A high-level summary of optimization behaviour across investigated SBL procedures.",
+      "page": 4,
+      "index": 14,
+      "width": 494,
+      "height": 427
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-001.webp",
+      "caption": "Figure 2. Left: The evolution of feature (1/γ) and sample relevance (1/λ) over the optimization trajectory for the mcycle experiment in Fig. 1. Prunable weights and injected outliers (red trajectories) are deemed superfluous to the model fit. Right: Aligning with the interpretation in § 4, learned noise parameters λi strongly resemble leverage-aware LOO residual terms r2−i,i. Injected outliers record low sample leverage hi after parameter convergence, stressing their irrelevance for in-sample model fit as opposed to anchoring inlier points.",
+      "page": 6,
+      "index": 1,
+      "width": 1017,
+      "height": 254
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-003.webp",
+      "caption": "Table 3. Comparison of heteroscedastic SBL methods against sparse (Ridge, GP) and robust (Student-t, Huber) baselines on predictive RMSE and effective support sizes (weights θ and samples y). Improvements over homoscedastic SBL counterparts are shown as (−x%), indicating the relative reduction in RMSE from robustness. Results are shown on three tabular UCI regression tasks with 10% outlier contamination (avg. over 10 trials, ± 1σ); lowest RMSE in bold.",
+      "page": 7,
+      "index": 3,
+      "width": 1012,
+      "height": 248
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-004.webp",
+      "caption": "Figure 3. We visualize results for the synthetic setting in § 5.1 (n = 500, d = 50, avg. over 10 trials). Left: Representative data and weight recovery behaviour against key design parameters, here for ℓ2-IRLS. Recovery degrades as the signal becomes increasingly sparse, or contaminated noise resembles inlier noise (m ≤ 1). Right: Relative gains in signal recovery from heteroscedastic vs. homoscedastic modelling, coarsly averaged across different noise levels. Largest benefits are obtained under realistic settings of high weight sparsity and low contamination, with improvements even in weight recovery.",
+      "page": 7,
+      "index": 4,
+      "width": 1017,
+      "height": 250
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-012.webp",
+      "caption": "Figure 4. Kernel regression performance on Boston as a function of data contamination (n = 506, 20% test split, avg. over 20 trials, ± 1σ). The RVM corresponds to ℓ2-IRLS in an RBF kernel basis with fixed scalar lengthscale.",
+      "page": 8,
+      "index": 12,
+      "width": 492,
+      "height": 415
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-013.webp",
+      "caption": "Figure 5. Results for crowd counting on ShanghaiTech using pretrained DINO features, with joint ARD via EM on the model’s output layer (n = 716, avg. over 10 trials, ± 1σ). Top: Unreliable count labels coincide with crowded scenes and tend to be identified as such effectively. Bottom: Models fitted on gradually smaller data subsets ranked by learned λ maintain stable performance (MAE) despite a shrinking training signal.",
+      "page": 8,
+      "index": 13,
+      "width": 495,
+      "height": 419
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-011.webp",
+      "caption": "Table 5. Summary table presenting the key parameter update rules across considered optimization procedures.",
+      "page": 23,
+      "index": 11,
+      "width": 1008,
+      "height": 246
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-016.webp",
+      "caption": "Table 8. Comparison of heteroscedastic SBL methods against sparse and robust baselines in predictive RMSE and effective support sizes (weights θ and samples y). Improvements over homoscedastic counterparts are shown as (−x%). Results on Energy, Carbon, Protein with no contamination (avg. over 10 trials, ±1σ).",
+      "page": 32,
+      "index": 16,
+      "width": 1012,
+      "height": 252
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-007.webp",
+      "caption": "Table 9. Comparison of heteroscedastic SBL methods against sparse and robust baselines in predictive RMSE and effective support sizes (weights θ and samples y). Improvements over homoscedastic counterparts are shown as (−x%). Results on Boston, Yacht, Concrete with no contamination (avg. over 10 trials, ±1σ).",
+      "page": 33,
+      "index": 7,
+      "width": 1012,
+      "height": 261
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-008.webp",
+      "caption": "Table 10. Comparison of heteroscedastic SBL methods against sparse and robust baselines in predictive RMSE and effective support sizes (weights θ and samples y). Improvements over homoscedastic counterparts are shown as (−x%). Results on Boston, Yacht, Concrete with 10% outlier contamination (avg. over 10 trials, ±1σ).",
+      "page": 33,
+      "index": 8,
+      "width": 1012,
+      "height": 256
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-006.webp",
+      "caption": "Table 11. Comparison of heteroscedastic SBL methods against sparse and robust baselines in predictive RMSE and effective support sizes (weights θ and samples y). Improvements over homoscedastic counterparts are shown as (−x%). Results on Power, Kin8nm, Elevators with no contamination (avg. over 10 trials, ±1σ).",
+      "page": 33,
+      "index": 6,
+      "width": 1012,
+      "height": 254
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-009.webp",
+      "caption": "Table 12. Comparison of heteroscedastic SBL methods against sparse and robust baselines in predictive RMSE and effective support sizes (weights θ and samples y). Improvements over homoscedastic counterparts are shown as (−x%). Results on Power, Kin8nm, Elevators with 10% outlier contamination (avg. over 10 trials, ±1σ).",
+      "page": 33,
+      "index": 9,
+      "width": 1012,
+      "height": 248
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-005.webp",
+      "caption": "Figure 6. Top row: We run an additional experiment complementing § 4 with original high-leverage outliers representing giant stars contained in the StarsCYG dataset. Center row: Those four samples clearly exhibit strong leverage and are able to pull the model fit towards them unless excluded a priori. Here, we run joint ARD with standard EM updates on the single original feature. Bottom row: Motivated by the connection between λi and the leverage-adjusted LOO residual r2−i,i we test a ‘studentized’ EM noise update of the form λt+1",
+      "page": 34,
+      "index": 5,
+      "width": 854,
+      "height": 1060
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-010.webp",
+      "caption": "Figure 7. We report predictive performance (MAE), outlier recovery, ESS(y), and ESS(θ) for the neural network experiment in § 5.4 across methods. Rows (top to bottom): OLS, Ridge, MacKay, and EM (avg. over 10 trials, ± 1σ). As expected, OLS and Ridge exhibit poor outlier recovery and yield ESS(y) = 1.0 (no data sparsification), while Ridge attains feature sparsity comparable to the SBL approaches. For MacKay and EM, ESS(y) increases as larger fractions of high-noise points are removed, indicating self-consistency: once outliers are pruned, relevance becomes more evenly distributed across remaining samples, consistent with increasingly homogeneous inlier noise. EM and MacKay are selected here for their typically faster convergence and lower computational cost.",
+      "page": 35,
+      "index": 10,
+      "width": 1017,
+      "height": 817
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29908v1/fig-015.webp",
+      "caption": "Figure 8. We provide additional qualitative examples complementing Fig. 5 by visualizing the five highest- and lowest-noise samples as ranked by λ, learned via EM for three distinct trials (2, 5, 8). High-noise images predominantly depict dense, high-count crowds, while low-noise examples correspond to simpler low-count scenes, indicating consistent retrieval of unreliable labels.",
+      "page": 36,
+      "index": 15,
+      "width": 1017,
+      "height": 1245
+    }
+  ]
+}

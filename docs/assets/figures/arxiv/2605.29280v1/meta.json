@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29280v1/fig-002.webp",
+      "caption": "Figure 1 LoopFM overview. Left: KD transfers via a soft label (top). LoopFM adds a high-bandwidth embedding channel: ➀ extract intermediate FM embeddings; ➁ compress (e.g., autoencoder) and quantize (e.g., INT4) for storage efficiency; ➂ group by key and structure into temporal sequences Sk (here, user-keyed: k=u); ➃ serve as input features to the VM’s encoder. No real-time FM inference is required. Right: Key results on internal production (top) and public benchmarks (bottom).",
+      "page": 2,
+      "index": 2,
+      "width": 902,
+      "height": 321
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29280v1/fig-003.webp",
+      "caption": "Table 1 LoopFM on TaobaoAd across six VMs (FM: DMIN). Non-sequential (FM, FmFM, DeepFM) and sequential (DIEN, DMR, DMIN) architectures, each extended with a DMIN-style module for LoopFM.",
+      "page": 7,
+      "index": 3,
+      "width": 986,
+      "height": 210
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29280v1/fig-004.webp",
+      "caption": "Table 6 LoopFM on KuaiVideo (FM: DMIN, BARS-tuned hyperparameters (Zhu et al., 2022)) across four VM architectures. Features: user_id, item_id, item_emb (64-dim visual embedding), pos_items/neg_items (ID sequences), pos_items_emb/neg_items_emb (visual embedding sequences). LoopFM uses watched-only sequences (label=1), d=32, L=100.",
+      "page": 14,
+      "index": 4,
+      "width": 790,
+      "height": 239
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29280v1/fig-001.webp",
+      "caption": "Figure 2 t-SNE visualization of compressed LoopFM embeddings (d=32, 20K samples from TaobaoAd Day 5). Left: Colored by FM soft-label (predicted CTR), showing smooth calibration gradients. Right: Colored by ground-truth click label, showing partial separation.",
+      "page": 30,
+      "index": 1,
+      "width": 986,
+      "height": 391
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29280v1/fig-007.webp",
+      "caption": "Figure 3 Per-dimension Pearson correlation of compressed embeddings with FM soft-labels (left) and ground-truth click labels (right). The correlation patterns are strongly aligned (ρ=0.95), confirming the autoencoder preserves the FM’s learned feature importance structure.",
+      "page": 31,
+      "index": 7,
+      "width": 986,
+      "height": 368
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29280v1/fig-006.webp",
+      "caption": "Figure 4 Attention weight vs. temporal distance to target interaction. All 4 heads show strong recency bias: recent entries (<10 min) receive ∼3× higher attention than distant ones (>4h).",
+      "page": 31,
+      "index": 6,
+      "width": 740,
+      "height": 306
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29280v1/fig-005.webp",
+      "caption": "Figure 5 Attention weight comparison by semantic matching. Left: Same vs. different category (1.13–1.16× lift). Center: Same vs. different brand (1.04–1.06× lift). Right: Historically clicked vs. unclicked items (0.84–0.97× ratio), showing the model uses negative signals.",
+      "page": 32,
+      "index": 5,
+      "width": 986,
+      "height": 283
+    }
+  ]
+}

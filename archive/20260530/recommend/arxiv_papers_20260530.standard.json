@@ -1,0 +1,432 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-05-30T20:09:03.885498+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 6,
+    "deep_cap": 6,
+    "deep_selected": 6,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3,
+    "deep_selected_before_profile_limit": 6,
+    "quick_selected_before_profile_limit": 3,
+    "profile_daily_limits": {
+      "Rec": {
+        "deep": 10,
+        "quick": 10
+      }
+    },
+    "profile_limit_dropped_by_tag": {
+      "Rec": {
+        "deep": 0,
+        "quick": 0
+      }
+    },
+    "profile_limit_dropped": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2605.23510v1",
+      "source": "arxiv",
+      "title": "Learning partially observed systems with neural Hamiltonian ordinary differential equations",
+      "abstract": "When learning dynamical systems from data, embedding physical structure can constrain the solution space and improve generalization, but many physics-informed models assume access to the full system state. This limits their use in partially observed settings, where some state variables are completely unobserved and must be inferred without direct supervision. Here, we present neural Hamiltonian ordinary differential equations (NHODE), a framework that combines Hamiltonian neural networks (HNNs) with neural ordinary differential equations (neural ODEs) to learn partially observed dynamical systems from data. The Hamiltonian structure enforces energy conservation by construction, while the neural ODE framework enables a flexible training procedure that allows the loss to be defined only on observed variables. We also incorporate additional physical constraints through symmetry-aware coordinate transformations and separable energy formulations. The framework is evaluated on systems of increasing complexity, from linear and nonlinear mass-spring systems to the chaotic three-body problem. Across all examples, increasing the amount of embedded physical structure improves the accuracy and long-horizon stability of the predictions. Even in the most challenging regimes, the NHODE framework captures both observed and latent dynamics, whereas purely data-driven baselines become unstable.",
+      "authors": [
+        "Sunniva Meltzer",
+        "Sølve Eidnes",
+        "Alexander Johannes Stasik"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-05-22T11:18:39+00:00",
+      "link": "https://arxiv.org/pdf/2605.23510v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "learns Hamiltonian ODEs from data for dynamical system modeling",
+      "llm_evidence_cn": "从数据学习哈密顿ODE用于动力学系统建模",
+      "llm_evidence": "从数据学习哈密顿ODE用于动力学系统建模",
+      "canonical_evidence": "从数据学习哈密顿ODE用于动力学系统建模",
+      "llm_tldr_en": "Combines Hamiltonian neural networks with neural ODEs to discover governing equations of partially observed systems.",
+      "llm_tldr_cn": "结合哈密顿神经网络和神经常微分方程，发现部分观测系统的控制方程。",
+      "llm_tldr": "结合哈密顿神经网络和神经常微分方程，发现部分观测系统的控制方程。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.26515v1",
+      "source": "arxiv",
+      "title": "Learning a directed acyclic graph with additive heteroscedastic errors",
+      "abstract": "This paper studies causal discovery for a directed acyclic graph under a structural equation model with additive heteroscedastic errors. We first establish new identifiability results for location-scale noise models, showing that heteroscedasticity can be leveraged to recover causal directions. Based on these insights, we propose a novel iterative procedure, Residual Simultaneous Quantile Estimation (RESQUE), where each iteration consists of a residual-construction stage and a composite quantile regression stage, enabling recursive identification of sink nodes via the invariance of conditional scale coefficients across quantiles. We then establish its theoretical guarantees for recovering topological order and graph structure, even when the number of variables diverges with the sample size. Simulation studies and application to benchmark datasets show that RESQUE performs favorably compared with existing methods, especially when causal information is partly encoded in the variance component. These results highlight exploiting structured variance signals for causal discovery and provide a principled framework for multivariate causal discovery beyond mean-based modeling.",
+      "authors": [
+        "Xintao Xia",
+        "Li Chen",
+        "Yue Hu",
+        "Chunlin Li"
+      ],
+      "primary_category": "stat.ME",
+      "categories": [
+        "stat.ME"
+      ],
+      "published": "2026-05-26T03:57:58+00:00",
+      "link": "https://arxiv.org/pdf/2605.26515v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "causal discovery for DAGs with additive heteroscedastic errors using quantile regression",
+      "llm_evidence_cn": "使用异方差性和分位数回归进行因果发现",
+      "llm_evidence": "使用异方差性和分位数回归进行因果发现",
+      "canonical_evidence": "使用异方差性和分位数回归进行因果发现",
+      "llm_tldr_en": "Proposes RESQUE algorithm for identifying causal DAG structure via heteroscedasticity.",
+      "llm_tldr_cn": "提出RESQUE算法，利用异方差性识别因果DAG结构。",
+      "llm_tldr": "提出RESQUE算法，利用异方差性识别因果DAG结构。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "automated discovery of mathematical expressions from data",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28810v1",
+      "source": "arxiv",
+      "title": "Affective Music Recommendation: A Rollout-Based World Model for Offline Preference Optimization",
+      "abstract": "Functional music applications, from consumer focus and sleep aids to clinical interventions, share a distinctive recommendation problem: success is defined by the listener's affective state, but online experimentation on emotion is ethically constrained, particularly for clinical populations who cannot reliably skip a song or report distress. We describe AMRS, the Affective Music Recommendation System deployed on LUCID's health-and-wellness platforms, which serve clinical users (primarily older adults with neurocognitive conditions) and consumer-wellness users across energize, focus, calm, and sleep modes. AMRS is built around a rollout-based world model: a causal transformer trained on logged listening data to jointly predict engagement, binary rating, and self-reported valence and arousal. The world model serves both as an in-silico simulator for offline policy training and as a stress-testing tool before deployment. A recommender policy initialized by behaviour cloning is fine-tuned offline with Direct Preference Optimization (DPO) against a configurable multi-objective utility function. Under a strict cold-start protocol, the world model predicts both behavioural and affective signals with usable fidelity; DPO improves predicted valence and arousal over the cloned baseline while maintaining a similar diversity profile and avoiding the distributional collapse produced by greedy optimization. We position the work as an early deployed validation of a methodology for affective recommendation when online experimentation is ethically untenable.",
+      "authors": [
+        "Audrey Chan",
+        "Aaron Labbé",
+        "Jacob Lavoie",
+        "Jordan Bannister",
+        "Arsène Fansi Tchango",
+        "Guillaume Lajoie",
+        "Laurent Charlin"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.IR",
+        "cs.SD"
+      ],
+      "published": "2026-05-27T17:58:46+00:00",
+      "link": "https://arxiv.org/pdf/2605.28810v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "rollout-based world model for affective music recommendation",
+      "llm_evidence_cn": "基于展开的世界模型的情感音乐推荐",
+      "llm_evidence": "基于展开的世界模型的情感音乐推荐",
+      "canonical_evidence": "基于展开的世界模型的情感音乐推荐",
+      "llm_tldr_en": "AMRS uses a rollout-based world model to optimize affective state in music recommendation without online experiments.",
+      "llm_tldr_cn": "AMRS使用基于展开的世界模型来优化音乐推荐中的情感状态，无需在线实验。",
+      "llm_tldr": "AMRS使用基于展开的世界模型来优化音乐推荐中的情感状态，无需在线实验。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29232v1",
+      "source": "arxiv",
+      "title": "On the Practice of Scaling Search Conversion Rate Prediction",
+      "abstract": "Scaling a Search Conversion Rate (CVR) prediction model, especially in high-traffic environments, presents a challenge: superior model quality needs to be balanced with strict constraints on training cost and serving latency. This paper details an effective approach for scaling modern search CVR prediction models. We begin with an empirical study to understand the scaling performance of search CVR models, analyzing how quality improves as we scale three key factors of model backbone computation, the size of embedding parameters, and the volume of training data.   We use a large-scale production dataset, comprising over a year of customer interaction logs from a high-traffic e-commerce platform, to evaluate the scalability of several state-of-the-art architectures and their ensembles. Our key findings are: (1) selecting the right backbone and scaling factors is crucial; (2) the impact of scaling backbone, embedding, and data is largely independent and additive, which has implications for more efficient scaling exploration; (3) a streamlined warmstart strategy can accelerate training iterations while simplifying new updates; (4) inference optimization strategies such as decoupled graph execution and dynamic batching can enable low-latency GPU serving even for high-capacity models. Compared to a baseline of a pre-scaling production model, we ultimately deployed a model trained on 2.5x larger training data with 8x more inference compute while having minimal latency impact. Online A/B tests also demonstrate that our launches achieved a combined +2.6% gain in a key metric of search conversion rate.",
+      "authors": [
+        "James Pak",
+        "Jyun-Yu Jiang",
+        "Fan Zhang",
+        "Sen Wang",
+        "Taekmin Kim",
+        "Henry Tsai",
+        "Vijay Rajaram",
+        "Juexin Lin",
+        "Mohitdeep Singh",
+        "Alessandro Magnani",
+        "Johnny Chen",
+        "Qian Zhao",
+        "Rao Fu",
+        "Zhirong Liang",
+        "Jordan Gilliland",
+        "Winter Jiao"
+      ],
+      "primary_category": "cs.IR",
+      "categories": [
+        "cs.IR"
+      ],
+      "published": "2026-05-28T01:48:19+00:00",
+      "link": "https://arxiv.org/pdf/2605.29232v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "scaling CVR prediction on e-commerce platform",
+      "llm_evidence_cn": "在电商平台上扩展转化率预测模型",
+      "llm_evidence": "在电商平台上扩展转化率预测模型",
+      "canonical_evidence": "在电商平台上扩展转化率预测模型",
+      "llm_tldr_en": "Scaling search CVR prediction models using large-scale e-commerce data.",
+      "llm_tldr_cn": "利用大规模电商数据扩展搜索转化率预测模型。",
+      "llm_tldr": "利用大规模电商数据扩展搜索转化率预测模型。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "e commerce recommendation",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29280v1",
+      "source": "arxiv",
+      "title": "LoopFM: Learning frOm HistOrical RePresentations of Foundation Model for Recommendation",
+      "abstract": "Knowledge distillation (KD) transfers a single scalar prediction from a large foundation model (FM) to compact vertical models (VMs), suffering from diminishing transfer ratio -- the fraction of FM improvement captured by the VM -- as a single scalar cannot convey the rich intermediate knowledge that larger FMs learn. To address this bottleneck, we propose LoopFM (Learning frOm HistOrical ReP*resentations of FM), a framework that opens a high-bandwidth transfer channel by structuring FM intermediate embeddings as input features (e.g., user history sequence) for downstream VMs, without requiring real-time FM inference at serving and architectural coupling between FM and VM. We provide a theoretical framework for LoopFM with a gain decomposition and transfer-ratio analysis. On three public benchmarks, LoopFM demonstrates strong AUC improvements (e.g., 6\\%+ on TaobaoAd) and complementary knowledge transfer capability with KD. On industrial-scale systems (billions of examples, trillion-parameter FMs), LoopFM approximately doubles the knowledge transfer ratio on top of KD, delivering a +0.5\\% conversion improvement in Y1H1, and a +1.03\\% and +1.22\\% conversion improvement from two individual launches respectively in Y1H2.",
+      "authors": [
+        "Shali Jiang",
+        "Hua Zheng",
+        "Boyang Liu",
+        "Laming Chen",
+        "Kenny Lov",
+        "Chuanqi Xu",
+        "Lisang Ding",
+        "Qinghai Zhou",
+        "Can Cui",
+        "Xiaolong Liu",
+        "Xiaoyi Liu",
+        "Yasmine Badr",
+        "Xin Xu",
+        "Jiyan Yang",
+        "Ellie Dingqiao Wen",
+        "Gerard Jonathan Mugisha Akkerhuis",
+        "Chenxiao Guan",
+        "Rong Jin",
+        "Ruichao Qiu",
+        "Xian Chen",
+        "Shifu Xu",
+        "Zhehui Zhou",
+        "Ping Chen",
+        "Rui Yang",
+        "Haicheng Chen",
+        "Xiangge Meng",
+        "Song Zhou",
+        "Dharak Kharod",
+        "Shuyu Xu",
+        "Qiang Jin",
+        "Qiao Yang",
+        "Wankun Zhu",
+        "Qin Huang",
+        "Yuzhen Huang",
+        "Darren Liu",
+        "Parish Aggarwal",
+        "Hui Zhou",
+        "Erzhuo Wang",
+        "Shuo Chang",
+        "Xiaorui Gan",
+        "Wenlin Chen",
+        "Santanu Kolay",
+        "Huayu Li"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI",
+        "cs.IR"
+      ],
+      "published": "2026-05-28T02:59:46+00:00",
+      "link": "https://arxiv.org/pdf/2605.29280v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "FM intermediate representations for recommendation distillation",
+      "llm_evidence_cn": "利用FM中间表示进行推荐蒸馏",
+      "llm_evidence": "利用FM中间表示进行推荐蒸馏",
+      "canonical_evidence": "利用FM中间表示进行推荐蒸馏",
+      "llm_tldr_en": "LoopFM structures FM embeddings as input features for compact models improving transfer",
+      "llm_tldr_cn": "LoopFM将FM嵌入结构化作为输入特征提升紧凑模型迁移",
+      "llm_tldr": "LoopFM将FM嵌入结构化作为输入特征提升紧凑模型迁移",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.29500v1",
+      "source": "arxiv",
+      "title": "Quotient DAGs for Off-Policy Evaluation:Forward-Flow Importance Sampling and Exact Slate Propensities",
+      "abstract": "Off-policy evaluation estimates how a target policy would perform using data collected by a different behavior policy, which is crucial when online testing is costly or risky, such as in recommendation or healthcare. Standard importance sampling reweights each logged trajectory, but it can treat details of the generation process as meaningful even when the evaluation target ignores them: for example, an autoregressive slate recommender may generate an ordered sequence of items while the reward and downstream estimator depend only on the unordered slate. This creates nuisance variance and a computational gap, since exact unordered slate propensities require summing over all generation orders. We introduce a quotient-DAG view that merges histories equivalent for evaluation and assigns weights using target-to-behavior forward-flow ratios on the merged graph. For slate recommendation under a set-sufficient next-item interface, this yields Forward-DP, a subset-DAG dynamic program that computes exact unordered propensities without factorial enumeration. The resulting propensity primitive enables practical propensity-based evaluation and model selection for context-dependent autoregressive slate loggers.",
+      "authors": [
+        "Ziwen Xie",
+        "Shaowen Xiang",
+        "Hongyu He",
+        "Dianbo Liu"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-05-28T07:23:40+00:00",
+      "link": "https://arxiv.org/pdf/2605.29500v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "off-policy evaluation for slate recommendation",
+      "llm_evidence_cn": "针对推荐系统中序列推荐的离线评估",
+      "llm_evidence": "针对推荐系统中序列推荐的离线评估",
+      "canonical_evidence": "针对推荐系统中序列推荐的离线评估",
+      "llm_tldr_en": "Proposes quotient-DAG for off-policy evaluation in recommendation, reducing variance and computational cost.",
+      "llm_tldr_cn": "提出商DAG方法用于推荐系统的离线评估，降低方差和计算成本。",
+      "llm_tldr": "提出商DAG方法用于推荐系统的离线评估，降低方差和计算成本。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.23668v1",
+      "source": "arxiv",
+      "title": "OnePred: Next-Query Prediction via Recursive Intent Memory in Multi-Turn Conversations",
+      "abstract": "Although large language model (LLM) conversational systems process millions of multi-turn dialogues daily, they remain fundamentally reactive: they respond only after the user types a query. A key step toward proactive interaction is next-query prediction, which anticipates the user's subsequent query based solely on the preceding dialogue. Progress on this task is hindered by the lack of dedicated benchmarks and a fundamental efficiency--quality trade-off: naively concatenating full dialogue history incurs linearly growing token consumption, while truncating to the latest turn discards crucial cross-turn context. Our key insight is that accurate prediction does not require re-reading raw history; it suffices to track the user's evolving intent trajectory across topics, unresolved needs, and interest shifts. We propose OnePred, which maintains a recursively updated memory as its sole cross-turn context, bounding the per-turn cost independently of conversation length. We train the model via a two-stage reinforcement learning pipeline that first teaches what to predict, then what to compress, shaping the memory into a prediction-oriented intent chain. To establish a rigorous testbed, we introduce NQP-Bench, spanning three diverse subsets. Experiments demonstrate that OnePred reduces per-turn token consumption by up to 22$\\times$ compared to full-history inputs while consistently exceeding all baselines in prediction quality, with larger gains on longer conversations. Our code is publicly available at https://github.com/ZBWpro/OnePred.",
+      "authors": [
+        "Jiangwang Chen",
+        "Bowen Zhang",
+        "Zixin Song",
+        "Jiazheng Kang",
+        "Xiao Yang",
+        "Da Zhu",
+        "Guanjun Jiang"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI"
+      ],
+      "published": "2026-05-22T14:16:21+00:00",
+      "link": "https://arxiv.org/pdf/2605.23668v1",
+      "tags": [
+        "keyword:Rec",
+        "query:Rec"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "next-query prediction for proactive recommendation",
+      "llm_evidence_cn": "下一查询预测用于主动推荐",
+      "llm_evidence": "下一查询预测用于主动推荐",
+      "canonical_evidence": "下一查询预测用于主动推荐",
+      "llm_tldr_en": "OnePred predicts user's next query in multi-turn conversations, enabling proactive recommendation.",
+      "llm_tldr_cn": "OnePred预测多轮对话中用户的下一个查询，实现主动推荐。",
+      "llm_tldr": "OnePred预测多轮对话中用户的下一个查询，实现主动推荐。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.26474v1",
+      "source": "arxiv",
+      "title": "Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report]",
+      "abstract": "Approximate nearest neighbor (ANN) search with range filters has recently garnered significant attention. This paper delves into a generalized form of this problem, i.e., ANN search with exact range-range (RR) predicates on a range-valued attribute, named RR filtering ANN (RRANN). Specifically, given $n$ vectors in $\\mathbb{R}^d$, each vector $v_i$ is associated with a numeric range $[l_i, r_i]$, symbolizing aspects like a price range or time interval. An RRANN query $(v_q, l_q, r_q)$ aims at finding $k$ vectors closest to $v_q$ within the vectors satisfying an arbitrary RR predicate defined between the query range $[l_q, r_q]$ and the object range $[l_i, r_i]$. The RR predicate remains unspecified, enabling user-defined conditions. It may encompass containment ($[l_i, r_i] \\subseteq [l_q, r_q]$ or $[l_q, r_q] \\subseteq [l_i, r_i]$), overlap ($l_i \\le l_q \\le r_i \\le r_q$ or $l_q \\le l_i \\le r_q \\le r_i$), or a disjunction of them. RRANN has broad applications in queries related to price ranges or time intervals, and it generalizes existing variants of ANN search with range filters. However, existing dedicated approaches for these problems lack the capacity to support queries with arbitrary RR predicates. Hence, we introduce a new approach, labeled multi-segment tree graph. It efficiently handles arbitrary RR predicates by avoiding traversal through non-predicate-satisfied nodes, and keeps equivalent index size and construction time to state-of-the-art methods for RFANN. Extensive experiments on real-world data demonstrate the efficacy of our approach in RRANN queries, achieving up to 12.5x speedups with the same accuracy as the baselines. Moreover, our approach attains comparable RFANN search performance and notably superior IFANN and TSANN search performance compared to the respective state-of-the-art approaches. Our code is available at https://github.com/FanEDG/MSTG.",
+      "authors": [
+        "Yingfan Liu",
+        "Tong Wu",
+        "Jiadong Xie",
+        "Yang Zhao",
+        "Jeffrey Xu Yu",
+        "Jiangtao Cui"
+      ],
+      "primary_category": "cs.DB",
+      "categories": [
+        "cs.DB",
+        "cs.IR"
+      ],
+      "published": "2026-05-26T02:31:27+00:00",
+      "link": "https://arxiv.org/pdf/2605.26474v1",
+      "tags": [
+        "query:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "ANN search with range filters for recommendation",
+      "llm_evidence_cn": "带范围过滤的近似最近邻搜索用于推荐",
+      "llm_evidence": "带范围过滤的近似最近邻搜索用于推荐",
+      "canonical_evidence": "带范围过滤的近似最近邻搜索用于推荐",
+      "llm_tldr_en": "Proposes RRANN for approximate nearest neighbor search with range predicates, enabling efficient similarity search in recommendation.",
+      "llm_tldr_cn": "提出RRANN用于带范围谓词的近似最近邻搜索，实现推荐中的高效相似性搜索。",
+      "llm_tldr": "提出RRANN用于带范围谓词的近似最近邻搜索，实现推荐中的高效相似性搜索。",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "state of the art recommendation system algorithms",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.29908v1",
+      "source": "arxiv",
+      "title": "Joint Model and Data Sparsification via the Marginal Likelihood",
+      "abstract": "Sparse recovery in linear systems underpins applications from signal processing to high-dimensional regression. Sparse Bayesian Learning, grounded in the principle of automatic relevance determination (ARD), offers a practical Bayesian mechanism for feature sparsity via marginal likelihood optimization. Yet, its reliance on a homoscedastic noise model renders it sensitive to data contaminations such as outliers or misspecified noise, harming model fit and predictions. Instead, we propose jointly learning individual feature and sample relevancies, enabling simultaneous model and data sparsification via a single Bayesian objective. This symmetric pruning of model and data offers a natural extension that preserves conjugacy, admits closed-form updates for standard optimization procedures, and aligns with perspectives from robust regression and influence functions. Empirical results across diverse regression tasks affirm that a joint ARD approach consistently yields both sparse and robust prediction models.",
+      "authors": [
+        "Alexander Timans",
+        "Thomas Möllenhoff",
+        "Christian A. Naesseth",
+        "Mohammad Emtiyaz Khan",
+        "Eric Nalisnick"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-05-28T13:26:53+00:00",
+      "link": "https://arxiv.org/pdf/2605.29908v1",
+      "tags": [
+        "keyword:Rec"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "automatic relevance determination for model and data sparsification",
+      "llm_evidence_cn": "用于模型和数据稀疏化的自动相关性确定",
+      "llm_evidence": "用于模型和数据稀疏化的自动相关性确定",
+      "canonical_evidence": "用于模型和数据稀疏化的自动相关性确定",
+      "llm_tldr_en": "Proposes joint sparsification via marginal likelihood, relevant to symbolic regression principles",
+      "llm_tldr_cn": "通过边际似然联合稀疏化，与符号回归原理相关",
+      "llm_tldr": "通过边际似然联合稀疏化，与符号回归原理相关",
+      "llm_tags": [
+        "query:rec"
+      ],
+      "matched_query_tag": "query:rec",
+      "matched_query_text": "fundamental principles and methods of symbolic regression",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}

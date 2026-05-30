@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28810v1/fig-005.webp",
+      "caption": "Figure 1: AMRS architecture. Top: the offline training pipeline (dashed boundary); the trained policy is then deployed to production. Bottom: a logged session has engagement and (optional) ratings per song with valence-arousal observations only at session boundaries (post-session optional); a world-model rollout produces all four predictions (𝑒, 𝑟, 𝑣, 𝑎) at every step. This sparse-vs-dense affective contrast motivates the rollout-based world model.",
+      "page": 4,
+      "index": 5,
+      "width": 884,
+      "height": 406
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28810v1/fig-001.webp",
+      "caption": "Table 2: World-model results across architecture and embedding configurations. Mean (SD) over 10 MCCV test splits. PE = rotary positional encoding [22]. Bold = best per-metric mean; shaded row = overall-best configuration by equal-weight average rank. Stars: paired 𝑡-test vs. shaded row (∗𝑝 < 0.05, ∗∗𝑝 < 0.01, ∗∗∗𝑝 < 0.001).",
+      "page": 6,
+      "index": 1,
+      "width": 883,
+      "height": 242
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28810v1/fig-004.webp",
+      "caption": "Table 3: Leave-one-feature-out ablation on the factorized MERT (no-PE) world-model base. Each row removes one input during both training and test. Mean (SD) over 10 MCCV test splits. Bold = best per-metric mean. Stars: paired 𝑡-test vs. base (∗𝑝 < 0.05, ∗∗𝑝 < 0.01, ∗∗∗𝑝 < 0.001).",
+      "page": 7,
+      "index": 4,
+      "width": 918,
+      "height": 221
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28810v1/fig-002.webp",
+      "caption": "Table 4: Predicted feedback and diversity across recommendation policies (window strategy, test split, 𝐿=5 songs, 𝑁=5 seeds). Rating and engagement are held out of the DPO objective and shown as a no-degradation check. Cross-seed mean (SD). Bold = best among learned policies (Copycat, DPO). Stars: paired 𝑡-test vs. DPO (∗𝑝 < 0.05, ∗∗𝑝 < 0.01, ∗∗∗𝑝 < 0.001).",
+      "page": 7,
+      "index": 2,
+      "width": 956,
+      "height": 191
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28810v1/fig-003.webp",
+      "caption": "Table 5: Policy adherence under the window strategy (𝑁=5 seeds). Level 2 (user-wise): an item is relevant if it appears in the user’s logged history. Level 3 (time-step): an item is relevant only if it matches the exact song at the same time step. Values are cross-seed means. Cross-seed SDs are ≤ 0.005 at Level 3; at Level 2, ≤ 0.05 on train/test and ≤ 0.08 on validation. Highest value per row in bold.",
+      "page": 7,
+      "index": 3,
+      "width": 436,
+      "height": 365
+    }
+  ]
+}

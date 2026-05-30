@@ -1,0 +1,1286 @@
+Title: Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report]
+
+URL Source: https://arxiv.org/pdf/2605.26474v1
+
+Published Time: Wed, 27 May 2026 00:27:17 GMT
+
+Number of Pages: 14
+
+Markdown Content:
+# Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report] 
+
+## Yingfan Liu 
+
+Xidian University Xi’an, China liuyingfan@xidian.edu.cn 
+
+## Tong Wu 
+
+Xidian University Xi’an, China twu_1@stu.xidian.edu.cn 
+
+## Jiadong Xie ∗
+
+The Chinese University of Hong Kong Hong Kong SAR, China jdxie@se.cuhk.edu.hk 
+
+## Yang Zhao 
+
+Xidian University Xi’an, China zhaoyang_1@stu.xidian.edu.cn 
+
+## Jeffrey Xu Yu 
+
+The Hong Kong University of Science and Technology (Guangzhou) Guangzhou, China jeffreyxuyu@hkust-gz.edu.cn 
+
+## Jiangtao Cui ∗
+
+Xi’an University of Posts and Telecommunications Xi’an, China Xidian University Xi’an, China cuijt@xidian.edu.cn 
+
+Abstract 
+
+Approximate nearest neighbor (ANN) search with range filters has recently garnered significant attention. This paper delves into a generalized form of this problem, i.e., ANN search with exact range-range (RR) predicates on a range-valued attribute, named RR filter-ing ANN (RRANN). Specifically, given 𝑛 vectors in R𝑑 , each vector 
+
+𝑣 𝑖 is associated with a numeric range [𝑙 𝑖 , 𝑟 𝑖 ], symbolizing aspects like a price range or time interval. An RRANN query (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 )
+
+aims at finding 𝑘 vectors closest to 𝑣 𝑞 within the vectors satisfying an arbitrary RR predicate defined between the query range [𝑙 𝑞 , 𝑟 𝑞 ]
+
+and the object range [𝑙 𝑖 , 𝑟 𝑖 ]. The RR predicate remains unspecified, enabling user-defined conditions. It may encompass containment ([𝑙 𝑖 , 𝑟 𝑖 ] ⊆ [ 𝑙 𝑞 , 𝑟 𝑞 ] or [𝑙 𝑞 , 𝑟 𝑞 ] ⊆ [ 𝑙 𝑖 , 𝑟 𝑖 ]), overlap ( 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 
+
+or 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ), or a disjunction of them. RRANN has broad applications in queries related to price ranges or time intervals, and it generalizes existing variants of ANN search with range filters. However, existing dedicated approaches for these problems lack the capacity to support queries with arbitrary RR predicates. Hence, we introduce a new approach, labeled multi-segment tree graph. It efficiently handles arbitrary RR predicates by avoiding traver-sal through non-predicate-satisfied nodes, and keeps equivalent index size and construction time to state-of-the-art methods for RFANN. Extensive experiments on real-world data demonstrate the efficacy of our approach in RRANN queries, achieving up to 12.5x speedups with the same accuracy as the baselines. Moreover, our approach attains comparable RFANN search performance and notably superior IFANN and TSANN search performance compared to the respective state-of-the-art approaches. Our code is available at https://github.com/FanEDG/MSTG.  
+
+> ∗Jiadong Xie and Jiangtao Cui are the corresponding authors.
+> This work is licensed under a Creative Commons Attribution 4.0 International License.
+> KDD ’26, Jeju Island, Republic of Korea
+> ©2026 Copyright held by the owner/author(s). ACM ISBN 978-x-xxxx-xxxx-x/YYYY/MM https://doi.org/10.1145/nnnnnnn.nnnnnnn
+
+CCS Concepts 
+
+• Information systems → Information retrieval .
+
+Keywords 
+
+Approximate nearest neighbor search; filtered vector search 
+
+ACM Reference Format: 
+
+Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiang-tao Cui. 2026. Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report]. In Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining V.2 (KDD ’26), August 09–13, 2026, Jeju Island, Republic of Korea. ACM, New York, NY, USA, 14 pages. https://doi.org/10.1145/nnnnnnn.nnnnnnn 
+
+1 Introduction 
+
+With the recent advancements in embedding models leveraging ma-chine learning techniques, diverse objects, such as images [ 17 ] and texts [ 16 ], are embedded into high-dimensional vectors to capture their semantic information. This has led to the rise in popularity of vector databases in both research communities and the indus-try [ 3, 6 , 14 , 18 , 38 ]. In vector databases, the fundamental operation is the approximate 𝑘 -nearest neighbor search ( 𝑘 -ANNS), which retrieves 𝑘 vectors sufficiently close to a given query vector. Vector databases like Milvus [ 24 ] and AnalyticDB [ 28 ] enhance search precision by integrating 𝑘 -ANN search with attribute-based filters. In this paper, we study the 𝑘 -ANNS with range filters. In nu-merous applications, each object in the dataset 𝑂 is represented as 𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ), where 𝑣 𝑖 ∈ R𝑑 is a 𝑑 -dimensional vector and 
+
+[𝑙 𝑖 , 𝑟 𝑖 ] ⊂ R is a numeric range. Similarly, each query 𝑞 consists of a vector 𝑣 𝑞 and a range [𝑙 𝑞 , 𝑟 𝑞 ]. Here, the range-range (RR) predicates between the query range and the object range are not specified, allowing user-defined conditions. As illustrated in Fig. 1, there are four atomic conditions, including two types of containment and two types of overlap: 1○ query left-overlap: 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 ;2○ query-contained: 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ; 3○ query right-overlap: 
+
+𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ; and 4○ query-containing: 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 .The RR predicates can be one of them, or a disjunction of them. This problem, 𝑘 -ANNS with arbitrary RR predicates, referred to as 
+
+range-range filtering 𝑘 -ANN (RRANN), has broad applications.                    
+
+> arXiv:2605.26474v1 [cs.DB] 26 May 2026 KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiangtao Cui 1234
+> liriliriliri
+> rq
+> liri
+> lqrqlqrqlqrqlq
+> query left -overlap query -contained query right -overlap query -containing
+
+Figure 1: The atomic conditions of the RR predicates Price Range Querying: The price of an object in real-world sce-narios can be a continuous interval, such as a stock price range or prices of products on comparison shopping websites that aggre-gate product data across multiple online retailers. By using RRANN queries, users can search for objects that meet specific price predi-cates. For example, a user might seek a shoe resembling a provided image on comparison shopping websites, priced between $50 and $100. RRANN can be utilized to retrieve products (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) whose image vectors have the smallest distances to the query image vector, and simultaneously satisfy [𝑙 𝑖 , 𝑟 𝑖 ] ∩ [ 50 , 100 ] ≠ ∅.
+
+Time-Relevant Querying: Consider multiple traffic cameras mon-itoring cars passing on a state highway. Each camera detects and extracts a feature vector representing every car in the video stream. These feature vectors, along with their time ranges on the highway, are stored in a database. Upon receiving a query containing a partic-ular car image and a given time interval, RRANN can locate similar cars that traversed the highway within the query time range. 
+
+General Form of other 𝑘 -ANNS with Range Filters: There are three variations of 𝑘 -ANNS with range filters: (1) range-filtering 𝑘 -ANN (RFANN) [ 8 , 11 , 13 , 19 , 28 , 31 , 32 , 37 , 39 ] with point-valued ob-ject attribute and range-valued query attribute, (2) interval-filtering 
+
+𝑘 -ANN (IFANN) [ 34 ] with range-valued object attribute and range-valued query attribute but limited RR predicates, and (3) timestamp 
+
+𝑘 -ANN (TSANN) [ 27 ] with range-valued object attribute and point-valued query attribute. These variations, as outlined in Table 1, are all special cases of our RRANN problem. Specifically, the RR predicate of RFANN is [𝑙 𝑖 , 𝑟 𝑖 ] ⊆ [ 𝑙 𝑞 , 𝑟 𝑞 ] (i.e., case 4○) with 𝑙 𝑖 = 𝑟 𝑖 ;the RR predicate of IFANN is [𝑙 𝑖 , 𝑟 𝑖 ] ⊆ [ 𝑙 𝑞 , 𝑟 𝑞 ] (i.e., case 4○); the RR predicate of TSANN is [𝑙 𝑞 , 𝑟 𝑞 ] ⊆ [ 𝑙 𝑖 , 𝑟 𝑖 ] (i.e., case 2 ○) with 𝑙 𝑞 = 𝑟 𝑞 .The ideal solution to 𝑘 -ANNS with filters is to conduct a 𝑘 -ANNS on a proximity graph (PG) pre-built for the subset 𝑂 [𝑅 𝑞 ] ⊆ 𝑂 
+
+just satisfying the query predicate 𝑅 𝑞 , since PGs are recognized as the state-of-the-art (SOTA) methods for 𝑘 -ANNS [ 4, 12 , 26 ]. Thus, recent works focus on designing a dedicated index atop PGs for 
+
+𝑘 -ANNS with a specific range filter [ 11 , 13 , 27 , 32 , 34 ], such that the index can swiftly extract a PG containing vectors in 𝑂 [𝑅 𝑞 ]
+
+for search. Among them, iRangeGraph [ 32 ], Hi-PNG [ 34 ], and TS-Graph [ 27 ] are SOTA approaches for RFANN, IFANN, and TSANN, respectively. To answer RFANN queries, iRangeGraph [ 32 ] utilizes a segment tree to partition objects based on their numeric attributes and constructs a PG for each segment tree node. For any given query range, iRangeGraph ensures that at most 𝑂 (log 𝑛 ) pre-built PGs are needed to be merged to form the PG on 𝑂 [𝑅 𝑞 ] for search. For IFANN queries, Hi-PNG [ 34 ] transfers each object range to a 2D point, and then builds a QuadTree on 2D space with a PG on each tree node. During search, it rapidly identifies the tree nodes concerning 𝑅 𝑞 
+
+and then merges the results of 𝑘 -ANNS on those nodes to return. For TSANN queries, TS-Graph [ 27 ] constructs and compresses a series of PGs of each discrete timestamp to efficiently identify neighbors that satisfy 𝑅 𝑞 during search. However, as discussed in Section 3, these methods fail in extending support to arbitrary RR predicates. It is because their index cannot efficiently extract a PG exactly containing objects in 𝑂 [𝑅 𝑞 ]. Table 1 demonstrates the search performance of each problem’s SOTA approach, where “-” denotes that they cannot be extended to answer these queries. Existing approaches struggle to extend their solutions or exhibit poor performance when utilized to solve other problems, while ours exhibit the best performance across all problems. In this paper, we aim to design a novel dedicated index for ef-ficient RRANN search. Our main contributions are summarized below. ➊ We first solve RRANN with a query-contained filter, i.e., 
+
+𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 . For 𝑙 𝑖 values, objects satisfying 𝑙 𝑖 ≤ 𝑙 𝑞 form prefixes of a sorted sequence 𝐿 = {𝑙 𝑖 |𝑜 𝑖 ∈ 𝑂 } in ascending order of 
+
+𝑙 𝑖 . We propose an index called multi-segment tree graph (MSTG), which constructs |𝐿 | segment trees of different sequence prefixes, with each segment tree built based on the 𝑟 𝑖 values to handle the condition 𝑟 𝑖 ≥ 𝑟 𝑞 . For each tree node of MSTG, we build a PG. Hence, RRANN with a query-contained filter can be processed using a PG merged from 𝑂 (log 𝑛 ) PGs derived from nodes in one of the |𝐿 |
+
+segment trees in MSTG. ➋ We further enhance the efficiency of MSTG in both building time and index size. To achieve this, we in-troduce a labeled MSTG with an incremental construction method to avoid the repeated computations and merge the same edge on multiple PGs with labels for lossless compression. ➌ We extend MSTG from addressing RRANN with a query-contained filter to handling RRANN with arbitrary RR predicates via simple modifi-cations. ➍ Extensive experiments demonstrate the effectiveness of MSTG in RRANN and its variants: RFANN, TSANN, and IFANN. MSTG surpasses baselines on RRANN queries by up to 12 .5x on ef-ficiency while achieving the same recall. Moreover, compared with the SOTA approaches, our approach has comparable performance on RFANN queries and significantly improved recall and efficiency on TSANN and IFANN queries. 
+
+2 Preliminaries 
+
+Let 𝐷 ⊂ R𝑑 be a dataset with 𝑛 𝑑 -dimensional vectors. For any two vectors 𝑢, 𝑣 ∈ R𝑑 , let 𝛿 (𝑢, 𝑣 ) denote the distance between two vectors, and the L2 norm (i.e., Euclidean distance) is used by default in this work. We first define the 𝑘 -ANN problem. 
+
+𝑘 -ANN Problem : Given a dataset 𝐷 ⊂ R𝑑 and a query 𝑞 ∈ R𝑑 ,
+
+𝑘 -ANN query returns 𝑘 vectors in 𝐷 that are sufficiently close to 𝑞 .In this paper, we focus on 𝑘 -ANN search with a RR predicate on a single range-valued attribute. To be specific, let 𝐴 = {𝑎 1, 𝑎 2, · · · , 𝑎 |𝐴 | }
+
+be the numeric attribute (e.g., prices, timestamps), whose domain 
+
+𝐷𝑜𝑚 (𝐴 ) has a total order , i.e., assuming that 𝑎 1 < 𝑎 2 < · · · < 𝑎 |𝐴 | .Each vector 𝑣 𝑖 ∈ 𝐷 is associated with an interval attribute on 
+
+𝐷𝑜𝑚 (𝐴 ), denoted as [𝑙 𝑖 , 𝑟 𝑖 ], where 𝑙 𝑖 , 𝑟 𝑖 ∈ 𝐷𝑜𝑚 (𝐴 ) and 𝑙 𝑖 ≤ 𝑟 𝑖 , i.e., 
+
+[𝑙 𝑖 , 𝑟 𝑖 ] ⊆ 𝐷𝑜𝑚 (𝐴 ). We consider a dataset 𝑂 of 𝑛 objects, and define each object 𝑜 𝑖 ∈ 𝑂 (1 ≤ 𝑖 ≤ 𝑛 ) as 𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ), where 𝑣 𝑖 ∈ R𝑑 and 
+
+[𝑙 𝑖 , 𝑟 𝑖 ] ⊆ 𝐷𝑜𝑚 (𝐴 ). For a query 𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ), the query vector 𝑣 𝑞 ∈
+
+R𝑑 is associated with a numeric range [𝑙 𝑞 , 𝑟 𝑞 ] ⊆ 𝐷𝑜𝑚 (𝐴 ). Let 𝑅 𝑞 be the query RR predicate, and 𝑂 [𝑅 𝑞 ] = {𝑜 𝑖 ∈ 𝑂 |𝑅 𝑞 ([ 𝑙 𝑖 , 𝑟 𝑖 ], [𝑙 𝑞 , 𝑟 𝑞 ] =
+
+true )} the set of objects that satisfy 𝑅 𝑞 .Now, let us consider the potential forms of the predicate 𝑅 𝑞 .According to Allen’s Interval Algebra [ 2 ], there are a total of 13 base relations between two ranges. Among them, 11 relations could Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report] KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+Table 1: Comparisons between RRANN with other range-filtering 𝑘 -ANN problems Problems Object Attribute Query Attribute RR Predicate QPS at Recall@10=0.95 on Gist dataset when selectivity is 10%                                                  
+
+> iRangeGraph [32] Hi-PNG [34] TS-Graph [27] MSTG (ours) RFANN [32] point-valued ( 𝑙 𝑖 =𝑟 𝑖 )range-valued [𝑙 𝑖 , 𝑟 𝑖 ] ⊆ [ 𝑙 𝑞 , 𝑟 𝑞 ]( 4 ○)752.997 127.238 -753.215 IFANN [34] range-valued range-valued [𝑙 𝑖 , 𝑟 𝑖 ] ⊆ [ 𝑙 𝑞 , 𝑟 𝑞 ]( 4 ○)-156.790 -873.672 TSANN [27] range-valued point-valued ( 𝑙 𝑞 =𝑟 𝑞 )[𝑙 𝑞 , 𝑟 𝑞 ] ⊆ [ 𝑙 𝑖 , 𝑟 𝑖 ]( 2 ○)--238.851 925.845 RRANN (ours) range-valued range-valued arbitrary ---604.572
+
+be reduced to four atomic range-range (RR) predicates as shown in Fig. 1, while the remaining two could also be supported by our method, as discussed in Appendix A. Specifically, four atomic cases are defined as: 1○ query left-overlap: 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 ; 2○ query-contained: 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ; 3○ query right-overlap: 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ≤
+
+𝑟 𝑖 ; and 4○ query-containing: 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 . In this work, 𝑅 𝑞 can be defined as one of the four cases or a disjunctive combination thereof. For instance, 𝑅 𝑞 could be set as 2○ to ensure that the ranges of the qualified objects fully cover the query range. Alternatively, setting 𝑅 𝑞 as 1○∨ 2○∨ 3○∨ 4○ indicates [𝑙 𝑖 , 𝑟 𝑖 ] ∩ [ 𝑙 𝑞 , 𝑟 𝑞 ] ≠ ∅. Based on this, we define our problem. 
+
+Definition 2.1: [Range-Range Filtering 𝑘 -ANN (RRANN)] Given an object set 𝑂 , a query 𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ), and a RR predicate 𝑅 𝑞 , RRANN query aims to return 𝑘 -ANN of 𝑣 𝑞 within set 𝑂 [𝑅 𝑞 ].
+
+To the best of our knowledge, this work is the first attempt to study 𝑘 -ANN with the general form of RR predicates. As depicted in Table 1, we introduce the existing variations of 𝑘 -ANN search with RR predicates, which are all special cases of our RRANN problem. 
+
+Range-Filtering 𝑘 -ANN (RFANN) [ 11 , 13 , 32 , 39 ]: It consid-ers each 𝑣 𝑖 is associated with a numerical value 𝑎 𝑖 , and a query 
+
+(𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ) aims to find 𝑘 -ANN satisfying 𝑎 𝑖 ∈ [ 𝑙 𝑞 , 𝑟 𝑞 ]. RRANN will transform to RFANN by adding one constraint on object attributes 
+
+𝑙 𝑖 = 𝑟 𝑖 , and a specific RR predicate, i.e., let 𝑅 𝑞 be the atomic case 4○.
+
+Interval-Filtering 𝑘 -ANN (IFANN) [ 34 ]: It considers each 𝑣 𝑖 has an interval [𝑙 𝑖 , 𝑟 𝑖 ], and for a query (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ), it aims to find 𝑘 -ANN satisfying [𝑙 𝑖 , 𝑟 𝑖 ] ⊆ [ 𝑙 𝑞 , 𝑟 𝑞 ]. RRANN will transform to IFANN by specifying the RR predicate 𝑅 𝑞 as atomic case 4 ○.
+
+Timestamp 𝑘 -ANN (TSANN) [ 27 ]: It considers each 𝑣 𝑖 has a time interval [𝑙 𝑖 , 𝑟 𝑖 ]. Given a query vector 𝑣 𝑞 and timestamp 𝑡 𝑞 , it aims to find 𝑘 -ANN satisfying 𝑡 𝑞 ∈ [ 𝑙 𝑖 , 𝑟 𝑖 ]. RRANN can transform to TSANN by limiting 𝑙 𝑞 = 𝑟 𝑞 and let RR predicate be the case 2 ○.Next, we brief the SOTA 𝑘 -ANNS method, i.e., proximity graph. 
+
+Proximity Graphs (PG) : PGs, such as HNSW [ 15 ], NSG [ 9], 𝜏 -MNG [ 20 ] and ALMG [ 30 ], have been recognized as the SOTA 
+
+𝑘 -ANNS approaches according to several recent studies [ 4, 26 , 35 ]. Let 𝐺 = (𝑉 , 𝐸 ) be a PG defined over a set 𝐷 ⊂ R𝑑 of vectors, where 
+
+𝑉 is its vertex set and 𝐸 is its edge set. Each vertex 𝑢 ∈ 𝑉 uniquely represents a vector in 𝐷 , and (𝑢, 𝑣 ) ∈ 𝐸 indicates that 𝑣 is a close neighbor of 𝑢 in the vector space. We use 𝑁 𝐺 (𝑢 ) to denote the neighbors of 𝑢 in the PG 𝐺 , i.e., 𝑁 𝐺 (𝑢 ) = {𝑣 ∈ 𝑉 | ( 𝑢, 𝑣 ) ∈ 𝐸 }.Different graphs share the same vertex set but distinct edge sets due to their specific edge selection strategies that prune redundant neighbors over a set of close neighbors for each vector. Despite variations in graph structures, existing PGs share a common 𝑘 -ANN search algorithm [ 9, 35 ], which employs a greedy approach that progressively approaches the nodes that are closest to the query. The details of the search procedure on a PG are included in Appendix B (Algorithm 4). In this paper, we employ HNSW [ 15 ] as the default PG , which is one of the SOTA methods and naturally 
+
+Table 2: Summary of Notations Notation Definition 
+
+𝐴 ⊂ R the domain of the numeric attribute 
+
+𝑎 𝑖 ∈ 𝐴 an attribute value 
+
+𝑜 𝑖 an object 
+
+𝑣 𝑖 the vector of object 𝑜 𝑖 
+
+𝑣 𝑞 the query vector 
+
+𝑑 the vector dimensionality 
+
+𝛿 (𝑢, 𝑣 ) the distance between two vectors 
+
+[𝑙 𝑖 , 𝑟 𝑖 ] the range of object 𝑜 𝑖 
+
+[𝑙 𝑞 , 𝑟 𝑞 ] the query range 
+
+𝑅 𝑞 the RR predicate specified by query 𝑞 𝑂 𝑅 𝑞 the set of objects satisfying predicate 𝑅 𝑞 
+
+𝐺 = (𝑉 , 𝐸 ) a PG 𝐺 with vertex set 𝑉 and edge set 𝐸 𝑁 𝐺 (𝑢 ) the neighbors of 𝑢 in the graph 𝐺 𝑎 𝑥 the 𝑥 -th smallest attribute value in 𝐴 𝑂 𝑥 the set of objects whose ranges satisfy 𝑙 𝑖 ≤ 𝑎 𝑥 
+
+T𝑥 the segment tree that manages 𝑂 𝑥 
+
+𝐺 𝑥 the segment tree graph that manages 𝑂 𝑥 
+
+supports the insertions of new vectors. Furthermore, we present a summary of notations in Table 2 to enhance the readability. 
+
+3 Limitations of Existing Approaches 
+
+We review the existing approaches to 𝑘 -ANNS with filters, and contemplate their potential to address our problem while also iden-tifying their limitations. Those methods could be divided into two categories, i.e., (1) the general-purpose approaches for arbitrary filters, and (2) the dedicated methods for a specific filter. 
+
+General-Purpose Approaches: These approaches can support 
+
+𝑘 -ANNS with arbitrary filters, including pre-filtering [ 24 , 28 , 37 ], post-filtering [ 24 , 28 ], Milvus [ 24 ], VBASE [ 37 ], and ACORN [ 19 ]. Detailed discussions on them could be found in Appendix C. Here, we focus on their issues. Issues: Although supporting 𝑘 -ANNS with arbitrary filters, they exhibit suboptimal performance, as shown in Section 5, because they fail to avoid verifying vectors that do not satisfy the query predicate, due to the general-purpose index. Un-fortunately, each vector verification requires an expensive distance computation, making these methods inefficient in practice. 
+
+Dedicated Indexes for Range Filters: There are several dedicated approaches designed for 𝑘 -ANNS with range filters. To be specific, iRangeGraph [ 32 ] is the SOTA method among existing RFANN approaches [ 11 , 13 , 31 , 39 ], Hi-PNG [ 34 ] is proposed for IFANN, and TS-Graph [ 27 ] is designed for TSANN. Their key idea is to pre-build a series of PGs for some attribute ranges, which can help to efficiently online form a PG 𝐺 ′ exactly containing objects satisfying the query predicate. Next, the 𝑘 -ANNS with range filters transfers to 
+
+𝑘 -ANNS on 𝐺 ′, which could be efficiently answered by Algorithm 4. 
+
+iRangeGraph [32]: It employs a segment tree to organize the objects with 𝑎 𝑖 as the key, where each tree node contains a subset KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiangtao Cui 
+
+of objects rooted at itself and the root contains all the objects. Hence, each object appears in 𝑂 (log 𝑛 ) tree nodes. For each tree node, it builds a PG, called an elemental graph, and thus each object has 𝑂 (log 𝑛 ) neighbor sets from different elemental graphs. Given [𝑙 𝑞 , 𝑟 𝑞 ], let 𝐺 ′ = (𝑉 ′, 𝐸 ′) be the dedicated PG for the in-range objects, which is built online and virtually. It retrieves at most 𝑂 (log 𝑛 ) PGs covering [𝑙 𝑞 , 𝑟 𝑞 ] to build 𝐺 ′ by merging them. It limits the out-degree of each 𝑢 ∈ 𝑉 ′ to a threshold 𝑚 by a high-layer-first pruning. Finally, 𝑘 -ANNS on 𝐺 ′ returns the result of an RFANN query. 
+
+Hi-PNG [34]: Hi-PNG is the only IFANN approach. It treats each object range [𝑙 𝑖 , 𝑟 𝑖 ] as a point (𝑙 𝑖 , 𝑟 𝑖 ) in R2 and the query range 
+
+[𝑙 𝑞 , 𝑟 𝑞 ] as a rectangle [𝑙 𝑞 , 𝑟 𝑞 ] × [ 𝑙 𝑞 , 𝑟 𝑞 ] ⊆ R2. Hence, [𝑙 𝑖 , 𝑟 𝑖 ] ⊆[𝑙 𝑞 , 𝑟 𝑞 ] ⇔ ( 𝑙 𝑖 , 𝑟 𝑖 ) ∈ [ 𝑙 𝑞 , 𝑟 𝑞 ] × [ 𝑙 𝑞 , 𝑟 𝑞 ]. In this way, the filter is trans-formed into finding the points within the query rectangle. Thus, Hi-PNG employs a QuadTree [ 21 ] to manage those points in R2 and build a PG for each tree node. During the search process, it finds a minimum set of tree nodes intersecting with the query rectangle and then returns the merged results, each of which is obtained by 
+
+𝑘 -ANNS or post-filtering on the corresponding PG. 
+
+TS-Graph [27]: TS-Graph is the only TSANN method. It is based on the idea that builds |𝐴 | PGs 𝐺 1, . . . , 𝐺 |𝐴 | , where 𝐺 𝑖 manages all the objects with the ranges containing 𝑎 𝑖 ∈ 𝐴 . Here, 𝐴 indicates the set of timestamps. Next, it compresses those graphs into a single index by merging the repeated nodes and edges. For a TSANN query (𝑣 𝑞 ∈ R𝑑 , 𝑡 𝑞 ∈ 𝐴 ), it extracts 𝐺 𝑡 𝑞 from the compressed graph, and then conducts 𝑘 -ANNS on 𝐺 𝑡 𝑞 as the query result. 
+
+Issues: When attempting to adapt existing dedicated approaches to address the RRANN problem, inherent issues become apparent. As follows, we meticulously analyze these approaches individu-ally. ➊ iRangeGraph: To enable iRangeGraph to support each object with a numerical range, we consider dividing each numerical range into multiple numerical values. Specifically, we can divide each [𝑙 𝑖 , 𝑟 𝑖 ] into numerical values, i.e., assuming each 𝑜 𝑖 has a nu-merical set I𝑖 = 𝐴 ∩ [ 𝑙 𝑖 , 𝑟 𝑖 ]. Hence, a PG of a segment tree node representing the range [𝑙, 𝑟 ] will contain the object 𝑜 𝑖 = (𝑣 𝑖 , I𝑖 )
+
+if [𝑙, 𝑟 ] ∩ I 𝑖 ≠ ∅. Like iRangeGraph, given a query range (𝑙 𝑞 , 𝑟 𝑞 ),we consider online forming a PG 𝐺 ′ containing objects that sat-isfy the RR predicate to transform the problem into 𝑘 -ANNS on 𝐺 ′.
+
+Issues : First, unlike the original iRangeGraph where each object ap-pears in at most 𝑂 (log 𝑛 ) tree nodes, each object appears in at most 
+
+𝑂 (log 𝑛 · |I 𝑖 |) tree nodes to deal with for RRANN queries, which sig-nificantly increases the index size and building time. Second, even with such a heavy index, it is still impossible to extract a PG that exactly contains the objects satisfying the arbitrary RR predicate. It is because the range of each object has been divided into multiple numerical values, which cannot process complex constraints on a range. For example, consider the atomic case 1○ where 𝑙 𝑖 ≤ 𝑙 𝑞 
+
+and 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 . The PGs extracted from the iRangeGraph contain objects in {𝑜 𝑖 = (𝑣 𝑖 , I𝑖 ) | I 𝑖 ∩ [ 𝑙 𝑞 , 𝑟 𝑞 ] ≠ ∅} , which cannot ensure 
+
+𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 nor 𝑙 𝑖 ≤ 𝑙 𝑞 . ➋ Hi-PNG: We consider directly utilizing Hi-PNG to support RRANN queries, since the object and query at-tributes of IFANN are the same as RRANN. Issues : Hi-PNG cannot support arbitrary RR predicates since they cannot always transform into the point-in-rectangle query (𝑙 𝑖 , 𝑟 𝑖 ) ∈ [ 𝑙 𝑞 , 𝑟 𝑞 ] × [ 𝑙 𝑞 , 𝑟 𝑞 ]. For ex-ample, considering the RR predicate 1○∨ 3○ where 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 
+
+or 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 , it cannot form a rectangle area. Furthermore, Hi-PNG needs 𝑘 -ANNS on multiple PGs and extra post-filtering operations on the results of some PGs, even within the IFANN pred-icate [𝑙 𝑖 , 𝑟 𝑖 ] ⊆ [ 𝑙 𝑞 , 𝑟 𝑞 ]. This results in the traversal of unnecessary nodes and their distance computations during the search process, ultimately compromising search efficiency. Exp. 4 (Fig. 8) demon-strates its poor search performance, with low QPS and failing to achieve high recall. ➌ TS-Graph: To enable TS-Graph support RR predicates, we consider dividing the query range [𝑙 𝑞 , 𝑟 𝑞 ] into a set I𝑞 = 𝐴 ∩ [ 𝑙 𝑞 , 𝑟 𝑞 ]. For querying, the results are merged from 
+
+|I𝑞 | TSANN separate queries, i.e., (𝑣 𝑞 , 𝑡 𝑗 ) for each 𝑡 𝑗 ∈ I𝑞 . Issues :First, this approach cannot support arbitrary RR predicates. Since TS-Graph finds objects satisfying 𝑡 𝑞 ∈ [ 𝑙 𝑖 , 𝑟 𝑖 ], |I𝑞 | TSANN separate queries will find objects {𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) | [ 𝑙 𝑞 , 𝑟 𝑞 ] ∩ [ 𝑙 𝑖 , 𝑟 𝑖 ] ≠ ∅} . It is just the disjunction of all four atomic cases instead of an arbitrary RR predicate. Second, for an RRANN query, TS-Graph needs |I𝑞 |
+
+queries, which suffers from a significant inefficiency issue, espe-cially when |I𝑞 | is big. Besides, TS-Graph cannot achieve high recall, as shown in Exp. 5 (Fig. 9). 
+
+4 Our Method 
+
+As discussed above, existing dedicated approaches do not support RRANN in an ideal manner. Hence, we aim to design a new index that can efficiently support RRANN with arbitrary RR predicates, ensuring that non-satisfying objects are bypassed for enhanced efficiency. We first consider the query-contained RR predicate (i.e., atomic condition 2○) in Sections 4.1-4.3. Next, we extend our index to support each of the four conditions outlined individually and consider any disjunctive combinations of them in Section 4.4. 
+
+4.1 Multi-Segment Tree Graph Index 
+
+Due to the excellent performance of iRangeGraph for RFANN, our initial attempt is to holistically utilize its segment tree-based index. First, we construct an iRangeGraph that manages the objects 
+
+{( 𝑣 𝑖 , 𝑟 𝑖 )|( 𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) ∈ 𝑂 }, enabling it to handle filter 𝑟 𝑖 ∈ [ 𝑟 𝑞 , +∞) .As to 𝑙 𝑖 ∈ (−∞ , 𝑙 𝑞 ], we build multi-segment trees. For simplicity, we define 𝑂 𝑥 = {𝑜 𝑖 |𝑜 𝑖 ∈ 𝑂, 𝑙 𝑖 ≤ 𝑎 𝑥 ∈ 𝐴 }, where 𝑎 𝑥 < 𝑎 𝑥 +1 for each 
+
+1 ≤ 𝑥 ≤ | 𝐴 | and 𝑎 |𝐴 |+ 1 = +∞ . For each 𝑂 𝑥 , we establish a segment tree based on 𝑟 𝑖 for each 𝑜 𝑖 ∈ 𝑂 𝑥 . Like iRangeGraph, we construct a PG for each node of the segment tree, and denote the graph index of 𝑂 𝑥 as 𝐺 𝑥 . For simplicity, we denote this new index as multi-segment tree graph (MSTG). Given a query 𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ), we first locate 𝐺 𝑥 where 𝑎 𝑥 ≤ 𝑙 𝑞 < 𝑎 𝑥 +1 (assuming 𝑎 |𝐴 |+ 1 = +∞ ). As 𝐺 𝑥 
+
+contains objects in 𝑂 𝑥 , each object 𝑜 𝑖 ∈ 𝑂 𝑥 meeting 𝑙 𝑖 ≤ 𝑙 𝑞 criteria is contained within 𝐺 𝑥 . Subsequently, we employ the segment tree within 𝐺 𝑥 to identify nodes covering the range [𝑟 𝑞 , +∞) . Since the segment tree in 𝐺 𝑥 is built based on 𝑟 𝑖 for each 𝑜 𝑖 ∈ 𝑂 𝑥 , the identified nodes in 𝐺 𝑥 adhere to 𝑟 𝑖 ≥ 𝑟 𝑞 and 𝑙 𝑖 ≤ 𝑙 𝑞 conditions. Given that 𝑙 𝑞 ≤ 𝑟 𝑞 holds for the query, this method effectively captures all nodes satisfying 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 .Therefore, by consolidating the PGs derived from nodes of 𝐺 𝑥 
+
+satisfying 𝑟 𝑖 ∈ [ 𝑟 𝑞 , +∞) into a new PG G, we can execute a 𝑘 -ANNS on G to retrieve the results of RRANN queries with query-contained filters (atomic condition 2○). It is important to note that constructing 
+
+G individually for each query is unnecessary, as it can be virtually formed during the search process. Considering G1, · · · , G𝑝 as the Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report] KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+𝑝 PGs derived from 𝐺 𝑥 , we can modify line 5 in Algorithm 4 to “for each 𝑣 ∈ 𝑁 G (𝑢 ) do ” for our search on MSTG. Here, 𝑁 G (𝑢 )
+
+is derived from 𝑁 G1 (𝑢 ) ∪ · · · ∪ 𝑁 G𝑝 (𝑢 ), and we can guarantee 
+
+|𝑁 G (𝑢 )| ≤ 𝑚 by a pruning strategy that prioritizes neighbors in higher layers close to the tree root. 
+
+Search Complexity : Our MSTG approach guarantees the search efficiency of RRANN with query-contained filters, as supported by Lemma D.1 shown and proved in Appendix D: the number 𝑝 
+
+of involved PGs during the search process ranges up to 𝑂 (log |𝐴 |) .Thus, the sole discrepancy in time complexity between our search algorithm and 𝑘 -ANN search lies at line 5 in Algorithm 4. In 𝑘 -ANN search, the complexity at line 5 is 𝑂 (𝑚𝑑 ), whereas in our method, it extends up to 𝑂 (𝑚 log |𝐴 | + 𝑚𝑑 ). Since log |𝐴 | is always much smaller than 𝑑 in practice, our search has a similar search complexity to the 𝑘 -ANN search on PGs. Moreover, our approach excels in its capability to completely avoid traversing nodes that fail to satisfy the query filter conditions. 
+
+Index Complexity : For the construction of MSTG, we initially sort the objects based on their 𝑙 𝑖 values. Subsequently, each 𝑂 𝑥 contains a prefix of the sorted object sequence. For every 𝑂 𝑥 (1 ≤ 𝑥 ≤ | 𝐴 |), we build an index 𝐺 𝑥 , which involves creating a segment tree based on {𝑟 𝑖 | 𝑜 𝑖 ∈ 𝑂 𝑥 } and then constructing a PG on the vectors in each tree node, which needs the same time as iRangeGraph. Hence, the indexing process requires a time complexity of 𝑂 (| 𝐴 | · 𝑇 𝑖𝑅𝐺 ), where 
+
+𝑇 𝑖𝑅𝐺 denotes the construction time of iRangeGraph. Moreover, the space complexity is 𝑂 (𝑛𝑚 |𝐴 | log |𝐴 |) , where 𝑚 represents the out-degree limit on each PG and 𝑛 indicates the number of objects in 
+
+𝑂 . Given that |𝐴 | may reach up to 𝑛 in the worst case, both index construction time and size incur significant costs. 
+
+4.2 Merged Multi-Segment Tree Graph Index 
+
+In this subsection, we explore the merging of MSTG to reduce its construction costs. Let us consider the consecutive construction of two graph indices 𝐺 𝑥 and 𝐺 𝑥 +1 in MSTG, which contains objects 
+
+{𝑜 𝑖 ∈ 𝑂 | 𝑙 𝑖 ≤ 𝑎 𝑥 } and {𝑜 𝑖 ∈ 𝑂 | 𝑙 𝑖 ≤ 𝑎 𝑥 +1 } respectively. The disparity in contained objects in 𝐺 𝑥 and 𝐺 𝑥 +1 is {𝑜 𝑖 ∈ 𝑂 | 𝑙 𝑖 = 𝑎 𝑥 +1 }.Hence, we contemplate creating 𝐺 𝑥 +1 by adding the vectors of objects in {𝑜 𝑖 ∈ 𝑂 | 𝑙 𝑖 = 𝑎 𝑥 +1 } into 𝐺 𝑥 . For simplicity, we opt to add one vector at a time, allowing for iterative additions. To add an object 𝑜 𝑖 = (𝑣 𝑖 , 𝑎 𝑥 +1, 𝑟 𝑖 ) in 𝐺 𝑥 , we can observe that the majority of nodes within the segment tree of 𝐺 𝑥 remain unaffected. This is because the segment tree is established based on {𝑟 𝑖 |𝑜 𝑖 =
+
+(𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) ∈ 𝑂 }. Hence, the inclusion of the object’s 𝑟 𝑖 solely impacts 
+
+𝑂 (log |𝐴 |) nodes within the segment tree, i.e., the nodes on the path from the root node to the leaf node containing 𝑟 𝑖 .
+
+Example 4.1: Consider the example depicted in Fig. 2. We insert 
+
+𝐷 into the segment tree T 1, which currently contains three objects 
+
+𝐴 , 𝐵 , and 𝐶 . Given that 𝑟 𝐷 = 2, the nodes along the path from the root node to the leaf node of 𝑟 𝐷 represent the ranges [1, 4], [1, 2],and [2, 2] respectively. Hence, we only need to update these three nodes, while the remaining nodes remain unchanged from T 1.As a result, to construct a new graph index by adding 𝑜 𝑖 into 
+
+𝐺 𝑥 , only 𝑂 (log |𝐴 |) nodes and their respective PGs need updating. The remaining nodes, devoid of redundant storage, can be directly incorporated into the new index by preserving the parent-child relationships between the new graph index and 𝐺 𝑥 . For example, 
+
+Algorithm 1 : InsertMSTG (𝑜 𝑖 , T 𝑥 , 𝐴, 𝑚 )                                                          
+
+> Input :𝑜 𝑖 : an object, T𝑥 : current segment tree, 𝐴 : the attribute set,
+> 𝑚 : the out-degree limit
+> Output : the new segment tree T
+> 𝑙 ←1;𝑟 ← | 𝐴 |;1
+> while 𝑙 <𝑟 do 2
+> T𝑙,𝑟 ← T 𝑥 𝑙,𝑟 ∪ { 𝑜 𝑖 }and T𝑙,𝑟 .𝐺 ←a PG of objects in T𝑙,𝑟 with 3
+> out-degree limit 𝑚 ;
+> if 𝑙 =𝑟 then break; 4
+> 𝛼 =⌊ ( 𝑙 +𝑟 )/ 2⌋;5
+> if 𝑟 𝑖 ≤𝛼 then T𝛼 +1,𝑟 ← T 𝑥 𝛼 +1,𝑟 ;𝑟 ←𝛼 ;6
+> else T𝑙,𝛼 ← T 𝑥 𝑙,𝛼 ;𝑙 ←𝛼 +1;7
+> return T8
+
+when inserting 𝐷 into T 1 as illustrated in Example 4.1, the root node representing [1, 4] and its left child [1, 2] become new nodes due to the insertion of 𝐷 , while the subtree rooted at the node representing [3, 4] remains unchanged. Thus, we can directly use a pointer to designate the node T 13,4 as its right child. Similarly, for the node representing [1, 2], we designate T 11,1 as its left child and create a node to serve as its right child. Thus, by sequentially adding each object of {𝑜 𝑖 ∈ 𝑂 | 𝑙 𝑖 = 𝑎 𝑥 +1 } into the current MSTG 𝐺 𝑥 , we build the MSTG 𝐺 𝑥 +1. More details are presented below. 
+
+Construction Algorithm : It starts from an empty segment tree 
+
+T 0, where each node in T 0 has already determined its range based on 𝑅 = {𝑟 𝑖 |𝑜 𝑖 ∈ 𝑂 }, although it contains no objects, as depicted in Fig. 2. Next, we insert each 𝑜 𝑖 ∈ 𝑂 into MSTG in ascending order of its 𝑙 𝑖 value, employing its 𝑟 𝑖 value as the key for segment tree insertion. This process constructs indexes T 1, · · · , T |𝐴 | , where T 𝑥 
+
+corresponds to the graph index 𝐺 𝑥 and manages 𝑂 𝑥 .When inserting an object 𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) into the current segment tree T 𝑥 , we represent each tree node in T 𝑥 by T 𝑥 𝑙,𝑟 , where [𝑙, 𝑟 ]
+
+indicates its range of 𝑟 𝑖 values, and denote its PG as T 𝑥 𝑙,𝑟 .𝐺 . For instance, T 𝑥  
+
+> 1,|𝐴 |
+
+denotes the root node of the segment tree T𝑥 . For a node T 𝑥 𝑙,𝑟 (where 𝑙 ≠ 𝑟 implies a non-leaf node) in T 𝑥 , its left-child node is T 𝑥 𝑙,𝛼 , and its right-child node is T 𝑥 𝛼 +1,𝑟 , where 𝛼 = ⌊( 𝑙 + 𝑟 )/ 2⌋.As in Algorithm 1, the recursive insertions start at root node T 𝑥 
+
+> 1,|𝐴 |
+
+(line 1). It reconstructs a new PG for nodes containing a newly added object (line 3), and proceeds to recursively add the object to the left-child or right-child node based on 𝑟 𝑖 (lines 6-7). The path from its non-recursive child directly points to the segment tree T𝑥 
+
+to streamline construction time. Next, as shown in Algorithm 2, we iteratively add objects to the current index. We first create a new empty segment tree T 0 based on 𝐴 (line 1). We then traverse the objects in the set 𝑂 in ascending order of 𝑙 𝑖 (line 3), adding each object to the current segment tree index T (line 4). Upon encountering 𝑙 𝑖 ≠ 𝑙 𝑖 +1 (line 5), the set {𝑜 𝑗 | 𝑗 ≤ 𝑖 } forms a set 𝑂 𝑥 ,indicating that the current T corresponds to T 𝑥 where 𝑎 𝑥 = 𝑙 𝑖 
+
+(lines 6-7). 
+
+Example 4.2: Referring back to Example 4.1 depicted in Fig. 2, we have 𝐴 = {1, 2, 3, 4}, and solid lines indicate newly created pointers to tree nodes, and dashed lines indicate reused tree nodes. Given that 𝑙 𝐴 = 𝑙 𝐵 = 𝑙 𝐶 ≠ 𝑙 𝐷 , the tree containing 𝐴 , 𝐵 , and 𝐶 is T 1. Next, we continue to insert 𝐸 . As 𝑟 𝐸 = 4, new tree nodes representing the ranges [1, 4], [3, 4], and [4, 4] are created, while other pointers KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiangtao Cui Objects                                                                                 
+
+> [𝑙 !,𝑟 !][1, 1][1, 1][1, 3][2, 2][2, 4][2, 2][3, 4][3, 3]
+> ABCDEFGH
+> AB
+> AB
+> ABC
+> C
+> C
+> 𝒯 !,!
+> !,𝒯 !,!
+> #,𝒯 !,!
+> $
+> 𝒯 !,#
+> !
+> 𝒯 $,$
+> !,𝒯 $,$
+> #
+> 𝒯 $,%
+> !
+> 𝒯 !,%
+> !ABC
+> C
+> D
+> E
+> E
+> E
+> AB
+> ABCD
+> D
+> D
+> EF
+> F
+> F
+> 𝒯 !,%
+> #
+> 𝒯 !,#
+> #,𝒯 !,#
+> $𝒯 $,%
+> #
+> 𝒯 %,%
+> #
+> AB
+> ABCD
+> D
+> D
+> 𝒯 #.#
+> #,𝒯 #.#
+> $
+> Insert A, B, C 𝓣 𝟏 Insert D Insert E Insert F 𝓣 𝟐
+> EGCH
+> 𝒯 $,%
+> $
+> 𝒯 !,%
+> $
+> Insert G Insert H 𝓣 𝟑
+> ABCDEFG
+> CEG
+> ABCDEFGH
+> CEGH
+> 𝒯 $,$
+> $
+> 𝒯 %,%
+> $
+
+Figure 2: The illustration of the merged MSTG Algorithm 2 : ConstructMSTG (𝑂, 𝐴, 𝑚 )
+
+Input : 𝑂 : the object set, 𝐴 = {𝑎 1, · · · , 𝑎 |𝐴 | }: the attribute set (𝑎 1 < · · · , 𝑎 |𝐴 | ), and 𝑚 : the out-degree limit 
+
+Output : The merged MSTG T1, · · · , T|𝐴 |
+
+build a segment tree T0 based on 𝐴 without objects; 1
+
+𝑥 ← 1;2
+
+for each 𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) ∈ 𝑂 in ascending order of 𝑙 𝑖 do 3
+
+T ← InsertMSTG (𝑜 𝑖 , T, 𝐴, 𝑚 ); 4
+
+if 𝑙 𝑖 ≠ 𝑙 𝑖 +1 then 5
+
+while 𝑎 𝑥 ≠ 𝑙 𝑖 do 𝑥 ← 𝑥 + 1;6
+
+T𝑥 ← T ; 𝑥 ← 𝑥 + 1;7
+
+return T1, · · · , T|𝐴 |8
+
+refer to tree nodes existing before the insertion. Upon inserting 𝐹 ,where 𝑟 𝐹 = 2, new tree nodes representing the ranges [1, 4], [1, 2],and [2, 2] are created. After insertion, finding that 𝑙 𝐹 ≠ 𝑙 𝐺 (line 5 in Algorithm 2), since 𝑎 𝑥 = 2, the current tree is T 2 (tree nodes highlighted in yellow, with T 21,1 in purple). Continuing with the insertion of objects 𝐺 and 𝐻 , we eventually have the tree T 3 (tree nodes are colored in purple) after inserting 𝐻 .
+
+Search Method: The search process remains consistent with the method in the last part. It first locates the index T 𝑥 where 𝑎 𝑥 ≤
+
+𝑙 𝑞 < 𝑎 𝑥 +1 (assuming 𝑎 |𝐴 |+ 1 = +∞ ), followed by identifying nodes with 𝑟 𝑖 ∈ [ 𝑟 𝑞 , +∞) in the segment tree within T 𝑥 . Next, it consoli-dates PGs in these nodes into G under the out-degree limit 𝑚 , and executes a 𝑘 -ANNS (Algorithm 4) on G to answer the query. 
+
+Index Complexity : First, let us analyze the building cost of a merged MSTG. Notably, building T𝑙,𝑟 .𝐺 in line 3 of Algorithm 1 does not necessitate building from scratch. It inserts 𝑜 𝑖 into T 𝑥 𝑙,𝑟 .𝐺 ,e.g., requiring only a 𝑘 -ANN search for 𝑣 𝑖 and a subsequent pruning when the PG is HNSW [ 15 ]. As each 𝑜 𝑖 ∈ 𝑂 is added into 𝑂 (log |𝐴 |) 
+
+nodes, the construction time amounts to 𝑂 (𝑛 log |𝐴 |𝑇 𝑖𝑛𝑠𝑒𝑟𝑡 ), where 
+
+𝑇 𝑖𝑛𝑠𝑒𝑟𝑡 denotes the cost of inserting a vector into the PG. When using HNSW, its building cost is the same as iRangeGraph [32]. Second, for space complexity, upon the insertion of a new ob-ject, 𝑂 (log |𝐴 |) new tree nodes are added, resulting in a total of 
+
+𝑂 (𝑛 log |𝐴 |) nodes. In the worst case, all nodes in the current in-dex are contained in the newly added 𝑂 (log |𝐴 |) tree nodes dur-ing each insertion. Hence, the merged MSTG requires a maxi-mum of 𝑂 (𝑛 2𝑚 log |𝐴 |) space, which is much larger than iRange-Graph. Even if we assume uniform attribute distribution for objects 
+
+𝑜 𝑖 ∈ 𝑂 , the existing nodes are expected to exist in the newly added 
+
+𝑂 (1 + 12 + 14 + · · · + 1 
+
+> 𝑥
+
+) = 𝑂 (1) tree nodes on average, where 𝑥 is 
+
+Algorithm 3 : InsertLabelHNSW (𝐺, 𝑜 𝑖 , 𝑚, 𝑒 𝑓 𝑐𝑜𝑛 )
+
+Input : 𝐺 : current HNSW, an object 𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ), 𝑚 : the out-degree limit, and a parameter 𝑒 𝑓 𝑐𝑜𝑛 for index 
+
+Output : The new HNSW index 𝐺 ′
+
+C ← KANNSearch (𝐺, 𝑣 𝑖 , 𝑒 𝑓 𝑐𝑜𝑛 , 𝑒 𝑓 𝑐𝑜𝑛 , 𝑒𝑝 ); 1
+
+utilize RNG pruning strategy to ensure | C | ≤ 𝑚 ;2
+
+𝐺 ′ ← 𝐺 ∪ { 𝑣 𝑖 }; 𝑥 ← 𝑗 s.t. 𝑙 𝑖 = 𝑎 𝑗 ∈ 𝐴 ;3
+
+for each 𝑢 ∈ C do 4
+
+add edges (𝑢, 𝑣 𝑖 ) and (𝑣 𝑖 , 𝑢 ) into 𝐺 ′ with label (𝑥, +∞) ;5
+
+if |𝑁 𝐺 ′ (𝑢 ) | > 𝑚 then 6
+
+𝑊 ← the neighbors pruned by RNG pruning on 𝑁 𝐺 ′ (𝑢 );7
+
+for each 𝑤 ∈ 𝑊 do 8
+
+(𝑏, 𝑒 ) ← the label of edge (𝑢, 𝑤 );9
+
+set the label of edge (𝑢, 𝑤 ) as (𝑏, 𝑥 − 1) in 𝐺 ′;10 
+
+return 𝐺 ′;11 
+
+the minimal value such that 2𝑥 ≥ | 𝐴 |. Hence, the space diminishes to 𝑂 (𝑛𝑚 |𝐴 |) , but it remains much larger than iRangeGraph. 
+
+4.3 Labeled Multi-Segment Tree Graph Index 
+
+In this part, we delve into compressing our MSTG index. As in Sec-tion 4.2, our approach theoretically matches the search performance of iRangeGraph, but suffers from substantial index size. Therefore, our goal here is to achieve a comparable index size to iRangeGraph in theory, while not losing index information during compression to ensure the search performance. In Section 4.2, we merge identical tree nodes, but similar tree nodes that continue to be observable in MSTG. For example, in Fig. 2, the tree node representing the range [3, 4] differs only in 
+
+𝐻 before and after inserting 𝐻 . The primary reason for this lies in line 3 of Algorithm 1, where the PG constructed for the tree node T𝑙,𝑟 is based on nodes T 𝑥 𝑙,𝑟 ∪ { 𝑜 𝑖 }, with the sole distinction being added object 𝑜 𝑖 . Consequently, the PG T𝑙,𝑟 .𝐺 closely resembles 
+
+T 𝑥 𝑙,𝑟 .𝐺 . For instance, when utilizing HNSW [ 15 ] as the PG in index, 
+
+T𝑙,𝑟 .𝐺 incorporates an additional node with 𝑚 edges into T 𝑥 𝑙,𝑟 .𝐺 . The disparities between T𝑙,𝑟 .𝐺 and T 𝑥 𝑙,𝑟 .𝐺 amount to one node and at most 𝑚 edges. Therefore, our approach only stores these differences without the need to fully restore an entire graph index. To be specific, the tree node represents a range [𝑙, 𝑟 ] in the segment tree from T 0 to T |𝐴 | , involving the incremental insertion of objects in ascending order of 𝑙 𝑖 . For instance, the PG from T 𝑥 𝑙,𝑟 
+
+to T 𝑥 +1 
+
+> 𝑙,𝑟
+
+involves adding objects {𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) ∈ 𝑂 | 𝑙 𝑖 = 𝑎 𝑥 +1 }.Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report] KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+Hence, we opt to utilize HNSW as the PG in our MSTG due to its inherent support for vector insertions. As shown in Algorithm 3, the addition of a single vector to the existing HNSW 𝐺 comprises three steps [15]: (1) executing an 
+
+𝑒 𝑓 𝑐𝑜𝑛 -ANNS on 𝐺 for the newly inserted vector 𝑣 𝑖 , where 𝑒 𝑓 𝑐𝑜𝑛 is a construction parameter of HNSW (line 1); (2) employing the RNG pruning strategy [ 35 ] to reduce 𝑒 𝑓 𝑐𝑜𝑛 -ANN to at most 𝑚 ones (line 2), denoted as C, and inserting |C| edges from 𝑣 𝑖 to nodes in C
+
+in 𝐺 ′ (lines 3-5); (3) linking the edges from nodes in 𝑁 𝐺 ′ (𝑣 𝑖 ) to the node 𝑣 𝑖 and subsequently applying the RNG pruning strategy to keep these nodes at most 𝑚 out-neighbors if necessary (lines 5-9). Thus, an edge inserted into 𝐺 ′ (line 5) might be removed later due to the RNG pruning strategy (line 7). Instead of maintaining 
+
+𝐺 and 𝐺 ′ separately, we opt to attach a label (𝑏, 𝑒 ) to each edge. This label signifies that the edge only exists in T 𝑏 , T 𝑏 +1, · · · , T 𝑒 ,where we identify a value 𝑥 such that 𝑙 𝑖 = 𝑎 𝑥 (line 3) and assign the corresponding edges a label of 𝑥 (lines 5,10). Therefore, storing 𝐺 
+
+becomes unnecessary when we have 𝐺 ′. Likewise, in Algorithm 2, we can omit T 1, · · · , T |𝐴 | − 1 since T |𝐴 | contains all edges included in T 1, · · · , T |𝐴 | − 1, and the labels of the edges can distinguish which multi-segment tree index they belong to. We can prove that our labeled MSTG retains all information in MSTG, the details are shown in Theorem D.1, which is included in Appendix D. 
+
+Index Complexity : For the construction time complexity, we do not introduce any additional operations but solely add labels when adding edges. Hence, the time cost remains consistent with the merged MSTG, aligning with iRangeGraph. For the space complex-ity, adding a new object into the existing index results in the addition of 𝑂 (log |𝐴 |) nodes in MSTG. Within the PG of each node, as previ-ously discussed, differences may arise on a maximum of 𝑂 (𝑚 ) edges. Consequently, the overall index size amounts to 𝑂 (𝑛𝑚 log |𝐴 |) , mir-roring that of iRangeGraph. Thus, in theory, we achieve equivalent index size and construction time to iRangeGraph, while completely avoiding the traversal of nodes that do not satisfy the query filter. 
+
+Discussion on Using Other Proximity Graphs : It is feasible to integrate other SOTA PG approaches into our MSTG, e.g., NSG [ 9], 
+
+𝜏 -MNG [ 20 ], CSPG [ 33 ], and ALMG [ 30 ]. The differentiating fac-tor is that these graphs do not inherently facilitate vector inser-tions. However, numerous approaches exist to support PG main-tenance [ 22 , 24 , 29 , 36 ]. Thus, by leveraging these techniques, any PG can be integrated into our MSTG index. 
+
+4.4 RRANN with Arbitrary RR Predicates 
+
+Here, we explore ways to handle the remaining three conditions by slight modifications to MSTG. 
+
+1○ Query Left-Overlap : An object 𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) satisfies the predicate 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 , which could be divided into two parts: 
+
+𝑙 𝑖 ≤ 𝑙 𝑞 and 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 . Therefore, we can directly utilize the MSTG built for case 2○. We first determine 𝑥 s.t. 𝑎 𝑥 ≤ 𝑙 𝑞 < 𝑎 𝑥 +1 (assuming 
+
+𝑎 |𝐴 |+ 1 = +∞ ), ensuring T 𝑥 contains all the objects satisfying 𝑙 𝑖 ≤ 𝑙 𝑞 .Notably, the segment tree within T 𝑥 is built on 𝑟 𝑖 , allowing the condition 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 to be covered by executing a range query 
+
+[𝑙 𝑞 , 𝑟 𝑞 ] on the segment tree. According to Lemma D.1, a maximum of 𝑂 (log 𝑛 ) nodes in the segment tree can cover the range [𝑙 𝑞 , 𝑟 𝑞 ].Hence, the remaining steps align with those for case 2○, involving a 𝑘 -ANN search on the PG virtually built from the PGs w.r.t. the segment tree nodes intersecting with [𝑙 𝑞 , 𝑟 𝑞 ].
+
+3○ Query Right-Overlap : In this case, an object 𝑜 𝑖 satisfies the query predicate when 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 , which contains two parts: 
+
+𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 and 𝑟 𝑞 ≤ 𝑟 𝑖 . We solve it by sequentially construct-ing T ′| 𝐴 | , T ′| 𝐴 | − 1, . . . , T ′1 through the insertion of objects 𝑜 𝑖 in descending order of 𝑟 𝑖 , where T ′𝑥 comprises objects {𝑜 𝑖 | 𝑟 𝑖 ≥ 𝑎 𝑥 }.Each object 𝑜 𝑖 is then inserted into T ′𝑥 if 𝑟 𝑖 = 𝑎 𝑥 , subsequently be-ing inserted into 𝑂 (log |𝐴 |) PGs on the segment tree nodes whose range encompasses 𝑙 𝑖 . For a query 𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ), the search first locates 𝑥 s.t. 𝑎 𝑥 −1 < 𝑟 𝑞 ≤ 𝑎 𝑥 (assuming 𝑎 0 = −∞ ), whereby T ′𝑥 
+
+comprises all objects in {𝑜 𝑖 | 𝑟 𝑖 ≥ 𝑟 𝑞 }. Then, it finds the segment tree nodes intersecting [𝑙 𝑞 , 𝑟 𝑞 ] in T ′𝑥 , followed by a 𝑘 -ANN search on the virtually merged PG of these nodes. 
+
+4○ Query-Containing : In this case, an object 𝑜 𝑖 satisfies the query predicate 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 . Since 𝑙 𝑖 ≤ 𝑟 𝑖 always holds, we can equivalently rephrase the condition as 𝑙 𝑞 ≤ 𝑙 𝑖 and 𝑟 𝑖 ≤ 𝑟 𝑞 . Hence, we can sequentially construct T ′′| 𝐴 | , T ′′| 𝐴 | − 1, . . . , T ′′ 1 by inserting objects 𝑜 𝑖 in descending order of 𝑙 𝑖 , where T ′′ 𝑥 includes objects 
+
+{𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) ∈ 𝑂 | 𝑙 𝑖 ≥ 𝑎 𝑥 }. Then, similar to T 𝑥 , each 𝑜 𝑖 is inserted into 𝑂 (log |𝐴 |) nodes’ PGs of T ′′ 𝑥 based on 𝑟 𝑖 . For a query 
+
+𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ), the process first determines 𝑥 s.t. 𝑎 𝑥 −1 < 𝑙 𝑞 ≤ 𝑎 𝑥 
+
+(assuming 𝑎 0 = −∞ ), whereby T ′′ 𝑥 contains all objects in {𝑜 𝑖 =
+
+(𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) ∈ 𝑂 | 𝑙 𝑖 ≥ 𝑙 𝑞 }. Then, it identifies the segment tree nodes intersecting with the range (−∞ , 𝑟 𝑞 ] in T ′′ 𝑥 , followed by a 𝑘 -ANNS on the virtually merged PG of these nodes. As discussed above, addressing RRANN with 4 atomic RR pred-icates requires 3 variants of MSTG indexes. A direct approach to a combined RR predicate, i.e., a disjunctive combination of these filters, builds three MSTG indexes separately, addresses each atomic filter individually, and finally merges the 𝑘 -ANN results from each atomic filter to derive the final outcomes. However, this method is inefficient for two primary reasons: (1) the construction of three MSTG indexes incurs a substantial index cost, and (2) it requires multiple individual queries for a single RRANN query. For exam-ple, a RR predicate 1○∨ 2○∨ 3○∨ 4○ demands four RRANN queries w.r.t. four atomic filters. The following theorem states that only a maximum of two distinct MSTG indexes are enough for process-ing RRANN queries with combined RR predicates; hence, we can efficiently address RRANN queries with arbitrary predicates by at most two searches. The proof is included in Appendix D. 
+
+Theorem 4.1: For an RRANN query involving any combined RR predicates, a maximum of two MSTG indexes and no more than two distinct searches are necessary to be conducted. 
+
+5 Experiments 
+
+In this section, we conduct extensive experiments on real-world datasets and report our findings. 
+
+Datasets : We utilize six real-world datasets in various domains, including image (Sift [ 1], Gist [ 1 ], WIT-Image [ 23 ]), text (Paper [ 25 ]), and image-text multimodality (Redcaps [ 7 ]). The statistics of the datasets and their queries are included in Appendix E. 
+
+Compared Algorithms and Parameters : We first compare our approach MSTG, with RRANN methods, as discussed in Section 3. The compared methods include (1) ACORN [ 19 ], (2) Post-filtering [ 24 ,KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiangtao Cui Pre-filtering Post-filtering Milvus ACORN-1 ACORN- MSTG 0.90 0.95 1.00                   
+
+> Recall@10
+> 10 2
+> 10 3
+> QPS
+> Sift (sel=5%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Gist (sel=5%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> WIT-Image (sel=5%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Paper (sel=5%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Redcaps (sel=5%) 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> QPS
+> Sift (sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Gist (sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 1
+> 10 2
+> 10 3
+> WIT-Image (sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Paper (sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Redcaps (sel=10%)
+
+Figure 3: Overall query performance of RRANN (Exp. 1) 0.90 0.95 0.99        
+
+> Recall@10
+> 10 1
+> 10 3
+> QPS
+> Sift (sel=0.1%)
+> Post-filtering ACORN-1
+> 0.90 0.95 0.99
+> Recall@10
+> 10 1
+> 10 3
+> Sift (sel=0.5%)
+> ACORN-γMilvus
+> 0.90 0.95 0.99
+> Recall@10
+> 10 1
+> 10 3
+> Sift (sel=1%)
+> Pre-filtering MSTG
+
+Figure 4: RRANN performance with low selectivities (Exp. 1) Post-filtering Milvus ACORN-1 ACORN- MSTG Sift Gist WIT-Image Paper Redcaps     
+
+> 10 1
+> 10 2
+> 10 3
+> 10 4
+> Index time (s)
+> (a) Index time
+> Sift Gist WIT-Image Paper Redcaps
+> 10 0
+> 10 1
+> 10 2
+> 10 3
+> 10 4
+> Index size (MB)
+> (b) Index size
+
+Figure 5: Indexing costs of RRANN queries (Exp. 2) 
+
+28 ], (3) Pre-filtering [ 24 , 28 , 37 ], and (4) Milvus [ 24 ]. Since RFANN could be treated as a special case of our RRANN problem, our method naturally supports RFANN queries and thus we compare MSTG with the SOTA RFANN methods: (5) 2DSegmentGraph [ 39 ], (6) HSIG [ 13 ], (7) SuperPostfiltering [ 8 ], and (8) iRangeGraph [ 32 ]. As TSANN and IFANN are also two special cases of RRANN, we compare MSTG with (9) TS-Graph [ 27 ] for TSANN queries and (10) Hi-PNG [ 34 ] for IFANN queries, respectively. Their parameter settings and details can be found in Appendix E. 
+
+Performance Indicators : We employ recall at 𝑘 (Recall@k) and relative distance error (RDE) to measure the search accuracy. Re-call@k is the ratio of successfully retrieved ground truth 𝑘 -NN to 
+
+𝑘 -ANN, while RDE is the relative distance error between ground truth 𝑘 -NN and 𝑘 -ANN. For a query 𝑞 , RDE is computed as 
+
+1/𝑘 Í𝑘 𝑖 =1 (𝛿 (𝑞, 𝑝 𝑖 )/ 𝛿 (𝑞, 𝑝 ∗
+
+𝑖 )) − 1, where 𝑝 𝑖 is the 𝑖 -th neighbor in retrieved 𝑘 -ANN and 𝑝 ∗
+
+𝑖 is the 𝑖 -th ground truth neighbor. Search efficiency is assessed by the number of queries processed per second (QPS). All experiments are averaged over five independent runs. The environment of experiments are shown in Appendix E. 
+
+Exp. 1: Query Performance of RRANN Queries. We evaluate the query performance of our method and other baselines on RRANN queries, where the RR predicates is set as 1○∨ 2○∨ 3○∨ 4○. Fig. 3 presents the QPS–recall curves with 5% and 10% selectivities. Our method MSTG, consistently surpasses all baselines, particularly achieving 5.2x–12.5x higher QPS with the same recall compared to the best competitor ACORN-𝛾 , across all datasets with Recall@10 as 0.99 and selectivity as 5%. Moreover, MSTG stands out as the sole method capable of attaining a high QPS at high recall. On Gist with a selectivity of 5%, Post-filtering falls short of achieving a recall of 0.95, and ACORN-1 struggles to reach a recall of 0.9 with the same QPS level as Pre-filtering. As selectivity rises to 10%, these baselines show modest performance improvements due to enhanced graph connectivity, but still face challenges in achieving a high recall level. Similarly, MSTG presents significant advantages in the search performance of low-selectivity RRANN queries, as presented in Figure 4 with 𝑠𝑒𝑙 set as 0.1%, 0.5% and 1%, respectively. Moreover, our method presents similar advantages over the baselines, as measured by RDE, as shown in Fig. 11 of Appendix F. 
+
+Exp. 2: Indexing Cost. We evaluate the indexing cost of all meth-ods on RRANN queries in terms of construction time and index size, as shown in Fig. 5. General-purpose approaches such as Post-filtering, Milvus, ACORN-1, and ACORN-𝛾 exhibit relatively low construction overhead, but leads to poor RRANN search perfor-mance. Although Milvus uses the same HNSW parameters as Post-filtering, its construction time is higher due to the additional scalar index. Compared to ACORN-𝛾 , MSTG trades slightly more indexing time for notably better query performance. The index size exhibits a similar trend, i.e., most general-purpose methods occupy relatively little space. However, on Gist and WIT-Image, Milvus consumes more index space due to its segmented storage. Overall, although MSTG does not excel in indexing time or index size, its superior query performance makes it a worthwhile trade-off. 
+
+Exp. 3: Performance of RFANN Queries. Since RFANN is a special case of RRANN, MSTG naturally supports RFANN queries. Hence, we compare it with the SOTA RFANN methods in Fig. 6 with the query selectivity as 10%. In general, MSTG significantly outperforms all the baselines except iRangeGraph in RFANN search performance. MSTG and iRangeGraph are theoretically expected to yield comparable performance, which is verified in this exper-iment. Both MSTG and iRangeGraph build the PG for the subset satisfying the query filter in an online and virtual manner and con-duct 𝑘 -ANNS on the PG without verifying out-of-range candidates, which leads to their superior performance. Moreover, we report the indexing time and index size in Fig. 7. The indexing cost of Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report] KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Pre-filtering Milvus ACORN-1 ACORN- 2DSegmentGraph HSIG SuperPostfiltering iRangeGraph Hi-PNG MSTG 0.90 0.95 1.00         
+
+> Recall@10
+> 10 2
+> 10 3
+> 10 4
+> QPS
+> Sift(sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Gist(sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 1
+> 10 2
+> 10 3
+> WIT(sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> 10 4
+> Sift(sel=1%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> 10 4
+> Sift(sel=5%)
+
+Figure 6: Query performance on RFANN queries (Exp. 3) Milvus ACORN-1 ACORN-γ 2DSegmentGraph HSIG             
+
+> SuperPostfiltering iRangeGraph Hi-PNG TS-Graph MSTG Sift Gist WIT-Image Paper Redcaps
+> 10 1
+> 10 2
+> 10 3
+> 10 4
+> Index Time (s)
+> (a) Index time
+> Sift Gist WIT-Image Paper Redcaps
+> 10 2
+> 10 3
+> 10 4
+> Index Size (MB)
+> (b) Index size
+
+Figure 7: Indexing costs (Exp. 3&4&5) 0.70 0.80 0.90 1.00        
+
+> Recall@10
+> 10 3
+> 10 4
+> QPS
+> Sift (sel=10%)
+> 0.70 0.80 0.90 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Gist (sel=10%)
+> 0.70 0.80 0.90 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Redcaps (sel=10%)
+> MSTG Hi-PNG
+
+Figure 8: Query performance of IFANN queries (Exp. 4) 
+
+MSTG is comparable to iRangeGraph, but higher than others, ex-cept SuperPostfiltering. The index size of MSTG is slightly larger than iRangeGraph, since MSTG contains extra label information. 
+
+Exp. 4: Performance of IFANN Queries. Since IFANN is a special case of RRANN, MSTG naturally supports IFANN queries. Hence, we compare it with the SOTA IFANN method, i.e., Hi-PNG [ 34 ], in Fig. 8. MSTG significantly outperforms Hi-PNG. This is because Hi-PNG has to conduct 𝑘 -ANNS on multiple PGs, rather than only one in MSTG, and verify candidates that do not satisfy the query filter. We compare the index costs in index time and index size bewteen our method and Hi-PNG in Figure 7. Compared with Hi-PNG, although more time and space are required to build our index, as objects may need to be stored in multiple PGs, this process guarantees significantly improved performance. 
+
+Exp. 5: Performance of TSANN Queries. Since TSANN is a special case of RRANN, MSTG naturally supports TSANN queries. Here, we compare MSTG with the SOTA TSANN method, i.e., TS-Graph in Fig. 9. We can see that MSTG significantly outperforms TS-Graph. Moreover, our index building time and space require-ments are significantly lower compared to TS-Graph, as shown in Figure 7. To be specific, on Gist, TS-Graph needs over 10,000 sec-onds to construct its index of size 11.44 GB, whereas we complete the process in 2,300 seconds with an index of size 1.21 GB. 
+
+Exp. 6: Scalability of Our Method. We test the scalability of our method by sampling various-sized subsets of Sift50M, the large-scale dataset widely used for scalability tests. We show the search performance and index cost in Fig. 10. We can see that the search performance gradually decreases and the index cost in both time and space steadily increases as the data size grows. Hence, MSTG could be well scaled to large data. 0.90 0.95 1.00      
+
+> Recall@10
+> 10 3
+> QPS
+> Sift (sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Gist (sel=10%)
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Redcaps (sel=10%)
+> MSTG Timestamp
+
+Figure 9: Query performance of TSANN queries (Exp. 5) 0.90 0.95 1.00         
+
+> Recall@10
+> 10 1
+> 10 3
+> QPS
+> (a) Search performance
+> SIFT1M
+> SIFT5M
+> SIFT10M
+> SIFT25M
+> SIFT50M
+> 1M 5M 10M 25M 50M
+> Dataset size
+> 10 2
+> 10 3
+> 10 4
+> 10 5
+> 10 6
+> Index time (s)
+> (b) Index time
+> 1M 5M 10M 25M 50M
+> Dataset size
+> 10 0
+> 10 1
+> 10 2
+> 10 3
+> Index size (GB)
+> (c) Index size
+
+Figure 10: Scalability evaluation of MSTG (Exp. 6) Other Experiments: Due to the space limit, we put other impor-tant experiments in Appendix F. Specifically, we investigate the impact of query selectivity, attribute distribution, and the cardinal-ity of 𝐴 on the performance of RRANN queries in Exp.s 7, 8, and 10, respectively. We also explore the effects of parameter 𝑘 , 𝑒 𝑓 𝑐𝑜𝑛 , and 
+
+𝑀 on the performance of our method in Exp.s 11-13, respectively. We compare our MSTG with the Oracle-HNSW, which is built solely on 𝑂 [𝑅 𝑞 ] in Exp. 8, to demonstrate the effectiveness of our method. We also present the comparisons of RRANN methods with relative distance error (RDE) as the accuracy measure. 
+
+6 Conclusion 
+
+In this paper, we propose MSTG index to solve the RRANN problem, the 𝑘 -ANNS with various RR predicates, which is the first attempt to solve this problem in a general view, to the best of our knowledge. Extensive experiments demonstrate that our approach significantly outperforms competitors in RRANN search performance by up to 12.5x efficiency with the same recall level. For RFANN, our ap-proach has comparable performance compared to the SOTA method iRangeGraph, while for TSANN and IFANN, our method achieves much superior search performance compared to the SOTA methods by up to more than one order of magnitude on efficiency. 
+
+Acknowledgments 
+
+This work was supported in part by the Jing-Jin-Ji Regional Inte-grated Environmental Improvement-National Science and Technol-ogy Major Project of Ministry of Ecology and Environment of China (No. 2025ZD1200600), and the National Natural Science Foundation of China (No. 62372352). KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiangtao Cui 
+
+References 
+
+[1] 2010. Datasets for approximate nearest neighbor search. http://corpus-texmex. irisa.fr/. [2] James F. Allen. 1983. Maintaining Knowledge about Temporal Intervals. Commun. ACM 26, 11 (1983), 832–843. [3] Ilias Azizi, Karima Echihabi, and Themis Palpanas. 2023. Elpis: Graph-Based Similarity Search for Scalable Data Science. Proc. VLDB Endow. 16, 6 (2023), 1548–1559. [4] Ilias Azizi, Karima Echihabi, and Themis Palpanas. 2025. Graph-Based Vector Search: An Experimental Evaluation of the State-of-the-Art. Proc. ACM Manag. Data 3, 1 (2025), 43:1–43:31. [5] Yuzheng Cai, Jiayang Shi, Yizhuo Chen, and Weiguo Zheng. 2024. Navigating La-bels and Vectors: A Unified Approach to Filtered Approximate Nearest Neighbor Search. Proceedings of the ACM on Management of Data 2, 6 (2024), 1–27. [6] Yangshen Deng, Zhengxin You, Long Xiang, Qilong Li, Peiqi Yuan, Zhaoyang Hong, Yitao Zheng, Wanting Li, Runzhong Li, Haotian Liu, Kyriakos Mouratidis, Man Lung Yiu, Huan Li, Qiaomu Shen, Rui Mao, and Bo Tang. 2025. AlayaDB: The Data Foundation for Efficient and Effective Long-context LLM Inference. 
+
+CoRR abs/2504.10326 (2025). [7] Karan Desai, Gaurav Kaul, Zubin Aysola, and Justin Johnson. 2021. Redcaps: Web-curated image-text data created by the people, for the people. arXiv preprint arXiv:2111.11431 (2021). [8] Josh Engels, Ben Landrum, Shangdi Yu, Laxman Dhulipala, and Julian Shun. 2024. Approximate Nearest Neighbor Search with Window Filters. In ICML . 12469 – 12490. [9] Cong Fu, Chao Xiang, Changxu Wang, and Deng Cai. 2019. Fast approximate nearest neighbor search with the navigating spreading-out graph. PVLDB 12, 5 (2019), 461–474. [10] Siddharth Gollapudi, Neel Karia, Varun Sivashankar, Ravishankar Krishnaswamy, Nikit Begwani, Swapnil Raz, Yiyong Lin, Yin Zhang, Neelam Mahapatro, Premku-mar Srinivasan, et al . 2023. Filtered-diskann: Graph algorithms for approximate nearest neighbor search with filters. In Proceedings of the ACM Web Conference 2023 . 3406–3416. [11] Mengxu Jiang, Zhi Yang, Fangyuan Zhang, Guanhao Hou, Jieming Shi, Wenchao Zhou, Feifei Li, and Sibo Wang. 2025. DIGRA: A Dynamic Graph Indexing for Approximate Nearest Neighbor Search with Range Filter. Proc. ACM Manag. Data 
+
+3, 3 (2025), 148:1–148:26. [12] Wen Li, Ying Zhang, Yifang Sun, Wei Wang, Mingjie Li, Wenjie Zhang, and Xuemin Lin. 2019. Approximate nearest neighbor search on high dimensional data – experiments, analyses, and improvement. IEEE TKDE 32, 8 (2019), 1475– 1488. [13] Anqi Liang, Pengcheng Zhang, Bin Yao, Zhongpu Chen, Yitong Song, and Guangxu Cheng. 2025. UNIFY: Unified Index for Range Filtered Approximate Nearest Neighbors Search. Proc. VLDB Endow. 18, 4 (May 2025), 1118–1130. [14] Shige Liu, Zhifang Zeng, Li Chen, Adil Ainihaer, Arun Ramasami, Songting Chen, Yu Xu, Mingxi Wu, and Jianguo Wang. 2025. TigerVector: Supporting Vector Search in Graph Databases for Advanced RAGs. CoRR abs/2501.11216 (2025). [15] Yury Malkov and Dmitry Yashunin. 2018. Efficient and robust approximate nearest neighbor search using hierarchical navigable small world graphs. IEEE TPAMI 42, 4 (2018), 824–836. [16] Tomas Mikolov, Ilya Sutskever, Kai Chen, Greg S Corrado, and Jeff Dean. 2013. Distributed representations of words and phrases and their compositionality. 
+
+NeurIPS 26 (2013). [17] Nasser M Nasrabadi and Robert A King. 1988. Image coding using vector quanti-zation: A review. IEEE Transactions on communications 36, 8 (1988), 957–971. [18] James Jie Pan, Jianguo Wang, and Guoliang Li. 2024. Survey of vector database management systems. VLDB J. 33, 5 (2024), 1591–1615. [19] Liana Patel, Peter Kraft, Carlos Guestrin, and Matei Zaharia. 2024. ACORN: Per-formant and Predicate-Agnostic Search Over Vector Embeddings and Structured Data. Proceedings of the ACM on Management of Data 2, 3 (2024), 1 – 27. [20] Yun Peng, Byron Choi, Tsz Nam Chan, Jianye Yang, and Jianliang Xu. 2023. Efficient Approximate Nearest Neighbor Search in Multi-dimensional Databases. 
+
+Proc. ACM Manag. Data 1, 1 (2023), 54:1–54:27. [21] Hanan Samet. 1984. The quadtree and related hierarchical data structures. Com-put. Surveys 16, 2 (1984), 187–260. [22] Aditi Singh, Suhas Jayaram Subramanya, Ravishankar Krishnaswamy, and Har-sha Vardhan Simhadri. 2021. FreshDiskANN: A Fast and Accurate Graph-Based ANN Index for Streaming Similarity Search. CoRR abs/2105.09613 (2021). [23] Krishna Srinivasan, Karthik Raman, Jiecao Chen, Michael Bendersky, and Marc Najork. 2021. Wit: Wikipedia-based image text dataset for multimodal multi-lingual machine learning. In Proceedings of the 44th international ACM SIGIR conference on research and development in information retrieval . 2443–2449. [24] Jianguo Wang, Xiaomeng Yi, Rentong Guo, Hai Jin, Peng Xu, Shengjun Li, Xi-angyu Wang, Xiangzhou Guo, Chengming Li, Xiaohai Xu, Kun Yu, Yuxing Yuan, Yinghao Zou, Jiquan Long, Yudong Cai, Zhenxiang Li, Zhifeng Zhang, Yihua Mo, Jun Gu, Ruiyi Jiang, Yi Wei, and Charles Xie. 2021. Milvus: A Purpose-Built Vector Data Management System. In SIGMOD ’21: International Conference on Management of Data . ACM, 2614–2627. [25] Mengzhao Wang, Lingwei Lv, Xiaoliang Xu, Yuxiang Wang, Qiang Yue, and Jiongkang Ni. 2023. An efficient and robust framework for approximate near-est neighbor search with attribute constraint. Advances in Neural Information Processing Systems 36 (2023), 15738–15751. [26] Mengzhao Wang, Xiaoliang Xu, Qiang Yue, and Yuxiang Wang. 2021. A Com-prehensive Survey and Experimental Comparison of Graph-Based Approximate Nearest Neighbor Search. PVLDB 14, 11 (2021), 1964–1978. [27] Yuxiang Wang, Ziyuan He, Yongxin Tong, Zimu Zhou, and Yiman Zhong. 2025. Timestamp Approximate Nearest Neighbor Search over High-Dimensional Vector Data. In ICDE . IEEE Computer Society, 3043–3055. [28] Chuangxian Wei, Bin Wu, Sheng Wang, Renjie Lou, Chaoqun Zhan, Feifei Li, and Yuanzhe Cai. 2020. AnalyticDB-V: A Hybrid Analytical Engine Towards Query Fusion for Structured and Unstructured Data. PVLDB 13, 12 (2020), 3152–3165. [29] Jiadong Xie, Jeffrey Xu Yu, and Yingfan Liu. 2025. Fast Approximate Similarity Join in Vector Databases. Proc. ACM Manag. Data 3, 3 (2025), 158:1–158:26. [30] Jiadong Xie, Jeffrey Xu Yu, and Yingfan Liu. 2025. Graph Based K-Nearest Neighbor Search Revisited. ACM Trans. Database Syst. (May 2025). [31] Jiadong Xie, Jeffrey Xu Yu, Siyi Teng, and Yingfan Liu. 2025. Beyond Vector Search: Querying With and Without Predicates. Proc. ACM Manag. Data 3, 6 (2025), 1–26. [32] Yuexuan Xu, Jianyang Gao, Yutong Gou, Cheng Long, and Christian S Jensen. 2025. iRangeGraph: Improvising Range-dedicated Graphs for Range-filtering Nearest Neighbor Search. Proceedings of the ACM on Management of Data 2, 6 (2025), 1–26. [33] Ming Yang, Yuzheng Cai, and Weiguo Zheng. 2024. CSPG: Crossing Sparse Proximity Graphs for Approximate Nearest Neighbor Search. In NeurIPS 2024 .[34] Ming Yang, Yuzheng Cai, and Weiguo Zheng. 2025. Hi-PNG: Efficient Interval-Filtering ANNS via Hierarchical Interval Partition Navigating Graph. In SIGKDD .3518–3529. [35] Shuo Yang, Jiadong Xie, Yingfan Liu, Jeffrey Xu Yu, Xiyue Gao, Qianru Wang, Yanguo Peng, and Jiangtao Cui. 2025. Revisiting the Index Construction of Proximity Graph-Based Approximate Nearest Neighbor Search. PVLDB 18, 6 (2025), 1825–1838. [36] Song Yu, Shengyuan Lin, Shufeng Gong, Yongqing Xie, Ruicheng Liu, Yijie Zhou, Ji Sun, Yanfeng Zhang, Guoliang Li, and Ge Yu. 2025. A Topology-Aware Localized Update Strategy for Graph-Based ANN Index. CoRR abs/2503.00402 (2025). [37] Qianxi Zhang, Shuotao Xu, Qi Chen, Guoxin Sui, Jiadong Xie, Zhizhen Cai, Yaoqi Chen, Yinxuan He, Yuqing Yang, Fan Yang, Mao Yang, and Lidong Zhou. 2023. VBASE: Unifying Online Vector Similarity Search and Relational Queries via Relaxed Monotonicity. In 17th USENIX Symposium on Operating Systems Design and Implementation, OSDI 2023 . USENIX Association, 377–395. [38] Yifan Zhu, Lu Chen, Yunjun Gao, Ruiyao Ma, Baihua Zheng, and Jingwen Zhao. 2024. HJG: An Effective Hierarchical Joint Graph for ANNS in Multi-Metric Spaces. In ICDE . IEEE, 4275–4287. [39] Chaoji Zuo, Miao Qiao, Wenchao Zhou, Feifei Li, and Dong Deng. 2024. SeRF: Segment Graph for Range-Filtering Approximate Nearest Neighbor Search. Pro-ceedings of the ACM on Management of Data 2, 1 (2024), 1 – 26. 
+
+A Atomic RR Predicates vs Base Relations of Allen’s Interval Algebra 
+
+Allen’s Interval Algebra defines a total of 13 base relations between two intervals/ranges. Let 𝑋 = [𝑙 𝑞 , 𝑟 𝑞 ] and 𝑌 = [𝑙 𝑖 , 𝑟 𝑖 ]. We show that 11 of those 13 relations could be represented by our four atomic RR predicates as shown in Fig. 1. 
+
+• 𝑋 m 𝑌 ⇐⇒ 𝑙 𝑞 ≤ 𝑟 𝑞 = 𝑙 𝑖 ≤ 𝑟 𝑖 is a special case of 3 ○
+
+• 𝑋 mi 𝑌 ⇐⇒ 𝑙 𝑖 ≤ 𝑟 𝑖 = 𝑙 𝑞 ≤ 𝑟 𝑞 is a special case of 1 ○
+
+• 𝑋 o 𝑌 ⇐⇒ 𝑙 𝑞 < 𝑙 𝑖 < 𝑟 𝑞 < 𝑟 𝑖 is a special case of 3 ○
+
+• 𝑋 oi 𝑌 ⇐⇒ 𝑙 𝑖 < 𝑙 𝑞 < 𝑟 𝑖 < 𝑟 𝑞 is a special case of 1 ○
+
+• 𝑋 s 𝑌 ⇐⇒ 𝑙 𝑞 = 𝑙 𝑖 < 𝑟 𝑞 < 𝑟 𝑖 is a special case of 2 ○
+
+• 𝑋 si 𝑌 ⇐⇒ 𝑙 𝑖 = 𝑙 𝑞 < 𝑟 𝑖 < 𝑟 𝑞 is a special case of 4 ○
+
+• 𝑋 d 𝑌 ⇐⇒ 𝑙 𝑖 < 𝑙 𝑞 < 𝑟 𝑞 < 𝑟 𝑖 is a special case of 2 ○
+
+• 𝑋 di 𝑌 ⇐⇒ 𝑙 𝑞 < 𝑙 𝑖 < 𝑟 𝑖 < 𝑟 𝑞 is a special case of 4 ○
+
+• 𝑋 f 𝑌 ⇐⇒ 𝑙 𝑖 < 𝑙 𝑞 < 𝑟 𝑞 = 𝑟 𝑖 is a special case of 2 ○
+
+• 𝑋 fi 𝑌 ⇐⇒ 𝑙 𝑞 < 𝑙 𝑖 < 𝑟 𝑖 = 𝑟 𝑞 is a special case of 4 ○
+
+• 𝑋 = 𝑌 ⇐⇒ 𝑙 𝑖 = 𝑙 𝑞 < 𝑟 𝑖 = 𝑟 𝑞 is a special case of 2 ○
+
+The remaining two relations <, > mean no intersections between 
+
+𝑋 and 𝑌 , which could not be represented by our four atomic RR predicates. But, they can still be supported by MSTG. To be specific, Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report] KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+Algorithm 4 : KANNSearch (𝐺, 𝑞, 𝑘, 𝐿, 𝑒𝑝 )                                             
+
+> Input : PG 𝐺 , query 𝑞 ,𝑘 , pool width 𝐿 and entering point 𝑒𝑝
+> Output :𝑘 -ANN of query point 𝑞 𝑖 ←0;1
+> 𝑝𝑜𝑜𝑙 [0] ← ( 𝑒𝑝, 𝑑𝑖𝑠𝑡 (𝑞, 𝑒𝑝 ) ) ;2
+> while 𝑖 <𝐿 do 3
+> 𝑢 ←𝑝𝑜𝑜𝑙 [𝑖 ];4
+> for each 𝑣 ∈𝑁 𝐺 (𝑢 )do 5
+> insert (𝑣, 𝑑𝑖𝑠𝑡 (𝑞, 𝑣 ) ) into 𝑝𝑜𝑜𝑙 ;6
+> sort 𝑝𝑜𝑜𝑙 and keep the 𝐿 closest neighbors; 7
+> 𝑖 ←index of the first unexpanded vertex in 𝑝𝑜𝑜𝑙 ;8
+> return 𝑝𝑜𝑜𝑙 [0, . . . , 𝑘 −1]9
+
+𝑋 < 𝑌 requires 𝑙 𝑞 ≤ 𝑟 𝑞 < 𝑙 𝑖 ≤ 𝑟 𝑖 , which could be reduced to the RFANN filter 𝑟 𝑞 < 𝑙 𝑖 since 𝑙 𝑞 ≤ 𝑟 𝑞 and 𝑙 𝑖 ≤ 𝑟 𝑖 holds according to the definitions of the object range and query range. Similarly, 𝑌 < 𝑋 is reduced to 𝑟 𝑖 < 𝑙 𝑞 . Since our method is able to solve RFANN queries, MSTG could address the filters of both 𝑋 < 𝑌 and 𝑌 < 𝑋 .
+
+B Details of Algorithms 
+
+Search Algorithm over A PG: As shown in Algorithm 4, the search process starts from an entering point 𝑒𝑝 and puts it in a sorted array 𝑝𝑜𝑜𝑙 of nodes, which is maintained to store the cur-rently found 𝐿 -closest neighbors (lines 1-2). Then, it iteratively extracts the closest but unexpanded neighbor 𝑢 from 𝑝𝑜𝑜𝑙 (line 4) and expands 𝑢 to refine 𝑝𝑜𝑜𝑙 , until the termination condition is satisfied (line 3). In each iteration, expanding 𝑢 for 𝑞 is shown in Lines 5-7, where each neighbor 𝑣 ∈ 𝑁 𝐺 (𝑢 ) is treated as a 𝑘 -ANN candidate of 𝑞 (line 5) and further verified by an expensive distance computation (line 6) to refine 𝑝𝑜𝑜𝑙 (line 7). At the end of each itera-tion (line 8), the algorithm finds the closest but unexpanded vertex in 𝑝𝑜𝑜𝑙 as the next one to be expanded. It terminates when the first 
+
+𝐿 vertices in 𝑝𝑜𝑜𝑙 have been expanded (line 3). 
+
+C Details of General-Purpose Approaches 
+
+General-purpose methods, which support 𝑘 -ANNS with arbitrary filters, including pre-filtering [ 24 , 28 , 37 ], post-filtering [ 24 , 28 ], Milvus [24], VBASE [37], and ACORN [19]. Pre-filtering [ 24 , 28 , 37 ] involves initially retrieving a subset of objects that satisfy the query predicate and then generating the results on this subset by the brute-force scan. It is easy to imple-ment, but it is only efficient for low-selectivity filters. Conversely, post-filtering [ 24 , 28 ] first performs 𝑘 -ANNS on the entire set of objects and returns 𝑘 ′ (𝑘 ′ ≥ 𝑘 ) objects that are subsequently veri-fied by the query filter. However, it is challenging to determine the appropriate 𝑘 ′. A small 𝑘 ′ value may result in an insufficient num-ber of qualified results returned, while a large 𝑘 ′ value decreases the search efficiency. Therefore, Milvus [ 24 ] determines 𝑘 ′ in a progressive manner, where 𝑘 ′ starts from 𝑘 and then is doubled until ≥ 𝑘 qualified results can be returned after the filtering on the 
+
+𝑘 ′-ANN obtained. However, Milvus is still inefficient for multiple 
+
+𝑘 ′-ANNS. VBASE [ 37 ] introduces a new search algorithm with two phases. First, it ignores the query predicate and directs the search towards the 1-ANN of the query vector. Second, it considers the query predicate, i.e., greedily traverses the nodes that satisfy the query predicate on PG as in Algorithm 4. Moreover, ACORN [ 19 ]employs a graph index with enlarged node out-degree, i.e., con-sidering 2-hop neighbors as neighbors in the new graph for each node. During the search process, ACORN follows the procedure of Algorithm 4, but only traverses the neighbors in 𝑁 𝐺 (𝑢 ) that satisfy the query predicate in line 5 of Algorithm 4. 
+
+D Lemmas, Theorems and Proofs 
+
+Lemma D.1: Consider a segment tree 𝑇 constructed based on elements from a numeric attribute 𝐴 . For any arbitrary range [𝑙 𝑞 , 𝑟 𝑞 ], let 𝑝 be the smallest value such that there exist 𝑝 nodes in 𝑇 where the union range indicated by these 𝑝 nodes is {𝑎 𝑖 ∈ 𝐴 | 𝑙 𝑞 ≤ 𝑎 𝑖 ≤ 𝑟 𝑞 }. The value of 𝑝 is bounded by 𝑂 (log |𝐴 |) .
+
+Proof Sketch: For each arbitrary range [𝑙 𝑞 , 𝑟 𝑞 ] as a query, we can initiate the search for these nodes from the root node and apply recursion to its two child nodes whenever the node only partially overlaps (i.e., is not entirely contained) within the query range. At each level of the segment tree, a maximum of two nodes are partially overlapping with the query range, necessitating additional recursion. Given that the depth of the tree is 𝑂 (log |𝐴 |) , the number of such nodes, denoted as 𝑝 , is constrained by 𝑂 (log |𝐴 |) . □
+
+Theorem D.1: For a given 𝑥 ∈ [ 1, |𝐴 |] , consider a tree node T 𝑥 𝑙,𝑟 
+
+in MSTG. Let 𝐺 𝑥 be the induced subgraph, where the label (𝑏, 𝑒 ) of each edge in 𝐺 𝑥 satisfying 𝑥 ∈ [ 𝑏, 𝑒 ], from the tree node T |𝐴 | 
+
+> 𝑙,𝑟
+
+in the labeled MSTG. Under the same parameters 𝑒 𝑓 𝑐𝑜𝑛 and 𝑚 , the PG T 𝑥 𝑙,𝑟 .𝐺 
+
+in MSTG is identical to the induced 𝐺 𝑥 in the labeled MSTG. 
+
+Proof Sketch: Firstly, when 𝑥 = 1, the edges in 𝐺 1 are the edges of the HNSW containing objects {𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) | 𝑙 𝑖 = 𝑎 1 ∧ 𝑟 𝑖 ∈ [ 𝑙, 𝑟 ]} ,since no other edges’ range include 1. Hence, 𝐺 1 is identical to T 1 
+
+> 𝑙,𝑟
+
+.𝐺 .Assume that for 𝑥 = 𝑦 ∈ [ 1, 𝑛 ), we have 𝐺 𝑦 is identical to T 𝑦 𝑙,𝑟 .𝐺 , we prove below that when 𝑥 = 𝑦 + 1, we have 𝐺 𝑥 is identical to PG in 
+
+T 𝑥 𝑙,𝑟 .𝐺 . Let 𝐺 ′ = 𝐺 𝑥 be the HNSW graph being constructed before inserting objects 𝑂 ′ 
+
+> 𝑥 +1
+
+= {𝑜 𝑖 = (𝑣 𝑖 , 𝑙 𝑖 , 𝑟 𝑖 ) ∈ 𝑂 | 𝑙 𝑖 = 𝑎 𝑥 +1∧𝑟 𝑖 ∈ [ 𝑙, 𝑟 ]} .Compare the graph 𝐺 ′ and the PG T 𝑥 +1 
+
+> 𝑙,𝑟
+
+.𝐺 , the differences lie in the additional edges connecting nodes of 𝑂 ′
+
+> 𝑥 +1
+
+, and the removal due to the RNG pruning strategy. Considering the insertion of objects in 
+
+𝑂 ′ 
+
+> 𝑥 +1
+
+one by one into 𝐺 𝑥 in Algorithm 3 to obtain 𝐺 𝑥 +1, the edges from each inserted objects in 𝑂 𝑥 +1 is labeled with [𝑥 + 1, +∞] (line 5) and the edges pruned with labeled with [𝑏, 𝑥 ] (line 10). Hence, the labeled range of inserted edges included 𝑥 + 1 and the removed edges excluded 𝑥 + 1, which leads to 𝐺 𝑥 +1 being identical to the PG 
+
+T 𝑥 +1 
+
+> 𝑙,𝑟
+
+.𝐺 . This completes the induction. □
+
+Proof Sketch of Theorem 4.1: We first discuss the cases of dis-junction between two conditions. 
+
+𝑅 𝑞 is 1○∨ 2○: Since 𝑙 𝑞 ≤ 𝑟 𝑞 and 𝑙 𝑖 ≤ 𝑟 𝑖 always hold, the conditions 
+
+(𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 ) ∨ ( 𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ) ⇔ ( 𝑙 𝑖 ≤ 𝑙 𝑞 ) ∧ (( 𝑙 𝑞 ≤ 𝑟 𝑖 ≤
+
+𝑟 𝑞 ) ∨ ( 𝑟 𝑞 ≤ 𝑟 𝑖 )) ⇔ ( 𝑙 𝑖 ≤ 𝑙 𝑞 ) ∧ ( 𝑟 𝑖 ≥ 𝑙 𝑞 ). Therefore, we can utilize a single MSTG T to answer to a query 𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ) by identifying a value of 𝑥 where 𝑎 𝑥 ≤ 𝑙 𝑞 < 𝑎 𝑥 +1 (assuming 𝑎 |𝐴 |+ 1 = +∞ ), and querying the range [𝑙 𝑞 , +∞] in the segment tree of T 𝑥 .
+
+𝑅 𝑞 is 2○∨ 3○: Since 𝑙 𝑞 ≤ 𝑟 𝑞 and 𝑙 𝑖 ≤ 𝑟 𝑖 always hold, the conditions 
+
+(𝑙 𝑖 ≤ 𝑙 𝑞 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ) ∨ ( 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ) ⇔ (( 𝑙 𝑖 ≤ 𝑙 𝑞 ) ∨ ( 𝑙 𝑞 ≤ 𝑙 𝑖 ≤
+
+𝑟 𝑞 )) ∧ ( 𝑟 𝑞 ≤ 𝑟 𝑖 ) ⇔ ( 𝑙 𝑖 ≤ 𝑟 𝑞 ) ∧ ( 𝑟 𝑞 ≤ 𝑟 𝑖 ). Therefore, we can utilize a single MSTG T to answer to a query 𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ) by identifying KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiangtao Cui 
+
+a value of 𝑥 where 𝑎 𝑥 ≤ 𝑟 𝑞 < 𝑎 𝑥 +1 (assuming 𝑎 |𝐴 |+ 1 = +∞ ), and querying the range [𝑟 𝑞 , +∞] in the segment tree of T 𝑥 .
+
+𝑅 𝑞 is 3○∨ 4○: Since 𝑙 𝑞 ≤ 𝑟 𝑞 and 𝑙 𝑖 ≤ 𝑟 𝑖 always hold, the conditions 
+
+(𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ≤ 𝑟 𝑖 ) ∨ ( 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 ) ⇔ ( 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ) ∧ (( 𝑟 𝑞 ≤
+
+𝑟 𝑖 ) ∨ ( 𝑙 𝑞 ≤ 𝑟 𝑖 ≤ 𝑟 𝑞 )) ⇔ ( 𝑙 𝑞 ≤ 𝑙 𝑖 ≤ 𝑟 𝑞 ) ∧ ( 𝑟 𝑖 ≥ 𝑙 𝑞 ). Therefore, we can utilize a single MSTG T ′ to answer to a query 𝑞 = (𝑣 𝑞 , 𝑙 𝑞 , 𝑟 𝑞 ) by identifying a value of 𝑥 where 𝑎 𝑥 −1 < 𝑙 𝑞 ≤ 𝑎 𝑥 (assuming 𝑎 0 = −∞ ), and querying the range [𝑙 𝑞 , 𝑟 𝑞 ] in the segment tree of T ′𝑥 .Therefore, the above three RR predicates, the disjunctions of two cases, only require one MSTG. This means we need at most two MSTG indexes to address the RR predicates of (1) the disjunction of any three cases or (2) the disjunction of four cases. For example, when 𝑅 𝑞 is 1○∨ 2○∨ 3○∨ 4○, we can merge the results of RRANN queries with 𝑅 𝑞 as 1○∨ 2○ and 𝑅 𝑞 as 3○∨ 4○ respectively to derive the final results. In conclusion, a RRANN query with any combined RR predi-cates requires at most two MSTG indexes and at most two separate searches to merge their results for the final result. □
+
+E Experimental Settings 
+
+Table 3: Statistics of datasets Dataset #vectors #queries dim. type                         
+
+> Sift 1,000,000 10,000 128 Image Gist 1,000,000 1000 960 Image WIT-Image 1,000,000 1,000 2,048 Image Paper 1,000,000 10,000 200 Text Redcaps 1,000,000 1,000 512 Image & Text Sift50M 50,000,000 10,000 128 Image
+
+Details of Datasets: The data statistics are summarized in Table 3, where #vectors represents the dataset size, #queries the number of queries, and dim. the vector dimensionality. Sift50M, sampled from Sift1B [ 1 ], is utilized to test the scalability of MSTG. For Sift, Gist and Paper, the original query vectors are provided. For Redcaps, 1,000 query vectors are generated by prompting ChatGPT-4 to create queries for an image search system and embedding them using CLIP. For WIT-Image, as in [ 32 ], 1,000 query vectors are randomly sampled from the dataset. As to the attribute ranges, we assign the vectors the ranges in [0, 10 4) with various distributions, including uniform, long-tail, normal, Poisson, and Zipf, where uniform is the default setting unless specified. As to the single attribute value in RFANN and TSANN, we assign numerical encodings of categorical attributes, image sizes and timestamps to objects in Paper, WIT-Image and Redcaps respectively, while randomly generated values in Sift and Gist as in [ 13 , 32 ]. The query ranges are randomly determined according to the specified selectivity, i.e., the ratio of objects satisfying the query filter. 
+
+Compared Algorithms and Parameters : We first compare our approach MSTG , with RRANN methods in Section 3. For each method, we use recommended or default parameters if pro-vided. Otherwise, we tune them for the best performance. (1) ACORN [ 19 ]: ACORN has two versions: ACORN-𝛾 and ACORN-
+
+1, which enlarge the neighbor list of each node in index construction and search phases, respectively. For ACORN-𝛾 , we set 𝑀 = 32 and 
+
+𝑀 𝛽 = 64 , where 𝛾 = 12 obtained through grid search. Other param-eters retain the default ones. ACORN-1 shares the same parameters as ACORN-𝛾 except 𝛾 = 1. (2) Post-filtering [ 24 , 28 ]: Post-filtering first retrieves 𝑘 ′
+
+-ANN ( 𝑘 ′
+
+≥ 𝑘 ) with HNSW, and then applies fil-tering to them to derive the final 𝑘 results. We set 𝑀 = 16 and 
+
+𝑒 𝑓 𝑐𝑜𝑛 = 200 to build the HNSW index via a grid search. 𝑘 ′
+
+is also se-lected by grid search for each dataset. (3) Pre-filtering [ 24 , 28 , 37 ]:No parameter needs to be tuned for pre-filtering. (4) Milvus [ 24 ]:Milvus partitions the dataset based on attribute value ranges and em-ploys a cost model to select between pre-filtering and post-filtering for each subset. It uses HNSW as the vector index and STL_SORT 
+
+as the scalar index to accelerate the filtering. For fairness, its pa-rameters are aligned with post-filtering. VBASE [ 37 ] is excluded from our comparison due to its poor performance [ 8 , 32 ]. Filtered-Vamana [ 10 ], StitchedVamana [ 10 ], and UNG [ 5] are also excluded. Specifically, FilteredVamana and UNG suffer from huge construc-tion costs caused by 10 4 labels used in our experiments. UNG effi-ciently supports only a few dozen labels [ 5]. As to StitchedVamana, its construction frequently encounters out-of-memory errors. Since RFANN is a special case of RRANN, our method natu-rally supports RFANN queries and thus we compare MSTG with the SOTA RFANN methods. (5) 2DSegmentGraph [ 39 ]: As rec-ommended in [ 39 ], we set 𝑀 = 64 and 𝐾 = 100 for WIT-Image. Following [ 32 ], we set 𝑀 = 32 and 𝐾 = 100 for Redcaps. For the rest, we use 𝑀 = 16 and 𝐾 = 200 via a grid search. (6) HSIG [ 13 ]: HSIG samples a subset of objects and constructs PGs over partitioned data to facilitate RFANN queries. According to [ 13 ], we determine 
+
+𝑆 = 8, 𝑀 = 16 , and 𝑒 𝑓 𝑐𝑜𝑛 = 500 , retaining default values for other parameters. (7) SuperPostfiltering [ 8 ]: SuperPostfiltering first determines multiple overlapping ranges and establishes a graph index for each range. During search, it selects the smallest covering range and applies post-filtering on the corresponding index. As per [ 8], we set 𝑚 = 64 , 𝐸𝐹 = 500 , and 𝛽 = 2 for all datasets. (8) iRangeGraph [ 32 ]: As in [ 32 ], we set 𝑀 = 64 and 𝑒 𝑓 𝑐𝑜𝑛 = 400 for RedCaps, 𝑀 = 64 and 𝑒 𝑓 𝑐𝑜𝑛 = 100 for WIT-Image, and 𝑀 = 16 and 
+
+𝑒 𝑓 𝑐𝑜𝑛 = 200 for the remaining ones based on grid search. As TSANN and IFANN are two special cases of RRANN, we compare MSTG with (9) TS-Graph [27 ] for TSANN queries and 
+
+(10) Hi-PNG [34 ] for IFANN queries, respectively. Following the parameter settings outlined in their paper, we configured 𝑀 =
+
+16 , 𝑀 ′ = 200 , and 𝜇 = 8 for TS-Graph, and 𝑀 = 32 , 𝑒 𝑓 𝑐𝑜𝑛 = 128 for Hi-PNG. We opt for HNSW as the PG index for Hi-PNG due to its best performance as shown in [34]. Our approach, (11) MSTG , has two parameters in the construc-tion of HNSW for each segment tree node, i.e., (1) 𝑀 that defines the maximum out-degree per node, and (2) 𝑒 𝑓 𝑐𝑜𝑛 that specifies the size of the candidate neighbor list. Through a grid search, we set 
+
+𝑀 = 32 and 𝑒 𝑓 𝑐𝑜𝑛 = 200 for all range filtering queries, i.e., RRANN, RFANN, IFANN, and TSANN. 
+
+Computing Environment : The experiments are conducted on a server equipped with an Intel(R) Xeon(R) CPU E5-2682 v4 CPU @2.50GHz and 64 GB DRAM, whose OS version is Ubuntu 22.04 LTS, except the scalability test (Exp. 13) that is run on the server with two Intel Xeon Gold 6238 @ 2.10GHz and 1TB DRAM. All codes were written in C++ and compiled by g++ 11.4.0 with -O3 flag. SIMD instructions are enabled to accelerate distance computations. The index construction uses 16 threads, while the search performance is evaluated using a single thread. Generalized Range Filtering Approximate Nearest Neighbor Search: Containment and Overlap [Technical Report] KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+F Results of Other Experiments 
+
+Exp. 1: Overall query performance of RRANN Queries. As shown in Fig. 11, our method MSTG significantly outperforms all its competitors for RRANN queries, with RDE as the accuracy measure. This result is consistent with that in Fig. 3, where 𝑅𝑒𝑐𝑎𝑙𝑙 @𝑘 is employed as the accuracy measure. Pre-filtering Post-filtering Milvus ACORN-1 ACORN- MSTG 5 10 20 30 40                 
+
+> Selectivity (%)
+> 10 2
+> 10 3
+> QPS
+> Sift
+> 510 20 30 40
+> Selectivity (%)
+> 10 1
+> 10 2
+> Gist
+> 510 20 30 40
+> Selectivity (%)
+> 10 1
+> 10 2
+> WIT-Image
+> 510 20 30 40
+> Selectivity (%)
+> 10 2
+> 10 3
+> Paper
+> 510 20 30 40
+> Selectivity (%)
+> 10 1
+> 10 2
+> Redcaps
+
+Figure 12: Impact of query selectivity of RRANN (Exp. 7) Exp. 7: Impact of Query Selectivity. As shown in Fig. 12, we vary the query selectivity across {5% , 10% , 20% , 30% , 40% } and report QPS at Recall@10 at 0.99. We exclude the methods that fail to achieve Recall@k=0.99 and QPS<10. We can see that MSTG outperforms its competitors in various selectivity levels. Moreover, its efficiency decreases as the selectivity increases. Notably, the performance of Post-filtering improves as selectivity rises, especially on Sift and Paper, because each member of 𝑘 ′
+
+-ANN has a growing probability of passing the filter, which thus reduces the unnecessary exploration. 
+
+Exp. 8: Impact of Attribute Distribution We vary the attribute distributions of datasets, and present the effect of them on RRANN search performance in Fig. 13, where we employ five different distributions, i.e., long-tail, normal, Poisson, uniform, and Zipf, to generate the attribute values. From the results, our method, MSTG, consistently outperforms its competitors in various distributions. Oracle-HNSW MSTG 0.90 0.95 1.00     
+
+> Recall@10
+> 10 2
+> 10 3
+> QPS
+> Gist
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> WIT-Image
+> 0.90 0.95 1.00
+> Recall@10
+> 10 2
+> 10 3
+> Redcaps
+
+Figure 14: MSTG vs. Oracle-HNSW (Exp. 9) Exp. 9: MSTG vs. Oracle-HNSW. As aforementioned, our primary goal is to achieve search performance comparable to 𝑘 -ANN search on a PG. Here, we compare MSTG with Oracle-HNSW, where a specific HNSW is constructed for each query to manage the vectors satisfying the query filter. Note that Oracle-HNSW is not a practical solution, because building such an HNSW for each query is un-feasible due to the impossibility of knowing the query in advance. As shown in Fig. 14, MSTG achieves performance comparable to Oracle-HNSW when the query selectivity is 5% on Gist, WIT-Image, and Redcaps. This is because MSTG builds the PG for the vectors satisfying the query filter in an online and virtual manner, resulting in a slightly extra cost during search. Similar phenomena could be observed on other datasets and selectivity values, which are omitted due to space limitations. ACORN- MSTG 1 5 10 50 100          
+
+> #|A| (×10 3)
+> 10 1
+> 10 2
+> 10 3
+> QPS
+> Gist
+> 1510 50 100
+> #|A| (×10 3)
+> 10 2
+> 10 3WIT-Image
+> 1510 50 100
+> #|A| (×10 3)
+> 10 1
+> 10 2
+> Redcaps
+
+Figure 15: Impact of the Cardinality of 𝐴 (Exp. 10) Exp. 10: Impact of the Cardinality of 𝐴 . We vary the size of the attribute 𝐴 from 10 3 and 10 5 to show its effect on the RRANN performance. As shown in Fig. 15, where the query selectivity is 5% and Recall@10 = 0.99, both MSTG and ACORN-𝛾 maintain stable QPS for various |𝐴 | values. We exclude other methods, since their QPS values are below 10 in this setting. k=10 k=25 k=50 k=75 k=100 0.90 0.95 1.00     
+
+> Recall@k
+> 10 2
+> 10 3
+> QPS
+> Gist
+> 0.90 0.95 1.00
+> Recall@k
+> 10 2
+> 10 3
+> WIT-Image
+> 0.90 0.95 1.00
+> Recall@k
+> 10 2
+> 10 3
+> Redcaps
+
+Figure 16: Impact of 𝑘 values (Exp. 11) Exp. 11: Impact of 𝑘 . Fig. 16 presents the impact of 𝑘 on the performance of MSTG. As 𝑘 increases from 10 to 100, a gradual decrease in RRANN search performance is observed, due to the increased number of verified candidates for the same accuracy. 
+
+Exp. 12: Impact of Parameter 𝑒 𝑓 𝑐𝑜𝑛 . Fig. 17 shows the impact of 𝑒 𝑓 𝑐𝑜𝑛 on search with query selectivity as 5% on Gist. We can see that increasing 𝑒 𝑓 𝑐𝑜𝑛 slightly improves the search performance, because a larger 𝑒 𝑓 𝑐𝑜𝑛 indicates more candidate neighbors for prun-ing, which enhances the quality of the built HNSW at the expense of construction cost. Moreover, once 𝑒 𝑓 𝑐𝑜𝑛 reaches 200, further in-creasing 𝑒 𝑓 𝑐𝑜𝑛 yields negligible performance gains. Thus, we set 
+
+𝑒 𝑓 𝑐𝑜𝑛 = 200 by default in our experiments. 
+
+Exp. 13: Impact of Parameter 𝑀 . Fig. 18 shows the impact of 
+
+𝑀 , which controls the upper bound of node out-degree in HNSW. Increasing 𝑀 leads to better performance from 8 to 16, where the QPS at Recall@10 = 0.90 nearly doubles, due to improved graph connectivity. However, further increasing 𝑀 yields only marginal improvements while significantly increasing the building cost. To strike a balance between search performance and construction efficiency, we set 𝑀 = 32 in our experiments. KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yingfan Liu, Tong Wu, Jiadong Xie, Yang Zhao, Jeffrey Xu Yu, and Jiangtao Cui Pre-filtering Post-filtering Milvus ACORN-1 ACORN- MSTG 0.0020 0.0015 0.0010 0.0005 0.0000 
+
+RDE 
+
+10 2
+
+10 3
+
+> QPS
+
+Sift (sel=10%) 
+
+0.0020 0.0015 0.0010 0.0005 0.0000 
+
+RDE 
+
+10 2
+
+Gist (sel=10%) 
+
+0.0020 0.0015 0.0010 0.0005 0.0000 
+
+RDE 
+
+10 1
+
+10 2
+
+WIT-Image (sel=10%) 
+
+0.0020 0.0015 0.0010 0.0005 0.0000 
+
+RDE 
+
+10 2
+
+10 3
+
+Paper (sel=10%) 
+
+0.0020 0.0015 0.0010 0.0005 0.0000 
+
+RDE 
+
+10 2
+
+10 3
+
+Redcaps (sel=10%) 
+
+Figure 11: Overall query performance of RRANN with RDE as the accuracy measure (Exp. 1) Milvus ACORN-1 ACORN- Post-filtering Pre-filtering MSTG 0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+> QPS
+
+Long-tail (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Normal (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Poisson (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Uniform (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Zipf (sel=10%) 0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+> QPS
+
+Long-tail (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Normal (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Poisson (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Uniform (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Zipf (sel=10%) 
+
+Figure 13: The impact of attribute distribution on RRANN search performance (Exp. 8). Two lines represent the results of Sift and Gist, respectively. 50 100 200 400 0.90 0.95 1.00 
+
+Recall@10 
+
+10 3
+
+> QPS
+
+Sift (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 3
+
+Gist (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+WIT-Image (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 3
+
+Paper (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Redcaps (sel=10%) 
+
+Figure 17: Impact of 𝑒 𝑓 𝑐𝑜𝑛 values (Exp. 12) 8 16 32 64 0.90 0.95 1.00 
+
+Recall@10 
+
+10 3
+
+> QPS
+
+Sift (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+Gist (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+10 3
+
+WIT-Image (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 3
+
+10 4 Paper (sel=10%) 
+
+0.90 0.95 1.00 
+
+Recall@10 
+
+10 2
+
+Redcaps (sel=10%) 
+
+Figure 18: Impact of 𝑀 values (Exp. 13)

@@ -1,0 +1,62 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.23668v1/fig-007.webp",
+      "caption": "Figure 2: Overview of OnePred. Top: the recursive intent memory mechanism. At each turn, the model receives only the previous memory mt−1 and the current observation (qt, rt), and outputs an updated memory mt. Bottom: the two-stage RL training pipeline. Stage 1 (Full-History RL) treats the entire conversation as a single-step input and directly optimizes prediction. Stage 2 (Agentic Memory RL) trains the model to predict through its memory alone over a multi-turn trajectory, broadcasting the final-turn reward to all preceding memory-update steps.",
+      "page": 4,
+      "index": 7,
+      "width": 854,
+      "height": 425
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23668v1/fig-002.webp",
+      "caption": "Table 3: Main results on the three NQP-Bench subsets. For each subset, we report both the LLM-judge score (Judge) and the human evaluation score (Human). Rows are grouped by model regime: Gemini-3.1-Pro, Base Qwen, and RL-trained Qwen. The last two columns report metric-wise averages across the three subsets.",
+      "page": 7,
+      "index": 2,
+      "width": 950,
+      "height": 366
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23668v1/fig-006.webp",
+      "caption": "Figure 4: Performance by dialogue length on NQP-Wild with RL-trained Qwen. OnePred retains 97% performance on long dialogues (≥10 turns), while Full-history and Current-turn degrade more sharply.",
+      "page": 8,
+      "index": 6,
+      "width": 453,
+      "height": 305
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23668v1/fig-004.webp",
+      "caption": "Figure 5: Sunburst charts detailing the hierarchical intent taxonomy and their distributions. The datasets demonstrate high diversity across knowledge-seeking, reasoning, and generative tasks.",
+      "page": 13,
+      "index": 4,
+      "width": 946,
+      "height": 483
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23668v1/fig-005.webp",
+      "caption": "Figure 6: Distribution of conversation lengths. The benchmark retains a significant proportion of long conversations (≥ 10 turns), establishing a robust testbed for evaluating memory and cross-turn intent tracking.",
+      "page": 13,
+      "index": 5,
+      "width": 447,
+      "height": 716
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23668v1/fig-003.webp",
+      "caption": "Table 7: Comparison with additional baselines on NQPWild (Gemini-3.1-Pro, zero-shot). All methods use the same model without task-specific training, isolating the effect of history interface design.",
+      "page": 14,
+      "index": 3,
+      "width": 461,
+      "height": 427
+    },
+    {
+      "url": "assets/figures/arxiv/2605.23668v1/fig-001.webp",
+      "caption": "Figure 9: Qualitative example from NQP-Wild. Left: abbreviated user queries from a 13-turn conversation spanning four topic clusters (assistant responses omitted). Right: four representative snapshots of the recursive memory (excerpted; the full memory is updated at every turn). The memory compresses 17.6K characters into 338 characters (52×) while preserving the cross-topic intent trajectory, enabling an exact intent match with the ground-truth next query.",
+      "page": 15,
+      "index": 1,
+      "width": 948,
+      "height": 740
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29500v1/fig-003.webp",
+      "caption": "Figure 1: From trajectory IS to quotient-DAG weighting. (a) Trajectory IS assigns a likelihood ratio to each realized path. (b) The rollout tree shares prefixes but still represents distinct historyprefix nodes, even with repeated state labels. (c) A quotient DAG merges evaluation-equivalent prefixes into multi-parent nodes such as z4. The quotient likelihood ratio is the forward-flow ratio Fπ(z)/Fβ(z), not any single path ratio. each policy defines its forward flow, and the appropriate likelihood ratio is the target-to-behavior flow ratio Fπ(z)/Fβ(z). Per-decision IS, marginalized IS, and known-abstraction MIS are special cases of this construction, corresponding to different choices of equivalence relation.",
+      "page": 2,
+      "index": 3,
+      "width": 746,
+      "height": 252
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29500v1/fig-004.webp",
+      "caption": "Table 1: Finite-horizon MDP validation. Flows use logged trajectories only. Bold marks the lowest RMSE within each benchmark. †Neural GenDICE’s saddle-point optimization did not converge (defined as |V − V π| > 1) in 18/50 Sepsis and 14/50 ICU-Sepsis trials; reported statistics are on the 32 and 36 converged trials. Full 50-trial statistics are in Appendix G.",
+      "page": 7,
+      "index": 4,
+      "width": 386,
+      "height": 340
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29500v1/fig-006.webp",
+      "caption": "Figure 2: KuaiRec scaling. Left: joint slate-propensity wall-clock time for K!-enumeration, ForwardDP, and Gumbel-MC as slate size K increases; enumeration is extrapolated beyond K = 8, and Gumbel-MC uses 3 × 106 samples. Forward-DP avoids factorial enumeration while remaining exact. Right: downstream OPE RMSE for trajectory weights (OIS, DR) versus forward-flow weights (FF-OIS, FF-DR), using nusers = 300 and ntrials = 200. Within each K, the forward-flow variants reduce RMSE relative to their trajectory-weighted counterparts.",
+      "page": 8,
+      "index": 6,
+      "width": 660,
+      "height": 309
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29500v1/fig-002.webp",
+      "caption": "Table 4: Empirical violation of set-sufficiency under non-canonicalized prefix orderings on KuaiRec (M = 15, item-letter prompts). Two subset-sampling distributions are compared: random draws S ⊆ [M ] uniformly; β-induced draws S as the prefix at step |S| of a canonicalized β trajectory of length Kmax=8. Each row reports the median, 90th percentile, and mean (over user/subset draws) of the maximum pairwise TVD across orderings of S. Set-sufficiency requires all entries to be exactly 0; the larger entries on β-induced rows therefore quantify the bias the OPE estimator actually encounters under the deployed behavior policy. Each cell uses 160 (user, subset) draws.",
+      "page": 21,
+      "index": 2,
+      "width": 640,
+      "height": 379
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29500v1/fig-005.webp",
+      "caption": "Figure 3: Bias versus standard-deviation decomposition of RMSE on the finite-horizon MDP benchmarks (visualizing Table 1). Bars on log scale. STAR on Sepsis and FQE on ICU-Sepsis are biasdominated; OIS is variance-dominated on both benchmarks; the DICE-family estimators (DualDICE, GenDICE) are bias-dominated on both, with bias an order of magnitude larger than FF-WIS; FF-OIS and FF-WIS are small on both axes. GenDICE bars use trimmed-trial statistics (see Table 1).",
+      "page": 23,
+      "index": 5,
+      "width": 822,
+      "height": 415
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29500v1/fig-001.webp",
+      "caption": "Figure 4: K = 4 off-policy model-selection metrics by estimator (visualizing Table 3). Higher is better for top-1 and Spearman; lower is better for regret. Best per panel: Tree-DR (top-1, Spearman) and DP-OPCB-DR (regret), both Forward-DP-enabled.",
+      "page": 25,
+      "index": 1,
+      "width": 821,
+      "height": 592
+    }
+  ]
+}
