@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26554v1/fig-001.webp",
+      "caption": "Figure 1. Linear Results. Comparison of LDB-DF (Ours) vs. LDB-Ignore. (a) Synthetic data. (b) Aggregated performance on Prompt Optimization.",
+      "page": 7,
+      "index": 1,
+      "width": 442,
+      "height": 594
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26554v1/fig-002.webp",
+      "caption": "Figure 2. Neural Results. Comparison of NDB-DF (Ours) vs. NDB-Ignore. (a) Quadratic synthetic. (b) Cubic synthetic. (c) Aggregated Neural Prompt Optimization.",
+      "page": 8,
+      "index": 2,
+      "width": 408,
+      "height": 831
+    }
+  ]
+}

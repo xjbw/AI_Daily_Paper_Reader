@@ -1,0 +1,110 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-004.webp",
+      "caption": "Figure 1: Informedness–speed tradeoff across heuristics; higher is better on each. Scores are calculated across the 203 test tasks solved by all heuristics, and each task is normalized by the performance of FF before a geometric mean is taken. To increase the number of commonly solved tasks, we only include heuristics that solve at least a third of the tasks. Our evolved blind-seed heuristics (orange stars) span this Pareto frontier of strong baselines.",
+      "page": 2,
+      "index": 4,
+      "width": 489,
+      "height": 409
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-005.webp",
+      "caption": "Figure 2: Cactus plot on the held-out 2023 IPC Learning Track, eight unique and diversely challenging domains. Some of our evolved heuristics (green, blue) solve more tasks than all baselines within essentially any time budget. This shows that our evolved heuristics are on-par with or better than the best hand-engineered heuristics. Those evolved from a blind seed (green) are more diverse and outperform those from FF (blue), showing that the headstart from a strong seed is worth less than the diversity from a minimal one.",
+      "page": 2,
+      "index": 5,
+      "width": 489,
+      "height": 383
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-012.webp",
+      "caption": "Figure 3: Per-run trajectories of the best-so-far training score (left axis) alongside a kernel-density estimate of improvement events over iterations (right axis), grouped by reasoning effort. Trajectories cluster more by run than by reasoning level, and improvement density thins rather than vanishes toward the end of the budget, indicating that evolution remains productive. The pronounced late-iteration drop-off at medium (and partly low) is in part the credit-exhaustion artifact discussed in Section 5. Across the board, runs approximate logistic improvement toward scores just above 0.6.",
+      "page": 5,
+      "index": 12,
+      "width": 1011,
+      "height": 537
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-002.webp",
+      "caption": "Table 2: LLM performance. mimo, glm and kimi abbreviate MiMo-v2.5-pro, GLM-5.1 and Kimi-K2.6. ‘Improv.’ counts fitness-improving children, ‘In best’ counts contributions to final-best lineages.",
+      "page": 6,
+      "index": 2,
+      "width": 505,
+      "height": 779
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-001.webp",
+      "caption": "Figure 4: Distribution of scores grouped by reasoning effort. The primary effect is to reduce the number of 0-scoring heuristics, consistent with Table 1. The distribution of scores above 0 is essentially unchanged, suggesting that reasoning effort primarily affects the likelihood of producing a working heuristic rather than the quality of those that work.",
+      "page": 6,
+      "index": 1,
+      "width": 489,
+      "height": 353
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-009.webp",
+      "caption": "Table 3: Per-problem outcomes for each heuristic on the held-out test set of 720 tasks: number of tasks solved (i.e. coverage), timed out (OOT), out of memory (OOM), translator out of memory (T-OOM) or otherwise failed (other: invalid dead end estimates or crashes).",
+      "page": 8,
+      "index": 9,
+      "width": 1031,
+      "height": 244
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-011.webp",
+      "caption": "Figure 5: Cactus plot on the 2023 IPC Learning Track test instances with the four notable evolved heuristics from Section 5 highlighted.",
+      "page": 12,
+      "index": 11,
+      "width": 1031,
+      "height": 516
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-008.webp",
+      "caption": "Figure 6: Unfiltered informedness–speed scatter across all heuristics in our benchmark, including the weak baselines that were excluded from Figure 1 to obtain a larger set of shared tasks. This difference in underlying tasks makes the two plots incomparable and causes some heuristics to shift, since this plot is dominated by easier tasks.",
+      "page": 13,
+      "index": 8,
+      "width": 1031,
+      "height": 936
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-006.webp",
+      "caption": "Figure 7: Stacked task outcomes per heuristic on the held-out test set: solved, out of time, out of memory, translator out of memory, invalid heuristic value and crash. Unlike Table 3, every evolved run from Section 5.1 appears as its own bar.",
+      "page": 14,
+      "index": 6,
+      "width": 1021,
+      "height": 665
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-003.webp",
+      "caption": "Figure 8: For each ordered pair of heuristics, the share of test tasks that the row solves and the column does not.",
+      "page": 15,
+      "index": 3,
+      "width": 958,
+      "height": 891
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-013.webp",
+      "caption": "Figure 9: Jaccard similarity between the per-heuristic sets of solved tasks from Figure 7. High values mark heuristics that are similar in behavior. We recover two primary clusters, the time-bound (left, around FF) and the memory-bound (right), along with smaller clusters.",
+      "page": 16,
+      "index": 13,
+      "width": 1017,
+      "height": 995
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-010.webp",
+      "caption": "Figure 10: Distribution of training scores at each generation across all evolved runs. Later generations trend toward higher scores, aligning with the best-so-far improvement curves of Figure 3 and indicating that the gains in per-run maxima reflect a broader population-level shift rather than isolated lucky children.",
+      "page": 17,
+      "index": 10,
+      "width": 861,
+      "height": 576
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29649v1/fig-007.webp",
+      "caption": "Table 4: Exact training problems used. Within each domain the 10 problems are ordered shortest-first by FF runtime. Each cell lists the autoscale split (o = 21.11-optimal-strips, s = 21.11-satisficing-strips) and problem index, followed by the FF runtime in seconds.",
+      "page": 18,
+      "index": 7,
+      "width": 736,
+      "height": 254
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26685v1/fig-001.webp",
+      "caption": "TABLE I. The example data with 10 stores. See text for details on the data features.",
+      "page": 8,
+      "index": 1,
+      "width": 500,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26685v1/fig-003.webp",
+      "caption": "FIG. 1. The gene fitness values for Tab. I over 100 iteration comparing DomBal = DB with AltSel = AS evolutionary strategies (we take harmonic initial values γ (0) j = 1/m = 1/7 for all genes 1 ≤ j ≤ 7).",
+      "page": 9,
+      "index": 3,
+      "width": 533,
+      "height": 383
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26685v1/fig-002.webp",
+      "caption": "FIG. 2. The organism fitness values for Tab. I over 100 iteration comparing DomBal = DB with AltSel = AS evolutionary strategies. The organism/store with the highest fitness is thus the fittest player in the evolutionary game.",
+      "page": 9,
+      "index": 2,
+      "width": 533,
+      "height": 414
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26685v1/fig-004.webp",
+      "caption": "FIG. 3. Relative deviation from mean distribution for DomBal = DS and AltSel = AS combinations of evolutionary strategies. The stores A-J are shown along the x-axis while the y-axis represents how much more or less should be distributed.",
+      "page": 10,
+      "index": 4,
+      "width": 533,
+      "height": 402
+    }
+  ]
+}

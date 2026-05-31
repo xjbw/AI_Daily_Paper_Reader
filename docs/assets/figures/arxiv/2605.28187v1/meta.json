@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-002.webp",
+      "caption": "Figure 1: Auditing pipeline for quantifying persona and context effects in LLM-based scholar recommendations. The pipeline systematically varies persona variables (who asks the question), including language, role, and country, and context variables (what is asked), including the number of requested scholars, their seniority, field, and subfield. These controlled prompt variations are passed to 43 LLMs and evaluated along two complementary dimensions: technical quality (validity, refusals, consistency, duplicates, and factuality) and social representativeness (diversity, parity, and popularity). The resulting measurements are aggregated across model characteristics, including access type, model size, and reasoning capability, to examine how architectural choices shape audit outcomes. Finally, the pipeline analyzes the relationship between technical quality and social representativeness, revealing potential trade-offs and correlations across prompt configurations.",
+      "page": 2,
+      "index": 2,
+      "width": 1052,
+      "height": 352
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-004.webp",
+      "caption": "Table 1: Audited LLMs. The 43 models span 15 families and a wide range of parameter counts, from 1.7B to over 400B, including both open-weight (Q4 K M quantized) and proprietary models. Full model identifiers, and inference settings are listed in Section B.",
+      "page": 3,
+      "index": 4,
+      "width": 914,
+      "height": 378
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-005.webp",
+      "caption": "Table 2: Audited prompt dimensions. Each prompt instantiates one value per dimension. Combining all dimensions yields 2,160 unique prompts per LLM, each executed 10 times. Subfields used to instantiate the research-topic anchor are listed in Section A.",
+      "page": 3,
+      "index": 5,
+      "width": 502,
+      "height": 244
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-007.webp",
+      "caption": "Figure 2: Zero-shot prompt template. The English variant of the prompt template; the German and Spanish variants are shown in Section A. Placeholders in braces (role-and-task, location, k, seniority, field, sub-field) are instantiated with the values of six of the seven audited prompt dimensions; the seventh dimension, language, is implicit in the text. All three variants are functionally equivalent translations: same field structure, same JSON schema, same constraints.",
+      "page": 4,
+      "index": 7,
+      "width": 1054,
+      "height": 329
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-001.webp",
+      "caption": "Figure 3: Sensitivity of evaluation metrics to prompt variables and LLM choice. Heatmaps report ω2 effect sizes from per-metric ANOVA models quantifying the influence of persona, context, and LLM factors (rows) across technical quality and social representativeness metrics (columns). Darker cells indicate stronger influence, and the Residual row reports 1−R2, the variance not attributable to the modeled factors. Effects are significant at Benjamini–Hochberg–corrected p < 0.001, with a few exceptions shown in gray text. Effects are concentrated in specific factor–metric pairs rather than distributed uniformly. Among context variables, k shows the strongest and most widespread influence across both evaluation metric groups, while LLM choice dominates the basic technical-quality metrics. Persona effects come almost entirely from location, while role and language show negligible influence throughout.",
+      "page": 6,
+      "index": 1,
+      "width": 1037,
+      "height": 367
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-003.webp",
+      "caption": "Figure 4: Drivers of technical quality in LLM recommendations. Regression coefficients (points) with 95% confidence intervals (bars) from regressions of four technical-quality metrics: validity, seniority factuality, field factuality, and location factuality. Each row is one level of a categorical predictor relative to its reference category (in brackets); the coefficient is the change in the metric on its [0, 1] scale. Predictors are grouped into persona attributes of the prompted persona (orange: language, location, role) and context attributes of the query (blue: list length k, field, subfield, seniority). Each panel reports R2, adjusted R2, and the share of R2 attributable to LLM identity (model fixed effects). Among persona attributes, location produces the largest shifts; among context attributes, list length k has the largest effect. LLM identity is the leading driver of validity (41% of explained variance) but contributes little to the three factuality metrics (2–6%), where prompt parameters dominate. Coefficients for all technical metrics are reported in Section F.",
+      "page": 7,
+      "index": 3,
+      "width": 1039,
+      "height": 372
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-006.webp",
+      "caption": "Figure 5: Drivers of social representativeness in LLM recommendations. Same layout as Figure 4, applied to four socialrepresentativeness metrics: works parity, ethnicity parity, ethnicity diversity, and location diversity. Among persona attributes, the location assigned to the prompt produces the largest shifts, driving the two ethnicity metrics and location diversity but leaving works parity essentially flat. Among context attributes, list length k has the largest effect on all four metrics, and dominates works parity in particular (≈ 0.3). LLM identity accounts for only 2–7% of explained variance throughout, indicating that model choice is a minor driver of social representativeness relative to prompt parameters. Coefficients for all social metrics are reported in Section F.",
+      "page": 8,
+      "index": 6,
+      "width": 1039,
+      "height": 372
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28187v1/fig-008.webp",
+      "caption": "Figure 6: Technical quality vs. social representativeness across evaluated LLMs. Each point is one of the 43 audited models, scored on aggregate technical quality (x-axis) and aggregate social representativeness (y-axis). Parity sums over gender, ethnicity, publications, and citations, and factuality over author, field, seniority, and location. Dashed lines mark the per-axis medians, defining quadrants Q1–Q4. Models populate all four quadrants, including a cluster in Q1 that combines high technical quality with high social representativeness. No single model dominates both axes at their extremes. The strongest technical scores and the strongest social scores belong to different models, while the weakest models tend to sit low on both.",
+      "page": 9,
+      "index": 8,
+      "width": 1040,
+      "height": 364
+    }
+  ]
+}

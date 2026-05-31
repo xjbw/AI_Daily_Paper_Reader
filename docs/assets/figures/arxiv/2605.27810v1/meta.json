@@ -1,0 +1,102 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-005.webp",
+      "caption": "Figure 1. Compared with existing LLM rankers on large-candidate tasks, LRanker incorporates advanced designs in both the representation of candidate information and the inference strategies used during testing. Note that the spark icon denotes models that require fine-tuning, while the snowflake icon denotes models with frozen weights. (a) Existing LLM rankers generally adopt four input formats (highlighted in the red box): (i) query only, (ii) query with a single candidate, (iii) query with candidate pairs, and (iv) query with the complete candidate list. The (iv) setting is fundamentally constrained by the limited context length of LLMs in massive-candidate scenarios, while the first three fail to incorporate global candidate-level information, leading to systematic biases in ranking. (b) LRanker’s training pipeline. In Stage 1 (data preparation), offline candidate embeddings are randomly split and clustered by K-means to obtain centroid embeddings. In Stage 2 (training), these centroids are passed through the learnable projector and injected into the LLM decoder via a special placeholder token, yielding query embeddings that already condition on global candidate information and are optimized with a ranking loss. (c) Graph-based test-time scaling. Step 1 obtains an initial query embedding E (0) q on the full candidate set. Step 2 uses E(0) q to retain top-ranked candidates within each partition and recompute partition-specific embeddings. Step 3 updates the query embedding by averaging embeddings from multiple partitions and repeating this elimination-and-update process for d rounds, producing {E(t) q }dt=0. Step 4 averages the scores computed from these embeddings to obtain the final ranking, enabling robust performance across diverse candidate scales.",
+      "page": 3,
+      "index": 5,
+      "width": 1013,
+      "height": 370
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-011.webp",
+      "caption": "Table 2. Detailed summarization of tasks used in our ranking experiments with varying candidate scales. We summarize the scenarios, task names, candidate sizes, and the number of queries.",
+      "page": 5,
+      "index": 11,
+      "width": 492,
+      "height": 260
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-001.webp",
+      "caption": "Table 3. Model performance comparison with general ranking baselines and task-specific baselines across four scenarios on NDCG@10 and MRR. Left: Rec-Movie and Rec-Toy. Right: MS MARCO and ESCI. Bold and underline denote the best and second-best results.",
+      "page": 6,
+      "index": 1,
+      "width": 1002,
+      "height": 298
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-002.webp",
+      "caption": "Figure 4. The graph-based test-time ensemble produces richer query representations than a single embedding. t-SNE visualizations show that averaged embeddings from LRanker tend to lie closer to the ground-truth item.",
+      "page": 11,
+      "index": 2,
+      "width": 474,
+      "height": 396
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-004.webp",
+      "caption": "Table 9. Performance comparison in scenarios with extremely irrelevant candidates across two scenarios on NDCG@10 and MRR. Left: Rec-Toy. Right: MS MARCO. Specifically, we train the models on the training sets of Rec-Toy and MS MARCO, where the candidates used during training are the original candidates of each dataset. During testing, however, we replace the candidates with a mixed pool that combines all candidates from Rec-Movie, Rec-Toy, MS MARCO, and ESCI. In addition, ∆ performance denotes the relative difference in MRR between the results obtained under the mixed-candidate setting and those obtained under the original candidate set.Bold and underline denote the best and second-best results.",
+      "page": 14,
+      "index": 4,
+      "width": 1000,
+      "height": 512
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-003.webp",
+      "caption": "Table 10. Performance comparison in scenarios under candidates distribution shift across two scenarios on NDCG@10 and MRR. Left: Rec-Toy. Right: MS MARCO. Specifically, we train the models on the training sets of Rec-Toy and MS MARCO, where the candidates used during training are the original candidates of each dataset. During testing, we replace the candidate set of Rec-Toy with a mixed candidate pool constructed from both Rec-Movie and Rec-Toy. Similarly, for MS MARCO and ESCI, we replace each candidate set with mixed candidate pools that combine candidates from MS MARCO and ESCI. In addition, ∆ performance denotes the relative difference in MRR between the results obtained under the mixed-candidate setting and those obtained under the original candidate set.Bold and underline denote the best and second-best results.",
+      "page": 15,
+      "index": 3,
+      "width": 1000,
+      "height": 525
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-012.webp",
+      "caption": "Figure 6. Effect of the number of centroids (k) on the performance of LRanker across four tasks. LRanker consistently outperforms the strongest baseline under all choices of k, and typically reaches peak performance at moderate values ( k = 10–50). Larger k introduces finer but noisier partitions, resulting in a slight performance drop.",
+      "page": 16,
+      "index": 12,
+      "width": 999,
+      "height": 701
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-009.webp",
+      "caption": "Figure 7. Effect of the centroid dimensionality on the performance of LRanker across four tasks. Increasing the dimensionality generally improves the quality of centroid representations by preserving more semantic information, leading to consistent gains over the strongest baseline under all settings. Moderate dimensions (256–1024) already achieve strong results, indicating that LRanker does not require the full 1024-dimensional embeddings to maintain high effectiveness.",
+      "page": 17,
+      "index": 9,
+      "width": 999,
+      "height": 705
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-006.webp",
+      "caption": "Table 11. Performance comparison of the possible candidate aggregation encoder variants across four tasks.",
+      "page": 18,
+      "index": 6,
+      "width": 494,
+      "height": 459
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-008.webp",
+      "caption": "Table 12. Evaluating the direct task-solving capability of Qwen3 backbones of different sizes against general and task-specific baselines on Rec-Movie and Rec-Toy. Bold and underline denote the best and second-best results.",
+      "page": 19,
+      "index": 8,
+      "width": 657,
+      "height": 492
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-007.webp",
+      "caption": "Table 15. Per-query inference latency comparison across different models on Rec-Music and MS MARCO.",
+      "page": 19,
+      "index": 7,
+      "width": 665,
+      "height": 182
+    },
+    {
+      "url": "assets/figures/arxiv/2605.27810v1/fig-010.webp",
+      "caption": "Table 16. Optimal width/depth settings of LRanker and their relative latency overhead compared to direct ranking.",
+      "page": 20,
+      "index": 10,
+      "width": 804,
+      "height": 353
+    }
+  ]
+}

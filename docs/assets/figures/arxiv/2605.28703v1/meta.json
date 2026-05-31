@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28703v1/fig-002.webp",
+      "caption": "Table 1: Mean score (↑, ± std) for EA evolution vs. GraphBench baselines across datasets for MIS and MC. Bold marks the best EA and best baseline.",
+      "page": 7,
+      "index": 2,
+      "width": 725,
+      "height": 346
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28703v1/fig-005.webp",
+      "caption": "Table 4: Best evolution type parameter configuration for MIS and MC. All configurations used Bernoulli mutation and random initialisation. Values shown as µ/λ/rc; Darwin, Baldwin, and Lamarck always have pLB = 0 (—).",
+      "page": 19,
+      "index": 5,
+      "width": 488,
+      "height": 679
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28703v1/fig-006.webp",
+      "caption": "Fig. 1: Mean fitness score (↑) over fitness evaluations per EA evolution across datasets for MIS and MC. Curves use the per-(dataset, problem) best parameter configuration. Darwinian (solid blue), Baldwinian (dashed green), Lamarckian (dash-dot red), L-B (dotted orange).",
+      "page": 20,
+      "index": 6,
+      "width": 715,
+      "height": 705
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28703v1/fig-001.webp",
+      "caption": "Fig. 2: Mean pairwise Hamming distance as a measure of population diversity over fitness evaluations per EA evolution across datasets for MIS and MC. Curves use the per-(dataset, problem) best parameter configuration. Darwinian (solid blue), Baldwinian (dashed green), Lamarckian (dash-dot red), L-B (dotted orange).",
+      "page": 21,
+      "index": 1,
+      "width": 715,
+      "height": 706
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28703v1/fig-003.webp",
+      "caption": "Table 5: Mean unique optimal solutions (↑, ± std) per EA evolution across datasets for MIS and MC. Bold marks the most diverse EA.",
+      "page": 22,
+      "index": 3,
+      "width": 725,
+      "height": 278
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28703v1/fig-004.webp",
+      "caption": "Table 6: Mean runtime in seconds (↓, ± std) per EA evolution across datasets for MIS and MC. Bold marks the fastest EA.",
+      "page": 22,
+      "index": 4,
+      "width": 725,
+      "height": 214
+    }
+  ]
+}

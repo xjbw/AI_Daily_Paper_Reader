@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-001.webp",
+      "caption": "Figure 1: Left: Normalized estimation error versus the noise level after 5000 iterations. Right: Estimation error over iterations under different noise levels. The sigmoid link function is known.",
+      "page": 15,
+      "index": 1,
+      "width": 875,
+      "height": 317
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-002.webp",
+      "caption": "Figure 2: Performance of Algorithm 1 under varying noise levels: (a) latent factors estimation error ∥∆t∥F , (b) link function estimation error, and (c) Lyapunov function convergence.",
+      "page": 15,
+      "index": 2,
+      "width": 881,
+      "height": 229
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-008.webp",
+      "caption": "Figure 3: Estimation error ∥∆t∥F versus the number of iterations for different sample sizes M .",
+      "page": 16,
+      "index": 8,
+      "width": 605,
+      "height": 385
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-007.webp",
+      "caption": "Figure 4: The final estimation error ∥∆t∥F under different α.",
+      "page": 17,
+      "index": 7,
+      "width": 690,
+      "height": 341
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-004.webp",
+      "caption": "Figure 5: Inferred link functions for different methods in Table 2.",
+      "page": 18,
+      "index": 4,
+      "width": 890,
+      "height": 225
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-006.webp",
+      "caption": "Table A.4: Notations and their definitions.",
+      "page": 49,
+      "index": 6,
+      "width": 548,
+      "height": 615
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-003.webp",
+      "caption": "Figure C.6: The comparison of the true link function ϕ⋆ and the final estimation ϕlast.",
+      "page": 66,
+      "index": 3,
+      "width": 622,
+      "height": 358
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26271v1/fig-005.webp",
+      "caption": "Figure C.7: Regret RT of Algorithm 1 for different type of link functions ϕ⋆ when n = T = 100, r = 3,M = 5000, α = 0.001, and σ = 0.1. Both axes are plotted on a log scale.",
+      "page": 67,
+      "index": 5,
+      "width": 605,
+      "height": 428
+    }
+  ]
+}
