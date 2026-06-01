@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.31291v1/fig-002.webp",
+      "caption": "Fig. 1. Decision-support with the Contextual Scalarisation Thompson Sampler (CSTS). Given a time-slot context xc,t (constructed from broadcast slot descriptors), system-side data such as catalogue metadata, historical programming, competition schedules, and the rights database, CSTS determines the available candidate set At and computes five value signals ϕ(at,xc,t), namely audience, novelty, diversity, competition, and rights, for each candidate title at ∈ At. CSTS samples model parameters θ̃t = (Ũt, b̃t) to produce context-dependent weights w̃t(xc,t) = σ(Ũtxc,t+b̃t) and scores each candidate by ũt(at) = w̃⊤ t ϕ(at,xc,t). The Top-5 scored items form the ranked slate. Each recommendation is accompanied by per-signal contributions w̃t,iϕi(a,xc,t). The curator feedback consisting of the binary selection and optional value signal flagging yt, is used to update θt.",
+      "page": 3,
+      "index": 2,
+      "width": 725,
+      "height": 394
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31291v1/fig-004.webp",
+      "caption": "Table 1. Comparison of bandit and multi-objective recommenders. Key – Ref.: reference, B: indicates whether it is formulated as a Bandit algorithm, M: specifies whether Multiple objectives (value signals) are modelled, C: indicates whether the method learns Context-dependent weightings over objectives, P: marks methods that perform Pareto-based selection or optimisation, and E: marks methods that are Explainable.",
+      "page": 5,
+      "index": 4,
+      "width": 714,
+      "height": 348
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31291v1/fig-001.webp",
+      "caption": "Fig. 2. Value signal profiles of top-1 recommendations for CSTS and Static across four programming contexts. CSTS aligns more frequently with Diversity and Rights urgency objectives (3 out of 4 contexts each), while Static maintains higher Novelty in every context. Across contexts, the profiles differ by objective and neither method is uniformly higher across all value signals.",
+      "page": 11,
+      "index": 1,
+      "width": 508,
+      "height": 506
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31291v1/fig-003.webp",
+      "caption": "Fig. 3. Effect of exploration scale κ on CSTS ranking performance under conservative (α = 0.01) and aggressive (α = 0.1) learning. Reporting relaxed contextual relevance metrics for CSTS, averaged over 75 test key time slots. Small κ yields near-greedy exploitation of the learned utility, while large κ encourages exploration through more diverse weight samples. Conservative learning yields stable performance where greedy already performs well, while more aggressive learning (α = 0.1) benefits from moderate exploration (e.g. κ = 0.2) before performance degrades at very high κ.",
+      "page": 12,
+      "index": 3,
+      "width": 725,
+      "height": 258
+    }
+  ]
+}

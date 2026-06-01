@@ -1,0 +1,1419 @@
+Title: Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering
+
+URL Source: https://arxiv.org/pdf/2605.31414v1
+
+Published Time: Mon, 01 Jun 2026 01:40:49 GMT
+
+Number of Pages: 13
+
+Markdown Content:
+# Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering 
+
+# Yajie Yu 
+
+School of Computer Science and Information Security Guilin University of Electronic Technology Guilin, Guangxi, China yyj@mails.guet.edu.cn 
+
+# Chenzhong Bin ∗
+
+School of Computer Science and Information Security Guilin University of Electronic Technology Guilin, Guangxi, China binchenzhong@guet.edu.cn 
+
+# Zhoubo Xu 
+
+School of Computer Science and Information Security Guilin University of Electronic Technology Guilin, Guangxi, China xzbli_11@guet.edu.cn 
+
+# Zhixin Zeng 
+
+School of Computer Science and Information Security Guilin University of Electronic Technology Guilin, Guangxi, China zxzeng@guet.edu.cn 
+
+# Tongxin Xu 
+
+School of Computer Science and Information Security Guilin University of Electronic Technology Guilin, Guangxi, China xutoncy@gmail.com 
+
+# Cihan Xiao 
+
+Electrical and Computer Engineering Johns Hopkins University Baltimore, MD, United States cxiao7@jhu.edu 
+
+# Jiafeng Wu 
+
+School of Computer Science and Information Security Guilin University of Electronic Technology Guilin, Guangxi, China wujiafeng@mails.guet.edu.cn 
+
+## Abstract 
+
+Collaborative filtering (CF) is widely used in recommender systems (RecSys) due to its simplicity and efficiency. However, existing CF methods follow an instance-level learning paradigm. During the instance learning stage, a large number of uninteracted user-item instances, of which items are potential interested by the user, are incorrectly treated as true negative samples resulting in a severe limitation to the generalization and scalability of models. Moreover, mainstream graph convolutional networks (GCNs) inherently suffer from high computational cost and over-smoothing issues, which limit the ability in capturing higher-order connectivity and lead to a poor generalization under sparse supervision signals. To ad-dress the above limitations, we propose Sem antic Factor enhanced 
+
+Alignment and Uniformity ( SaFeAU ), a novel framework that aug-ments interacted instances with semantic factors, thereby mitigat-ing false negative labeling and enabling matrix factorization (MF) to capture high-order CF signals without graph neighborhood ag-gregation. Specifically, SaFeAU consists of three tightly coupled  
+
+> ∗Corresponding author
+> This work is licensed under a Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.
+> KDD ’26, Jeju Island, Republic of Korea
+> ©2026 Copyright held by the owner/author(s). ACM ISBN 979-8-4007-2259-2/2026/08 https://doi.org/10.1145/3770855.3817704
+
+components. First, Semantic Factor Routing (SFR) disentangles item representations into independent and global semantic factors. Build-ing on these factors, Semantic Factor Matching (SFM) identifies uninteracted items, which share the same semantic factors with interacted ones, as potential positive pairs for enriching sparse supervision signals. Finally, Semantic Pairs Alignment (SPA) aligns both observed and potential positive pairs while promoting uni-formity of user and item representations. Extensive experiments on four sparse real-world datasets show that SaFeAU consistently outperforms GCN-based and MF-based state-of-the-art CF methods in both recommendation accuracy and computational efficiency, confirming the effectiveness of the proposed semantic enhanced learning paradigm. The source code is available 1.
+
+## CCS Concepts 
+
+• Information systems → Recommender systems .
+
+## Keywords 
+
+Recommender Systems, Collaborative Filtering, Semantic Factor Learning, Semantic Pairs Alignment 
+
+ACM Reference Format: 
+
+Yajie Yu, Chenzhong Bin, Zhoubo Xu, Zhixin Zeng, Tongxin Xu, Cihan Xiao, and Jiafeng Wu. 2026. Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering. In Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining   
+
+> 1https://github.com/MysticRealm/SaFeAU
+> arXiv:2605.31414v1 [cs.IR] 29 May 2026 KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yajie Yu et al.
+> V.2 (KDD ’26), August 09–13, 2026, Jeju Island, Republic of Korea. ACM, New York, NY, USA, 13 pages. https://doi.org/10.1145/3770855.3817704
+
+## 1 Introduction 
+
+Recommender systems (RecSys) play a vital role in modern web ser-vices by helping users manage excessive information and discover personalized content such as products, videos, and other relevant items. Owing to its simplicity and effectiveness, collaborative fil-tering (CF) has become a widely adopted technique in RecSys for helping users discover potentially relevant items [ 5, 25 ]. When only implicit feedback is available, prior studies [ 13 , 17 , 21 , 27 , 36 ] empha-size that the effectiveness of CF models hinges on how supervision signals, e.g., user-item interactions, are accurately constructed to re-flect true user preferences. CF methods can be broadly categorized into matrix factorization (MF) and graph convolutional networks (GCNs). However, both types of CF methods [ 5 , 10 , 18 , 21 , 29 , 37 , 38 ]naturally belong an instance-level learning paradigm, which aims at modeling CF signals by aligning interacted user-item instances, i.e. observed positive pairs, while pushing apart uninteracted user-item instances, i.e., unobserved negative pairs. Obviously, for a specific user, these negative pairs could contain a large number of potential positive pairs, a.k.a. false negative items, with which the user uninteracted but probably would be interested in. Indiscrimi-nately pushing apart all of unobserved negative pairs will sacrifice the generalization of CF methods under large scale recommending scenarios. Semantic alignment     
+
+> n-hop neighborhood
+> aggregation
+> Intera cted instance
+> Higher-order instance
+> n-hop
+> Semantic factor factor
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> ......
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> .....
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> ......
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> .....
+> 1-hop
+> 2-hop
+> factor1
+> factor2
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀 .....
+> (a) (b)
+
+Figure 1: A comparison between (a) GCN-based alignment and (b) semantic positive pairs alignment on the same inter-action graph. 
+
+Moreover, most GCN-based methods [ 5 , 15 , 25 , 28 , 34 , 35 ] har-ness neighborhood aggregation mechansim to learn user/item rep-resentations in interaction garphs for recommendations, inherently suffering from the high computational cost and the over-smoothing issue [ 12 , 19 ]. Meanwhile, they are merely trained by interacted instances, thereby limiting the ability of capturing higher-order connectivity [ 14 , 26 ], leading to incomplete user representations and poor generalization under sparse supervision signals [ 4]. For instance, as illustrated in Figure 1(a), user 𝑢 1 only directly interacted with items 𝑖 2 and 𝑖 6. As the multi-hop neighborhood aggregation proceeding, several irrelevant nodes are introduced as noise, unex-pectedly contaminating the representation of user 𝑢 1. Meanwhile, higher-order neighbors such as 𝑖 4 and 𝑖 5 fail to establish effective connections with 𝑢 1 due to the multi-hop neighborhood relation-ships. Consequently, under sparse supervision signals, GCN-based methods struggle to accurately model fine-grained user preferences. Naturally, the key to addressing the above two limitations lies in: How to identify false negative items based on sparse supervision signals? And how to achieve efficient semantic-level signal alignment to bypass the noisy neighborhood aggregation? 
+
+In this paper, we propose Sem antic Factor enhanced Alignment and Uniformity ( SaFeAU ), a novel framework that identifies false negative items and aligns user-item representations at the semantic-level through global semantic factor learning. The goal of our paper is to learn potential item attributes as a set of distinct semantic factors, related to, e.g., brand, material, texture, and appearance, based on the entire item set. Then, we identify false negative items among unobserved items which share the similar semantic factors with the user’s interacted items. As shown in Figure 1(b), after calculating the relationship between items and their corresponding semantic factors, items 𝑖 2 and 𝑖 5 are assigned to semantic factor1, while items 𝑖 3 and 𝑖 6 belong to semantic factor2. Despite merely interacted with 𝑖 2 and 𝑖 6, user 𝑢 1 is expected to align with potential positive pairs 𝑖 3 and 𝑖 5 as sharing the same semantic factors. This semantic positive pairs alignment overcomes the limitation of the multi-hop aggregation of GCNs, enabling user-item alignment in the semantic space via potential positive pair matching, thereby capturing a more complete and accurate representation of user preferences. To achieve the above goal, specifically, SaFeAU consists of three tightly coupled components. First, a Semantic Factor Routing (SFR) algorithm is employed to learn a set of shared semantic factors through an iterative routing process. By iteratively updating seman-tic assignment weights, the model refines how items correlate with these factors, thereby encouraging disentanglement of multifaceted item attributes. Semantic Factor Matching (SFM) is then introduced to augment the sparse supervision signals of CF from a semantic perspective. Specifically, for each item interacted by a given user, we select its top-𝑘 semantic factors based on semantic assignment weights and construct potential positive pairs by correlating the user with unobserved items that share any of these factors, thereby expanding the supervision signals based on observed positive pairs. As illustrated in Figure 1(b), user 𝑢 1 is inferred to have a semantic correlation with a high-order neighbor item 𝑖 5, since 𝑖 5 shares the same factor1 with the interacted item 𝑖 2. Finally, Semantic Pairs Alignment (SPA) leverages the alignment and uniformity princi-ple to align users with both their interacted items and also with SFM-identified potential positive items, while promoting unifor-mity across all user and item representations for enhancing their disparity. Benefiting from the above components, SaFeAU elabo-rately expands the supervision signals of CF, improving the model generalization and training efficiency in the sparse and large-scale recommendation scenarios. The main contributions of this paper can be summarized as follows: 
+
+• To the best of our knowledge, this is the first work to explore false negative items from a semantic factor perspective. We propose a framework SaFeAU to introduce a novel semantic enhanced learning paradigm for CF, which augments interacted instances Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+with semantic factors, thereby mitigating false negative labeling and enabling MF to capture high-order CF signals avoiding graph neighborhood aggregation. 
+
+• We propose the Semantic Factor Routing (SFR) algorithm to learn shared semantic factors from item representations via semantic assignment weights updates, promoting disentanglement of mul-tifaceted item attributes. Building upon these semantic factors, we further introduce the Semantic Factor Matching (SFM) method to enrich sparse supervision signals in CF by constructing poten-tial positive pairs through matching each user with unobserved items that share semantic factors with their interacted items. 
+
+• Extensive experiments on four sparse real-world datasets solidly demonstrate that SaFeAU consistently outperforms GCN-based and MF-based state-of-the-art CF methods in both recommenda-tion accuracy and computational efficiency, validating the effec-tiveness of the semantic enhanced learning paradigm. 
+
+## 2 Preliminaries 
+
+In this section, we first formalize the CF problem, then theoreti-cally analyze the relationships among three mainstream CF loss functions, and finally theoretically justify the advantages of the alignment and uniformity (AU) optimizations. 
+
+## 2.1 Problem Definition 
+
+Let U and I denote the sets of users and items, respectively. The data distribution in CF is characterized by the marginal distributions 
+
+𝑝 user (𝑢 ) and 𝑝 item (𝑖 ) over U and I, as well as the joint distribution 
+
+𝑝 pos (𝑢, 𝑖 ) of observed positive user–item interactions. Most CF methods employ an encoder network 𝑓 (·) that maps each user and item into a 𝑑 -dimensional embedding space R𝑑 . ˜𝑓 (·) 
+
+means normalized representations. Then, the predicted score is usually defined as dot product 𝑠 (𝑢, 𝑖 ) = ˜𝑓 (𝑢 )⊤ ˜𝑓 (𝑖 ). For simplic-ity, the Euclidean distance between user 𝑢 and item 𝑖 is denoted as 𝑑 (𝑢, 𝑖 ) = || ˜𝑓 (𝑢 ) − ˜𝑓 (𝑖 )|| 2. The objective of CF is to utilize the interactive instances to predict preference scores for unobserved user-item pairs and rank items to generate recommendations. 
+
+## 2.2 BPR and InfoNCE for CF 
+
+The BPR objective [ 18 ] discriminates the similarity of the positive pair (𝑢, 𝑖 ) from that of the negative pair (𝑢, 𝑖 − ):
+
+𝐿 𝐵𝑃𝑅 = − E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+log [sigmoid (𝑠 (𝑢, 𝑖 ) − 𝑠 (𝑢, 𝑖 − ))] . (1) Recently, the study of LightCCF [ 38 ] has demonstrated that the InfoNCE [ 16 ] loss can effectively model user-item interactions, which incorporates a set of 𝑀 negative pairs { 𝑗 𝑛 }𝑀 𝑛 =1:
+
+𝐿 CL (𝑓 ; 𝜏, 𝑀 ) = − E    
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+> {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+log 𝑒 s(𝑢,𝑖 )/ 𝜏 
+
+𝑒 s(𝑢,𝑖 )/ 𝜏 + Í𝑀 𝑛 =1 𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 , (2) where 𝜏 is the temperature hyperparameter. When 𝑀 = 1 and 𝜏 = 1,the InfoNCE objective becomes mathematically equivalent to BPR. Indeed, prior work has shown that a larger 𝑀 provides broader coverage of the item distribution, which yields a more informative contrastive signal [ 16 ]. In Appendix A.2, we theoretically prove that InfoNCE outperforms BPR due to its enhanced negative sampling coverage, which leads to a more accurate approximation of the underlying data distribution. 
+
+## 2.3 Alignment and Uniformity Optimizations Bypass Negative Sampling Limits 
+
+DirectAU [ 21 ] builds upon the insight drew from [ 23 ] that repre-sentation quality is governed by two key properties: alignment and uniformity (AU). Alignment is straightforwardly defined to enhance the proximity between normalized embeddings of positive pairs under 𝑝 pos (𝑢, 𝑖 ):
+
+𝐿 align = E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+˜𝑓 (𝑢 ) − ˜𝑓 (𝑖 ) 2
+
+. (3) While the uniformity loss is defined as the logarithm of the average pairwise Gaussian potential: 
+
+𝐿 uniform = 12 log E  
+
+> (𝑢,𝑢 ′)i.i.d.
+> ∼𝑝 user
+
+𝑒 −2 ˜𝑓 (𝑢 ) − ˜𝑓 (𝑢 ′ ) 2
+
++
+
+12 log E  
+
+> (𝑖,𝑖 ′)i.i.d.
+> ∼𝑝 item
+
+𝑒 −2 ˜𝑓 (𝑖 ) − ˜𝑓 (𝑖 ′ ) 2
+
+,
+
+(4) where (𝑢, 𝑢 ′) ∼ 𝑝 user and (𝑖, 𝑖 ′) ∼ 𝑝 item are pairs of users and items sampled independently and identically from their respective distri-butions, i.e., i.i.d. These two losses directly reflect the fundamen-tal principle of contrastive representation learning: encouraging learned feature representation for positive pairs to be similar, while pushing the randomly sampled negative pairs apart [23]. We analyze the relationship between AU and InfoNCE, revealing that AU avoids negative sampling by enforcing uniformity over the entire set of user and item embeddings, thereby eliminating performance fluctuations derived from the random negative sam-pling. The proof is detailed in Appendix A.2. However, under sparse supervision signals, the effectiveness of AU principle is limited due to the sparse observed positive pairs and fails to further exploit potential positive pairs. This inherent weakness motivates us to study how to enrich supervision signals from a semantic enhanced perspective, thereby strengthening the generalization of CF models. 
+
+## 3 Methodology 
+
+In this section, we propose the Sem antic Factor enhanced Alignment and Uniformity framework ( SaFeAU ), which breaks through the limitations of conventional CF learning paradigm that operates solely on the instance-level. By introducing semantic factors to identify potential positive pairs, SaFeAU elaborates fine-grained supervision signals without the multi-hop neighborhood propa-gation, thereby avoiding the computational complexity and over-smoothing issues of GCNs. 
+
+## 3.1 Semantic Factor Routing (SFR) 
+
+Following the batch-wise training framework of DirectAU [ 21 ], semantic factors are computed using only the items in the current training batch I𝑏 . This batch-wise computation significantly re-duces memory usage and computational cost, while also making it more consistent with the actual data distribution of users and items. To learn semantic factors within each batch, we propose a Semantic Factor Routing (SFR) algorithm, inspired by the dynamic KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yajie Yu et al. .... 
+
+Graph Interactions 
+
+Semantic Factor 
+
+Matching (SFM) 
+
+User id Item id 
+
+Semantic positive pairs alignment 
+
+Potential positive item 
+
+Input 
+
+> 𝐀 𝐀 𝐀
+> 𝐀 𝐀 𝐀
+> 𝐀 𝐀 𝐀
+> ...
+
+𝐀 𝐀 
+
+Semantic Factor Routing (SFR) 
+
+SFR 
+
+Semantic Pairs 
+
+Alignment (SPA) 
+
+> (
+
+a) (b) 
+
+r=1 
+
+r=R    
+
+> uii
+> ....  𝐀 𝐀𝐀 𝐀 𝐀 𝐀
+
+⊗ 𝐀 𝐀  
+
+> 𝐀 𝐀 𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀 𝐀
+> ...
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> ......
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> ....  𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> ......
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀 𝐀 𝐀
+> 𝐀 𝐀
+> ...
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀 𝐀
+> ...
+
+⊕
+
+> 𝐀 𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀 𝐀
+> ...
+
+⊗norm  
+
+> 𝐀 𝐀 𝐀
+
+⊗ 
+
+> 𝐀 𝐀 𝐀
+
+⊗ 
+
+> 𝐀 𝐀 𝐀
+
+⊗
+
+> 𝐀 𝐀
+> 𝐀 𝐀
+
+⊗norm  
+
+> 𝐀 𝐀 𝐀
+
+⊗ 
+
+> 𝐀 𝐀 𝐀
+
+⊗ 
+
+> 𝐀 𝐀 𝐀
+
+⊗
+
+> 𝐀 𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀𝐀
+> 𝐀 𝐀 𝐀
+> ...
+> 𝐀 𝐀 𝐀
+> ...
+> ...
+> ...
+
+Interact ed instance Higher-order instance ...... 
+
+⊕
+
+> ....
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> ......
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> i
+
+Semantic matching 
+
+Output 
+
+Iteration     
+
+> 𝐀 𝐀𝐀
+> uiiu
+> 𝐀 𝐀 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀
+> 𝐀 𝐀 𝐀 𝐀
+
+Figure 2: The architecture of SaFeAU. (a) Taking user 𝑢 1 as an example, we show how to expand its potential positive items. (b) Illustration of the Semantic Factor Routing (SFR) algorithm, which performs 𝑟 iterations to route all item embeddings to semantic factors based on the semantic assignment weights, resulting in disentangled factor embeddings. Algorithm 1 Semantic Factor Routing (SFR) 
+
+Input: item embeddings { ˜𝑓 (𝑖 ) | 𝑖 ∈ I 𝑏 }, iteration times 𝑟 , number of semantic factors 𝐾 
+
+Output: semantic factors {F 𝑗 | 𝑗 = 1, . . . , 𝐾 } 
+
+> 1:
+
+Initialize routing logits: 𝑏 𝑖 𝑗 ∼ N ( 0, 𝜎 2) for all item 𝑖 and seman-tic factor 𝑗 . 
+
+> 2:
+
+for 𝑡 = 1 to 𝑟 do  
+
+> 3:
+
+Compute semantic assignment weights: 
+
+𝑤 𝑖 𝑗 ← softmax (𝑏 𝑖 𝑗 ) 
+
+> 4:
+
+Aggregate semantic factor: 𝑧 𝑗 ← Í𝑖 ∈ I 𝑏 𝑤 𝑖 𝑗 ˜𝑓 (𝑖 ) 
+
+> 5:
+
+Normalize: F𝑗 ← normalize (𝑧 𝑗 ) 
+
+> 6:
+
+Update routing logits: 𝑏 𝑖 𝑗 ← 𝑏 𝑖 𝑗 + F ⊤ 
+
+> 𝑗
+
+˜𝑓 (𝑖 ) 
+
+> 7:
+
+end for  
+
+> 8:
+
+return {F 𝑗 }𝐾 𝑗 =1
+
+routing procedure in capsule networks [ 20 ]. Specifically, SFR dy-namically routes each normalized item representation ˜𝑓 (𝑖 ) ∈ R𝑑 
+
+(𝑖 ∈ I 𝑏 ) to 𝐾 high-level semantic factors {F 𝑗 ∈ R𝑑 }𝐾 𝑗 =1, where each factor captures a mutually independent attribute such as brand or material. This shared embedding dimensionality 𝑑 ensures that item representations and semantic factors lie in the same vector space, allowing direct computation without intermediate transformation matrices. The semantic assignment weight 𝑤 𝑖 𝑗 determines how much item 
+
+𝑖 contributes to semantic factor 𝑗 . To enable adaptive assignment of items to semantic factors, we first introduce learnable routing logits 𝑏 𝑖 𝑗 that govern the soft routing of item 𝑖 to semantic fac-tor 𝑗 . These logits are initialized with small random values, i.e., 
+
+𝑏 𝑖 𝑗 ∼ N ( 0, 𝜎 2), providing an unbiased normal initialization for the subsequent iterative routing process. In each routing round, the semantic assignment weight 𝑤 𝑖 𝑗 is updated by applying a softmax normalization over the routing logits 𝑏 𝑖 𝑗 :
+
+𝑤 𝑖 𝑗 = exp 𝑏 𝑖 𝑗 
+
+Í𝐾 𝑘 =1 exp 𝑏 𝑖𝑘 
+
+. (5) The intermediate representation 𝑧 𝑗 is obtained as the weighted sum of all item embeddings in the current training batch I𝑏 :
+
+𝑧 𝑗 =∑︁  
+
+> 𝑖 ∈ I 𝑏
+
+𝑤 𝑖 𝑗 ˜𝑓 (𝑖 ). (6) This representation is then normalized to yield the semantic factor: 
+
+F𝑗 = 𝑧 𝑗 
+
+∥𝑧 𝑗 ∥ . (7) Finally, the routing logits are updated to reinforce the agreement between items and factors: 
+
+𝑏 𝑖 𝑗 ← 𝑏 𝑖 𝑗 + F ⊤ 
+
+> 𝑗
+
+˜𝑓 (𝑖 ). (8) These steps are repeated for 𝑟 rounds to iteratively refine the seman-tic factors. The complete SFR algorithm is detailed in Algorithm 1. 
+
+## 3.2 Semantic Factor Matching (SFM) 
+
+After obtained semantic factors {F 𝑗 }𝐾 𝑗 =1, we propose Semantic Fac-tor Matching (SFM) method to semantically correlate each item with its similar items under the shared semantic factors. For each item 𝑖 , SFM selects the top-𝑘 semantic factors based on the semantic assignment weights {𝑤 𝑖 𝑗 }𝐾 𝑗 =1, where the selected factor indices set 
+
+K𝑖 is denoted as: 
+
+K𝑖 = top −𝑘 
+
+
+
+{𝑤 𝑖 𝑗 }𝐾 𝑗 =1
+
+
+
+. (9) Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+Table 1: Time complexity comparison in SaFeAU with the current state-of-the-art methods. Components LightGCN FourierKAN-GCF SimGCF LightGODE LightCCF SaFeAU 
+
+Graph Construction O( 2|E|) O( 2|E|) O( 2|E|) – – –Graph Convolution O( 2|E|L 𝑑 ) O( 2|E|L 𝑑 (1 + 𝑔 )) O( 2𝑛 |E| 𝑑 ) – – –Loss Computation O( 2B𝑑 ) O( 2B𝑑 ) O( 2B𝑑 ) O(B 𝑑 + 2B2𝑑 ) O( 3B𝑑 + 2B2𝑑 ) O(B 𝑑 + 𝑟𝐾 B𝑑 + 2B2𝑑 )
+
+To dynamically control the degree of semantic correlation be-tween two items, we introduce a semantic threshold 𝛿 that defines the minimum number of shared top-𝑘 semantic factors required for two items to judge whether a semantic correlation existing between them. Accordingly, for each interacted item 𝑖 (𝑖 ∈ I 𝑏 ), we define its semantic augmentation set N𝑖 as follows: 
+
+N𝑖 = 𝑖 ′ ∈ I 𝑏 \ { 𝑖 } |K 𝑖 ∩ K 𝑖 ′ | ≥ 𝛿 . (10) Next, SFM augments the supervision signals beyond observed positive pairs by constructing potential positive pairs from the semantic augmentation set N𝑖 . Specifically, for each interacted instance (𝑢, 𝑖 ), any item 𝑖 ′ ∈ N 𝑖 is regarded as a semantically con-sistent extension of 𝑖 , yielding the augmented positive pair set 
+
+{( 𝑢, 𝑖 ′) | 𝑖 ′ ∈ N 𝑖 } for SPA module. 
+
+## 3.3 Semantic Pairs Alignment (SPA) 
+
+As discussed in Section 2.3, AU abandons the explicit negative sam-pling through global uniformity and thus avoids the performance fluctuations caused by randomly sampled negative pairs. However, its alignment loss is confined to observed interactions. To extend su-pervision signals to semantically correlated but unobserved items, we propose Semantic Pairs Alignment (SPA) module, which con-structs additional positive pairs based on shared semantic factors, thereby enhancing generalization under data sparsity. Specifically, SPA mainly aims at aligning users with the semantic augmented items in N𝑖 produced by SFM. The semantic positive pairs alignment loss is formulated as: 
+
+𝐿 semantic align = E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+"
+
+1
+
+|N 𝑖 |∑︁ 𝑖 ′ ∈ N 𝑖 
+
+˜𝑓 (𝑢 ) − ˜𝑓 (𝑖 ′) 2
+
+#
+
+. (11) By pulling user representations toward those of semantically consistent unobserved items, SPA effectively propagates supervi-sion signals through shared semantic factors. This encourages the model to generalize user preferences to semantically correlated but unobserved items, thereby mitigating data sparsity. Additionally, our SPA leverages the base alignment loss 𝐿 align and uniformity loss 𝐿 uniform , which are defined in Equation (3) and Equa-tion (4) , respectively, to effectively model the interacted instances as well. 
+
+## 3.4 Model Optimization 
+
+To learn high-quality user and item representations, we utilize a multi-task training strategy [ 26 ] to jointly optimize the base alignment loss, the uniformity loss, and the semantic positive pairs alignment loss. The total loss is defined as: 
+
+𝐿 SaFeAU = 𝐿 align + 𝛾 1𝐿 uniform + 𝛾 2𝐿 semantic align , (12) where 𝛾 1 > 0 and 𝛾 2 > 0 are hyperparameters controlling the relative importance of uniformity and semantic positive pairs align-ment, respectively. After completing the model training process, we use the dot product to predict unknown preferences for recom-mendations. 
+
+## 3.5 Time Complexity Analysis 
+
+To demonstrate the efficiency of SaFeAU, we analyze its time com-plexity and compare it with that of GCN-based methods including LightGCN [ 5], FourierKAN-GCF [ 29 ], and SimGCF [ 10 ], as well as MF-based methods including LightGODE [ 37 ] and LightCCF [ 38 ]. The complexity details of all methods are shown in Table 1. We define the number of edges in the user-item bipartite graph as |E| .Let L represent the number of graph convolution layers, 𝑑 and B
+
+represent the size of embedding and the batch size, respectively. In addition, for FourierKAN-GCF, 𝑔 denotes the Fourier frequency grid size, and for SimGCF, 𝑛 represents the polynomial filter order. We add the semantic factor routing to generate semantic factors, where 
+
+𝑟 denotes the maximum number of iterations and 𝐾 is the number of semantic factors. On this basis, we can derive the following facts: 
+
+• In the graph construction process, both GCN-based methods re-quire normalization of the adjacency matrix. This step involves computing 2|E| non-zero elements of the original adjacency ma-trix. On the contrary, MF-based alleviates the need for graph construction and adjacency matrix normalization in training. 
+
+• In the graph convolution stage, GCN-based methods perform message passing over the interaction graph, resulting in a time complexity of O( 2|E|L 𝑑 ). FourierKAN-GCF has a higher com-plexity of O( 2|E|L 𝑑 (1 +𝑔 )) due to edge-wise Fourier KAN trans-formations, while SimGCF incurs O( 2𝑛 |E| 𝑑 ) due to its degree-𝑛 
+
+spectral polynomial approximation. In contrast, MF-based meth-ods avoid explicit graph propagation, eliminating the dependence on |E| and facilitating the deployment in large-scale RecSys. 
+
+• In the loss computation stage, GCN-based methods employ the BPR loss, resulting in a complexity of O( 2B𝑑 ). LightCCF further incorporates a neighborhood alignment loss based on InfoNCE, resulting in a total loss complexity of O( 3B𝑑 + 2B2𝑑 ). Both LightGODE and SaFeAU adopt the AU loss formulation, which incurs a complexity of O(B 𝑑 + 2B2𝑑 ). The additional linear term in SaFeAU comes from generating semantic factors, which costs O( 𝑟𝐾 B𝑑 ), where 𝑟 and 𝐾 are small constants. Notably, the AU loss in SaFeAU is sampling-free, unlike BPR, which relies on sampled negative pairs, and can be parallel computed and optimized by simple matrix multiplications on GPUs. Overall, by combining semantic factor generation with AU loss, SaFeAU maintains a competitive computational complexity. Due to space limitation, the computational efficiency of SaFeAU is detailed in Appendix C.2. KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yajie Yu et al. 
+
+Table 2: A comparison between SaFeAU and state-of-the-art baselines is provided. The best values are shown in bold, while the second-best values are underlined, results are averaged over five runs. R@k refers to Recall@k, and N@k refers to NDCG@k. Improv.% indicates the relative improvement over the top-performing baseline. An asterisk (*) indicates significant improvements with a t-test 𝑝 < 0.05 compared to the best baseline.                                                                                                                                                                               
+
+> Setting GCN-based MF-based Ours
+> Dataset Metric LightGCN GraphAU FourierKAN-GCF SimGCF BPR-MF DirectAU LightGODE LightCCF SaFeAU Improv. Gowalla R@10 0.0887 0.0976 0.0956 0.0962 0.0490 0.0905 0.0983 0.0965 0.1034 ∗5.19%
+> N@10 0.0604 0.0673 0.0664 0.0667 0.0342 0.0627 0.0680 0.0670 0.0713 ∗4.85%
+> R@20 0.1223 0.1416 0.1372 0.1379 0.0701 0.1313 0.1428 0.1384 0.1505 ∗5.39%
+> N@20 0.0681 0.0801 0.0778 0.0783 0.0401 0.0742 0.0803 0.0786 0.0844 ∗5.11%
+> Toys-and-Games R@10 0.0918 0.0934 0.0942 0.0945 0.0782 0.0941 0.0951 0.0950 0.1006 ∗5.78%
+> N@10 0.0512 0.0529 0.0534 0.0538 0.0434 0.0534 0.0540 0.0552 0.0578 ∗4.71%
+> R@20 0.1129 0.1323 0.1315 0.1289 0.1126 0.1325 0.1338 0.1301 0.1405 ∗5.01%
+> N@20 0.0551 0.0619 0.0628 0.0636 0.0522 0.0632 0.0639 0.0641 0.0681 ∗6.24%
+> Beauty R@10 0.0843 0.0992 0.0995 0.0998 0.0790 0.0983 0.1014 0.0997 0.1066 ∗4.93%
+> N@10 0.0463 0.0561 0.0565 0.0561 0.0429 0.0559 0.0563 0.0570 0.0599 ∗4.74%
+> R@20 0.1227 0.1427 0.1433 0.1429 0.1161 0.1390 0.1451 0.1362 0.1509 ∗3.93%
+> N@20 0.0563 0.0673 0.0677 0.0675 0.0526 0.0665 0.0681 0.0674 0.0715 ∗4.70%
+> Yelp2018 R@10 0.0495 0.0670 0.0662 0.0672 0.0381 0.0672 0.0672 0.0676 0.0695 ∗2.81%
+> N@10 0.0393 0.0538 0.0536 0.0547 0.0300 0.0539 0.0540 0.0548 0.0555 ∗1.28%
+> R@20 0.0814 0.1063 0.1058 0.1082 0.0639 0.1069 0.1076 0.1099 0.1144 ∗4.09%
+> N@20 0.0505 0.0671 0.0669 0.0686 0.0387 0.0672 0.0676 0.0691 0.0713 ∗2.61%
+
+Table 3: Statistics of datasets. 
+
+Dataset Users Items Interactions Density Gowalla 64.1k 164.5k 2018.4k 0.019% Toys-and-Games 19.4k 11.9k 167.5k 0.072% Beauty 22.4k 12.1k 198.5k 0.073% Yelp2018 31.7K 38.0k 1561.4k 0.130% 
+
+## 4 Experiments 
+
+In this section, we conduct experiments to address the following questions: Q1. How does SaFeAU perform in CF compared to state-of-the-art baselines? Q2. How adaptation is the potential positive pair identifying com-ponets of SaFeAU for various CF methods? Q3. How do different potential positive pair identifying strategies of SFM method affect the recommendation performance? Q4. Does SFM truly identify higher-quality potential positive pairs, beyond gains from random positive expansion? Q5. How does SaFeAU effectively align positive pairs compared to mainstream CF methods? Q6. How do different hyperparameter settings affect the recom-mendation performance of SaFeAU? 
+
+## 4.1 Experimental Settings 
+
+4.1.1 Datasets . We evaluate SaFeAU on four real-world datasets: Gowalla 2, Yelp2018 3, and the Amazon subsets 4 Toys-and-Games 
+
+> 2https://snap.stanford.edu/data/loc-gowalla.html
+> 3https://www.yelp.com/dataset
+> 4https://jmcauley.ucsd.edu/data/amazon/links.html
+
+and Beauty. Following standard practice [ 5 , 8, 21 , 22 , 25 ], we re-move duplicate interactions and retain only users and items with at least five interactions. The resulting statistics are reported in Table 3. For each user, we randomly split interactions into training, validation, and testing sets using an 80%/10%/10% split. We com-pare SaFeAU against state-of-the-art MF-based and GCN-based CF methods. Additional details on baselines are provided in Appendix C.1. 
+
+4.1.2 Evaluation Protocols . To evaluate the performance of top-K recommendation, we employ Recall and Normalized Discounted Cumulative Gain (NDCG) as evaluation metrics. Recall@K mea-sures how many target items are retrieved in a K-item recommended list, while NDCG@K further concerns about their positions in the list. To ensure the accuracy and reliability of our experimental results, we employ the full-ranking strategy [ 39 ] during testing, which involves ranking all uninteracted items for a given test user. Additionally, each experiment is repeated 5 times with different random seeds. We report the average scores across all metrics to ensure statistical significance. 
+
+4.1.3 Implementation Details . We use the RecBole [ 40 ] frame-work to implement all the methods for fair comparisons. Adam is used as the default optimizer and the maximum number of epochs is set to 300. Early stop is adopted if NDCG@20 on the validation dataset continues to drop for 10 epochs. We set the embedding size to 64 and the learning rate to 1e −3 for all the methods. The training batch size is set to 256 on Beauty and 1024 on the other three datasets. The weight decay is tuned among [0, 1e −8, 1e −6, 1e −4]. The default encoder 𝑓 in SaFeAU is a simple embedding table that maps user/item IDs to embeddings. The weight 𝛾 1 of 𝐿 𝑢𝑛𝑖 𝑓 𝑜𝑟𝑚 
+
+in SaFeAU is tuned within [0.1, 0.5, 2, 7, 10], and 𝛾 2 of 𝐿 𝑠𝑒𝑚𝑎𝑛𝑡𝑖𝑐 𝑎𝑙𝑖𝑔𝑛 is tuned within [0.001, 0.01, 0.1, 10]. For hyperparameters that define Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+the model architecture, we search 𝐾 over {1, 2, 4, 7}, 𝑘 over {1, 2, 3, 4}, and 𝑟 over {1, 2, 3, 4, 5, 6, 7, 8}. As for baseline-specific hyper-parameters, we tune them in the ranges suggested by the original paper. All the parameters are initialized by xavier initialization. 
+
+## 4.2 Recommendation Performance (Q1) 
+
+Table 2 shows the performance comparison of different baseline methods and our SaFeAU. From the experimental results, we have the following observations: 
+
+• Noticeably, SaFeAU achieves the highest scores in NDCG and Recall across all datasets, demonstrating its effectiveness in dif-ferent recommendation scenarios. The pronounced performance improvements on sparse datasets, i.e., Gowalla and Toys, demon-strate SaFeAU’s robustness and generalization ability under high sparsity and large-scale scenarios. 
+
+• Among all baselines, LightCCF and LightGODE emerge as the strongest competitors across all four datasets, demonstrating that after carefully designed in interaction modeling methods, MF-based approaches can outperform GCN-based models. 
+
+• We observe that AU-based methods, including DirectAU, Light-GODE, and GraphAU, perform better on sparser datasets. In contrast, LightCCF gains an advantage in denser datasets, which aligns with our analysis in Appendix A.2 showing that the AU principle avoids performance fluctuations caused by randomly sampled negative pairs. 
+
+## 4.3 Compatibility with Existing CF Methods (Q2) 
+
+Apart from functioning as a stand-alone framework, the SFR and SFM components of SaFeAU can serve as a model-agnostic plugin for mainstream CF methods. We integrate it into BPR-MF, Light-GCN, and LightCCF, and compare each variant with its original counterpart. As shown in Table 4, SaFeAU consistently achieves sig-nificant performance gains by refining supervision signals through semantically discovering potential positive pairs from uninteracted items. 
+
+## 4.4 Potential Positive Pairs Identification (Q3) 
+
+To evaluate the effectiveness of SFM in identifying potential positive pairs, we conduct an ablation study on its matching strategy. We compare four variants: 
+
+• None-SFM : No unobserved items are identified as potential pos-itives. 
+
+• Random-SFM : Potential positives are randomly selected from unobserved items. 
+
+• Strict-SFM : The unobserved items are considered as potential positives if they share all top-𝑘 semantic factors with the given item, that is the semantic threshold of 𝛿 is set at k. 
+
+• SFM : The unobserved items are considered as potential positives if they share at least 𝛿 semantic factors with the given item. As shown in Table 5, both Strict-SFM and SFM achieve consistent gains, validating the utility of potential positive pairs identification for the performance of CF. Notably, SFM outperforms Strict-SFM on all metrics. This is because a moderate semantic threshold such as 𝛿 = 2 avoids insufficient coverage caused by high thresholds and the misidentification of true negatives as positives caused by low 
+
+Table 4: Compatibility analysis with different CF models on three various density datasets. “Rel Impr.” indicates the rela-tive improvements compared to the corresponding methods. Orange denotes an improvement, with darker shades indi-cating larger relative changes.                                                                                 
+
+> Method Gowalla Toys-and-Games Yelp2018 R@20 N@20 R@20 N@20 R@20 N@20 DirectAU 0.1313 0.0742 0.1325 0.0632 0.1069 0.0672 DirectAU+SaFe 0.1505 0.0844 0.1405 0.0681 0.1144 0.0713
+> Rel Impr. 14.62% 13.75% 6.04% 7.75% 7.02% 6.10% LightCCF 0.1384 0.0786 0.1301 0.0641 0.1099 0.0691 LightCCF+SaFe 0.1422 0.0817 0.1306 0.0652 0.1131 0.0699
+> Rel Impr. 2.75% 3.94% 0.38% 1.72% 2.91% 1.16% BPR-MF 0.0701 0.0401 0.1126 0.0522 0.0639 0.0387 BPR-MF+SaFe 0.1163 0.0614 0.1129 0.0529 0.0778 0.0457
+> Rel Impr. 65.91% 53.12% 0.27% 1.34% 21.75% 18.09% LightGCN 0.1223 0.0681 0.1129 0.0551 0.0814 0.0505 LightGCN+SaFe 0.1317 0.0705 0.1135 0.0558 0.0877 0.0534
+> Rel Impr. 7.69% 3.52% 0.53% 1.27% 7.74% 5.74%
+
+thresholds. Surprisingly, by comparing the results in Tables 2 and 5, we find that Random-SFM outperforms all baselines on sparse datasets, i.e., Gowalla and Toys-and-Games, revealing that baseline methods fail to identify the widely existing false negatives. Con-versely, on denser datasets, i.e., Beauty and Yelp2018 Random-SFM performs worse than None-SFM, underscoring the need for better mechanisms to identify potential positive items as data density grows. 
+
+Table 5: An ablation study on SFM regarding the strategy of identifying potential positive pairs. For brevity, the dataset “Toys-and-Games” is abbreviated as Toys in the table. Blue denotes a decrease in performance relative to the None-SFM, and Orange denotes an improvement, with darker shades indicating larger relative changes.                                          
+
+> Dataset Metric None-SFM Random-SFM Strict-SFM SFM Gowalla R@20 0.1315 0.1478 0.1501 0.1505
+> N@20 0.0746 0.0828 0.0842 0.0844
+> Toys R@20 0.1322 0.1381 0.1386 0.1405
+> N@20 0.0627 0.0663 0.0675 0.0681
+> Beauty R@20 0.1394 0.1295 0.1495 0.1509
+> N@20 0.0667 0.0645 0.0711 0.0715
+> Yelp2018 R@20 0.1062 0.1044 0.1132 0.1144
+> N@20 0.0669 0.0649 0.0706 0.0713
+
+## 4.5 Validation of Potential Positive Pair Quality (Q4) 
+
+While SFM improves downstream ranking metrics, results from the ablation study in Table 5 show that Random-SFM can perform surprisingly well on sparse datasets. This raises the question of KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yajie Yu et al. 
+
+whether SFM’s gains truly stem from precise semantic matching rather than general positive-expansion or relaxed-negative assump-tions. To address this, we directly take the potential positive pairs identified by SFM on the training set for evaluation. Based on these selected pairs, we measure the proportion that match the ground-truth positives in the testing set using HR@10, NDCG@10, and Recall@10. The results are presented in Table 6. SFM consistently outperforms Random-SFM under various set-tings of 𝛿 , demonstrating that SFM identifies genuinely higher-quality potential positives rather than merely benefiting from ran-dom expansion. Furthermore, the optimal performance is consis-tently achieved at 𝛿 = 2, indicating that the mechanism of SFM is robust and does not require complex threshold tuning. 
+
+Table 6: Performance comparison of SFM under different semantic thresholds 𝛿 , with top-𝑘 semantic factors fixed at 3. H@10 denotes HR@10. 
+
+Dataset Gowalla Beauty H@10 N@10 R@10 H@10 N@10 R@10 
+
+Random-SFM 0.000018 0.000003 0.000005 0.00085 0.000319 0.00075 
+
+𝛿 = 1 0.0217 0.0125 0.0153 0.0472 0.0381 0.0493 
+
+𝛿 = 2 0.0305 0.0148 0.0184 0.0495 0.0435 0.0537 
+
+𝛿 = 3 0.0264 0.0137 0.0169 0.0491 0.0427 0.0528 
+
+## 4.6 Effectiveness in Positive Pair Alignment (Q5) 
+
+To assess the effectiveness of SaFeAU in capturing interacted in-stances, we compute the average Euclidean distance between nor-malized representations of positive pairs in the semantic space. Table 7 presents these distances for the training ( train ) and testing (test ) sets, while the Gap column quantifies the difference between them, calculated as Gap = test − train . Based on these results, we draw the following observations: 
+
+• SaFeAU achieves small average distances on both training and testing sets, indicating that it is capable to learn user and item representations with superior interaction semantics. 
+
+• The shortest distance gaps achieved by SaFeAU demonstrate its strong generalization ability. By aligning semantic latent positive pairs, SaFeAU effectively transfers interaction semantics from the training set to the testing set. Consequently, SaFeAU attains the smallest average distance gaps on both datasets, i.e., 0.0314 for Gowalla and 0.0178 for Toys-and-Games. 
+
+• In contrast, SimGCF achieves a low distance on the training set but a much higher distance on the testing set, indicating that its representations degrade when generalizing to unseen interac-tions. As the number of graph convolutional layers increases, user and item embeddings tend to collapse toward a common region in the embedding space, reducing the variation among training positive pairs. While this leads to small training distances, the re-sulting homogeneous representations fail to capture fine-grained interaction patterns, causing poor alignment with positive pairs in the testing set and limiting generalization. 
+
+Table 7: The average distance of positive pairs. 
+
+Methods Gowalla Toys-and-Games train test Gap train test Gap 
+
+BPR-MF 0.8074 0.8458 0.0384 0.8137 0.8576 0.0439 LightCCF 0.7468 0.8097 0.0629 0.7937 0.8194 0.0257 SimGCF 0.7161 0.8336 0.1175 0.7553 0.8413 0.0860 DirectAU 0.7652 0.8222 0.0570 0.7927 0.8329 0.0402 SaFeAU 0.7529 0.7843 0.0314 0.7864 0.8042 0.0178 
+
+## 4.7 Parameter Sensitivity (Q6) 
+
+We investigated how the five hyperparameters impact the perfor-mance of SaFeAU in terms of NDCG@20, including the important weight of uniformity 𝛾 1, the important weight of semantic positive pair alignment 𝛾 2, the number of semantic factors 𝐾 , the number of top-ranked semantic factors 𝑘 , the maximum number of iterations 
+
+𝑟 .0.1 0.5 2 7 10         
+
+> 1
+> 0.01
+> 0.05
+> 0.1
+> 1
+> 10
+> 2
+> .0801 .0807 .0812 .0826 .0829
+> .0804 .0812 .0827 .0831 .0838
+> .0811 .0819 .0834 .0844 .0841
+> .0805 .0816 .0833 .0842 .0838
+> .0802 .0814 .0826 .0835 .0831
+> 0.1 0.5 2710
+> 1
+> 0.01
+> 0.05
+> 0.1
+> 1
+> 10
+> 2
+> .0666 .0671 .0674 .0671 .0665
+> .0672 .0677 .0671 .0668 .0669
+> .0676 .0681 .0678 .0672 .0668
+> .0671 .0674 .0672 .0665 .0662
+> .0664 .0664 .0669 .0662 .0661
+> 0.1 0.5 2710
+> 1
+> 0.01
+> 0.05
+> 0.1
+> 1
+> 10
+> 2
+> .0512 .0522 .0613 .0621 .0614
+> .0515 .0618 .0669 .0671 .0664
+> .0518 .0520 .0713 .0691 .0684
+> .0525 .0539 .0633 .0621 .0615
+> .0508 .0510 .0613 .0559 .0524
+
+(a) Gowalla (b) Toys-and-Games (c) Yelp2018 
+
+Figure 3: Impact of the uniformity weight 𝛾 1 and the semantic positive pairs alignment weight 𝛾 2 on NDCG@20 across three datasets. 
+
+Figure 3 indicates that, in most cases, the uniformity loss has a greater impact on performance than the semantic positive pairs alignment loss. This suggests that, due to sparse interactions, pro-moting a uniformly distributed representations plays a dominant role, as it enhances the coverage of semantic space and mitigates distribution bias. While larger and denser datasets fit for a higher 
+
+𝛾 1, which means for a stronger uniformity regularization. Smaller and sparser ones like Toys-and-Games achieve peak performance at moderate 𝛾 1, e.g., 𝛾 1 = 0.5.1 2 3 4 5        
+
+> Top-k Selected (k)
+> 0.0816
+> 0.0824
+> 0.0832
+> 0.0840
+> Semantic Factors (K)
+> K=1
+> K=2
+> K=4
+> K=7
+> 12345
+> Top-k Selected (k)
+> 0.0615
+> 0.0630
+> 0.0645
+> 0.0660
+> 0.0675
+> Semantic Factors (K)
+> K=1
+> K=2
+> K=4
+> K=7
+> 12345
+> Top-k Selected (k)
+> 0.0660
+> 0.0675
+> 0.0690
+> 0.0705
+> Semantic Factors (K)
+> K=1
+> K=2
+> K=4
+> K=7
+
+(a) Gowalla (b) Toys-and-Games (c) Yelp2018 
+
+Figure 4: Effect of the number of semantic factors 𝐾 and the top-𝑘 selection size on NDCG@20 across three datasets. Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+Figure 4 shows that the best performance is achieved with 𝐾 = 4
+
+semantic factors and top-𝑘 = 3 shared factors. Using four factors captures enough semantic diversity among items, while considering only the top-3 shared factors filters out irrelevant information and highlights the most meaningful similarities. We further investigate the sensitivity of model performance to the number of semantic factor routing iterations 𝑟 . As shown in Figure 5, performance across all three datasets plateaus after 𝑟 = 4,with marginal gains from additional iterations. This confirms that 
+
+𝑟 = 4 provides a good trade-off between convergence and efficiency. 0 2 4 6 8     
+
+> Number of Iterations (r)
+> 0.11
+> 0.12
+> 0.13
+> 0.14
+> 0.15
+> Gowalla
+> Toys-and-Games
+> Yelp2018
+> 02468
+> Number of Iterations (r)
+> 0.065
+> 0.070
+> 0.075
+> 0.080
+> 0.085
+> Gowalla
+> Toys-and-Games
+> Yelp2018
+> (a) Recall@20 (b) NDCG@20
+
+Figure 5: The relationship between semantic factor routing iterations and performance across three datasets. 
+
+## 5 Related Work 5.1 Alignment and Uniformity in Recommendation 
+
+Owing to its simplicity and effectiveness, collaborative filtering (CF) is established as a canonical technique in RecSys for helping users discover potential items of interest [ 5, 25 ]. Traditional CF methods are mainly based on matrix factorization (MF) [ 6, 7 ] and graph convolutional networks (GCNs) [ 5 , 25 ]. Because GCNs can capture high-order connectivity, they have been widely adopted to learn more powerful user/item representations [ 5 , 25 , 30 – 33 ]. However, the over-smoothing problem [ 19 ] remains an inherent challenge in GCNs-based CF. DirectAU [ 21 ] was the first model to explore the desired prop-erties of representations in CF from the perspective of alignment and uniformity (AU). Building on this work, several subsequent models have been proposed to adopted the AU principle to enhance their predictions. For instance, GraphAU [ 35 ] extends the AU prin-ciple by proposing high-order representation alignment, which improves the computational scalability in terms of incorporating multiple graph convolution layers. LightGODE [ 37 ] takes a differ-ent approach by questioning the necessity of time-intensive graph convolutions and introducing a highly efficient post-training graph convolution framework. However, the aforementioned methods rely on instance-level learning paradigm and neglect the impor-tance of exploiting false negatives under sparse CF supervision signals. When coping with large scale scenarios, their functionali-ties are limited to a narrow scope neighborhood alignment due to the computational complexity of GCNs-based methods. 
+
+## 5.2 Disentangled Representation Learning for Recommendation 
+
+The disentanglement in the feature space encourages the learned representation to carry explainable semantics with independent factors [ 1], showing great potential to improve various tasks from the three aspects: interpretability, robustness and controllability [ 24 ]. Most existing work on disentangled representation learning have focused on computer vision [ 11 ] and natural language pro-cessing. In RecSys, users exhibit diverse behaviors and preferences across different items. Applying disentanglement learning to sep-arate these underlying behavioral factors is meaningful for en-hancing recommendation quality. However, research in this area is underexplored yet. Most existing approaches only perform coarse-grained disentanglement by separating the target behavior (e.g., buy) from auxiliary behaviors (e.g., click), as in PKEF [ 15 ]. Some methods disentangle item representations solely based on the items a single user has interacted with in sequential recommendation [ 2, 9 , 24 ], ignoring factors that are shared across multiple users. Disen-CGCN [ 3] considers the need to disentangle multiple factors. However, it mechanically assign feature factors based on embed-ding dimensions ignoring the fact that, semantic information may not be strictly correlated to a specific embedding dimension in deep learning models. 
+
+## 6 Conclusion 
+
+In this work, we propose Semantic Factor enhanced Alignment and Uniformity (SaFeAU) to alleviate the impact of false negatives in CF by enhancing supervision signals based on semantic enhanced learning paradigm. In detail, the Semantic Factor Routing algorithm is designed to learn a set of shared semantic factors through an iterative routing process. Then Semantic Factor Matching method is introduced to augment the sparse supervision signals of CF from a semantic perspective. Finally, Semantic Pairs Alignment module leverages the alignment and uniformity principle to align users with both their interacted items and also with SFM-identified po-tential positive items, while promoting uniformity across all user and item representations for enhancing their disparity. Extensive experiments on four datasets show that SaFeAU consistently out-performs GCN-based and MF-based state-of-the-art CF methods in both recommendation accuracy and computational efficiency. This work presents an attempt to expand supervision signals of CF from the semantic enhanced learning perspective and provides new research possibilities for efficient and large-scale recommendation. 
+
+## Acknowledgments 
+
+This work was supported in part by the National Natural Sci-ence Foundation of China (No. 62566015 and No. U22A2099), the Natural Science Foundation of Guangxi Province (No. 2026GXNS-FAA00641178), the Innovation Project of GUET Graduate Education (No. 2026YCXS082). KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yajie Yu et al. 
+
+## References 
+
+[1] Yoshua Bengio, Aaron Courville, and Pascal Vincent. 2013. Representation learning: A review and new perspectives. IEEE transactions on pattern analysis and machine intelligence 35, 8 (2013), 1798–1828. [2] Yukuo Cen, Jianwei Zhang, Xu Zou, Chang Zhou, Hongxia Yang, and Jie Tang. 2020. Controllable multi-interest framework for recommendation. In Proceedings of the 26th ACM SIGKDD international conference on knowledge discovery & data mining . 2942–2951. [3] Zhiyong Cheng, Jianhua Dong, Fan Liu, Lei Zhu, Xun Yang, and Meng Wang. 2024. Disentangled cascaded graph convolution networks for multi-behavior recommendation. ACM Transactions on Recommender Systems 2, 4 (2024), 1–27. [4] Guibing Guo, Huihuai Qiu, Zhenhua Tan, Yuan Liu, Jing Ma, and Xingwei Wang. 2017. Resolving data sparsity by multi-type auxiliary implicit feedback for recommender systems. Knowledge-Based Systems 138 (2017), 202–207. [5] Xiangnan He, Kuan Deng, Xiang Wang, Yan Li, Yongdong Zhang, and Meng Wang. 2020. Lightgcn: Simplifying and powering graph convolution network for recommendation. In Proceedings of the 43rd International ACM SIGIR conference on research and development in Information Retrieval . 639–648. [6] Yehuda Koren. 2008. Factorization meets the neighborhood: a multifaceted collaborative filtering model. In Proceedings of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining . 426–434. [7] Yehuda Koren, Robert Bell, and Chris Volinsky. 2009. Matrix factorization tech-niques for recommender systems. Computer 42, 8 (2009), 30–37. [8] Dongha Lee, SeongKu Kang, Hyunjun Ju, Chanyoung Park, and Hwanjo Yu. 2021. Bootstrapping user and item representations for one-class collaborative filtering. In Proceedings of the 44th international ACM SIGIR conference on Research and Development in information retrieval . 317–326. [9] Chao Li, Zhiyuan Liu, Mengmeng Wu, Yuchi Xu, Huan Zhao, Pipei Huang, Guoliang Kang, Qiwei Chen, Wei Li, and Dik Lun Lee. 2019. Multi-interest network with dynamic routing for recommendation at Tmall. In Proceedings of the 28th ACM international conference on information and knowledge management .2615–2623. [10] Feng Liu, Hao Cang, Huanhuan Yuan, Jiaqing Fan, Yongjing Hao, Fuzhen Zhuang, Guanfeng Liu, and Pengpeng Zhao. 2025. How Do Graph Signals Affect Recom-mendation: Unveiling the Mystery of Low and High-Frequency Graph Signals. 
+
+arXiv preprint arXiv:2512.15744 (2025). [11] Yahui Liu, Enver Sangineto, Yajing Chen, Linchao Bao, Haoxian Zhang, Nicu Sebe, Bruno Lepri, Wei Wang, and Marco De Nadai. 2021. Smoothing the disentangled latent style space for unsupervised image-to-image translation. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition . 10785–10794. [12] Dongsheng Luo, Wei Cheng, Wenchao Yu, Bo Zong, Jingchao Ni, Haifeng Chen, and Xiang Zhang. 2021. Learning to drop: Robust graph neural network via topological denoising. In WSDM . 779–787. [13] Kelong Mao, Jieming Zhu, Jinpeng Wang, Quanyu Dai, Zhenhua Dong, Xi Xiao, and Xiuqiang He. 2021. SimpleX: A simple and strong baseline for collaborative filtering. In Proceedings of the 30th ACM international conference on information & knowledge management . 1243–1252. [14] Kelong Mao, Jieming Zhu, Xi Xiao, Biao Lu, Zhaowei Wang, and Xiuqiang He. 2021. UltraGCN: ultra simplification of graph convolutional networks for recom-mendation. In Proceedings of the 30th ACM international conference on information & knowledge management . 1253–1262. [15] Chang Meng, Chenhao Zhai, Yu Yang, Hengyu Zhang, and Xiu Li. 2023. Parallel knowledge enhancement based framework for multi-behavior recommenda-tion. In Proceedings of the 32nd ACM international conference on information and knowledge management . 1797–1806. [16] Aaron van den Oord, Yazhe Li, and Oriol Vinyals. 2018. Representation learning with contrastive predictive coding. arXiv preprint arXiv:1807.03748 (2018). [17] Seongmin Park, Mincheol Yoon, Jae-woong Lee, Hogun Park, and Jongwuk Lee. 2023. Toward a better understanding of loss functions for collaborative filtering. In Proceedings of the 32nd ACM international conference on information and knowledge management . 2034–2043. [18] Steffen Rendle, Christoph Freudenthaler, Zeno Gantner, and Lars Schmidt-Thieme. 2012. BPR: Bayesian personalized ranking from implicit feedback. arXiv preprint arXiv:1205.2618 (2012). [19] T Konstantin Rusch, Michael M Bronstein, and Siddhartha Mishra. 2023. A survey on oversmoothing in graph neural networks. arXiv preprint arXiv:2303.10993 
+
+(2023). [20] Sara Sabour, Nicholas Frosst, and Geoffrey E Hinton. 2017. Dynamic routing between capsules. Advances in neural information processing systems 30 (2017). [21] Chenyang Wang, Yuanqing Yu, Weizhi Ma, Min Zhang, Chong Chen, Yiqun Liu, and Shaoping Ma. 2022. Towards representation alignment and uniformity in collaborative filtering. In Proceedings of the 28th ACM SIGKDD conference on knowledge discovery and data mining . 1816–1825. [22] Chenyang Wang, Min Zhang, Weizhi Ma, Yiqun Liu, and Shaoping Ma. 2019. Mod-eling item-specific temporal dynamics of repeat consumption for recommender systems. In The world wide web conference . 1977–1987. [23] Tongzhou Wang and Phillip Isola. 2020. Understanding contrastive representation learning through alignment and uniformity on the hypersphere. In International conference on machine learning . PMLR, 9929–9939. [24] Xin Wang, Hong Chen, Yuwei Zhou, Jianxin Ma, and Wenwu Zhu. 2022. Dis-entangled representation learning for recommendation. IEEE Transactions on Pattern Analysis and Machine Intelligence 45, 1 (2022), 408–424. [25] Xiang Wang, Xiangnan He, Meng Wang, Fuli Feng, and Tat-Seng Chua. 2019. Neural graph collaborative filtering. In Proceedings of the 42nd international ACM SIGIR conference on Research and development in Information Retrieval . 165–174. [26] Jiancan Wu, Xiang Wang, Fuli Feng, Xiangnan He, Liang Chen, Jianxun Lian, and Xing Xie. 2021. Self-supervised graph learning for recommendation. In Proceed-ings of the 44th international ACM SIGIR conference on research and development in information retrieval . 726–735. [27] Jiancan Wu, Xiang Wang, Xingyu Gao, Jiawei Chen, Hongcheng Fu, and Tianyu Qiu. 2024. On the effectiveness of sampled softmax loss for item recommendation. 
+
+ACM Transactions on Information Systems 42, 4 (2024), 1–26. [28] Caijun Xu, Fuwei Zhang, Zhao Zhang, Fuzhen Zhuang, and Rui Liu. 2024. Explor-ing high-order user preference with knowledge graph for recommendation. In 
+
+Proceedings of the 33rd ACM International Conference on Information and Knowl-edge Management . 4138–4142. [29] Jinfeng Xu, Zheyu Chen, Jinze Li, Shuo Yang, Wei Wang, Xiping Hu, and Edith C-H Ngai. 2024. Enhancing Graph Collaborative Filtering with FourierKAN Feature Transformation. arXiv preprint arXiv:2406.01034 (2024). arXiv:2406.01034 [cs.IR] [30] Tongxin Xu, Chenzhong Bin, Cihan Xiao, Yunhui Li, and Tianlong Gu. 2025. Multi-Behavior Intent Disentanglement for Recommendation via Information Bottleneck Principle. In Proceedings of the 34th ACM International Conference on Information and Knowledge Management . 5391–5395. [31] Tongxin Xu, Chenzhong Bin, Cihan Xiao, Zhixin Zeng, and Tianlong Gu. 2026. DISC: Disentangling Spurious Correlations for Multi-Behavior Recommendation. 
+
+IEEE Transactions on Computational Social Systems (2026). [32] Tongxin Xu, Chenzhong Bin, Cihan Xiao, Zhixin Zeng, and Yunhui Li. 2026. Spurious Correlation Knowledge Graph Disentanglement for Multi-behavior Recommendation. In International Conference on Database Systems for Advanced Applications . 356–371. [33] Tongxin Xu, Wenqiang Liu, Chenzhong Bin, Cihan Xiao, Zhixin Zeng, and Tian-long Gu. 2025. Improving Recommendation Fairness via Graph Structure and Representation Augmentation. In Proceedings of the 34th ACM International Con-ference on Information and Knowledge Management . 3645–3654. [34] Hongrui Xuan, Yi Liu, Bohan Li, and Hongzhi Yin. 2023. Knowledge enhancement for contrastive multi-behavior recommendation. In Proceedings of the sixteenth ACM international conference on web search and data mining . 195–203. [35] Liangwei Yang, Zhiwei Liu, Chen Wang, Mingdai Yang, Xiaolong Liu, Jing Ma, and Philip S Yu. 2023. Graph-based alignment and uniformity for recommenda-tion. In Proceedings of the 32nd ACM international conference on information and knowledge management . 4395–4399. [36] An Zhang, Wenchang Ma, Xiang Wang, and Tat-Seng Chua. 2022. Incorporating bias-aware margins into contrastive loss for collaborative filtering. Advances in Neural Information Processing Systems 35 (2022), 7866–7878. [37] Weizhi Zhang, Liangwei Yang, Zihe Song, Henry Peng Zou, Ke Xu, Liancheng Fang, and Philip S Yu. 2024. Do we really need graph convolution during training? light post-training graph-ode for efficient recommendation. In Proceedings of the 33rd ACM International Conference on Information and Knowledge Management .3248–3258. [38] Yu Zhang, Yiwen Zhang, Yi Zhang, Lei Sang, and Yun Yang. 2025. Unveiling Contrastive Learning’s Capability of Neighborhood Aggregation for Collabora-tive Filtering. In Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval . 1985–1994. [39] Wayne Xin Zhao, Junhua Chen, Pengfei Wang, Qi Gu, and Ji-Rong Wen. 2020. Revisiting alternative experimental settings for evaluating top-n item recommen-dation algorithms. In Proceedings of the 29th ACM International Conference on Information & Knowledge Management . 2329–2332. [40] Wayne Xin Zhao, Shanlei Mu, Yupeng Hou, Zihan Lin, Yushuo Chen, Xingyu Pan, Kaiyuan Li, Yujie Lu, Hui Wang, Changxin Tian, Yingqian Min, Zhichao Feng, Xinyan Fan, Xu Chen, Pengfei Wang, Wendi Ji, Yaliang Li, Xiaoling Wang, and Jirong Wen. 2021. RecBole: Towards a Unified, Comprehensive and Efficient Framework for Recommendation Algorithms. In Proceedings of the 30th ACM International Conference on Information & Knowledge Management . 4653–4664. doi:10.1145/3459637.3482016 
+
+## A Investigation of Loss Functions 
+
+In this section, we first reveal the underlying correlations among three mainstream CF optimization loss, i.e., BPR, InfoNCE and AU. We then show that BPR and InfoNCE rely on limited negative samples and thus incompletely model the negative item distribution. In contrast, AU eliminates negative sampling and directly optimizes Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+the global geometry of the representation space, enabling stable learning even on sparse interactions or large item sets. 
+
+## A.1 Relationships Among Loss Functions 
+
+In CF, BPR, InfoNCE, and AU are three widely adopted loss func-tions. However, existing works typically employ these losses in isolation, without thoroughly investigating their deeper correla-tions in optimization objectives. Fundamentally, all three aim to pull positive samples closer and push negative samples apart in the latent representation space. Equations (1) and (2) show that In-foNCE reduces to BPR when 𝑀 = 1 and 𝜏 = 1. We next investigate the relationship between AU and InfoNCE. By subtracting log 𝑀 , we normalize the InfoNCE loss to eliminate its dependence on the number of negative samples. As 𝑀 → ∞ 
+
+with fixed 𝜏 > 0, the normalized loss converges to a combination of alignment and uniformity terms. 
+
+Theorem 1 (Normalized InfoNCE Converges to AU as 
+
+𝑀 → ∞ ). For fixed 𝜏 > 0, As the number of negative pairs 𝑀 → ∞ ,the normalized InfoNCE loss converges to: 
+
+e𝐿 CL (𝑓 ; 𝜏, 𝑀 ) = 𝐿 CL (𝑓 ; 𝜏, 𝑀 ) − log 𝑀 
+
+≈ − 1
+
+𝜏 E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+[𝑠 (𝑢, 𝑖 )] + log E 
+
+> (𝑢,𝑢 ′)∼ 𝑝 user
+
+h
+
+𝑒 −2·𝑑 (𝑢,𝑢 ′ ) i
+
++ log E 
+
+> (𝑖,𝑖 ′)∼ 𝑝 item
+
+h
+
+𝑒 −2·𝑑 (𝑖,𝑖 ′ ) i
+
+(13) 
+
+Proof. 
+
+lim  
+
+> 𝑀 →∞
+
+L𝐶𝐿 − 𝑙𝑜𝑔𝑀 (14) 
+
+= lim  
+
+> 𝑀 →∞
+
+− E    
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+> {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+log 𝑒 s(𝑢,𝑖 )/ 𝜏 
+
+𝑒 s(𝑢,𝑖 )/ 𝜏 + Í𝑀 𝑛 =1 𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 
+
+− 𝑙𝑜𝑔𝑀 (15) 
+
+= − 1
+
+𝜏 E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+[𝑠 (𝑢, 𝑖 )] + lim 
+
+> 𝑀 →∞
+
+
+
+E    
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+> {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+log 1
+
+𝑀 𝑒 s(𝑢,𝑖 )/ 𝜏 + 1
+
+𝑀 
+
+> 𝑀
+
+∑︁ 
+
+> 𝑛 =1
+
+𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 
+
+!
+
+(16) 
+
+= − 1
+
+𝜏 E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+[𝑠 (𝑢, 𝑖 )] + E    
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+> {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+"
+
+lim  
+
+> 𝑀 →∞
+
+log 1
+
+𝑀 𝑒 s(𝑢,𝑖 )/ 𝜏 + 1
+
+𝑀 
+
+> 𝑀
+
+∑︁ 
+
+> 𝑛 =1
+
+𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 
+
+!# 
+
+(17) 
+
+= − 1
+
+𝜏 E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+[𝑠 (𝑢, 𝑖 )] + E
+
+> 𝑢 ∼𝑝 user
+
+
+
+log E
+
+> 𝑗 ∼𝑝 item
+
+𝑒 𝑠 (𝑢,𝑗 )/ 𝜏  
+
+(18) 
+
+= − 1
+
+𝜏 E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+[𝑠 (𝑢, 𝑖 )] + E
+
+> 𝑢 ∼𝑝 user
+
+
+
+log (𝑒 1/𝜏 E
+
+> 𝑗 ∼𝑝 item
+
+𝑒 −𝑑 (𝑢,𝑗 )/ 2𝜏 )
+
+
+
+(19) 
+
+≈ − 1
+
+𝜏 E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+[𝑠 (𝑢, 𝑖 )] + log E 
+
+> (𝑢,𝑢 ′)∼ 𝑝 user
+
+h
+
+𝑒 −2·𝑑 (𝑢,𝑢 ′ ) i
+
++ log E 
+
+> (𝑖,𝑖 ′)∼ 𝑝 item
+
+h
+
+𝑒 −2·𝑑 (𝑖,𝑖 ′ ) i
+
+(20) We derive from Equation (16) to Equation (17) using the Contin-uous Mapping Theorem and from Equation (17) to Equation (18) the strong law of large numbers (SLLN). Since when the user and item embeddings are uniformly distributed on the unit hypersphere, the similarity between a user and an item can be independently estimated based on their respective distances. So, the Equation (19) is divided by the uniformity of both users and items, utilizing the logarithm of the average pairwise Gaussian potential as described in [23]. □
+
+This theorem reveals the key insights: 
+
+• The first term is minimized if and only if the encoder 𝑓 is perfectly aligned, while the second and third terms are minimized if and only if the user and item embeddings are perfectly uniform. 
+
+• The hyperparameter 𝜏 controls the trade-off between alignment and uniformity. All of this implies that the AU loss implicitly captures the effect of normalized InfoNCE as 𝑀 → ∞ , thereby achieving the same objective without explicit negative sampling. 
+
+## A.2 Limitations of BPR and InfoNCE as Sampling-Based Losses 
+
+Beyond their correlations, BPR and InfoNCE rely on a limited set of negatives from non-interacted items, while AU optimizes the repre-sentation geometry over the full item distribution without explicit negatives. Notably, InfoNCE reduces to BPR with one negative and converges to AU as the number of negatives grows, motivating an analysis of the finite-negative approximation error relative to its full-distribution limit. 
+
+Theorem 2 (Approximation Error of Finite-Negative In-foNCE Relative to Its Full-Distribution Limit). For fixed 𝜏 > 0,the error between the InfoNCE loss using 𝑀 negative samples and its full-distribution limit decays as: 
+
+lim 
+
+> 𝑀 ′→∞
+
+e𝐿 CL (𝑓 ; 𝜏, 𝑀 ′) − e𝐿 CL (𝑓 ; 𝜏, 𝑀 )
+
+≤ 1
+
+𝑀 𝑒 2/𝜏 + 𝑂 
+
+
+
+𝑀 −1/2 
+
+, (21) 
+
+Proof. 
+
+lim 
+
+> 𝑀 ′→∞
+
+(𝐿 CL (𝑓 ; 𝜏, 𝑀 ′) − log 𝑀 ′) − ( 𝐿 CL (𝑓 ; 𝜏, 𝑀 ) − log 𝑀 ) (22) 
+
+= E    
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+> {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+"
+
+log E
+
+> 𝑗 ∼𝑝 item
+
+𝑒 𝑠 (𝑢,𝑗 )/ 𝜏  − log ( 1
+
+𝑀 𝑒 𝑠 (𝑢,𝑖 )/ 𝜏 + 1
+
+𝑀 
+
+> 𝑀
+
+∑︁ 
+
+> 𝑛 =1
+
+𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 )
+
+#
+
+(23) 
+
+≤ E    
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+> {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+" 
+
+log E
+
+> 𝑗 ∼𝑝 item
+
+𝑒 𝑠 (𝑢,𝑗 )/ 𝜏 
+
+
+
+− log ( 1
+
+𝑀 𝑒 𝑠 (𝑢,𝑖 )/ 𝜏 + 1
+
+𝑀 
+
+> 𝑀
+
+∑︁ 
+
+> 𝑛 =1
+
+𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 )
+
+#
+
+(24) 
+
+≤ 𝑒 1/𝜏 E    
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+> {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+"
+
+E
+
+> 𝑗 ∼𝑝 item
+
+𝑒 𝑠 (𝑢,𝑗 )/ 𝜏 − ( 1
+
+𝑀 𝑒 𝑠 (𝑢,𝑖 )/ 𝜏 + 1
+
+𝑀 
+
+> 𝑀
+
+∑︁ 
+
+> 𝑛 =1
+
+𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 )
+
+#
+
+(25) KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea Yajie Yu et al. 
+
+≤ 1
+
+𝑀 𝑒 2/𝜏 + 𝑒 1/𝜏 E   
+
+> 𝑢, {𝑗 𝑛 }𝑀 𝑛 =1
+> i.i.d.
+> ∼𝑝 item
+
+"
+
+E
+
+> 𝑗 ∼𝑝 item
+
+[𝑒 𝑠 (𝑢,𝑗 )/ 𝜏 ] − 1
+
+𝑀 
+
+> 𝑀
+
+∑︁ 
+
+> 𝑛 =1
+
+𝑒 s(𝑢,𝑗 𝑛 )/ 𝜏 
+
+#
+
+(26) 
+
+= 1
+
+𝑀 𝑒 2/𝜏 + 𝑂 
+
+
+
+𝑀 −1/2 
+
+, (27) The inequality from Equation (23) to Equation (24) follows from Jensen’s inequality applied to the absolute value function. The inequality from Equation (24) to Equation (25) follows the Inter-mediate Value Theorem and the 𝑒 1/𝜏 upper bound on the absolute derivative of log between the two points. For Equation (25) , we apply the triangle inequality to separate the positive sample term, as shown in Equation (26) . Applying the Berry-Esseen theorem to the i.i.d. negative sample terms with bounded support, we establish that the mean estimation error scales as 𝑂 (𝑀 −1/2). □
+
+By analyzing the results, we can draw the following conclusions: 
+
+• BPR vs. InfoNCE: BPR underperforms InfoNCE with larger 
+
+𝑀 because it corresponds to the extreme case of 𝑀 = 1, which incurs the largest approximation error. 
+
+• Negative Sampling Error Bottleneck: The approximation er-ror has two components, 𝑂 (𝑀 −1) from positive-pair normal-ization and 𝑂 (𝑀 −1/2) from finite negative sampling. While the former vanishes quickly, the latter decays more slowly and dom-inates the total error, limiting how closely the finite-sample In-foNCE loss can approach its full-distribution limit. 
+
+• InfoNCE vs. AU: In the sparse interaction scenarios, where neg-ative sampling suffers from false negative labeling and a narrow view of the negative space, the AU objective is more robust, as it eliminates the need for negative sampling and directly optimizes alignment and uniformity over the global representation space. Unlike BPR and InfoNCE, which rely on negative sampling, the AU objective directly optimizes the global geometry of the repre-sentation space, making it more robust. We adopt AU as our base loss to reduce sampling-induced biases and improve generalization in sparse and large-scale recommendation scenarios. 
+
+## B Theoretical Analysis of Semantic-Aware Alignment Enhancement 
+
+In the previous section, we discussed the relationship between AU and InfoNCE/BPR, and showed that AU avoids explicit negative sampling by directly optimizing alignment and uniformity. How-ever, under sparse implicit feedback, the alignment supervision in AU is still limited to observed user-item interactions. To address this limitation, we further analyze how SFR decomposes item embed-dings into semantic factors for semantic relation modeling, while SPA enriches the alignment supervision by augmenting supervised signals. 
+
+## B.1 Theoretical Analysis of Semantic Factor Routing 
+
+Theorem 3 (Semantic Factor Routing for Soft Decomposi-tion). Our semantic factor routing algorithm optimizes the following objective function. After convergence, the learned semantic factors can be viewed as a soft semantic decomposition of the input item embeddings. 
+
+min  
+
+> 𝑊 , F
+
+L( 𝑊 , F ) := −∑︁ 
+
+> 𝑗
+
+⟨𝑧 𝑗 , F𝑗 ⟩ + 𝛼 ∑︁ 
+
+> 𝑖
+
+∑︁ 𝑗 
+
+𝑤 𝑖 𝑗 log 𝑤 𝑖 𝑗 ,
+
+s.t. ∑︁ 
+
+> 𝑗
+
+𝑤 𝑖 𝑗 = 1, 𝑤 𝑖 𝑗 > 0, ∥F 𝑗 ∥ ≤ 1 (28) 
+
+Intuition behind the objective . Equation (28) provides an opti-mization interpretation of Algorithm 1. The term − Í𝑗 ⟨𝑧 𝑗 , F𝑗 ⟩ en-courages routed item embeddings to align with their corresponding semantic factors. Accordingly, the routing weights 𝑤 𝑖 𝑗 are updated through a softmax operation over factor-item similarities in Al-gorithm 1. The regularization term 𝛼 Í𝑖 
+
+Í𝑗 𝑤 𝑖 𝑗 log 𝑤 𝑖 𝑗 acts as an entropy regularizer, which prevents one-hot routing assignments and leads to softer routing distributions across semantic factors. 
+
+Proof. We optimize Equation (28) by alternating minimization over the routing weights 𝑊 and semantic factors {F 𝑗 }.
+
+(1) Optimization with respect to 𝑊 . Fixing {F 𝑗 } and substituting 
+
+𝑧 𝑗 = Í𝑖 𝑤 𝑖 𝑗 ˜𝑓 (𝑖 ), the objective becomes 
+
+min  
+
+> 𝑊
+
+−∑︁ 
+
+> 𝑖
+
+∑︁ 𝑗 
+
+𝑤 𝑖 𝑗 ⟨ ˜𝑓 (𝑖 ), F𝑗 ⟩ + 𝛼 ∑︁ 
+
+> 𝑖
+
+∑︁ 𝑗 
+
+𝑤 𝑖 𝑗 log 𝑤 𝑖 𝑗 ,
+
+subject to ∑︁ 
+
+> 𝑗
+
+𝑤 𝑖 𝑗 = 1, 𝑤 𝑖 𝑗 > 0.
+
+Introducing the Lagrange multiplier 𝜆 𝑖 for the simplex constraint yields 
+
+−∑︁ 
+
+> 𝑗
+
+𝑤 𝑖 𝑗 ⟨ ˜𝑓 (𝑖 ), F𝑗 ⟩ + 𝛼 ∑︁ 
+
+> 𝑗
+
+𝑤 𝑖 𝑗 log 𝑤 𝑖 𝑗 + 𝜆 𝑖  ∑︁ 𝑗 
+
+𝑤 𝑖 𝑗 − 1
+
+!
+
+.
+
+Taking derivatives with respect to 𝑤 𝑖 𝑗 gives 
+
+−⟨ ˜𝑓 (𝑖 ), F𝑗 ⟩ + 𝛼 (log 𝑤 𝑖 𝑗 + 1) + 𝜆 𝑖 = 0.
+
+Solving for 𝑤 𝑖 𝑗 yields 
+
+𝑤 𝑖 𝑗 ∝ exp ⟨ ˜𝑓 (𝑖 ), F𝑗 ⟩
+
+𝛼 
+
+!
+
+,
+
+which corresponds to a softmax routing distribution over semantic factors. 
+
+(2) Optimization with respect to F𝑗 . Fixing 𝑊 , the optimization problem reduces to 
+
+max  
+
+> ∥ F 𝑗 ∥ ≤ 1
+
+⟨𝑧 𝑗 , F𝑗 ⟩.
+
+By the Cauchy–Schwarz inequality, 
+
+⟨𝑧 𝑗 , F𝑗 ⟩ ≤ ∥ 𝑧 𝑗 ∥∥F 𝑗 ∥ ≤ ∥ 𝑧 𝑗 ∥,
+
+where equality holds when 
+
+F𝑗 = 𝑧 𝑗 
+
+∥𝑧 𝑗 ∥ .
+
+Therefore, each semantic factor corresponds to the normalized direction of the weighted aggregation of routed item embeddings. 
+
+(3) Convergence. Each step minimizes Equation (28) with one variable block fixed, thus the objective monotonically decreases during optimization. Since the objective is lower bounded, the opti-mization converges to a stationary point, yielding a soft-routing decomposition of the input item embeddings. □Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering KDD ’26, August 09–13, 2026, Jeju Island, Republic of Korea 
+
+Table 8: Training time comparison of GCN-based and MF-based methods on three datasets, including the average epoch time, number of epochs, and total training time. Here, s, m, and h denote seconds, minutes, and hours, respectively.                                                           
+
+> Dataset Method Time/Epoch Epochs Total Time
+> Gowalla
+> LightGCN 112.32s 113 3.53h FourierKAN-GCF 126.58s 91 3.20h SimGCF 245.29s 87 5.93h LightGODE 14.67s 94 0.38h LightCCF 14.05s 88 0.34h SaFeAU 20.87s 58 0.34h
+> Toys-and-Games
+> LightGCN 1.82s 134 4.065m FourierKAN-GCF 2.56s 122 5.205m SimGCF 2.81s 118 5.526m LightGODE 0.52s 130 1.13m LightCCF 0.54s 164 1.48m SaFeAU 0.73s 98 1.19m
+> Yelp2018
+> LightGCN 49.52s 59 48.70m FourierKAN-GCF 50.86s 49 41.54m SimGCF 64.18s 42 44.93m LightGODE 1.73s 113 3.26m LightCCF 1.88s 109 3.42m SaFeAU 2.32s 84 3.25m
+
+## B.2 Generalization Benefit of Positive Augmentation 
+
+Theorem 4 (Generalization Benefit of Positive Augmen-tation). Recall that the alignment objective is defined as: 
+
+𝐿 align = E 
+
+> (𝑢,𝑖 )∼ 𝑝 pos
+
+˜𝑓 (𝑢 ) − ˜𝑓 (𝑖 ) 2
+
+.
+
+Given 𝑁 positive pairs {( 𝑢 𝑛 , 𝑖 𝑛 )} 𝑁 𝑛 =1 sampled i.i.d. from 𝑝 pos (𝑢, 𝑖 ), the empirical alignment loss is: 
+
+ˆ𝐿 align = 1
+
+𝑁 
+
+> 𝑁
+
+∑︁ 
+
+> 𝑛 =1
+
+∥ ˜𝑓 (𝑢 𝑛 ) − ˜𝑓 (𝑖 𝑛 )∥ 2.
+
+Then, with probability ≥ 1 − 𝛿 , the estimation error is bounded by: 
+
+𝐿 align − ˆ𝐿 align ≤ O( 𝑁 −1/2). (29) 
+
+Proof. Define 
+
+𝑋 𝑛 = ∥ ˜𝑓 (𝑢 𝑛 ) − ˜𝑓 (𝑖 𝑛 )∥ 2.
+
+The empirical alignment loss can be written as: 
+
+ˆ𝐿 align = 1
+
+𝑁 
+
+> 𝑁
+
+∑︁ 
+
+> 𝑛 =1
+
+𝑋 𝑛 ,
+
+while the population alignment loss is: 
+
+𝐿 align = E[𝑋 ].
+
+Since embeddings are normalized, we have 𝑋 𝑛 ∈ [ 0, 4]. Applying Hoeffding’s inequality, the probability that the empirical alignment loss deviates from the population alignment loss by more than 𝑡 is bounded by: 
+
+Pr 
+
+ ˆ𝐿 align − 𝐿 align ≥ 𝑡 
+
+
+
+≤ 2 exp 
+
+
+
+− 2𝑁 𝑡 2
+
+16 
+
+
+
+.
+
+Equivalently, for any failure probability 𝛿 > 0, solving 
+
+2 exp 
+
+
+
+− 2𝑁 𝑡 2
+
+16 
+
+
+
+= 𝛿, 
+
+gives 
+
+𝑡 = 4√︂ ln (2/𝛿 )
+
+2𝑁 .
+
+Therefore, with probability at least 1 − 𝛿 , we obtain: 
+
+ˆ𝐿 align − 𝐿 align ≤ 4√︂ ln (2/𝛿 )
+
+2𝑁 = O( 𝑁 −1/2).
+
+The estimation error decreases at rate O( 𝑁 −1/2) as the number of positive pairs increases. Thus, SPA improves alignment optimiza-tion by augmenting additional semantic-aware positive pairs. □
+
+## C Experimental Setup C.1 Baselines 
+
+• BPR-MF [ 18 ] is a learning-to-rank method that improves a model’s ability to rank preferred items above negative ones. 
+
+• DirectAU [ 21 ] proposes a new learning objective for CF that directly optimizes the alignment and uniformity of user and item representations on a hypersphere. 
+
+• LightGODE [37 ] replaces the computationally expensive GCNs during training with an efficient post-training graph ODE. 
+
+• LightCCF [38 ] reveals that the contrastive learning objective inherently performs GCN through its gradient descent process. 
+
+• LightGCN [5 ] is a simplified GCN for CF that performs linear propagation between neighbors on the user-item bipartite graph. 
+
+• GraphAU [ 35 ] is a graph-based method that improves hyper-sphere representation learning for RecSys by using high-order connections in the user-item graph to alleviate data sparsity. 
+
+• FourierKAN-GCF [ 29 ] introduces FourierKAN as an efficient feature transformation module in graph collaborative filtering, thereby enhancing the model’s representation capability while reducing training difficulty. 
+
+• SimGCF [ 10 ] enhances GCNs by adaptively scaling low- and high-frequency graph signals and applying a space flip operation to recover signal expressiveness. 
+
+## C.2 Efficiency Analysis 
+
+We evaluate the computational efficiency of SaFeAU by comparing its training time with state-of-the-art methods, including traditional GCN-based methods (LightGCN, FourierKAN-GCF, SimGCF) and efficient MF-based methods (LightGODE, LightCCF). Results on three representative datasets are summarized in Table 8, from which several key observations emerge: 
+
+• MF-based models (LightGODE, LightCCF, SaFeAU) achieve sig-nificantly faster training than GCN-based models (LightGCN, SimGCF) by avoiding costly neighborhood aggregation. 
+
+• SaFeAU maintains high training efficiency as data complexity grows, with only a modest increase in per-epoch runtime, making it suitable for large-scale industrial RecSys. 
+
+• SaFeAU also converges in fewer epochs, indicating that its se-mantic positive pairs alignment loss captures user preferences more effectively and achieves peak performance in fewer training iterations.

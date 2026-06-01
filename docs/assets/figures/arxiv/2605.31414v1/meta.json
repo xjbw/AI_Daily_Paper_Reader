@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.31414v1/fig-002.webp",
+      "caption": "Figure 1: A comparison between (a) GCN-based alignment and (b) semantic positive pairs alignment on the same interaction graph.",
+      "page": 2,
+      "index": 2,
+      "width": 494,
+      "height": 294
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31414v1/fig-005.webp",
+      "caption": "Figure 2: The architecture of SaFeAU. (a) Taking user 𝑢1 as an example, we show how to expand its potential positive items. (b) Illustration of the Semantic Factor Routing (SFR) algorithm, which performs 𝑟 iterations to route all item embeddings to semantic factors based on the semantic assignment weights, resulting in disentangled factor embeddings.",
+      "page": 4,
+      "index": 5,
+      "width": 1027,
+      "height": 418
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31414v1/fig-001.webp",
+      "caption": "Table 2: A comparison between SaFeAU and state-of-the-art baselines is provided. The best values are shown in bold, while the second-best values are underlined, results are averaged over five runs. R@k refers to Recall@k, and N@k refers to NDCG@k. Improv.% indicates the relative improvement over the top-performing baseline. An asterisk (*) indicates significant improvements with a t-test 𝑝 < 0.05 compared to the best baseline.",
+      "page": 6,
+      "index": 1,
+      "width": 1052,
+      "height": 419
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31414v1/fig-003.webp",
+      "caption": "Table 4: Compatibility analysis with different CF models on three various density datasets. “Rel Impr.” indicates the relative improvements compared to the corresponding methods. Orange denotes an improvement, with darker shades indicating larger relative changes.",
+      "page": 7,
+      "index": 3,
+      "width": 512,
+      "height": 352
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31414v1/fig-004.webp",
+      "caption": "Table 8: Training time comparison of GCN-based and MFbasedmethods on three datasets, including the average epoch time, number of epochs, and total training time. Here, s, m, and h denote seconds, minutes, and hours, respectively.",
+      "page": 13,
+      "index": 4,
+      "width": 502,
+      "height": 437
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.30873v1/fig-001.webp",
+      "caption": "Figure 1. Overview of the proposed FedVPA-GP framework. (a) Illustrates the federated training process of the variational binary selector. (b) Details the local variational objective designed to enhance inference. (c) Depicts the subsequent preference alignment stage using the trained selector.",
+      "page": 2,
+      "index": 1,
+      "width": 1007,
+      "height": 412
+    },
+    {
+      "url": "assets/figures/arxiv/2605.30873v1/fig-003.webp",
+      "caption": "Figure 2. Visualization of Latent Variable Distributions. (a) FedVPL suffers from posterior collapse, where latent codes zVPL cluster indistinguishably. (b) Our method (FedVPA-GP) effectively disentangles user preferences, showing distinct modes in zFedVPA-GP corresponding to different client groups.",
+      "page": 3,
+      "index": 3,
+      "width": 492,
+      "height": 267
+    },
+    {
+      "url": "assets/figures/arxiv/2605.30873v1/fig-002.webp",
+      "caption": "Table 1. Main Results on HH-RLHF. We report the GPT-4 Win-rate (%) across varying client counts (N ∈ {10, 50, 100}). Shaded rows indicate our proposed method, FedVPA-GP, which consistently achieves the best trade-off between helpfulness and harmlessness.",
+      "page": 7,
+      "index": 2,
+      "width": 1012,
+      "height": 293
+    },
+    {
+      "url": "assets/figures/arxiv/2605.30873v1/fig-004.webp",
+      "caption": "Figure 3. Evolution of client-specific latent preference distributions (z) across training rounds for FedVPL (top row) and FedVPA-GP (bottom row). Points are colored by preference type: red (harmlessness) and blue (helpfulness). Star markers (∗) indicate orthogonal prototypes in FedVPA-GP. FedVPA-GP achieves better separation between preference types compared to FedVPL.",
+      "page": 8,
+      "index": 4,
+      "width": 1017,
+      "height": 492
+    },
+    {
+      "url": "assets/figures/arxiv/2605.30873v1/fig-006.webp",
+      "caption": "Table 3. Robustness to Client Population Ratios. GPT-4 Win-rate (%) on HH-RLHF (Qwen-2 0.5B, N = 10 clients) under varying helpfulness/harmlessness client population splits.",
+      "page": 9,
+      "index": 6,
+      "width": 454,
+      "height": 326
+    },
+    {
+      "url": "assets/figures/arxiv/2605.30873v1/fig-005.webp",
+      "caption": "Table 4. Final hyperparameter settings for selector training (Stage 1) and RL training (Stage 2).",
+      "page": 17,
+      "index": 5,
+      "width": 829,
+      "height": 462
+    }
+  ]
+}

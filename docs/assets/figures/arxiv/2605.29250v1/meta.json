@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-001.webp",
+      "caption": "Table 1: Main results, with each metric macro-averaged across the four retrieval paradigms. Best results among the comparable methods are bolded; second best are underlined. Oracle is a upper bound with perfect source selection.",
+      "page": 6,
+      "index": 1,
+      "width": 965,
+      "height": 652
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-004.webp",
+      "caption": "Figure 2: Effect of the candidate list size 𝑘 in source selection on Source Selection and Retrieval accuracy. Oracle (Evidence Selection) replaces the LLM-based evidence selection with gold-source selection within the top-𝑘 candidates.",
+      "page": 7,
+      "index": 4,
+      "width": 660,
+      "height": 201
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-002.webp",
+      "caption": "Table 4: One example question per dataset, covering the 13 datasets that together span the four native backends.",
+      "page": 15,
+      "index": 2,
+      "width": 975,
+      "height": 293
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-007.webp",
+      "caption": "Figure 8: Predicted retrieval paradigm distribution under per-paradigm balanced weighting. Left: top-1 candidate per question. Right: all emitted candidates. The dashed line marks the uniform 25% reference.",
+      "page": 17,
+      "index": 7,
+      "width": 929,
+      "height": 275
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-005.webp",
+      "caption": "Figure 9: Source selection prompt.",
+      "page": 19,
+      "index": 5,
+      "width": 983,
+      "height": 604
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-006.webp",
+      "caption": "Figure 10: Query formulation prompts for the structured backends.",
+      "page": 19,
+      "index": 6,
+      "width": 983,
+      "height": 379
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-009.webp",
+      "caption": "Figure 11: Query rewriting prompt used in document retrieval. The user prompt template here is the same as for the other backends, shown in Figure 10.",
+      "page": 20,
+      "index": 9,
+      "width": 983,
+      "height": 357
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-008.webp",
+      "caption": "Figure 12: Cross-source evidence selection prompt.",
+      "page": 20,
+      "index": 8,
+      "width": 983,
+      "height": 489
+    },
+    {
+      "url": "assets/figures/arxiv/2605.29250v1/fig-003.webp",
+      "caption": "Figure 13: LLM-as-a-Judge prompt used to assess answer correctness.",
+      "page": 21,
+      "index": 3,
+      "width": 983,
+      "height": 767
+    }
+  ]
+}

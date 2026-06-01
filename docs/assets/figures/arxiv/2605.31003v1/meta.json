@@ -1,0 +1,30 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.31003v1/fig-001.webp",
+      "caption": "Figure 1: Graph-GRPO-Centered Training and Deployment Framework for Generative Relevance Modeling. The framework consists of progressive SFT initialization for stable policy initialization, Graph-GRPO for dependency-aware reward propagation and main-loss-driven coefficient learning, and graph-node-based multi-head distillation for lightweight online deployment.",
+      "page": 3,
+      "index": 1,
+      "width": 952,
+      "height": 566
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31003v1/fig-002.webp",
+      "caption": "Table 2: Evaluation Results",
+      "page": 7,
+      "index": 2,
+      "width": 1044,
+      "height": 274
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31003v1/fig-003.webp",
+      "caption": "Figure 2: Ablation results of graph-node-based multi-head distillation on the lightweight online model.",
+      "page": 7,
+      "index": 3,
+      "width": 898,
+      "height": 225
+    }
+  ]
+}

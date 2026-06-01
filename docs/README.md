@@ -1,51 +1,66 @@
 ## 最新日报
-- 最新运行日期：2026-05-31
-- 运行时间：2026-05-31 20:20:23 UTC
+- 最新运行日期：2026-06-01
+- 运行时间：2026-06-01 22:55:34 UTC
 - 运行状态：成功
-- 本次总论文数：11
-- 精读区：3
-- 速读区：8
+- 本次总论文数：16
+- 精读区：6
+- 速读区：10
 
 ### 今日简报（AI）
-1) 今日精读聚焦决斗赌博机延迟反馈理论突破与大模型海量候选排序黑科技。  
-2) 最值关注：延迟反馈下线性与神经决斗赌博机首次给出低遗憾界证明，LRanker用LLM直接对千万级候选做精细排序。  
-3) 推荐读者结合自身推荐/搜索场景，尝试将延迟在线学习与大模型排序器轻量化落地。
-- 详情：[/202605/31/README](/202605/31/README)
+今日聚焦16篇前沿研究，重点解读了神经符号回归驱动的氮肥响应建模与基于弱形式SINDy的网络动力学学习方法。  
+最值得关注的方向：将符号回归与神经网络结合可精准捕捉农业参数曲线，而依赖感知的强化学习正在重塑电商搜索相关性。  
+建议读者优先阅读满分氮肥模型论文，若对动态系统辨识或推荐系统优化感兴趣，速读栏的Graph-GRPO与多目标决策也值得跟进。
+- 详情：[/202606/01/README](/202606/01/README)
 
 ### 精读区论文标签
-1. [Linear and Neural Dueling Bandits with Delayed Feedback](/202605/31/2605.26554v1-linear-and-neural-dueling-bandits-with-delayed-feedback)  
+1. [Learning Parametric Nitrogen Fertilizer Response Curves Using Neuro Symbolic Regression](/202606/01/2605.31276v1-learning-parametric-nitrogen-fertilizer-response-curves-using-neuro-symbolic-regression)  
+   标签：评分：10.0/10、query:rec
+   evidence：神经符号回归用于作物建模
+2. [Learning effective models from network dynamics data with multiple initial conditions using weak form SINDy](/202606/01/2605.30432v1-learning-effective-models-from-network-dynamics-data-with-multiple-initial-conditions-using-weak-form-sindy)  
    标签：评分：9.0/10、query:rec
-   evidence：带延迟反馈的推荐系统决斗赌博机算法
-2. [LRanker: LLM Ranker for Massive Candidates](/202605/31/2605.27810v1-lranker-llm-ranker-for-massive-candidates)  
+   evidence：从网络数据中发现控制方程的弱形式SINDy方法
+3. [FOSTER: First-order Dataset Distillation for Text-based Sequential Recommendation](/202606/01/2605.30772v1-foster-first-order-dataset-distillation-for-text-based-sequential-recommendation)  
    标签：评分：9.0/10、query:rec
-   evidence：面向海量候选的LLM排序器，结合聚类与集成
-3. [Runtime Analysis of a Compact Genetic Algorithm on a Truly Multi-valued OneMax Function](/202605/31/2605.29477v1-runtime-analysis-of-a-compact-genetic-algorithm-on-a-truly-multi-valued-onemax-function)  
+   evidence：序列推荐的数据集蒸馏
+4. [GP-GOMEA with GPU-Based Fitness Evaluations: Design and Performance Analysis](/202606/01/2605.30954v1-gp-gomea-with-gpu-based-fitness-evaluations-design-and-performance-analysis)  
+   标签：评分：9.0/10、query:rec
+   evidence：符号回归的GPU加速遗传编程
+5. [Beyond Instance-Level Alignment and Uniformity: Semantic Factor Learning for Collaborative Filtering](/202606/01/2605.31414v1-beyond-instance-level-alignment-and-uniformity-semantic-factor-learning-for-collaborative-filtering)  
+   标签：评分：9.0/10、query:rec
+   evidence：推荐系统中的协同过滤语义因子学习
+6. [GRASP: Plan-Guided Graph Retrieval with Adaptive Fusion and Reranking on Semi-Structured Knowledge Bases](/202606/01/2605.30237v1-grasp-plan-guided-graph-retrieval-with-adaptive-fusion-and-reranking-on-semi-structured-knowledge-bases)  
    标签：评分：8.0/10、query:rec
-   evidence：紧凑遗传算法在多值函数上的运行时间分析
+   evidence：面向产品搜索的规划引导图检索与重排序
 
 ### 速读区论文标签
-1. [LATTE: Forecasting Peer Anchored Preference Trajectories for Personalized LLM Generation](/202605/31/2605.26612v1-latte-forecasting-peer-anchored-preference-trajectories-for-personalized-llm-generation)  
+1. [Graph-GRPO: Dependency-Aware Credit Assignment for Generative E-commerce Search Relevance](/202606/01/2605.31003v1-graph-grpo-dependency-aware-credit-assignment-for-generative-e-commerce-search-relevance)  
+   标签：评分：8.0/10、query:rec
+   evidence：基于强化学习的电商搜索相关性
+2. [Contextual Scalarisation Thompson Sampling for multi-objective decisions in public media](/202606/01/2605.31291v1-contextual-scalarisation-thompson-sampling-for-multi-objective-decisions-in-public-media)  
+   标签：评分：8.0/10、query:rec
+   evidence：用于公共媒体推荐系统的多目标上下文bandit算法
+3. [SafeRx-Agent: A Knowledge-Grounded Multi-Agent Framework for Safe and Explainable Medication Recommendation](/202606/01/2605.29146v2-saferx-agent-a-knowledge-grounded-multi-agent-framework-for-safe-and-explainable-medication-recommendation)  
    标签：评分：7.0/10、query:rec
-   evidence：通过偏好轨迹实现个性化生成
-2. [On Compositional Learning Behaviours in Formal Mathematics](/202605/31/2605.28512v1-on-compositional-learning-behaviours-in-formal-mathematics)  
+   evidence：使用多智能体LLM的药物推荐框架
+4. [Discovering a Zeta Map Algorithm on Dyck Paths via Mechanistic Interpretability](/202606/01/2605.30482v1-discovering-a-zeta-map-algorithm-on-dyck-paths-via-mechanistic-interpretability)  
    标签：评分：7.0/10、query:rec
-   evidence：组合符号学习用于表达式发现
-3. [RAG-Match: Retrieval-Augmented Knowledge Injection and Hierarchical Reasoning for Calibrated Semantic Relevance](/202605/31/2605.25486v1-rag-match-retrieval-augmented-knowledge-injection-and-hierarchical-reasoning-for-calibrated-semantic-relevance)  
+   evidence：机械可解释性发现了Dyck路径上的zeta映射算法
+5. [Federated Variational Preference Alignment with Gumbel-Softmax Prior for Personalized User Preferences](/202606/01/2605.30873v1-federated-variational-preference-alignment-with-gumbel-softmax-prior-for-personalized-user-preferences)  
+   标签：评分：7.0/10、query:rec
+   evidence：用于个性化的联邦偏好对齐
+6. [Model Monotonicity in Autobidding Auctions: When Do Better Predictions Lead to Better Outcomes?](/202606/01/2605.31036v1-model-monotonicity-in-autobidding-auctions-when-do-better-predictions-lead-to-better-outcomes)  
+   标签：评分：7.0/10、query:rec
+   evidence：推荐系统质量与拍卖相互作用
+7. [Retriever Portfolios: A Principled Approach to Adaptive RAG](/202606/01/2605.31176v1-retriever-portfolios-a-principled-approach-to-adaptive-rag)  
+   标签：评分：7.0/10、query:rec
+   evidence：基于检索器组合的自适应RAG原则性方法
+8. [Beyond Additive Decompositions: Interpretability Through Separability](/202606/01/2605.31200v1-beyond-additive-decompositions-interpretability-through-separability)  
+   标签：评分：7.0/10、query:rec
+   evidence：提出张量分离学习的可解释回归方法，与符号回归可解释性相关
+9. [Recursive Flow Matching](/202606/01/2605.26535v1-recursive-flow-matching)  
    标签：评分：6.0/10、query:rec
-   evidence：校准语义相关性用于排序
-4. [Learning Nonlinear Factor Models with Unknown Monotone Links from Incomplete and Noisy Data](/202605/31/2605.26271v1-learning-nonlinear-factor-models-with-unknown-monotone-links-from-incomplete-and-noisy-data)  
+   evidence：用于科学动力学的递归流匹配
+10. [OmniRetrieval: Unified Retrieval across Heterogeneous Knowledge Sources](/202606/01/2605.29250v1-omniretrieval-unified-retrieval-across-heterogeneous-knowledge-sources)  
    标签：评分：6.0/10、query:rec
-   evidence：具有未知单调链接的非线性因子模型可应用于推荐
-5. [Evolutionary Data Theory: On the Similarities between Data Problems and Evolutionary Games](/202605/31/2605.26685v1-evolutionary-data-theory-on-the-similarities-between-data-problems-and-evolutionary-games)  
-   标签：评分：6.0/10、query:rec
-   evidence：进化数据理论与进化算法
-6. [Whose Name Comes Up? III: Persona Prompting Effects in LLM-Based Scholar Recommendation](/202605/31/2605.28187v1-whose-name-comes-up-iii-persona-prompting-effects-in-llm-based-scholar-recommendation)  
-   标签：评分：6.0/10、query:rec
-   evidence：基于LLM的学者推荐审计
-7. [A Fresh Look at Lamarckian Evolution and the Baldwin Effect](/202605/31/2605.28703v1-a-fresh-look-at-lamarckian-evolution-and-the-baldwin-effect)  
-   标签：评分：6.0/10、query:rec
-   evidence：进化算法中的拉马克和鲍德温进化
-8. [LLM-Evolved Domain-Independent Heuristics for Symbolic AI Planning](/202605/31/2605.29649v1-llm-evolved-domain-independent-heuristics-for-symbolic-ai-planning)  
-   标签：评分：6.0/10、query:rec
-   evidence：使用进化搜索生成启发式，方法上与符号回归的遗传编程相关
+   evidence：跨异构源统一检索
 
