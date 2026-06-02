@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-002.webp",
+      "caption": "Table 1. The parameter settings used in the experiments.",
+      "page": 7,
+      "index": 2,
+      "width": 688,
+      "height": 313
+    },
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-006.webp",
+      "caption": "Fig. 2. The constant optimization landscape can be multi-modal, both with and without linear scaling (LS). The error for every constant combination was computed using (the same) 500 instances sampled from U(−10, 10).",
+      "page": 8,
+      "index": 6,
+      "width": 581,
+      "height": 256
+    },
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-008.webp",
+      "caption": "Fig. 3. The training and testing MSE scores for the synthetic problems on a logarithmic scale. The bar corresponds to the median MSE before tuning, while the circle and horizontal line correspond to the median and interquartile range (IQR) after postprocessing. Note that the MSE was capped at the target value of 1e − 8, which is highlighted with a vertical line.",
+      "page": 9,
+      "index": 8,
+      "width": 706,
+      "height": 261
+    },
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-003.webp",
+      "caption": "Table 2. Proportion of runs that reach the 10−8 MSE target. The best values per setting are highlighted in bold and the percentage in parentheses corresponds to the contribution of constant optimization after GP. The colored triangles indicate statistically significantly better methods (p < 0.05) as per Fisher’s exact test [7].",
+      "page": 10,
+      "index": 3,
+      "width": 688,
+      "height": 500
+    },
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-004.webp",
+      "caption": "Fig. 4. The number of constants used and expression sizes for the synthetic problems. The bar corresponds to the median before post-processing, while the circle and horizontal line correspond to the median and IQR after post-processing.",
+      "page": 10,
+      "index": 4,
+      "width": 706,
+      "height": 457
+    },
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-001.webp",
+      "caption": "Fig. 6. The training and testing R2 scores for the real-world problems. The bar corresponds to the median R2 before tuning, while the circle and horizontal line correspond to the median and IQR after post-processing.",
+      "page": 11,
+      "index": 1,
+      "width": 704,
+      "height": 301
+    },
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-007.webp",
+      "caption": "Fig. 7. The median and IQR for the test R2 scores over evaluations spent with linear scaling and restarts enabled.",
+      "page": 12,
+      "index": 7,
+      "width": 711,
+      "height": 275
+    },
+    {
+      "url": "assets/figures/arxiv/2606.02236v1/fig-005.webp",
+      "caption": "Table 4. The pair-wise probabilities of how likely M1 is to perform better, approximately equal (within 0.01R2), or worse in terms of test R2 compared to M2 with LS and restarts, using a Bayesian hierarchical correlated t-test [3].",
+      "page": 13,
+      "index": 5,
+      "width": 690,
+      "height": 220
+    }
+  ]
+}

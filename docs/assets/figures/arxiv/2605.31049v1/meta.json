@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.31049v1/fig-003.webp",
+      "caption": "Figure 1: System overview of the proposed evolution framework",
+      "page": 3,
+      "index": 3,
+      "width": 834,
+      "height": 375
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31049v1/fig-001.webp",
+      "caption": "Figure 2: HCP: Comparison between the evolved program (p∗H ) and clingo wrt. memory [GB ] (above) and runtime [s] (below). Symbols ×, + depict the reason why clingo did not find a correct solution (OOM stands for out-of-memory). p∗H is always correct.",
+      "page": 6,
+      "index": 1,
+      "width": 1034,
+      "height": 218
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31049v1/fig-002.webp",
+      "caption": "Figure 3: CCP: Comparison between the evolved program (p∗H ) and clingo wrt. memory [GB ] (above) and runtime [s] (below). Symbol × depicts the reason why clingo did not find a correct solution (OOM stands for out-of-memory). The other symbols refer to p∗H .",
+      "page": 6,
+      "index": 2,
+      "width": 1034,
+      "height": 219
+    },
+    {
+      "url": "assets/figures/arxiv/2605.31049v1/fig-004.webp",
+      "caption": "Figure 4: E-DFJSP: Comparison between the evolved program (p∗H ) and CP Optimizer (CPO) wrt. memory [GB ] (above), runtime [s] (below, primary y-axis), and the difference on their quality score (below, secondary y-axis, gray background). If the difference is positive then p∗H is better than CPO (when CPO does not find a solution, its quality score is 0). Symbol × depicts the instances where CPO did not find a correct solution (OOM stands for out-of-memory). p∗H is always correct.",
+      "page": 7,
+      "index": 4,
+      "width": 1027,
+      "height": 238
+    }
+  ]
+}

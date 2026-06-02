@@ -1,0 +1,142 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-001.webp",
+      "caption": "Figure 1: Utility-Aware Contrastive Image-Text Pretraining",
+      "page": 11,
+      "index": 1,
+      "width": 866,
+      "height": 385
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-008.webp",
+      "caption": "Figure 2: Occlusion-Based Interpretation Framework",
+      "page": 14,
+      "index": 8,
+      "width": 894,
+      "height": 318
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-004.webp",
+      "caption": "Figure 3: Occlusion Interpretation of “High Demand” for Generated Amazon Product Images",
+      "page": 15,
+      "index": 4,
+      "width": 760,
+      "height": 609
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-011.webp",
+      "caption": "Figure 4: Utility-Aware Generation Framework: Flux baseline with Utility-Aware CLIP encoder substitution and post-hoc image selection",
+      "page": 17,
+      "index": 11,
+      "width": 964,
+      "height": 287
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-010.webp",
+      "caption": "Table 1: Visual Attributes and Demand on Amazon",
+      "page": 19,
+      "index": 10,
+      "width": 897,
+      "height": 573
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-017.webp",
+      "caption": "Table 2: Comparison among Generative Models in Image Editing Task (Amazon Context)",
+      "page": 20,
+      "index": 17,
+      "width": 1008,
+      "height": 314
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-005.webp",
+      "caption": "Figure 5: Amazon Product Image Editing (Example 1)",
+      "page": 21,
+      "index": 5,
+      "width": 772,
+      "height": 389
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-007.webp",
+      "caption": "Figure 6: Amazon Product Image Editing (Example 2)",
+      "page": 22,
+      "index": 7,
+      "width": 772,
+      "height": 391
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-015.webp",
+      "caption": "Table 3: Visual Attributes and Demand on Airbnb",
+      "page": 24,
+      "index": 15,
+      "width": 954,
+      "height": 988
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-002.webp",
+      "caption": "Table 4: Comparison among Generative Models in Image Generation Task (Airbnb Context)",
+      "page": 26,
+      "index": 2,
+      "width": 840,
+      "height": 188
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-003.webp",
+      "caption": "Table 5: Comparison among Generative Models in Image Editing Task (Airbnb Context)",
+      "page": 26,
+      "index": 3,
+      "width": 840,
+      "height": 187
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-014.webp",
+      "caption": "Figure 7: Kitchen example: utility-aware editing introduces moderate decorative elements, such as artwork, flowers, and textiles, that enhance warmth and distinctiveness while preserving realism.",
+      "page": 27,
+      "index": 14,
+      "width": 577,
+      "height": 622
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-009.webp",
+      "caption": "Figure 8: Living room example: utility-aware editing increases visual richness through color, soft furnishings, and wall art without generating excessive clutter or unrealistic changes.",
+      "page": 28,
+      "index": 9,
+      "width": 577,
+      "height": 690
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-006.webp",
+      "caption": "Table 6: Model-Free Differences Across Image Generation Models",
+      "page": 29,
+      "index": 6,
+      "width": 1037,
+      "height": 239
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-016.webp",
+      "caption": "Table 7: Effect of Using Utility-Aware Generator on Image Quality and Choice",
+      "page": 31,
+      "index": 16,
+      "width": 952,
+      "height": 396
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-012.webp",
+      "caption": "Table 8: Model-Free Average Ratings by Model: Airbnb Study",
+      "page": 32,
+      "index": 12,
+      "width": 825,
+      "height": 212
+    },
+    {
+      "url": "assets/figures/arxiv/2605.28733v1/fig-013.webp",
+      "caption": "Table 9: Effect of Utility-Aware Editing on Airbnb Image Evaluations",
+      "page": 32,
+      "index": 13,
+      "width": 946,
+      "height": 274
+    }
+  ]
+}

@@ -1,0 +1,1450 @@
+Title: Breaking the Information Silo: Semantic Personas for Cross-Domain Recommendation
+
+URL Source: https://arxiv.org/pdf/2606.01783v1
+
+Published Time: Tue, 02 Jun 2026 02:11:14 GMT
+
+Number of Pages: 40
+
+Markdown Content:
+# Breaking the ‘Information Silo’: Semantic Personas for Cross-Domain Recommendation 
+
+Jonathan Mayo 1, Moshe Unger 1, and Konstantin Bauman 21Technology and Information Management Department, Coller School of Management, Tel Aviv University, Tel Aviv 6997801, Israel, jonathanmayo@mail.tau.ac.il ;
+
+mosheunger@tauex.tau.ac.il 
+
+> 2
+
+Management Information Systems Department, Fox School of Business, Temple University, Philadelphia, Pennsylvania 19122, kbauman@temple.edu 
+
+Abstract 
+
+Digital platforms increasingly operate as isolated information silos, limiting their ability to construct comprehensive user representations across domains. Cross-domain recommender systems seek to overcome this limitation by transferring knowledge from a source domain to a target domain, yet most existing approaches depend on shared users, shared items, or structurally similar interaction graphs. These assumptions are often unrealistic across independent platforms. We propose SPHERE (Semantic Personas for Heterogeneous cross-domain Recommendation), a design artifact that enables recommendation knowledge transfer across strictly disjoint domains with no shared users or items. Rather than aligning domains through identity or graph structure, SPHERE uses large language models to induce a shared behavioral vocabulary, generate structured semantic personas for users, and retrieve behaviorally similar source-domain communities that form a Community Source Persona. This semantic signal is integrated with collaborative signals through a dual-tower architecture and dynamic fusion gate, allowing SPHERE to augment standard recommender backbones. Empirical evaluation across Amazon Books, Goodreads, and Steam demonstrates consistent improvements over NCF, SVD++, and LightGCN baselines under full-ranking evaluation. The results show that cross-domain transfer effectiveness is not determined solely by semantic proximity between domains; rather, it depends critically on the structural density and native predictive strength of the target domain. The study contributes to information systems research by reframing cross-domain personalization as behavior-based semantic alignment, offering a practical mechanism for overcoming information silos while preserving interpretability and modularity. 
+
+Keywords: recommender systems; cross-domain recommendation; information silos; semantic personas; large language models; personalization; design artifact. 1
+
+> arXiv:2606.01783v1 [cs.IR] 1 Jun 2026
+
+# 1 Introduction 
+
+Recommender Systems (RSes) play a central role in shaping consumer decisions across digital platforms, influencing how users discover products, media, and services across diverse media such as e-commerce, streaming, and travel. In practice, users rarely interact with a single platform in isolation. A person who purchases books online may also stream films, play video games, and browse fashion retailers. These cross-platform behavioral patterns are not independent, random events, but rather manifestations of underlying preference characteristics, such as aesthetic sensibilities, tolerance for complexity, and intrinsic motivations, that transcend any single platform (Zang et al. 2022). If these macroscopic patterns could be harnessed effectively, RSes could capture comprehensive user representations, thereby substantially improving predictive performance. Despite this theoretical potential, the development of most RSes remains restricted to independent platforms, yielding an inherently fragmented view of overarching user behavior (Cantador et al. 2015). This fragmentation, widely termed the ’information silo’ effect, a state wherein an information system is incapable of reciprocal operation with inherently related systems (Yang et al. 2020), constitutes a significant barrier to high-fidelity personalization (Shapira et al. 2013). Cross-Domain Recommender Systems (CDRS) aim to address this limitation by transferring knowledge from data-rich source domains to enrich user representations in sparse target domains (Khan et al. 2017). Two domains are considered complementary when preferences in one provide meaningful predictive signals for the other, even if their respective item catalogs are strictly disjoint (Fern´ andez-Tob´ ıas et al. 2012). However, the efficacy of traditional CDRS architectures is fundamentally constrained by what is in-creasingly recognized as a ’closed-world assumption’ (Xu et al. 2024). Historically, knowledge transfer required explicit entity overlap, such as shared users or deterministic demographic linkages, to establish mathematical anchor points between domains. This strict requirement creates a profound operational problem. In real-world deployments across independent corporate platforms, deterministic overlap is exceptionally rare. While non-generative methodologies have attempted to bypass explicit identifiers by mathematically aligning the topological structures of the source and target domains, these approaches implicitly assume that the two domains share a highly isomorphic geometric structure (Zang et al. 2022). Consequently, when deployed across highly heterogeneous, strictly disjoint domains (e.g., transferring knowledge from a dense gaming platform to a sparse literary marketplace), purely structural alignments frequently suffer from severe alignment degradation, rendering them operationally unviable (Shehmir and Kashef 2025). To bypass this structural overlap issue, the field has recently witnessed a paradigm shift toward utilizing Large Language Models (LLMs) to bridge disjoint domains via semantic text (Shehmir and Kashef 2025). Early adaptations attempted to deploy LLMs as direct, autoregressive ranking engines, prompting the model with a user’s source-domain history to predict specific target-domain items (Petruzzelli et al. 2024). However, forcing an LLM to act as a sequential ranker introduces severe architectural mismatches. LLMs exhibit inherent computational limitations when scaling to massive item repositories, struggle to extract deep, multi-hop collaborative signals, and frequently succumb to acute hallucination and popularity bias when the source and target domains exhibit large semantic gaps (Shehmir and Kashef 2025). To overcome these limitations, the paradigm must shift from using LLMs as opaque rankers to utilizing 2them as qualitative, domain-agnostic profiling agents. While recent literature has explored summarizing raw item texts or generating predefined marketing labels to construct user profiles, these methods remain inextricably tied to literal semantic descriptions (e.g., product synopses) (Tan and Jiang 2023). What is required for true cross-domain knowledge transfer is a deeper behavioral abstraction that captures the universal behavioral drivers underlying consumption across any medium. This fundamental gap motivates our central research question: how can user preferences be represented in a shared semantic space that supports effective recommendation knowledge transfer across structurally disjoint domains, in which no users or items are shared? Resolving this requires a fundamental shift from identity-centric or purely structural alignments towards behavior-based representations. In this paper, we propose the Se mantic Personas for He terogeneous cross-domain Re commendation (SPHERE) framework, which bridges disjoint domains by first establishing a universal behavioral vocabulary. To ensure that interaction patterns from different platforms can be aligned, SPHERE introduces a data-driven inductive discovery stage. By analyzing representative interaction histories across the paired domains, an LLM extracts a shared taxonomy of behavioral traits. This shared language guarantees that subsequent representations are evaluated along identical behavioral axes. SPHERE then leverages this common taxonomy to generate structured, individual semantic personas for all users. By projecting these trait-aligned personas into a continuous semantic vector space and retrieving similar, but not identical, cross-domain neighbors and aggregating them into a community, the framework enables highly contextualized knowledge transfer which enriches the target user, even when domains share absolutely no structural intersection. This work contributes to the literature in three principal ways. First, we offer a conceptual reframing of the cross-domain transfer problem, shifting the basis of alignment from identity (shared entities) to behavior (interpretable preference abstractions). By demonstrating that holistic personas can bridge two domains without structural intersection, we directly challenge the pervasive assumption that entity-level overlap is a necessary precondition for effective transfer. Second, we instantiate this reframing as the SPHERE design artifact. Its key elements include the inductive trait discovery procedure, the creation of behavioral personas and the aggregation of a Community Source Persona via semantic neighbor retrieval. The framework functions as a plug-and-play module, which we successfully demonstrate with NCF, SVD++, and LightGCN backbones. Third, our empirical evaluation across Amazon Books, Goodreads, and Steam refines prevailing intuition regarding cross-domain transfer: we demonstrate that more semantically distant pairings (e.g., gaming to literature) do not systematically underperform proximate pairings. Rather, the empirical evidence establishes that transfer efficacy, and the learned fusion gate’s reliance on the semantic personas, are governed primarily by target-domain structural density. These results provide concrete design knowledge for building interpretable and robust recommender systems across isolated platforms. 
+
+# 2 Related Work 
+
+2.1 Cross-Domain Recommendation and the Overlap Dilemma 
+
+Recommender systems frequently operate within isolated environments, ’Information Silos’, encountering severe data sparsity challenges where insufficient interaction history impedes accurate user modeling. To 3mitigate this, CDRS frameworks transfer collaborative signals from data-rich source domains to sparse target domains. The architectural progression of CDRS began with explicit bridging mechanisms, such as EMCDR (Man et al. 2017), which pioneered embedding mapping functions. Subsequent models, including GA-DTCDR (Zhu et al. 2020), introduced graph-based mechanisms to enhance relational representations, while methodologies such as SEAGULL (Zhao et al. 2023b) and CVPM (Zhao et al. 2025) attempted to relax strict overlap through progressive structural alignment. In extreme sparsity settings, frameworks like KR-CDR (Huang et al. 2024) incorporated auxiliary knowledge graphs, and ARISEN (Zhao et al. 2023a) aligned time-series sequences. However, these foundational frameworks relied heavily on deterministic entity linkages to establish cross-domain anchor points. Recognizing that explicit overlap is operationally infeasible across independent corporate silos, the field encountered a critical ’overlap dilemma’ (Liu et al. 2025b): relying on overlapping users severely compromises the practicability of recommendation frameworks in the real world. To bypass this dilemma, subsequent methodologies attempted to align disjoint domains structurally, treating latent spaces as distinct probability distributions. Techniques utilizing multimodal domain adaptation (Shyam et al. 2025) and zero-shot popularity dynamics (Wang et al. 2024a) sought to circumvent explicit ID mapping. Parallel efforts in unsupervised latent alignment (Wang et al. 2024b) and Multi-view Graph Contrastive Learning (Liu et al. 2024) forced source and target distributions to match mathematically. While these statistical approaches eliminate the need for shared identifiers, they rely heavily on the assumption that the geometric topologies of the two domains are fundamentally isomorphic. Consequently, when deployed across highly heterogeneous domains with disparate interaction densities, these structural alignments frequently degrade due to irreconcilable geometric mismatch between the source and target manifolds (Shehmir and Kashef 2025). To overcome geometric warping, recent models pivoted toward utilizing continuous semantic represen-tations derived from item texts. Frameworks such as FFMSR (Lu et al. 2025) construct global semantic prototypes through the static clustering of item descriptions, while PFCR (Guo et al. 2024) utilizes vector quantization, and FedCRF (Guo et al. 2026) dynamically re-estimates semantic cluster centers. More recently, sophisticated sequence-level architectures like X-Cross (Hadad et al. 2025) have integrated language models to bridge cross-domain sequences dynamically. While these semantic-driven models successfully bypass structural isomorphism, they remain constrained by item-level granularity. Sequence-level bridging struggles across massive semantic gaps where the raw items share zero conceptual overlap (e.g., aligning interactions between a computer mousepad and a romantic comedy film). This fundamental limitation necessitates an abstraction from item-level semantics to user-level behavior. 
+
+2.2 Explicit Generative User Modeling and Behavioral Personas 
+
+The transition toward user-level abstraction aligns with a broader shift in the literature towards ’Explicit Generative User Modeling’ (Tan and Jiang 2023). Historically, efforts to bridge domains via user profiles relied on extracting latent traits using demographic data or tag-based matrices (Sahu and Dwivedi 2019). While these foundational methods successfully established the precedent of utilizing user profiles as cross-domain bridges to reduce sparsity, they were fundamentally constrained by pre-defined vocabularies and 4structural rigidity, rendering them incapable of zero-shot generalization across highly disparate domains. The integration of LLMs naturally resolved this rigidity, but initial implementations deployed them as direct, autoregressive ranking engines (Petruzzelli et al. 2024). As established by Xin et al. (2025), forcing an LLM to predict specific items introduces severe operational mismatches, as LLMs struggle to handle extensive item repositories and fail to extract deep collaborative signals. Furthermore, direct-prompting approaches suffer from acute hallucination when source and target domains exhibit large semantic gaps (Liu et al. 2025c). Recognizing the limitations of direct ranking, state-of-the-art frameworks pivoted toward utilizing LLMs as continuous feature extractors and profilers. Models like User-LLM (Ning et al. 2025) address the context-window limitation by compressing user histories into continuous embeddings (soft prompts) for efficient contextualization, though at the complete loss of human interpretability. Conversely, textual approaches have sought to restore this interpretability. Frameworks such as SAGCN (Liu et al. 2025a) emphasize the principle of ’understanding before recommendation’ by leveraging LLMs to extract fine-grained semantic aspects from user reviews, a concept expanded upon by LIPA (Azam et al. 2026) and ONE (Tang et al. 2026), which summarize item texts into domain-agnostic profiles. Concurrently, models targeting e-commerce have generated explicit, human-readable customer personas (Shi et al. 2025). While these approaches successfully decouple the LLM from the ranking task, they remain constrained by semantic literalism. They rely on predefined marketing labels (e.g., ’Bargain Hunter’) or item-level aspect summaries that fail to transfer accurately across heterogeneous mediums. What is required for true heterogeneous transfer is a domain-agnostic behavioral abstraction. Recent empirical studies at the intersection of Human-Computer Interaction and psychology have demonstrated that LLMs possess the zero-shot reasoning capabilities necessary to accurately deduce stable, validated psychological traits (e.g., cognitive styles and locus of control) strictly from sparse, unstructured digital footprints (Schuller et al. 2024). Building upon the principle of semantic extraction prior to recommendation (Liu et al. 2025a), SPHERE extends this line of inquiry by introducing an inductive, data-driven discovery phase. Crucially, rather than extracting granular, item-specific review aspects, the LLM analyzes the cross-domain corpus to discern a universal taxonomy of behavioral traits, thereby establishing a shared semantic vocabulary. This substantially exceeds the rigid profile-extraction capabilities of early pre-LLM frameworks (Sahu and Dwivedi 2019). SPHERE then generates structured semantic personas grounded exclusively in these abstract traits. To make this natural language mathematically actionable, SPHERE utilizes modern dense sentence embedding models (Neelakantan et al. 2022), pre-trained using contrastive learning objectives, to project these behavioral personas into a continuous vector space ( Rd). This ensures the user’s nuanced preferences and characteristics are mathematically preserved, allowing standard collaborative filtering architectures to bypass ID matching entirely and dynamically identify cross-domain behavioral neighbors. 53 Methodology 
+
+In this section, we introduce the Se mantic Personas for He terogeneous cross-domain Re commendation (SPHERE) framework, illustrated in Figure 1. SPHERE addresses a key limitation of existing cross-domain recommender systems: their reliance on structural overlap, such as shared users, shared items, or closely related item representations. Rather than aligning domains through common entities, SPHERE aligns them through LLM-generated semantic personas that summarize users’ domain-agnostic behavioral tendencies. SPHERE is instantiated as a recommender-system design artifact and implemented as a semantic augmen-tation module for existing recommender backbones, including NCF, SVD++, and LightGCN. Its dual-tower architecture combines target-domain collaborative signals with source-domain behavioral personas. The framework first induces a shared taxonomy of behavioral traits from representative interaction histories, uses this taxonomy to generate structured personas for individual users, and retrieves behaviorally similar cross-domain neighbors to construct a Community Source Persona (CSP). This persona-based representation enriches target-user representations and enables transfer across domains with no shared users, items, or interaction structure. The remainder of this section is organized as follows. Section 3.1 formalizes the cross-domain setting and introduces the semantic bridge formulation. Sections 3.1.1–3.2.1 describe the three core stages of persona-based transfer: identifying common behavioral traits, generating semantic personas, and constructing the CSP for knowledge transfer. Section 3.3 then presents the SPHERE architecture. Specifically, Sections 3.3.1 and 3.3.2 describe the collaborative and semantic encoding towers, Section 3.3.3 introduces the dynamic late-fusion and scoring mechanism, and Section 3.3.4 details the model training procedure and optimization objective. 
+
+3.1 Preliminaries and Semantic Bridge Formulation 
+
+We establish a standardized mathematical notation for the SPHERE framework, consolidated in Table 1. Let UT and US denote the strictly disjoint user sets in the target domain DT and the source domain DS ,respectively ( UT ∩ U S = ∅). Let IT and IS represent the respective item sets. While item overlap may exist across domains in practice, our framework operates without assuming or utilizing any structural intersection. For a given user u ∈ U T in the target domain, let Hu = {i1, i 2, . . . , i n} represent the set of historical interactions, where ik ∈ I T .To construct a domain-agnostic behavioral persona that can enrich these target-domain representations, SPHERE proceeds in three stages, detailed in Sections 3.1.1–3.2.1: an LLM first induces a shared taxonomy of behavioral traits from representative cross-domain interaction data; individual users in both domains are then profiled along these trait axes and projected into a continuous embedding space; finally, for each target user, the K most behaviorally similar source-domain neighbors are retrieved and aggregated into a single Community Source Persona, denoted as pcsp  
+
+> u
+
+.Given the user history Hu and the transferred persona signal pcsp  
+
+> u
+
+, the recommendation task is formalized as Top-N item ranking. We learn a parameterized scoring function fΘ(u, i | pcsp  
+
+> u
+
+) that computes a relative affinity score between user u and an unobserved candidate item i ∈ I T \ H u, optimized to rank true 6Table 1: Notation Table 
+
+Notation Description 
+
+DT , DS The target domain and source domain, respectively. 
+
+UT , US Disjoint sets of users in the target domain ( DT ) and source domain ( DS ). 
+
+IT , IS Sets of items within the target and source domains. 
+
+Hu Set of historical interactions for a user u within their respective domain. 
+
+Eu Metadata-enriched interaction history for user u (titles, genres, summaries). 
+
+M The number of dynamic, inductively discovered bridging traits. 
+
+Vtraits The universal trait taxonomy inductively discovered by the LLM. 
+
+ptarget  
+
+> u
+
+The generated individual textual persona embedding for target user u (ptarget  
+
+> u
+
+∈ Rdemb ). 
+
+psource  
+
+> v
+
+The generated individual textual persona embedding for source user v (psource  
+
+> v
+
+∈
+
+Rdemb ). 
+
+Nu The subset of K semantic neighbors in the source domain for a target user u.
+
+pcsp  
+
+> u
+
+The aggregated Community Source Persona embedding. 
+
+zu, zi Latent representations of user u and item i from the collaborative backbone. 
+
+esem  
+
+> i
+
+The dedicated semantic representation of candidate item i (esem  
+
+> i
+
+∈ Rd). 
+
+hcol  
+
+> u,i
+
+The joint non-linear structural interaction vector. 
+
+hsem  
+
+> u,i
+
+The joint non-linear semantic behavioral interaction vector. 
+
+αu,i The instance-aware scalar weight computed by the late-fusion gate. 
+
+ϕemb The dense embedding model utilized to project textual personas into the continuous vector space. 
+
+ψ, ψ gen The LLM utilized as a stochastic generative process ( ψ) and structured text generator (ψgen ). 
+
+ρ The prompt formulation function constraining the generation process. 
+
+τ The learnable temperature parameter for gradient stability. 
+
+K The semantic community size for aggregating the source persona. 
+
+N The number of unobserved negative items sampled during contrastive optimization. 
+
+demb Dimensionality of the dense semantic embedding space output by ϕemb .
+
+d, d ′ Dimensionalities of the latent representations and structural/semantic interaction vec-tors. 7Target Domain Corpora ( CT ) Source Domain Corpora ( CS )
+
+LLM Generator ( ψ)
+
+Trait Taxonomy ( Vtraits )
+
+Target User History ( Eu) Source User History ( Ev )
+
+ψgen → ϕemb ψgen → ϕemb 
+
+ptarget  
+
+> u
+
+∈ Rdemb psource  
+
+> v
+
+∈ Rdemb 
+
+Top-K Retrieval & Mean Pooling 
+
+Nu = arg top K v cos( ptarget  
+
+> u
+
+, psource  
+
+> v
+
+)
+
+Community Source Persona (CSP) pcsp 
+
+> u
+
+User Target Persona (UTP) ptarget 
+
+> u
+
+A. Identifying Common Behavioral Traits 
+
+B. Persona Generation & Projection 
+
+C. Community Aggregation 
+
+Figure 1: The offline semantic persona pipeline. The framework inductively discovers a shared behavioral vocabulary from cross-domain corpora (A), generates and embeds structured personas for all users conditioned on this taxonomy (B), and utilizes the target persona to retrieve and aggregate the K nearest source-domain neighbors per user into the Community Source Persona (CSP). Both the CSP and the isolated User Target Persona (UTP) are extracted for downstream evaluation within the dual-tower architecture (Figure 4) (C). 8interactions above negative candidates by leveraging the semantic behavioral persona derived from DS ,thereby improving ranking accuracy in the target domain without relying on direct user or item overlap. 
+
+3.1.1 Identifying Common Behavioral Traits 
+
+To establish a universal semantic vocabulary capable of bridging structurally disjoint domains, we first perform a data-driven trait discovery phase. Rather than relying on predefined, domain-specific feature taxonomies, we leverage a Large Language Model (LLM) to inductively identify shared behavioral dimensions from interaction data across the source and target domains (Ebrat et al. 2026). These common traits serve as a shared representational vocabulary, enabling the LLM to generate persona texts for users in both domains along the same behavioral dimensions. As a result, source- and target-domain users can be projected into a comparable semantic space despite the absence of shared users, items, or interaction structures. For each user in the target and source domains, we extract the textual metadata associated with every item in their interaction history: specifically, the item’s title, genre tags, and descriptive summary. These metadata-enriched interaction histories are aggregated to form domain-level corpora, denoted CT and CS . For example, a single entry in a literary domain corpus might comprise: ‘Book Name’ , [Genres List], ‘Synopsis’ .We model the LLM as a stochastic generative process ψ(·), instructed to identify latent behavioral patterns that generalize across domain-specific item metadata. By jointly processing the aggregated interaction patterns within both corpora, the LLM derives a taxonomy of M bridging traits: 
+
+Vtraits = {t1, t 2, . . . , t M } = ψ(concat( CT , CS )) (1) where concat( ·) denotes the prompt-based textual aggregation of the respective domain corpora, and each tm
+
+represents a qualitative, domain-agnostic behavioral dimension. Crucially, the framework does not impose a rigid, predetermined limit on the number of traits. Instead, 
+
+M remains dynamic, allowing the LLM to expand or contract the trait taxonomy based on the behavioral complexity of the specific source–target domain pair. This design choice is central to SPHERE because the semantic bridge required for cross-domain transfer is not universal; it depends on the behavioral relationship between the domains being connected. Closely related domains, such as Goodreads and Amazon Books, can often be aligned through a relatively compact set of literary preference dimensions, such as cognitive intensity, realism versus fantasy, moral ambiguity, and information-seeking versus escapism. In contrast, more heterogeneous pairings, such as Steam and Amazon Books, require broader behavioral abstractions, including agency, stimulation seeking, challenge orientation, progression motivation, and tolerance for conflict. SPHERE therefore induces the trait taxonomy from the paired corpora themselves rather than imposing a predefined psychological, marketing, or domain-specific taxonomy. This makes the taxonomy both shared 
+
+and adaptive . It is shared because the same induced traits are subsequently used to generate personas for users in both the source and target domains, ensuring that users from both domains are represented along comparable behavioral dimensions. It is adaptive because the content and granularity of the taxonomy are determined by the behavioral signals that are salient for the specific domain pair. 9Table 2 illustrates this design principle by reporting the trait taxonomies induced for each domain configuration. The table shows that literary-domain pairings converge on traits that capture reading-oriented preferences, whereas cross-media pairings involving Steam require more general behavioral dimensions that can connect gaming behavior with literary or product-consumption behavior. These induced traits provide an interpretable behavior-level representation that can bridge domains without requiring shared users, shared items, or structurally similar interaction graphs. Table 2: Inductively Discovered Behavioral Trait Taxonomies for Semantic Persona Generation 
+
+Context Behavioral Trait Taxonomy Cross-Domain Bridge 
+
+(Steam ↔
+
+Goodreads/Amazon Books) 
+
+Stimulation: Need for novelty and high-sensation vs. comfort with familiar routines. 
+
+Locus: Desire for internal agency and control vs. willingness to be guided by external forces. 
+
+Engagement: Preference for active, systemic problem-solving vs. passive, atmospheric absorption. 
+
+Investment: Tolerance for long-term, high-friction commitments vs. desire for quick, low-barrier gratification. 
+
+Conflict: Attraction to tension, risk, and antagonism vs. preference for harmony and resolution. 
+
+Narrative: Motivation driven by structural mechanics and systems vs. character-driven storytelling. 
+
+Agency: Need to express individuality and creativity vs. following optimized, predefined pathways. 
+
+Literary Domains 
+
+(Goodreads/Amazon Books in-domain and Goodreads ↔
+
+Amazon Books) 
+
+Information Intent: Escapism vs. knowledge acquisition. 
+
+Cognitive Intensity: Preference for complex, demanding structures vs. light processing. 
+
+Ontological Anchor: Grounded realism vs. speculative or fantasy abstraction. 
+
+Moral Spectrum: Comfort with ambiguity and darkness vs. clear hero/villain binaries. 
+
+Cultural Scope: Focus on localized, familiar settings vs. expansive, alien, or global scales. 
+
+Gaming Domain 
+
+(Steam in-domain) 
+
+Primary Driver: Competition and dominance vs. exploration and creation. 
+
+Social Friction: Preference for cooperative, solitary, or antagonistic interactions. 
+
+Pacing: Tolerance for slow, methodical execution vs. rapid, twitch-reflex demands. 
+
+Progression: Motivation via extrinsic rewards (stats, loot) vs. intrinsic mastery. 
+
+Thematic Intensity: Preference for high-stakes, stressful atmospheres vs. relaxing or cozy environments. 
+
+Production Ethos: Attraction to polished, mainstream structures vs. experimental or indie designs. 
+
+3.2 Persona Generation & Projection 
+
+Having established the shared trait taxonomy Vtraits , SPHERE next replaces purely ID-based user 10 representations with non-identifying semantic personas. Rather than representing a user only through a platform-specific identifier or latent embedding tied to a single interaction matrix, we summarize the user’s interaction history as a structured textual profile expressed along the shared behavioral traits. This persona does not encode the user’s identity; instead, it captures domain-agnostic behavioral tendencies that can be compared across source and target domains. We then project these textual personas into dense vector representations, placing users from both domains in a common semantic space. Specifically, to generate these personas, we first compile a natural-language summary of the user’s interaction history. Rather than relying on raw item identifiers, we enrich each interacted item with its descriptive metadata—specifically its title, primary genres, and a brief text synopsis. This enriched historical context is then injected into a standardized prompt template, as shown in Figure 2. Crucially, instead of allowing the LLM to generate an unconstrained, open-ended profile, the prompt explicitly restricts the model to evaluate the user strictly along the dimensions of the inductively discovered trait taxonomy ( Vtraits ) and enforces a strict media-agnostic output constraint. 
+
+System Prompt: You are a behavioral-science pattern-matching engine. Task: Convert user history into a Media-Agnostic psychological profile. 
+
+[RULES] 
+
+1. Begin output EXACTLY with: ”The user’s behavioral profile indicates” 2. OUTPUT ONLY the profile. No intro, no conversational filler. 3. ABSOLUTELY NO SPECIFIC TITLES, PROPER NOUNS, OR NAMED WORKS. 4. NO SPECIFIC MEDIA TERMS (e.g., no ”reader”, ”player”, ”book”, ”game”). 5. EXACTLY 2 SENTENCES. Continuous text. 
+
+[CURRENT TASK] 
+
+Analyze cross-domain behavior using the following standardized clinical framework: - Stimulation: Need for novelty and high-sensation vs. comfort with familiar routines. - Locus: Desire for internal agency/control vs. willingness to be guided by external forces. - Engagement: Preference for active, systemic problem-solving vs. passive, atmospheric absorption. - Investment: Tolerance for long-term, high-friction commitments vs. desire for quick, low-barrier gratification. - Conflict: Attraction to tension, risk, and antagonism vs. preference for harmony and resolution. - Narrative: Motivation driven by structural mechanics/systems vs. character-driven storytelling. - Agency: Need to express individuality/creativity vs. following optimized, predefined pathways. 
+
+[USER HISTORY] 
+
+‘East of Eden’ , [Fiction, Family Life, Multi-generational], ‘Set in the rich farmland of California’s Salinas Valley, this sprawling and often brutal novel follows the intertwined destinies of two families whose generations helplessly reenact the fall of Adam and Eve and the poisonous rivalry of Cain and Abel.’ ‘Book 2’ , [Genre], ‘Synopsis’ 
+
+...
+
+[Full interaction history provided] 
+
+Figure 2: The standardized LLM prompt template utilized to generate media-agnostic behavioral personas. By strictly conditioning the generation process on these predefined rules and the Vtraits taxonomy, this prompt acts as a rigorous semantic constraint. It guarantees that the resulting textual profile for a target user and the profile for a source user are evaluated along the exact same behavioral axes without relying on domain-specific terminology. This structural alignment ensures that when these texts are subsequently projected into 11 the dense vector space, they reside in a comparable semantic subspace, rendering the representations entirely independent of the specific, disjoint item IDs. To execute this, we employ the LLM—utilizing the same underlying model from the discovery phase— operating here as a structured text generation function ψgen (·). The resulting qualitative behavioral profile is then projected into a demb -dimensional continuous vector space using a pre-trained language model ϕemb (·),such as BERT. Let ρ(Eu, Vtraits ) denote the formatted prompt combining the user’s enriched history and the taxonomy constraint. Formally, the individual target persona embedding is computed as: 
+
+ptarget  
+
+> u
+
+= ϕemb (ψgen (ρ(Eu, Vtraits ))) (2) Similarly, for every user v ∈ U S in the source domain with an enriched interaction history Ev, we independently compute the individual source persona embedding: 
+
+psource  
+
+> v
+
+= ϕemb (ψgen (ρ(Ev, Vtraits ))) (3) The output of this phase is a set of persona embeddings for users in both domains. Specifically, each target-domain user u ∈ U T and each source-domain user v ∈ U S is represented by a structured persona generated along the same trait taxonomy Vtraits and then projected into the shared semantic space. Thus, the source and target personas are not arbitrary textual summaries, but trait-conditioned representations constructed using the same behavioral vocabulary. This shared structure enables meaningful comparison between users across domains while decoupling user preference representation from domain-specific item identifiers. 
+
+3.2.1 Community Aggregation – Creating the Community Source Persona (CSP) 
+
+The core of SPHERE’s cross-domain transfer strategy is to construct, for each target user, an aggregated source-domain behavioral persona. Because the source and target domains do not share user identities, SPHERE does not attempt to find the same user across domains. Instead, it uses the target user’s persona as a semantic query to retrieve source-domain users who express similar behavioral traits. For each target user u,we identify a set of K semantic neighbors Nu by maximizing the cosine similarity between their respective individual persona embeddings: 
+
+Nu = arg top K 
+
+> v∈U S
+
+cos( ptarget  
+
+> u
+
+, psource  
+
+> v
+
+) (4) We define an aggregation function Φ that synthesizes the representations of the K retrieved neighbors into a single dense vector. Specifically, we employ an unweighted mean pooling across the neighborhood. The Community Source Persona is thus formally computed as: 
+
+pcsp  
+
+> u
+
+= 1
+
+K
+
+X
+
+> v∈N u
+
+psource  
+
+> v
+
+(5) 12 We deliberately utilize an unweighted mean rather than a similarity-weighted average due to the geo-metric properties of high-dimensional embedding spaces. In highly dense vector spaces, cosine similarity distributions exhibit extreme top-edge concentration. Consequently, the variance in similarity scores among a tightly clustered set of top-K neighbors is mathematically marginal. In this regime, an unweighted mean provides a highly stable, computationally efficient representation of the community’s behavioral center without introducing the noise associated with scaling by functionally identical similarity weights (Ethayarajh 2019). 
+
+Shared Semantic Space ( Rdemb ) Target ( UT ) 
+
+> Source ( US)
+
+Nu 
+
+> cos( ⋆,•)
+> ptarget
+> u
+
+⊕ pcsp         
+
+> u=1
+> K
+> Ppsource
+> v
+> emotional intensity, moral ambiguity, narrative depth
+> atmospheric immersion, tension-seeking, high agency
+> Query User uRetrieved Neighbors ( Nu)⊕Community Source Persona ( pcsp
+> u)
+
+Figure 3: Visualization of the Community Source Persona aggregation within the shared semantic space. The target user explicitly functions as the query vector to retrieve the K nearest source-domain neighbors via cosine similarity. These proximal representations are mean-pooled to compute the centroid ( pcsp  
+
+> u
+
+), which is subsequently transferred to the downstream architecture as the cross-domain persona signal. The resulting CSP captures the common behavioral patterns shared by the retrieved source-domain neigh-bors. It therefore provides a macroscopic semantic persona about the target user, derived from behaviorally similar users in the source domain rather than from direct identity matching. The community size K acts as a regularization parameter, independently optimized for each recommen-dation algorithm and specific source–target domain pairing. A small K may overemphasize idiosyncratic traits of individual source users, whereas an excessively large K may over-smooth the representation into a generic source-domain average. Thus, K controls the tradeoff between specificity and robustness in the transferred semantic signal. In addition to the CSP, SPHERE can also retain the target user’s own persona embedding, ptarget  
+
+> u
+
+, as a User Target Persona (UTP). While the CSP provides a cross-domain semantic persona derived from behaviorally similar source users, the UTP provides an in-domain semantic signal derived directly from the target user’s own interaction history. We therefore evaluate whether recommendation performance improves when the model relies on the CSP alone, the UTP alone, or a hybrid configuration that jointly incorporates both signals. This hybrid configuration allows the model to learn how the in-domain behavioral description of the target user complements, reinforces, or diverges from the aggregated source-domain behavioral persona, and whether this combination improves recommendation performance in the target recommender system. 13 3.3 Semantic Persona Integration and Late-Fusion 
+
+Having established how semantic personas are constructed, we now describe how they are incorporated into the SPHERE recommendation architecture, illustrated in Figure 4. SPHERE is designed as a recommender-system design artifact that enables knowledge transfer across strictly disjoint domains. Rather than attempting to align users or items directly, the architecture introduces semantic personas as an intermediate behavioral representation through which source-domain knowledge can inform target-domain recommendation. The architecture integrates two complementary sources of information. The first is the target-domain collaborative signal, which reflects the structural patterns learned from user-item interactions in the target recommender system. The second is the semantic behavioral signal, which captures persona-based knowledge derived from behaviorally similar users in the source domain. This design allows SPHERE to examine whether behavioral abstractions extracted from an external source domain can complement the target-domain interaction data and improve ranking performance. The remainder of this section presents the architecture in three stages: collaborative encoding, semantic persona encoding, and dynamic fusion. Together, these components operationalize the core design principle of SPHERE: using shared behavioral representations to transfer recommendation knowledge when conventional identity- or item-based links across domains are unavailable. 
+
+3.3.1 Collaborative Encoding 
+
+The primary Collaborative tower focuses exclusively on extracting structural, collaborative signals from the target domain interaction history. This architecture is designed to integrate flexibly with various collaborative backbone models, which are trained jointly end-to-end with the broader framework rather than relying on independent, pre-trained weights. For a given user u ∈ U T and candidate item i ∈ I T , we extract their respective dense latent representations, denoted as zu ∈ Rd and zi ∈ Rd, directly from the collaborative backbone immediately prior to its native scoring operation (such as the final inner product or terminal concatenation). To project these base representations into a space optimized for cross-domain fusion, the vectors are concatenated and processed through a shared Multi-Layer Perceptron ( MLP col ). Crucially, we apply this exact same MLP projection to the terminal end of all isolated baseline models evaluated in our study. This serves a dual purpose: it aligns the structural dimensional space with the semantic tower prior to gating, and it ensures a strictly fair, parameter-matched evaluation. By standardizing the parametric capacity across all architectures, we mathematically guarantee that any observed performance lift is strictly attributable to the semantic persona injection rather than an increase in network depth. The forward pass produces a compact structural interaction vector: 
+
+hcol  
+
+> u,i
+
+= MLP col ([ zu∥zi]) (6) where ∥ denotes vector concatenation. The shared network MLP col comprises L hidden layers, incorporating layer normalization, non-linear activation functions (e.g., GELU), and dropout regularization to ensure the model learns robust structural features and mitigates overfitting on the sparse interaction matrix. 14 Collaborative Tower Semantic Personas Tower 
+
+Backbone Model 
+
+User Embedding ( zu) Item Embedding ( zi)
+
+Dense Layer 1 
+
+# ...LN + GELU + Drop 
+
+Dense Layer L 
+
+Community Source Persona ( pcsp  
+
+> u
+
+)
+
+Non-Linear Projection Item Embedding ( esem  
+
+> i
+
+)
+
+Dense Layer 1 
+
+# ... LN + GELU + Drop 
+
+Dense Layer L 
+
+Fusion Gate ( αu,i ) & Residual Addition 
+
+hcol  
+
+> u,i
+
++ αu,i · hsem 
+
+> u,i
+
+hcol  
+
+> u,i
+
+hsem 
+
+> u,i
+
+Layer Normalization 
+
+Prediction Head 
+
+ˆyu,i yu,i Ground Truth 
+
+Contrastive Loss Function 
+
+Figure 4: SPHERE dual-tower architecture for the late-fusion of semantic personas and collaborative filtering representations. 15 The resulting output hcol  
+
+> u,i
+
+∈ Rd′
+
+encapsulates the learned structural interaction between the user’s collaborative profile and the specific candidate item. This joint vector forms the primary structural input for the subsequent semantic fusion phase. 
+
+3.3.2 Semantic Encoding 
+
+Parallel to the collaborative encoding pipeline, the semantic tower processes the macroscopic behavioral persona retrieved from the source domain. The primary user input to this module is the pre-computed Community Source Persona embedding, denoted as pcsp  
+
+> u
+
+, which encapsulates the transferred behavioral and thematic traits. Because this dense textual vector originates from a distinct linguistic feature space, we first project it into the collaborative dimensionality d using a dedicated non-linear projection layer: 
+
+zcsp  
+
+> u
+
+= GELU( Wproj pcsp  
+
+> u
+
++ bproj ) (7) where Wproj and bproj are trainable parameters, and the output is normalized to ensure representational stability. Crucially, to evaluate the behavioral compatibility between the user’s semantic persona and the candidate item, the semantic tower maintains an independent item embedding matrix. For a candidate item i ∈ I T ,we extract a dedicated semantic item representation esem  
+
+> i
+
+∈ Rd. This distinct parameterization prevents representation collapse, allowing the item to maintain a separate structural identity in the collaborative tower and a behavioral identity in the semantic tower. The projected persona and the semantic item representation are concatenated and processed through a dedicated Multi-Layer Perceptron ( MLP sem ) to capture complex behavioral interactions: 
+
+hsem  
+
+> u,i
+
+= MLP sem ([ zcsp  
+
+> u
+
+∥esem  
+
+> i
+
+]) (8) where ∥ denotes vector concatenation. Similar to the structural tower, MLP sem consists of L hidden layers with layer normalization, GELU activations, and dropout regularization. The resulting output is a joint semantic interaction vector hsem  
+
+> u,i
+
+∈ Rd′
+
+. By architecting this tower to process user-item pairs jointly, the framework ensures that the semantic representation hsem  
+
+> u,i
+
+is aligned in dimensionality and function with the structural representation hcol 
+
+> u,i
+
+, preparing both for the dynamic late-fusion mechanism. 
+
+3.3.3 Dynamic Late-Fusion and Scoring 
+
+Having extracted the structural interaction vector hcol  
+
+> u,i
+
+and the behavioral interaction vector hsem  
+
+> u,i
+
+, the final architectural stage dynamically integrates these distinct modalities. Because the reliability of the collaborative signal varies drastically depending on a user’s target domain sparsity, SPHERE avoids static combination 16 strategies (such as simple addition or fixed-weight concatenation). Instead, it employs an instance-aware gating mechanism to modulate the influence of the semantic persona. We define a learnable fusion gate that computes a scalar modulation weight αu,i ∈ (−1, 1) for each user-item pair. This weight is determined by jointly evaluating the structural and semantic representations: 
+
+αu,i = tanh( Wgate [hcol 
+
+> u,i
+
+∥hsem  
+
+> u,i
+
+]) (9) where Wgate ∈ R1×2d′
+
+is a bias-free linear transformation. The selection of the hyperbolic tangent ( tanh )activation function is deliberate, diverging from conventional gating mechanisms that rely on softmax to produce strictly positive scaling factors, allowing the network to amplify the semantic persona when collaborative data is sparse ( αu,i > 0), while actively down-scaling or ’moving away’ from less relevant semantic contributions ( αu,i < 0) (Hadad et al. 2025). The semantic interaction vector is then scaled by αu,i and applied as a residual update to the primary structural vector. To ensure the feature distributions remain stable prior to final scoring, this composite representation undergoes layer normalization: 
+
+hfused  
+
+> u,i
+
+= LayerNorm( hcol  
+
+> u,i
+
++ αu,i hsem  
+
+> u,i
+
+) (10) Finally, the fused representation is projected into a singular, unnormalized prediction logit ˆyu,i via a terminal linear scoring head: 
+
+ˆyu,i = Whead hfused  
+
+> u,i
+
++ bhead (11) Before this logit is passed to the listwise contrastive loss objective, it is divided by a learnable temperature parameter τ . To maintain gradient stability and prevent the temperature from collapsing or exploding during training, τ is strictly bounded within an empirically defined operational range: 
+
+su,i = ˆyu,i 
+
+clamp( τ, τ min , τ max ) (12) where su,i represents the final temperature-scaled affinity score used to calculate the log-probabilities across the sampled candidate items. 
+
+3.3.4 Training Objective 
+
+The entire dual-tower architecture, including the collaborative backbone embeddings and the semantic projection layers, is trained jointly end-to-end using a listwise contrastive objective. For each user u ∈ U T
+
+interacting with a true target item i+ ∈ H u, we randomly sample a set of N unobserved negative items I−.The model is trained to maximize the log-probability of the positive interaction against these candidates using a temperature-scaled cross-entropy loss (InfoNCE): 
+
+L = − X
+
+> u∈U T
+
+log exp( su,i + )exp( su,i + ) + P 
+
+> j∈I −
+
+exp( su,j ) (13) 17 All optimization details, including learning rate schedules and regularization, are reported in Section 4.2. 
+
+# 4 Empirical Evaluation 
+
+4.1 Datasets and Pre-processing 
+
+We evaluate the SPHERE framework across three widely adopted real-world datasets: Amazon Books, Goodreads, and Steam (Hou et al. 2023, Wan and McAuley 2018, Kang and McAuley 2018). These domains were deliberately selected to encompass both semantically similar cross-domain scenarios (e.g., Goodreads and Amazon Books) and broadly-relevant cross-domain scenarios (e.g., Steam and Amazon Books). In our experiments, we systematically evaluate all six possible directional target-source pairings among these three domains. To ensure the reliability of the collaborative signal whilst mitigating the disproportionate influence of highly active power-users, we constrained user profiles to a strict window of 5 to 15 interactions. To facilitate computationally tractable persona generation without compromising necessary structural representation, we then extracted a random sample of up to 10 , 000 eligible users per domain. For evaluation, each user’s filtered interaction sequence was ordered chronologically and partitioned using a strict temporal Leave-One-Out (LOO) protocol: the final recorded interaction was reserved for the test set, the penultimate for validation, and all preceding interactions constituted the training set. Crucially, to isolate genuine preference signals and guarantee a high-quality ground truth, we imposed domain-specific positivity thresholds on these evaluation targets. Users in the literary domains (Amazon Books, Goodreads) were retained strictly if both their validation and test items achieved an explicit rating of ≥ 4.0. Conversely, for the gaming domain (Steam), which employs a binary feedback mechanism rather than an ordinal scale, users were retained only if both evaluation items exhibited a positive recommendation indicator ( = 1 ). Any user failing to meet these terminal criteria was entirely excluded from the dataset. The final network statistics for the sampled domains, which remain structurally consistent whether the domain acts as the target or the source in a given pairing, are detailed in Table 3. The calculation of density reveals that Amazon Books represents our sparsest target environment ( 0.1501% ), while Goodreads (0.2245% ) and Steam ( 0.2456% ) exhibit moderately denser interaction topologies. Table 3: Dataset statistics. For each domain, alongside the aggregate number of interactions, we report the structural bipartite graph density. All figures are reported subsequent to the application of the rating thresholds and user sampling protocol. Domain Users Items Interactions Density Amazon Books 9,961 3,839 57,383 0.1501% Goodreads 9,962 2,794 62,496 0.2245% Steam 9,968 2,470 60,464 0.2456% 18 4.2 Implementation Details 
+
+The framework was trained end-to-end utilizing the AdamW optimizer, configured with a learning rate of 
+
+3 × 10 −3 and a weight decay of 1 × 10 −3, values empirically determined via grid search to provide optimal convergence stability middle-ground across all datasets. Crucially, to ensure a strictly fair comparison and to isolate the specific performance impact of the semantic knowledge transfer, all architectural hyperparameters and training dynamics, including learning rate, regularization, and batch sizes, were held strictly constant across both the isolated baseline models and their respective SPHERE-enhanced variants. All collaborative backbones utilized a latent embedding dimensionality of d = 128 for both user and item representations. The structural interaction tower concatenates the user and item vectors [zu∥zi] ∈ R256 ,which are then processed through a three-layer MLP ( 256 → 128 → 64 ) with GELU activations, layer normalization, and dropout regularization to produce the structural interaction vector hcol  
+
+> u,i
+
+∈ R64 . In the semantic tower, the dtext = 256 -dimensional persona embeddings (UTP and CSP) are each linearly projected to d = 128 dimensions prior to concatenation with a dedicated semantic item embedding esem  
+
+> i
+
+∈ R128 ,yielding a joint input ∈ R256 . This vector is processed through a three-layer MLP ( 256 → 128 → 64 )to produce the semantic interaction vector hsem  
+
+> u,i
+
+∈ R64 . The scalar fusion gate takes the concatenation 
+
+[hcol 
+
+> u,i
+
+∥hsem  
+
+> u,i
+
+] ∈ R128 as input, and the final fused representation is projected to a scalar prediction score via a single linear layer. All weight matrices were initialized using Kaiming Normal initialization to ensure variance-stable forward propagation at initialization. To manage memory constraints while preserving a sufficiently large batch size to ensure stable gradient estimation for the contrastive objective, we employed Automatic Mixed Precision (AMP) and processed interactions with a training batch size of 2048 . During training, for each observed positive interaction, we uniformly sampled N = 8 unobserved negative items. While theoretical contrastive learning bounds generally benefit from massive negative sample sizes, excessive negative sampling in recommendation contexts frequently induces severe ’false negative’ collisions, penalizing unobserved items that are actually relevant to the user. Since 4–10 negatives was shown to be the optimal range for most recommendation settings (Ding et al. 2020), we selected N = 8 as a middle-ground empirical threshold to balance contrastive variance reduction against false-negative penalization. To stabilize the initial learning dynamics and allow the randomly initialized structural embeddings to develop meaningful collaborative representations before the semantic persona exerts significant gradient pressure, we applied a learning rate schedule comprising a 15 -epoch linear warmup phase followed by cosine annealing decay, alongside gradient norm clipping capped at 1.0. Models were trained for a maximum of 
+
+150 epochs. We implemented an early stopping mechanism that evaluated the validation NDCG@10 every 5
+
+epochs, terminating the training procedure if no improvement was observed over a patience window of 30 
+
+epochs to prevent overfitting on the sparse target domains. For the generation of the semantic personas, we utilized the Llama 3.1 8B Instruct model ( ψgen )(Grattafiori et al. 2024), selected for its strong zero-shot reasoning capabilities and its suitability for lo-calized use. To map these generated textual profiles into the continuous vector space, we employed OpenAI’s 
+
+text-embedding-3-small model ( ϕemb ). This model was trained using a Matryoshka Represen-tation Learning (MRL) objective (Kusupati et al. 2022), which structures the embedding dimensions in 19 descending order of informational importance. This property guarantees that any leading prefix of the full 1536 -dimensional output preserves maximal representational fidelity for that specific dimensionality. Accordingly, we isolate the first dtext = 256 dimensions as a principled truncation. By maintaining this intermediate capacity rather than executing a direct reduction to d = 128 , we substantially mitigate the degradation of the persona vectors prior to their projection into the collaborative feature space during the late-fusion stage. To optimize the construction of the Community Source Persona (CSP), we treated the semantic community size, K, as a tunable hyperparameter. During the validation phase of training, we performed a systematic grid search over K ∈ { 5, 15 , 30 , 50 } across multiple seeds. The optimal K was selected dynamically to optimize each specific source-target domain pairing on each backbone model, ensuring the macroscopic persona was appropriately calibrated to the semantic distance between the domains. Furthermore, when aggregating the embeddings of these K neighbors, we deliberately employed an unweighted mean rather than a similarity-weighted average. In highly dense, high-dimensional vector spaces, cosine similarity distributions exhibit extreme top-edge concentration. Consequently, the variance in similarity scores among the top 50 
+
+neighbors out of 10 , 000 candidates is mathematically marginal. 
+
+4.3 Baseline Models and SPHERE Configurations 
+
+To comprehensively and rigorously evaluate the efficacy of the SPHERE framework, we benchmark its performance against three fundamentally distinct structural paradigms within the double-vector collaborative filtering family, ensuring our claims are backbone-agnostic. As established in Section 3.3.1, we standardize the deep Multi-Layer Perceptron ( MLP col ) as the terminal interaction function across all baselines to isolate the specific impact of the semantic persona. • Neural Collaborative Filtering (NCF): Represents the zero-hop paradigm, utilizing static ID lookups to learn non-linear user-item interaction functions without explicit structural propagation. • SVD++: Represents the one-hop asymmetric paradigm. Based on classic SVD++ mechanics, this backbone enriches the explicit user embedding by aggregating the latent representations of all items in the user’s interaction history as an implicit feedback signal. • LightGCN: Represents the multi-hop symmetric paradigm, relying on symmetric normalization and neighborhood aggregation to capture high-order structural proximity. Crucially, we evaluate this framework under conditions of absolute zero-overlap, defined strictly as the environment where US ∩ U T = ∅ and IS ∩ I T = ∅. Classical embedding-alignment methods (e.g., EMCDR) mandate explicit structural overlap, while distributional alignment techniques rely on topological isomorphism that is systematically violated by heterogeneous pairings like gaming versus literature. Furthermore, current semantic-driven approaches rely on complex distributed multi-party training protocols. Because SPHERE transfers holistic abstractions entirely independent of matrix dimensionality, benchmarking against overlap-dependent baselines under equivalent architectural assumptions is methodologically incongruent. 20 To validate our specific architectural contributions, we compare the primary SPHERE model (CSP) against two Ablation Configurations: • SPHERE-Intra: Replaces the Community Source Persona with the User Target Persona, generated ex-clusively from their sparse target-domain history, to test if gains can also be achieved by supplementing the user with a semantic representation of themselves. • SPHERE-Dual: Jointly integrates both the in-domain UTP and the cross-domain CSP to evaluate whether providing cumulative dual-domain semantics offers supplementary regularization or introduces redundant semantic interference. 
+
+4.4 Evaluation Metrics 
+
+To assess predictive accuracy and ranking quality, we comprehensively evaluated model performance across a spectrum of standard ranking cutoffs ( k ∈ { 1, 3, 5, 10 , 20 }), calculating both Hit Ratio (HR) and Normalized Discounted Cumulative Gain (NDCG). However, for clarity and conciseness, we report NDCG@10 through-out this paper, as it is the most widely accepted and rigorously position-aware standard for evaluating top-N
+
+recommendation tasks in the current literature. Unlike evaluation protocols that rank the target item against a randomly sampled subset of negative items, a practice known to artificially inflate apparent performance metrics, our evaluation operates over the entire unobserved target item vocabulary. This full-ranking approach ensures a rigorously unbiased evaluation of true retrieval capabilities, though it necessarily yields substantially lower absolute metric values than those reported in studies employing sampled evaluation (Krichene and Rendle 2020). Recognizing that the sparsity of cross-domain recommendation graphs yields distributions that violate strict parametric assumptions, we establish the statistical significance of the performance lifts exclusively via the one-sided paired t-test over the entire user population. Significance across progressive alpha thresholds (∗p < 0.05 , ∗∗ p < 0.01 , ∗∗∗ p < 0.001 ) is calculated at the user level to provide a highly robust, directionally appropriate measure of effect size stability. 
+
+4.5 Overall Performance and Cross-Domain Transfer Efficacy 
+
+The primary empirical results, presented in Table 4, demonstrate that the SPHERE framework consistently enhances predictive accuracy across all evaluated target domains and architectural topologies. Crucially, these lifts are achieved under conditions of absolute zero-overlap, proving that macroscopic behavioral personas encoded via large language models can successfully align disjoint latent spaces where traditional geometric mappings fail. A critical observation from this evaluation is that SPHERE extracts its largest relative performance gains precisely where the structural backbone is most vulnerable. On the Steam target, whose baseline models achieve the lowest absolute NDCG scores across all three domains despite comparable bipartite density (Table 3), the SVD++ backbone registers the highest absolute lift in the entire evaluation: +21 .40% 
+
+(p < 0.01 ) using the Goodreads source. This confirms that the semantic abstraction provided by the CSP 21 Table 4: Main Performance Evaluation (NDCG@10; * p < 0.05 , ** p < 0.01 , *** p < 0.001 ). Bold values indicate best performance per row. ‡
+
+Target Source Backbone Model Baseline SPHERE Amazon Books Goodreads NCF 0.0274 0.0311 (+13.43%)** 
+
+SVD++ 0.0295 0.0326 (+10.64%)* 
+
+LightGCN 0.0342 0.0376 (+9.77%)** 
+
+Steam NCF 0.0274 0.0288 (+5.12%) 
+
+SVD++ 0.0295 0.0321 (+8.79%)* 
+
+LightGCN 0.0342 0.0369 (+7.73%)* 
+
+Steam Goodreads NCF 0.0229 0.0259 (+12.81%)* 
+
+SVD++ 0.0181 0.0219 (+21.40%)** 
+
+LightGCN 0.0256 0.0269 (+5.44%) 
+
+Amazon Books NCF 0.0229 0.0260 (+13.33%)* 
+
+SVD++ 0.0181 0.0208 (+15.32%)* 
+
+LightGCN 0.0256 0.0282 (+10.36%)* 
+
+Goodreads Amazon Books NCF 0.0882 0.0937 (+6.29%)** 
+
+SVD++ 0.0909 0.0959 (+5.55%)* 
+
+LightGCN 0.0991 0.1033 (+4.26%)* 
+
+Steam NCF 0.0882 0.0941 (+6.68%)** 
+
+SVD++ 0.0909 0.0974 (+7.17%)** 
+
+LightGCN 0.0991 0.1030 (+3.92%)* 
+
+> ‡Percentage lifts are derived from full-precision tensor evaluations; displayed NDCG scores are rounded to four decimal places, which may result in minor fractional discrepancies if manually recalculated.
+
+22 is most impactful when the native collaborative signal is weakest, a condition that, as discussed below, is governed not merely by graph density but by the discriminative quality of the available interactions. An important nuance emerges when examining the effect of semantic proximity between the source and target domains. When optimising for the Amazon Books target, the semantically proximate source (Goodreads) yields consistently larger improvements than the distant source (Steam) across all three back-bones: +13 .43% , +10 .64% , and +9 .77% versus +5 .12% , +8 .79% , and +7 .73% for NCF, SVD++, and LightGCN respectively. However, this proximity advantage does not generalise. On the Steam target, the distant Amazon source matches or outperforms Goodreads for two of three backbones (NCF: +13 .33% vs. 
+
++12 .81% ; LightGCN: +10 .36% vs. +5 .44% ), and on the Goodreads target the distant Steam source out-performs Amazon for two of three backbones (SVD++: +7 .17% vs. +5 .55% ; NCF: +6 .68% vs. +6 .29% ). These results indicate that semantic proximity between domains is not the primary determinant of transfer efficacy. Rather, the consistent pattern across all permutations is that SPHERE’s lift magnitude is governed predominantly by the target domain’s native structural performance (cf. Section 4.8): the weakest baselines (Steam) attract the largest lifts regardless of which source is paired, while the strongest baselines (Goodreads) benefit more modestly from either source. This finding carries practical significance, as it suggests that practitioners need not restrict cross-domain transfer to semantically adjacent platforms. 
+
+4.6 Cutoff-Dependent Performance Analysis 
+
+To examine how SPHERE’s ranking improvements distribute across the recommendation list, Figure 5 presents NDCG performance across ranking cutoffs k ∈ { 1, 3, 5, 10 , 20 } for two representative pairings that share an identical source domain (Goodreads) but differ in the target baseline’s native ranking capacity. All models were optimized exclusively on NDCG@10; the profiles at other cutoffs are therefore emergent properties of the learned representations. These two pairings illustrate the dominant cutoff-dependent patterns observed across all 18 evaluated configurations (full results in Appendix A). A striking divergence reveals two qualitatively distinct mechanisms. On the Amazon target, where the structural baseline achieves moderate performance, SPHERE’s lift is sharply concentrated at the top of the list: SVD++ registers +40 .82% at k=1 (p < 0.001 ), decaying monotonically to +10 .64% at k=10 —a pattern observed in 10 of 18 configurations. This precision concentration profile indicates that the backbone already retrieves a viable candidate pool, and the semantic persona acts as a surgical corrector that promotes the relevant item from mid-list to top rank. Conversely, on the Steam target, where baseline NDCG is lowest, the pattern inverts: NCF exhibits a −25 .68% lift at k=1 but grows to +12 .81% at k=10 (p < 0.05 ) and 
+
++12 .50% at k=20 (p < 0.01 )—a retrieval elevation pattern observed in 6 of 18 configurations. Here, the collaborative signal alone is insufficient to surface relevant items within the visible window, and SPHERE’s contribution is to pull genuinely relevant items into the ranking from deep in the unobserved catalog. The gate magnitudes (Table 8) are consistent with this dichotomy: minimal activation suffices when the baseline is already well-structured, whereas maximal semantic reliance is learned precisely where native ranking capacity is most compromised. 23 1 3 5 10 20        
+
+> 0.01
+> 0.02
+> 0.03
+> 0.04
+> NDCG
+> Amazon  ← Goodreads
+> SVD++ Backbone
+> 13510 20
+> k
+> 0.01
+> 0.02
+> 0.03
+> NDCG
+> Steam  ← Goodreads
+> NCF Backbone
+> SPHERE SPHERE-Dual SPHERE-Intra Baseline
+
+Figure 5: NDCG across ranking cutoffs k ∈ { 1, 3, 5, 10 , 20 } for two representative pairings sourced from Goodreads: SVD++ on Amazon Books (top), illustrating precision concentration at shallow cutoffs, and NCF on Steam (bottom), illustrating retrieval elevation at deeper cutoffs. Full results across all domain permutations, backbones, and Hit Ratio metrics are provided in Appendix A. 24 4.7 Ablation Study: Disentangling Target Density and Semantic Redundancy 
+
+To rigorously isolate the mechanics driving these performance gains, we deploy an ablation study evaluating the isolated and joint effects of the in-domain User Target Persona (UTP) and the cross-domain Community Source Persona (CSP). This experiment challenges the hypothesis that in-domain semantic summaries are inherently superior to abstract cross-domain representations. Table 5: Impact of Persona Components on NCF Performance (NDCG@10) ‡
+
+Target Source Baseline SPHERE SPHERE-Dual SPHERE-Intra Amazon Books Goodreads 0.0274 0.0311 (+13.43%)** 0.0313 (+14.22%)** 0.0279 (+1.81%) Steam 0.0274 0.0288 (+5.12%) 0.0290 (+5.87%) 0.0279 (+1.81%) Steam Goodreads 0.0229 0.0259 (+12.81%)* 0.0238 (+3.80%) 0.0254 (+10.70%)* Amazon Books 0.0229 0.0260 (+13.33%)* 0.0266 (+16.18%)** 0.0254 (+10.70%)* Goodreads Amazon Books 0.0882 0.0937 (+6.29%)** 0.0934 (+5.95%)* 0.0963 (+9.20%)*** 
+
+Steam 0.0882 0.0941 (+6.68%)** 0.0977 (+10.84%)*** 0.0963 (+9.20%)*** Table 6: Impact of Persona Components on SVD++ Performance (NDCG@10) ‡
+
+Target Source Baseline SPHERE SPHERE-Dual SPHERE-Intra Amazon Books Goodreads 0.0295 0.0326 (+10.64%)* 0.0316 (+7.24%) 0.0327 (+10.76%)* 
+
+Steam 0.0295 0.0321 (+8.79%)* 0.0324 (+9.87%)* 0.0327 (+10.80%)* 
+
+Steam Goodreads 0.0181 0.0219 (+21.40%)** 0.0202 (+11.51%) 0.0197 (+9.25%) Amazon Books 0.0181 0.0208 (+15.32%)* 0.0210 (+16.40%)* 0.0201 (+11.33%) Goodreads Amazon Books 0.0909 0.0959 (+5.55%)* 0.0958 (+5.36%)* 0.0947 (+4.20%) Steam 0.0909 0.0974 (+7.17%)** 0.0957 (+5.25%)* 0.0968 (+6.46%)** Table 7: Impact of Persona Components on LightGCN Performance (NDCG@10) ‡
+
+Target Source Baseline SPHERE SPHERE-Dual SPHERE-Intra Amazon Books Goodreads 0.0342 0.0376 (+9.77%)** 0.0355 (+3.73%) 0.0353 (+3.22%) Steam 0.0342 0.0369 (+7.73%)* 0.0361 (+5.44%) 0.0356 (+4.06%) Steam Goodreads 0.0256 0.0269 (+5.44%) 0.0258 (+1.15%) 0.0280 (+9.42%)* 
+
+Amazon Books 0.0256 0.0282 (+10.36%)* 0.0287 (+12.23%)* 0.0280 (+9.77%)* Goodreads Amazon Books 0.0991 0.1033 (+4.26%)* 0.1021 (+3.06%) 0.1025 (+3.45%) Steam 0.0991 0.1030 (+3.92%)* 0.1003 (+1.27%) 0.1016 (+2.56%) 
+
+> ‡UTP Only configurations inherit the parameters of their respective optimal CSP source pairing, which accounts for minor fractional variance in UTP scores between rows sharing the same target domain.
+
+The ablation results across NCF (Table 5), SVD++ (Table 6), and LightGCN (Table 7) reveal a highly sophisticated relationship between structural topology, backbone architecture, and semantic injection. In environments characterized by extreme structural sparsity (e.g., Amazon Books, 0.1501% density), the generated in-domain UTP profiles are inherently under-informed. The linear propagation mechanics of LightGCN are highly sensitive to this semantic noise. In the LightGCN Amazon ← Goodreads pairing, 25 integrating the target-domain UTP alongside the CSP severely dilutes the efficacy of the model, collapsing the performance lift from +9 .77% (SPHERE) down to +3 .73% (SPHERE-Dual). In these highly sparse regimes, the macroscopic abstraction of the standalone cross-domain CSP consistently provides a much more stable, non-destructive regularization anchor. Conversely, in the regime where the structural backbone achieves its strongest native performance, Goodreads, which benefits from both moderate density ( 0.2245% )and high-quality literary metadata, the viability of localized semantic summaries (SPHERE-Intra) depends entirely on the structural capacity of the collaborative backbone. Within the NCF architecture, which utilizes a zero-hop paradigm and inherently lacks a mechanism to explicitly aggregate historical structures, the injection of the UTP is profoundly beneficial. For the NCF Goodreads ← Steam pairing, the joint SPHERE-Dual configuration yields a massive +10 .84% improvement, and SPHERE-Intra yields +9 .20% , both significantly outperforming the standalone SPHERE ( +6 .68% ). Because the native interaction graph supplies rich collaborative signal in this regime, the UTP provides a highly informative, localized behavioral summary that the structurally blind NCF backbone requires to augment its isolated ID representation. Crucially, this advantage immediately collapses when applied to architectures that possess native mechanisms for structural history modeling. For both SVD++ (which explicitly pools implicit chronological history) and LightGCN (which aggregates multi-hop graph communities), the standalone cross-domain CSP remains the dominant configuration on the Goodreads target. For LightGCN, adding the UTP actually depresses the lift from +4 .26% (SPHERE) down to +3 .06% (SPHERE-Dual). This indicates that when a backbone already explicitly computes the user’s localized history via graph or pool routing, injecting a textual summary of that exact same history introduces semantic redundancy that actively interferes with the learned structural representations. These findings validate the core architectural contribution of the SPHERE framework: the orthogonal, cross-domain behavioral intelligence provided by the Community Source Persona is universally beneficial across all baseline performance regimes and backbones, whereas in-domain semantic injection is exclusively viable for structurally naive architectures operating in domains where the collaborative backbone already achieves strong native performance. 
+
+4.8 Fusion Gate Dynamics and Semantic Community Analysis 
+
+To provide mechanistic insight into how the SPHERE framework leverages semantic knowledge at scale, we analyzed the learned fusion gate activations ( αu,i ) and optimal community configurations across all structural backbones and domain permutations. The gate, defined as αu,i = tanh( Wg[hcol 
+
+> u,i
+
+∥hsem  
+
+> u,i
+
+]) , modulates the additive contribution of the semantic interaction vector ( hsem  
+
+> u,i
+
+) to the structural interaction vector ( hcol 
+
+> u,i
+
+) via the fused representation ˆhu,i = hcol  
+
+> u,i
+
++ αu,i · hsem  
+
+> u,i
+
+. The unified results are presented in Table 8. 
+
+4.8.1 Optimal Community Size ( K)
+
+The optimal semantic community size varies substantially across domain pairings and backbones, with no single K universally dominating. This variability validates the grid search protocol over K ∈ { 5, 15 , 30 , 50 }
+
+and confirms that the appropriate breadth of the Community Source Persona is inherently dependent on the semantic relationship between the paired domains. Notably, smaller communities ( K = 5 ) tend to be optimal when the source and target domains share high semantic proximity (e.g., LightGCN on Amazon →Goodreads), 26 Table 8: Unified Fusion Gate Dynamics and K-Neighbor Utilization across architectures. Results report NDCG@10 for the Baseline and SPHERE (CSP Only), relative lift, optimal community size ( K), and the average learned semantic gate weight ( |α|). 
+
+Target Source Backbone Model Baseline SPHERE Lift (%) Opt. K Avg. |α|
+
+Amazon Books Goodreads SVD++ 0.0295 0.0326 +10.64% 15 0.0188 NCF 0.0274 0.0311 +13.43% 30 0.1365 LightGCN 0.0342 0.0376 +9.77% 5 0.1878 Steam SVD++ 0.0295 0.0321 +8.79% 50 0.0405 NCF 0.0274 0.0288 +5.12% 5 0.1766 LightGCN 0.0342 0.0369 +7.73% 30 0.2901 Steam Goodreads SVD++ 0.0181 0.0219 +21.40% 15 0.4561 NCF 0.0229 0.0259 +12.81% 15 0.2185 LightGCN 0.0256 0.0269 +5.44% 5 0.1999 Amazon Books SVD++ 0.0181 0.0208 +15.32% 5 0.3891 NCF 0.0229 0.0260 +13.33% 5 0.0378 LightGCN 0.0256 0.0282 +10.36% 50 0.0240 Goodreads Amazon Books SVD++ 0.0909 0.0959 +5.55% 15 0.0156 NCF 0.0882 0.0937 +6.29% 50 0.1254 LightGCN 0.0991 0.1033 +4.26% 30 0.0598 Steam SVD++ 0.0909 0.0974 +7.17% 30 0.1162 NCF 0.0882 0.0941 +6.68% 30 0.1495 LightGCN 0.0991 0.1030 +3.92% 15 0.2319 where a tight cluster of highly similar neighbors provides a precise behavioral persona. Conversely, larger communities ( K = 30 –50 ) are frequently selected for more heterogeneous pairings, where broadening the consensus pool compensates for the increased variance in cross-domain behavioral alignment. 
+
+4.8.2 Gate Magnitude ( |α|) and Performance-Conditioned Modulation 
+
+A striking pattern emerges from the learned gate magnitudes: |α| is systematically governed by the native ranking capacity of the structural backbone on each target domain, rather than by bipartite graph density alone. On the Steam target, where all three backbones achieve their lowest absolute NDCG scores, the gate opens widest: the SVD++ backbone registers |α| = 0 .4561 for Goodreads →Steam and |α| = 0 .3891 for Amazon →Steam, indicating maximal reliance on the semantic persona where native collaborative signal is weakest. Notably, this occurs despite Steam exhibiting the highest bipartite density among the three domains (0.2456% ; Table 3), revealing that graph density is an insufficient predictor of model performance: the inherently higher item-space heterogeneity of interactive entertainment, where user preferences fragment across disparate mechanics, aesthetics, and engagement modalities, produces a noisier collaborative signal per interaction than the comparatively homogeneous literary domains. SVD++ exhibits the widest dynamic range overall ( |α| ∈ [0 .016 , 0.456] ), consistent with its acute sensitivity to the quality of the available collaborative signal: its explicit history aggregation degrades sharply when per-interaction discriminative power is low, necessitating heavy semantic compensation. NCF occupies a narrower middle band ( |α| ∈ [0 .038 , 0.219] ), while LightGCN’s multi-hop propagation provides implicit structural regularization that stabilizes its gate 27 across performance regimes ( |α| ∈ [0 .024 , 0.290] ). Conversely, on Goodreads, where all backbones achieve their strongest native performance, the gate contracts to its lowest magnitudes ( |α| as low as 0.016 ), confirming that the network learns to inject semantic data only to the extent that the structural backbone’s native signal is insufficient. Despite this contraction, a pronounced decoupling between gate magnitude and performance lift reveals the high informational density of the persona signal. The SVD++ backbone on Amazon ←Goodreads achieves +5 .55% lift with |α| = 0 .016 , less than 2% of the structural magnitude, while NCF on Steam ←Amazon delivers +13 .33% lift with |α| = 0 .038 . This decoupling constitutes direct empirical evidence for the semantic orthogonality hypothesis established in the ablation analysis (Section 4.7): if the persona signal were collinear with the collaborative embedding, injection at any magnitude would yield negligible lift. The observed pattern, minimal injection along a complementary subspace producing maximal re-ranking effect, confirms that the persona occupies a latent dimension that the structural backbone cannot learn from interaction data alone. 
+
+4.9 Qualitative Analysis: Target User Case Study 
+
+To concretise the representational impact of semantic knowledge transfer at the individual level, we examine a target user from the Amazon domain augmented by Steam as the source domain. This user was selected because their preference profile and ranking outcomes effectively demonstrate the macro-level trends identified in Sections 4.5–4.8. The corresponding baseline and SPHERE recommendation lists are detailed in Table 9. 
+
+Training Interaction History (8 items): Finding Rebecca ; White Rose, Black Forest ; Murder One (David Sloane Book 4) ; The Jury Master (David Sloane Book 1) ; The Short Drop (Gibson Vaughn) ;
+
+The Goldfinch: A Novel (Pulitzer Prize for Fiction) ; Being Mortal: Medicine and What Matters in the End ; The Nightingale: A Novel .
+
+Held-Out Test Item: The Butterfly Garden (The Collector Book 1)    
+
+> behavioral Cluster Key: Psychological Thrillers & Suspense Historical & Literary Fiction Legal Thrillers & Mystery Non-Fiction
+
+Table 9: Top-10 Recommendation Lists for the Target User: Baseline vs. SPHERE 
+
+Isolated NCF Baseline NCF-SPHERE 
+
+1. The Racketeer: A Novel 1. The Butterfly Garden (The Collector Book 1) 
+
+2. The Temporary Agent (The Agent Book 1) 2. Best Kept Secret (Clifton Chronicles Book 3) 
+
+3. A Criminal Defense (Philadelphia Legal) 3. Defending Jacob: A Novel 
+
+4. Damage Control 4. The Lawyer: A Legal Thriller 
+
+5. Stay Dead (Elise Sandburg Book 2) 5. The Girl on the Train: A Novel 
+
+6. Say You’re Sorry (Morgan Dane Book 1) 6. Before the Fall 
+
+7. Fatal Decision 7. Wolf Hall: A Novel 
+
+8. The Wolf Road: A Novel 8. Bodily Harm: A Novel (David Sloane Book 3) 
+
+9. The Girl in the Ice 9. The Art Forger: A Novel 
+
+10. The Neon Lawyer 10. The Silent Wife: A Novel 
+
+This user’s training history spans three distinct behavioral clusters: historical and literary fiction ( Finding 
+
+28 Rebecca , White Rose, Black Forest , The Goldfinch , The Nightingale ), legal thrillers ( Murder One , The Jury Master , The Short Drop ), and medical non-fiction ( Being Mortal ). The held-out test item, The Butterfly Garden , belongs to a fourth cluster—psychological thrillers—that is entirely absent from the training signal. This configuration presents a stringent retrieval challenge: the model must generalize beyond the observed genre distribution to surface an item from an unobserved behavioral mode. The isolated NCF baseline, relying exclusively on structural co-occurrence patterns within the target collaborative graph, collapses this multi-faceted profile into a near-homogeneous procedural cluster: 9 of its 10 recommended items fall within the legal thriller and mystery category, with a single psychological entry confined to rank 8. The baseline fails to retrieve the test item entirely (NDCG@10 = 0.0000). This outcome reflects a well-documented limitation of collaborative filtering under sparse interaction regimes: the model defaults to the locally densest collaborative community, which in this case corresponds to the legal-thriller subgraph, suppressing the user’s literary-fiction preferences whilst marginalizing their psychological-thriller inclinations. The SPHERE architecture augments this user’s representation through the Community Source Persona (CSP), which aggregates behavioral personas from the user’s top-K semantic neighbors in the Steam domain. Examining these source personas (Appendix B), a consistent behavioral signature emerges along three of the seven inductively discovered bridge traits (Table 2): all five neighbors score high on S TIMULATION 
+
+(‘high-sensation experiences’ ), C ONFLICT (‘tension, risk, and antagonism’ ), and I NVESTMENT (‘long-term, high-friction commitments’ ). Notably, the neighbors diverge along the N ARRATIVE axis—some emphasize 
+
+‘structural mechanics and systems’ while others favor ‘character-driven storytelling’ —producing an aggregate vector that encodes both psychological intensity and narrative depth rather than collapsing onto a single genre. This composite semantic signal diverges sharply from the formulaic procedural-suspense signal dominant in the target graph’s local collaborative community. When this CSP vector is projected into the collaborative space and modulated by the fusion gate, the resulting re-ranking effects are structurally coherent with the injected semantic signal. First, SPHERE rebalances the genre composition: the proportion of legal thrillers decreases from 9/10 to 4/10, while historical and literary fiction entries ( Best Kept Secret , Wolf Hall , The Art Forger )—entirely absent from the baseline—appear at ranks 2, 7, and 9, consistent with the CSP’s emphasis on ‘character-driven storytelling’ 
+
+and ‘emotional resonance’ . Second, the psychological-thriller signal, previously confined to a single low-rank entry in the baseline (rank 8), is elevated to dominate the top of the list: SPHERE surfaces the held-out test item, The Butterfly Garden , at rank 1 (NDCG@10 = 1.0000), and promotes two additional psychological thrillers ( The Girl on the Train , rank 5; The Silent Wife , rank 10), consistent with the CSP’s strong C ONFLICT 
+
+and S TIMULATION activations. We note that specific ranking changes cannot be attributed to individual persona phrases, as the CSP embedding passes through learned projections and a fusion gate before influencing the final score. However, the systematic correspondence between the dominant trait activations in the source personas and the observed genre redistribution—from procedural homogeneity toward psychological intensity and literary breadth— demonstrates the type of preference disambiguation that purely structural collaborative filtering cannot achieve in sparse interaction regimes. 29 5 Conclusion 
+
+In this paper, we introduce SPHERE, a semantic persona-based design artifact for cross-domain recommen-dation under conditions of complete information siloing, where no users or items are shared across domains. SPHERE addresses a central limitation of persona cross-domain recommender systems: their reliance on identity overlap, shared entities, or structurally comparable graphs. Instead, SPHERE reframes cross-domain transfer as a problem of behavioral semantic alignment. It shifts the basis of alignment from identity to behavior, representing users through LLM-generated, interpretable preference abstractions that can be shared across heterogeneous platforms. As a design artifact, SPHERE operationalizes this reframing through three core components: an inductive trait discovery procedure that constructs a shared behavioral vocabulary across domains, the generation of structured semantic personas for users, and the aggregation of a Community Source Persona through semantic neighbor retrieval. This persona-based persona is then integrated into existing recommender models, demonstrated with NCF, SVD++, and LightGCN backbones. Our empirical evaluation across Amazon Books, Goodreads, and Steam shows that SPHERE significantly improves recommendation performance across different source-target pairings and model architectures. The strongest gain is observed for Steam as the target domain with Goodreads as the source, where SPHERE improves SVD++ from 0.0181 to 0.0219 NDCG@10, a 21.40% increase. For Amazon Books, using Goodreads as the source improves NCF, SVD++, and LightGCN by 13.43%, 10.64%, and 9.77%, respectively. These results demonstrate that behavioral personas can provide useful cross-domain personas even when domains are structurally disjoint. Importantly, the results refine the common intuition that cross-domain transfer is mainly driven by semantic proximity between domains. In several cases, more distant domains provide comparable or stronger gains. For example, when Steam is the target, Amazon Books improves NCF by 13.33% and LightGCN by 10.36%, matching or exceeding the gains from Goodreads. This suggests that transfer efficacy depends not only on domain similarity, but also on the structural density and native predictive strength of the target domain. This study contributes to the literature in three ways. First, it offers a conceptual reframing of cross-domain recommendation from entity-level overlap to interpretable behavioral abstraction. Second, it instantiates this reframing as the SPHERE design artifact, providing actionable design knowledge for building modular, persona-enhanced recommender systems. Third, it shows empirically that semantically distant domains do not necessarily underperform proximate ones, thereby refining prevailing assumptions about when and why cross-domain transfer works. While SPHERE depends on the quality and stability of LLM-generated personas, future work should examine how different LLMs, prompts, and embedding models affect performance. In addition, the current evaluation is limited to three domains, and future studies should test the framework in additional plat-form contexts. Finally, although semantic personas reduce the need for direct identity linkage, they raise important questions about privacy, transparency, and fairness in behavioral profiling. Overall, SPHERE demonstrates that behavior-based semantic representations can help overcome information silos and support more interpretable, transferable, and effective personalization across fragmented digital ecosystems. 30 References 
+
+Awais Azam, Muhammad Shahzad Sarfraz, Qamar Uz Zaman, Adeel Ashraf Cheema, Aitizaz Ali, and Bandeh Ali Talpur. From reviews to preference profiles: LLM-based transfer for cross-domain recommendation. Egyptian Informatics Journal , 34:100981, 2026. Iv ´an Cantador, Ignacio Fern ´andez-Tob ´ıas, Shlomo Berkovsky, and Paolo Cremonesi. Cross-domain recommender systems. In Recommender Systems Handbook , pages 919–959. Springer, 2015. Jingtao Ding, Yuhan Quan, Quanming Yao, Yong Li, and Depeng Jin. Simplify and robustify negative sampling for implicit collaborative filtering. Advances in Neural Information Processing Systems , 33:1094–1105, 2020. Danial Ebrat, Sepideh Ahmadian, and Luis Rueda. End-to-end personalization via unifying llm agents and graph attention networks for entertainment recommendation. Information , 17(4):344, 2026. Kawin Ethayarajh. How contextual are contextualized word representations? comparing the geometry of bert, elmo, and gpt-2 embeddings. In Proceedings of the 2019 conference on empirical methods in natural language processing and the 9th international joint conference on natural language processing (EMNLP-IJCNLP) , pages 55–65, 2019. Ignacio Fern ´andez-Tob ´ıas, Iv ´an Cantador, Marius Kaminskas, and Francesco Ricci. Cross-domain recommender systems: A survey of the state of the art. In Proceedings of the Spanish Conference on Information Retrieval ,volume 24, 2012. Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, et al. The Llama 3 herd of models. arXiv preprint arXiv:2407.21783 , 2024. Lei Guo, Ziang Lu, Junliang Yu, Quoc Viet Hung Nguyen, and Hongzhi Yin. Prompt-enhanced federated content representation learning for cross-domain recommendation. In Proceedings of the ACM Web Conference 2024 ,pages 3139–3149, 2024. Lei Guo, Ting Yang, Xu Yu, Xiaohui Han, Guiyuan Jiang, and Hui Liu. FedCRF: A federated cross-domain recom-mendation method with semantic-driven deep knowledge fusion. Information Processing & Management , 63(7): 104827, 2026. Guy Hadad, Haggai Roitman, Yotam Eshel, Bracha Shapira, and Lior Rokach. X-Cross: Dynamic integration of language models for cross-domain sequential recommendation. In Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval , pages 1497–1507, 2025. Yupeng Hou, Jiacheng Li, Zhankui He, An Yan, Xiusi Chen, and Julian McAuley. Amazon reviews 2023 dataset. 
+
+https://amazon-reviews-2023.github.io/ , 2023. UCSD. [Dataset]. Ling Huang, Xiao-Dong Huang, Han Zou, Yuefang Gao, Chang-Dong Wang, and Philip S Yu. Knowledge-reinforced cross-domain recommendation. IEEE Transactions on Neural Networks and Learning Systems , 36(7):12880– 12894, 2024. Wang-Cheng Kang and Julian McAuley. Steam reviews dataset. https://cseweb.ucsd.edu/˜jmcauley/ datasets.html#steam_data , 2018. UCSD. [Dataset]. Muhammad Murad Khan, Roliana Ibrahim, and Imran Ghani. Cross domain recommender systems: A systematic literature review. ACM Computing Surveys , 50(3):1–34, 2017. Walid Krichene and Steffen Rendle. On sampled metrics for item recommendation. In Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining , pages 1748–1757, 2020. Aditya Kusupati, Gantavya Bhatt, Aniket Rege, Matthew Wallingford, Aditya Sinha, Vivek Ramanujan, William Howard-Snyder, Kaifeng Chen, Sham Kakade, Prateek Jain, et al. Matryoshka representation learning. Advances in Neural Information Processing Systems , 35:30233–30249, 2022. 
+
+31 Fan Liu, Yaqi Liu, Huilin Chen, Zhiyong Cheng, Liqiang Nie, and Mohan Kankanhalli. Understanding before recommendation: Semantic aspect-aware review exploitation via large language models. ACM Transactions on Information Systems , 43(2):1–26, 2025a. Meng Liu, Jianjun Li, Zhiqiang Guo, and Guohui Li. Extracting latently overlapping users by graph neural network for non-overlapping cross-domain recommendation. Knowledge-Based Systems , 290:111508, 2024. Qidong Liu, Xiangyu Zhao, Yejing Wang, Zijian Zhang, Howard Zhong, Chong Chen, Xiang Li, Wei Huang, and Feng Tian. Bridge the domains: Large language models enhanced cross-domain sequential recommendation. In Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval , pages 1582–1592, 2025b. Xinyi Liu, Ruijie Wang, Dachun Sun, Dilek Hakkani Tur, and Tarek Abdelzaher. Uncovering cross-domain recommen-dation ability of large language models. In Companion Proceedings of the ACM Web Conference 2025 , pages 2736–2743, 2025c. Ziang Lu, Lei Guo, Xu Yu, Zhiyong Cheng, Xiaohui Han, and Lei Zhu. Federated semantic learning for privacy-preserving cross-domain recommendation. ACM Transactions on Information Systems , 43(4):1–27, 2025. Tong Man, Huawei Shen, Xiaolong Jin, and Xueqi Cheng. Cross-domain recommendation: An embedding and mapping approach. In Proceedings of the 26th International Joint Conference on Artificial Intelligence (IJCAI) , pages 2464–2470, 2017. Arvind Neelakantan, Tao Xu, Raul Puri, Alec Radford, Jesse Michael Han, Jerry Tworek, Qiming Yuan, Nikolas Tezak, Jong Wook Kim, Chris Hallacy, et al. Text and code embeddings by contrastive pre-training. arXiv preprint arXiv:2201.10005 , 2022. Lin Ning, Luyang Liu, Jiaxing Wu, Neo Wu, Devora Berlowitz, Sushant Prakash, Bradley Green, Shawn O’Banion, and Jun Xie. User-LLM: Efficient LLM contextualization with user embeddings. In Companion Proceedings of the ACM Web Conference 2025 , pages 1219–1223, 2025. Alessandro Petruzzelli, Cataldo Musto, Lucrezia Laraspata, Ivan Rinaldi, Marco De Gemmis, Pasquale Lops, and Gio-vanni Semeraro. Instructing and prompting large language models for explainable cross-domain recommendations. In Proceedings of the 18th ACM Conference on Recommender Systems , pages 298–308, 2024. Ashish Kumar Sahu and Pragya Dwivedi. User profile as a bridge in cross-domain recommender systems for sparsity reduction. Applied Intelligence , 49(7):2461–2481, 2019. Andreas Schuller, Doris Janssen, Julian Blumenr ¨other, Theresa Maria Probst, Michael Schmidt, and Chandan Kumar. Generating personas using LLMs and assessing their viability. In Extended Abstracts of the CHI Conference on Human Factors in Computing Systems , pages 1–7, 2024. Bracha Shapira, Lior Rokach, and Shirley Freilikhman. Facebook single and cross domain data for recommendation systems. User Modeling and User-Adapted Interaction , 23(2):211–247, 2013. Sarama Shehmir and Rasha Kashef. LLM4Rec: A comprehensive survey on the integration of large language models in recommender systems—approaches, applications and challenges. Future Internet , 17(6):252, 2025. Yimin Shi, Yang Fei, Shiqi Zhang, Haixun Wang, and Xiaokui Xiao. You are what you bought: Generating customer personas for e-commerce applications. In Proceedings of the 48th International ACM SIGIR Conference on Research and Development in Information Retrieval , pages 1810–1819, 2025. Adamya Shyam, Ramya Kamani, Venkateswara Rao Kagita, and Vikas Kumar. Cross-domain recommender systems via multimodal domain adaptation. Computers and Electrical Engineering , 123:110300, 2025. Zhaoxuan Tan and Meng Jiang. User modeling in the era of large language models: Current research and future 
+
+32 directions. IEEE Data Engineering Bulletin , 47:57–96, 2023. URL https://api.semanticscholar. org/CorpusID:266362350 .Zuoli Tang, Zhaoxin Huan, Zihao Li, Xiaolu Zhang, Jun Hu, Chilin Fu, Jun Zhou, Lixin Zou, and Chenliang Li. One model for all: Large language models are domain-agnostic recommendation systems. ACM Transactions on Information Systems , 43(5):1–27, 2026. Mengting Wan and Julian McAuley. Goodreads dataset. https://cseweb.ucsd.edu/˜jmcauley/datase ts/goodreads.html , 2018. UCSD. [Dataset]. Junting Wang, Praneet Rathi, and Hari Sundaram. A pre-trained zero-shot sequential recommendation framework via popularity dynamics. In Proceedings of the 18th ACM Conference on Recommender Systems , pages 433–443, 2024a. Zihan Wang, Yonghui Yang, Le Wu, Richang Hong, and Meng Wang. Making non-overlapping matters: An unsuper-vised alignment enhanced cross-domain cold-start recommendation. IEEE Transactions on Knowledge and Data Engineering , 37(4):2001–2014, 2024b. Haoran Xin, Ying Sun, Chao Wang, and Hui Xiong. LLMCDSR: Enhancing cross-domain sequential recommendation with large language models. ACM Transactions on Information Systems , 43(5):1–33, 2025. Wujiang Xu, Qitian Wu, Runzhong Wang, Mingming Ha, Qiongxu Ma, Linxun Chen, Bing Han, and Junchi Yan. Rethinking cross-domain sequential recommendation under open-world assumptions. In Proceedings of the ACM Web Conference 2024 , pages 3173–3184, 2024. Liu Yang, Ben Tan, Vincent W Zheng, Kai Chen, and Qiang Yang. Federated recommendation systems. In Federated Learning: Privacy and Incentive , pages 225–239. Springer, 2020. Tianzi Zang, Yanmin Zhu, Haobing Liu, Ruohan Zhang, and Jiadi Yu. A survey on cross-domain recommendation: Taxonomies, methods, and future directions. ACM Transactions on Information Systems , 41(2):1–39, 2022. Chuang Zhao, Xinyu Li, Ming He, Hongke Zhao, and Jianping Fan. Sequential recommendation via an adaptive cross-domain knowledge decomposition. In Proceedings of the 32nd ACM International Conference on Information and Knowledge Management , pages 3453–3463, 2023a. Chuang Zhao, Hongke Zhao, Xiaomeng Li, Ming He, Jiahui Wang, and Jianping Fan. Cross-domain recommendation via progressive structural alignment. IEEE Transactions on Knowledge and Data Engineering , 36(6):2401–2415, 2023b. Chuang Zhao, Hongke Zhao, Ming He, Xiaomeng Li, and Jianping Fan. Cross-domain transfer of valence preferences via a meta-optimization approach. ACM Transactions on the Web , 19(3):1–29, 2025. Feng Zhu, Yan Wang, Chaochao Chen, Guanfeng Liu, and Xiaolin Zheng. A graphical and attentional framework for dual-target cross-domain recommendation. In Proceedings of the 29th International Joint Conference on Artificial Intelligence (IJCAI) , page 39, 2020. 
+
+# A Full Ranking Metric Profiles 
+
+For completeness, Figures 6–9 report the full NDCG and Hit Ratio (HR) cutoff profiles across all six domain permutations and three structural backbones. The cutoff-dependent patterns identified in Section 4.6 generalize across the remaining pairings: precision concentration on stronger-baseline targets is particularly robust under SVD++ and LightGCN, while retrieval elevation on weaker-baseline targets is most pronounced 33 under NCF and SVD++. LightGCN’s multi-hop propagation partially mitigates baseline noise on these weaker domains, attenuating the depth-dependent growth pattern. 1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+> NDCG
+
+NCF 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+SVD++ 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+> Amazon  ← Goodreads
+
+LightGCN 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+> NDCG
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+> Steam  ← Goodreads
+
+1 3 5 10 20 
+
+k
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+0.12 
+
+> NDCG
+
+1 3 5 10 20 
+
+k
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+0.12 
+
+1 3 5 10 20 
+
+k
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+0.12 
+
+> Goodreads  ← Amazon
+
+SPHERE SPHERE-Dual SPHERE-Intra Baseline 
+
+Figure 6: NDCG across ranking cutoffs for all model variants. Rows: Amazon ← Goodreads, Steam ←
+
+Goodreads, Goodreads ← Amazon. Columns: NCF, SVD++, LightGCN. 34 1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+> NDCG
+
+NCF 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+SVD++ 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+> Steam  ← Amazon
+
+LightGCN 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+> NDCG
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+1 3 5 10 20 
+
+0.01 
+
+0.02 
+
+0.03 
+
+0.04 
+
+> Amazon  ← Steam
+
+1 3 5 10 20 
+
+k
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+0.12 
+
+> NDCG
+
+1 3 5 10 20 
+
+k
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+0.12 
+
+1 3 5 10 20 
+
+k
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+0.12 
+
+> Goodreads  ← Steam
+
+SPHERE SPHERE-Dual SPHERE-Intra Baseline Figure 7: NDCG across ranking cutoffs (continued). Rows: Steam ← Amazon, Amazon ← Steam, Goodreads 
+
+← Steam. Columns: NCF, SVD++, LightGCN. 35 1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+> HR
+
+NCF 
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+SVD++ 
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+0.10 
+
+> Amazon  ← Goodreads
+
+LightGCN 
+
+1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+> HR
+
+1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+> Steam  ← Goodreads
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+> HR
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+> Goodreads  ← Amazon
+
+SPHERE SPHERE-Dual SPHERE-Intra Baseline Figure 8: Hit Ratio (HR) across ranking cutoffs for all model variants. Rows: Amazon ← Goodreads, Steam 
+
+← Goodreads, Goodreads ← Amazon. Columns: NCF, SVD++, LightGCN. 36 1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+> HR
+
+NCF 
+
+1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+SVD++ 
+
+1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+> Steam  ← Amazon
+
+LightGCN 
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+> HR
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+> Amazon  ← Steam
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+> HR
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+> Goodreads  ← Steam
+
+SPHERE SPHERE-Dual SPHERE-Intra Baseline Figure 9: Hit Ratio (HR) across ranking cutoffs (continued). Rows: Steam ← Amazon, Amazon ← Steam, Goodreads ← Steam. Columns: NCF, SVD++, LightGCN. 37 1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+> HR
+
+NCF 
+
+1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+SVD++ 
+
+1 3 5 10 20 
+
+0.000 
+
+0.025 
+
+0.050 
+
+0.075 
+
+0.100 
+
+> Steam  ← Amazon
+
+LightGCN 
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+> HR
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+1 3 5 10 20 
+
+0.02 
+
+0.04 
+
+0.06 
+
+0.08 
+
+> Amazon  ← Steam
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+> HR
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+1 3 5 10 20 
+
+k
+
+0.05 
+
+0.10 
+
+0.15 
+
+0.20 
+
+0.25 
+
+> Goodreads  ← Steam
+
+SPHERE SPHERE-Dual SPHERE-Intra Baseline Figure 10: Hit Ratio (HR) across ranking cutoffs (continued). Rows: Steam ← Amazon, Amazon ← Steam, Goodreads ← Steam. Columns: NCF, SVD++, LightGCN. 38 B Semantic Personas: Target User and Source Domain Neighbors 
+
+This section first presents the individual User Target Persona (UTP), followed by the raw textual persona representations generated for their K = 5 nearest semantic neighbors utilized to construct the Community Source Persona (CSP) in Section 4.9. As detailed below, the retrieved neighbors from the Steam domain predominantly exhibit an attraction to emotionally charged, high-friction, and tension-heavy interactive environments. 
+
+Target User Persona (UTP) 
+
+’The user’s behavioral profile indicates a preference for high-sensation experiences, often drawn to intense, emotionally charged narratives that explore complex themes and moral ambiguities. This is reflected in their attraction to stories that balance structural mechanics with character-driven storytelling, and their tolerance for long-term, high-friction commitments to characters and their struggles, even in the face of uncertainty and conflict.’ 
+
+Source Neighbor 1 (Sim: 0.9461) 
+
+’The user’s behavioral profile indicates a preference for high-sensation experiences, often seeking out challenging and difficult content, while also valuing long-term, high-friction commitments and investments in complex systems and narratives. This is reflected in their attraction to tension, risk, and antagonism, as well as their motivation driven by structural mechanics and systems, rather than character-driven storytelling.’ 
+
+Source Neighbor 2 (Sim: 0.9401) 
+
+’The user’s behavioral profile indicates a preference for high-sensation experiences, often seeking out immersive, atmospheric, and emotionally charged narratives that frequently incorporate elements of conflict, tension, and risk. This is balanced by a desire for creative expression and individuality, as well as a need for long-term, high-friction commitments that allow for systemic problem-solving and character-driven storytelling.’ 
+
+Source Neighbor 3 (Sim: 0.9388) 
+
+’The user’s behavioral profile indicates a preference for high-sensation experiences with a strong desire for emotional resonance and character-driven storytelling, often accompanied by a need for internal agency and control, as well as a tolerance for long-term, high-friction commitments that allow for complex problem-solving and nuanced narrative exploration. This is also reflected in a willingness to engage with themes of conflict, tension, and antagonism, while also valuing relationships, trust, and emotional intimacy.’ 
+
+Source Neighbor 4 (Sim: 0.9321) 
+
+’The user’s behavioral profile indicates a preference for high-sensation experiences, often engaging with narratives that involve tension, risk, and antagonism, and a strong desire for internal agency/control, as evidenced by their attraction to complex, systemic problem-solving and immersive, atmospheric environments. This is further supported by their tolerance for long-term, high-friction commitments and their motivation driven by structural mechanics/systems, rather than character-driven storytelling.’ 
+
+39 Source Neighbor 5 (Sim: 0.9314) 
+
+’The user’s behavioral profile indicates a preference for high-sensation experiences, often seeking out complex narratives with a mix of structural mechanics and character-driven storytelling, and a need to express individuality through creative problem-solving and self-directed agency, while also being drawn to atmospheric, emotional, and cinematic experiences that explore themes of conflict, risk, and antagonism. This profile suggests a tolerance for long-term, high-friction commitments and a willingness to engage with challenging, often violent, content, but also a desire for deep, character-driven connections and meaningful narrative resolutions.’ 
+
+40

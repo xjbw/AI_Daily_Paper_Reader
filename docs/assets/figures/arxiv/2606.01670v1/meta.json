@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2606.01670v1/fig-001.webp",
+      "caption": "Figure 1: Illustration of preference consistency over the user interaction history and attention to all interacted items of existing methods based on standard diffusion model.",
+      "page": 2,
+      "index": 1,
+      "width": 504,
+      "height": 254
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01670v1/fig-004.webp",
+      "caption": "Figure 2: Overall framework of TDPM, which consists of three modules: (1) User Preference Disentanglement; (2) Time-Aware Token Diffusion Process based on Preference Disentanglement; (3) Predicting Masked Tokens.",
+      "page": 4,
+      "index": 4,
+      "width": 1046,
+      "height": 580
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01670v1/fig-002.webp",
+      "caption": "Table 1: Statistics of the preprocessed datasets. \"Avg.Length\" denotes the average length of user interaction history.",
+      "page": 7,
+      "index": 2,
+      "width": 475,
+      "height": 825
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01670v1/fig-005.webp",
+      "caption": "Figure 6: Hyperparameter Sensitivity Analysis of the Masking Probability Hyperparameter 𝛼 and 𝛽 on Beauty Dataset.",
+      "page": 9,
+      "index": 5,
+      "width": 1042,
+      "height": 233
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01670v1/fig-006.webp",
+      "caption": "Figure 7: Hyperparameter Sensitivity Analysis of the Magnitude Controlling Hyperparameter 𝜆𝑠𝑡𝑎𝑟𝑡 and 𝑘 on Beauty Dataset.",
+      "page": 9,
+      "index": 6,
+      "width": 1038,
+      "height": 240
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01670v1/fig-003.webp",
+      "caption": "Table 3: Basic notations and descriptions in the manuscript.",
+      "page": 10,
+      "index": 3,
+      "width": 531,
+      "height": 572
+    }
+  ]
+}

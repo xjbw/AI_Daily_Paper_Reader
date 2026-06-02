@@ -1,0 +1,448 @@
+Title: Decoupled Residual Quantization for Robust Semantic IDs in Recommendation
+
+URL Source: https://arxiv.org/pdf/2606.01844v1
+
+Published Time: Tue, 02 Jun 2026 02:16:17 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# Decoupled Residual Quantization for Robust Semantic IDs in Recommendation 
+
+# Xuesi Wang †, Junjie Wang, Ziliang Wang, Weijie Bian *, Guanxing Zhang 
+
+Shopee 
+
+## Abstract 
+
+Semantic IDs represent items as shared discrete token sequences and have become a practical tool for recommendation and retrieval. Yet it remains difficult to tell why a tokenizer fails: poor quality may come from codebook underutilization, unstable decision boundaries, or geometric distortion of the embedding space. This paper devel-ops a quantitative framework for diagnosing these failures through expected codeword overlap and effective codebook capacity. The former measures expected codeword confusion under retrieval-time perturbation, while the latter converts that confusion into an effec-tive number of usable, well-separated codes. The framework links semantic boundary confusion to both code usage imbalance and Euclidean geometric constraints. As a proof of concept, we present Decoupled Residual Quantization (DRQ), which separates continu-ous geometry reconstruction from discrete distribution matching. Experiments on a large-scale industrial dataset show that Semantic ID quality is multi-objective: symbolic robustness, reconstruction fidelity, and behavior-aware soft matching each stress different aspects of a tokenizer. These downstream observations are based on one proprietary industrial dataset, so they should be read as a case study rather than a universal benchmark claim. 
+
+## CCS Concepts 
+
+• Information systems → Recommender systems .
+
+## Keywords 
+
+Recommendation, Semantic ID, Vector Quantization, Item-to-Item Retrieval 
+
+ACM Reference Format: 
+
+Xuesi Wang †, Junjie Wang, Ziliang Wang, Weijie Bian *, Guanxing Zhang. 2026. Decoupled Residual Quantization for Robust Semantic IDs in Recom-mendation. In Proceedings of Conference ’26, June 2026, Location. ACM, New York, NY, USA, 7 pages. https://doi.org/10.1145/XXXXXX.XXXXXX 
+
+## 1 Introduction 
+
+Modern recommendation systems increasingly rely on shared dis-crete item representations to support retrieval, indexing, compres-sion, and parameter sharing across items. A common approach is to quantize high-dimensional item embeddings into discrete token     
+
+> †Email: wxsthu@icloud.com. ∗Corresponding author : jason.bian@shopee.com. Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than the author(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org.
+> Conference ’26, Location
+> ©2026 Copyright held by the owner/author(s). Publication rights licensed to ACM. ACM ISBN 978-1-4503-XXXX-X/26/06 https://doi.org/10.1145/XXXXXX.XXXXXX
+
+sequences, widely known as Semantic IDs [ 1, 2 ]. By replacing iso-lated hash IDs with structured discrete codes, Semantic IDs make it easier to transfer statistical strength across items and to build unified representations over multimodal and collaborative signals. While the value of Semantic IDs is well established, their quality depends on how continuous item embeddings are discretized. Cur-rent tokenizers often rely on established Vector Quantization (VQ) methods such as Product Quantization (PQ) [ 3 ] and Residual Quan-tization (RQ), with Residual-Quantized Variational Autoencoder (RQ-VAE) [ 4 ] serving as a representative neural implementation. When these VQ methods are applied directly to recommendation embeddings, two limitations become especially important: First, Index Collapse and Distribution Mismatch . Traditional VQ methods implicitly or explicitly favor balanced code usage. Real-world item interactions, however, are highly long-tailed. When a long-tailed item distribution is forced into a uniformly allocated codebook, rare items can be absorbed by a small number of popular codewords, while many other codewords receive too few assign-ments or gradient updates to remain useful. Second, Dimensional Collapse and Geometric Mismatch .Many quantizers organize a continuous embedding space by lay-ing down Euclidean cells and assigning each item to the nearest cell. In PQ, the vector is split into fixed coordinate blocks and each block is quantized independently. The Cartesian product of these sub-codebooks is therefore equivalent to an axis-aligned grid in the original space [ 3]. In neural RQ models such as RQ-VAE, the repre-sentation is built in stages: each level quantizes the residual error left by previous levels, and the final reconstruction is the sum of codewords chosen from multiple codebooks. Geometrically, this cre-ates a Minkowski-sum codebook, the set of all possible sums of one codeword from each residual level [ 4]. These designs are efficient, but they still describe the latent space with flat Euclidean building blocks. Recommendation embeddings can be highly anisotropic or concentrated on curved manifolds. When a flat grid is imposed on such data, many possible code combinations may fall in regions where no real items live, while useful item neighborhoods are com-pressed into a smaller effective space. To diagnose these problems without tying the analysis to one tokenizer implementation, we study Semantic IDs through the ge-ometry and distribution of their code assignments. The main con-tributions of this paper are: (1) Theoretical Framework (Core Contribution) : We define the Expected Overlap Rate ( 𝑂 𝜋 ), which measures expected codeword confusion under perturbation, and the Effective Codebook Size ( 𝐾 eff ), which converts this confusion into an equivalent number of robust codewords. The analysis decomposes Semantic ID degradation into a Distribution Penalty and a Geometry Penalty, giving a common language for comparing ID quantization methods.  
+
+> arXiv:2606.01844v1 [cs.IR] 1 Jun 2026 Conference ’26, June 2026, Location Xuesi Wang et al.
+
+(2) Proof-of-Concept Algorithm : Guided by the framework, we present DRQ as a simple implementation. It decouples continuous geometry learning with a VAE from discrete dis-tribution matching with K-Means, making the two objectives easier to inspect separately. (3) Empirical Validation : Experiments on a large-scale indus-trial dataset support the diagnostic value of the framework. The results reveal a trade-off among overlap-based sym-bolic capacity, codebook utilization, reconstruction fidelity, embedding-level retrieval retention, and behavior-aware soft matching. 
+
+## 2 Related Work 2.1 Semantic IDs in Recommendation 
+
+Early recommendation systems relied on one-hot encodings or hashing. More recent work introduced Semantic IDs as structured discrete representations for retrieval, compression, and unified item modeling [ 1 , 2, 5]. Systems such as TIGER, SE-REC, and OneRec show that discrete item codes can connect multimodal content with collaborative signals while reducing item sparsity. These systems usually treat the tokenizer as a black box. As a result, they do not directly measure how tokenizer geometry and code usage affect robustness and downstream retrieval quality. 
+
+## 2.2 VQ Methods 
+
+VQ-VAE [ 6] first introduced discrete latent variables into neural representation learning. PQ [ 3 ] and RQ later became standard paradigms for vector discretization, with RQ-VAE [ 4] as a represen-tative neural implementation. We focus on RQ-VAE rather than PQ because RQ-VAE preserves a coarse-to-fine hierarchy that is useful for hierarchical semantic codes, whereas PQ splits vectors into or-thogonal subspaces and can weaken global semantic correlation. In joint-training frameworks, however, quantization truncation through the Straight-Through Estimator (STE) couples codebook learning with rigid reconstruction targets. This coupling can dis-tort the continuous latent manifold and trigger index collapse [ 7]. Recent techniques help with code distribution, but they do not fully address the geometric mismatch created when curved manifolds are forced onto rigid grids. Decoupling representation learning from discrete assignment through clustering [ 8 ] offers one way to reduce this failure mode. 
+
+## 3 Theoretical Analysis 3.1 VQ Mapping Dilemma 
+
+In classical VQ paradigms like PQ and neural RQ variants such as RQ-VAE, the model discretizes vectors with one or more codebooks. In a general 𝐿 -level setting, each level 𝑙 ∈ { 1, . . . , 𝐿 } utilizes a codebook C (𝑙 ) = {𝑐 (𝑙 ) 
+
+> 1
+
+, . . . , 𝑐 (𝑙 ) 
+
+> 𝐾
+
+} of size 𝐾 .The quantization process assigns 𝑥 ∈ R𝑑 to a discrete token sequence by finding the nearest centroids across levels, such as matching sub-vectors in PQ or matching residuals in RQ-VAE. The reconstructed vector ˆ𝑥 is typically a linear concatenation in PQ or a linear superposition in RQ-VAE. These mappings assume that the latent space can be partitioned by flat Euclidean cells. 
+
+## 3.2 Overlap Rate and Effective Codebook Capacity 
+
+In a quantized retrieval system, a small perturbation in the first semantic code level can redirect an item toward a different discrete neighborhood. We call this phenomenon retrieval-time perturba-tion . To quantify the risk, suppose the retrieval pipeline introduces isotropic Gaussian noise with variance 𝜎 2 when predicting latent vectors. We retain the name Overlap Rate ( 𝑂 𝜋 ), but mathemati-cally it is a normalized overlap proxy rather than an exact Voronoi-boundary crossing probability. It measures how strongly perturbed codeword densities overlap in expectation under the empirical codeword prior. This isotropic perturbation mirrors the K-Means assumption of spherical clusters with equal variances, a premise known to oversimplify complex multimodal distributions [ 9 ] but also common in RQ-VAE-style vector assignments. For a given codebook, under this spherical equal-variance assumption, 𝑂 𝜋 is defined as (detailed derivation is provided in the Appendix): 
+
+𝑂 𝜋 ≈
+
+> 𝐾
+
+∑︁ 
+
+> 𝑖 =1
+> 𝐾
+
+∑︁ 
+
+> 𝑗 =1
+
+𝜋 𝑖 𝜋 𝑗 exp 
+
+
+
+− ∥𝑐 𝑖 − 𝑐 𝑗 ∥2
+
+4𝜎 2
+
+
+
+(1) where 𝜋 𝑖 is the prior usage probability of codeword 𝑖 , and 𝑐 𝑖 is its geometric center. Furthermore, we define the Effective Codebook Size ( 𝐾 eff ) as 
+
+𝐾 eff = 1/𝑂 𝜋 . The definition follows from an ideal case: in a perfectly uniform codebook with infinitely distant codewords ( 𝜋 𝑖 = 1/𝐾 ), the off-diagonal overlap vanishes and the remaining diagonal mass is exactly 1/𝐾 . Taking the inverse 1/𝑂 𝜋 therefore estimates how many uniformly used, non-overlapping codewords would produce the same normalized overlap score. A larger 𝐾 eff means that a Semantic ID has more effective symbolic capacity without requiring longer token sequences. Equation (1) reveals the two root causes of Semantic ID degrada-tion: 
+
+• Distribution Penalty : If codebook collapse occurs, most samples are assigned to a few popular codewords, skewing 
+
+𝜋 𝑖 . Splitting Equation (1) into diagonal and off-diagonal parts yields a distribution-controlled lower bound 
+
+𝑂 𝜋 =∑︁ 
+
+> 𝑖
+
+𝜋 2
+
+> 𝑖
+
+|{z} 
+
+> distribution floor
+
++∑︁ 
+
+> 𝑖 ≠𝑗
+
+𝜋 𝑖 𝜋 𝑗 exp 
+
+
+
+− ∥𝑐 𝑖 − 𝑐 𝑗 ∥2
+
+4𝜎 2
+
+| {z }
+
+> geometry-sensitive cross-overlap
+
+.
+
+The first term is the self-collision mass: even with perfect geometric separation, a highly concentrated prior keeps 𝑂 𝜋 
+
+large. By flattening the usage distribution, we can reduce this unavoidable floor and also downweight off-diagonal overlaps. 
+
+• Geometry Penalty : When the data lie near a curved mani-fold (e.g., a hypersphere), the multi-layer Euclidean superpo-sition in RQ-VAE can place reconstructed combinations away from that manifold. Many nominal code combinations may then occupy regions with few or no real items, while real items are concentrated in a smaller portion of the code space. Because the inter-codeword distance ∥𝑐 𝑖 −𝑐 𝑗 ∥2 remains small, Decoupled Residual Quantization for Robust Semantic IDs in Recommendation Conference ’26, June 2026, Location 
+
+the cross-overlap term stays large, increasing 𝑂 𝜋 and shrink-ing 𝐾 eff . Expanding the latent space and increasing geometric separation can help reduce this mismatch. 
+
+## 4 Methodology 
+
+As established in Section 3, Equation (1) couples two ingredients: the usage weights 𝜋 𝑖 𝜋 𝑗 and the geometry kernel exp (−∥ 𝑐 𝑖 − 𝑐 𝑗 ∥2/4𝜎 2).Reducing 𝑂 𝜋 therefore requires two changes at the same time. The codeword prior should be less concentrated, which lowers the distribution floor Í𝑖 𝜋 2 
+
+> 𝑖
+
+, and the codewords should be farther apart, which suppresses off-diagonal cross-overlap. Standard end-to-end quantization makes these goals difficult to satisfy jointly. Gradients flow only through activated codewords via STE. For long-tailed data, popular items dominate these updates, pulling centroids toward dense regions and leaving many codes under-trained. This raises the self-collision floor. At the same time, forcing continuous representations onto a rigid grid limits how far embeddings can spread apart [ 10 ], keeping the geometry kernel large. DRQ makes this conflict easier to study by separating the two objectives into two stages. First, a continuous VAE learns a la-tent representation without discrete codebook constraints. The latent embeddings can spread under reconstruction learning, and an optional contrastive loss can add collaborative supervision when behavior data are available. Second, post-hoc K-Means converts the frozen continuous vectors into discrete codes. This clustering stage does not guarantee perfectly uniform code usage, but it re-places sparse codebook updates with dataset-level assignment and centroid recomputation. 
+
+## 4.1 Continuous Reshaping 
+
+In traditional VQ-VAE, the quantization layer forces the latent space to follow Euclidean grid slicing, which can trigger the Geometry Penalty. DRQ therefore removes the discrete quantization operation from the training loop. The training of the encoder 𝐸 𝜙 and decoder 𝐷 𝜃 is driven by the reconstruction loss 𝐿 recon plus an optional contrastive term 
+
+𝐿 contrastive :
+
+𝐿 = E𝑥 ∼D 
+
+∥𝑥 − 𝐷 𝜃 (𝐸 𝜙 (𝑥 ))∥ 22
+
+ + 𝜆𝐿 contrastive (2) where 𝐿 contrastive is an InfoNCE loss that pulls co-viewed or seman-tically similar items closer in the latent space. In the base DRQ-VAE experiments, we set 𝜆 = 0 to isolate the effect of decoupling. DRQ-VAE+CL activates this term to inject user-behavior supervision. Without Commitment Loss and STE gradients, the continuous la-tent variable 𝑧 = 𝐸 𝜙 (𝑥 ) can expand before being discretized. When enabled, contrastive learning optimizes two commonly studied properties [ 11 ]: (1) Alignment , which clusters similar items, and (2) Uniformity , which pushes random negatives apart on the hy-persphere. Uniformity helps enlarge inter-item distance ∥𝑐 𝑖 − 𝑐 𝑗 ∥2
+
+globally, while alignment forms behavior-aware neighborhoods locally. 
+
+## 4.2 Discrete Matching 
+
+After the continuous representation is trained and frozen, we apply hierarchical K-Means (RQ-KMeans) to the vectors Z = {𝑧 1, 𝑧 2, . . . , 𝑧 𝑁 }
+
+to obtain hierarchical Semantic IDs: (1) Level 1 : Execute K-Means on the global dataset Z to find 𝐾 
+
+centroids C (1) . Each point 𝑧 𝑛 gets label 𝑙 (1) 
+
+> 𝑛
+
+, and we compute the residual 𝑒 (1) 
+
+> 𝑛
+
+= 𝑧 𝑛 − 𝑐 (1) 
+
+> 𝑙 (1)
+> 𝑛
+
+.(2) Level 𝑙 : Execute K-Means on the residuals {𝑒 (𝑙 −1) 
+
+> 𝑛
+
+} to find layer 𝑙 centroids C (𝑙 ) and labels 𝑙 (𝑙 ) 
+
+> 𝑛
+
+, recursively calculating the next residuals. K-Means adapts its centroids to the observed data density. In long-tailed settings, it allocates more centroids to dense regions and fewer to sparse regions. Because it uses dataset-level assignment and centroid recomputation rather than STE updates on only the currently activated codes, it is less exposed to the update starvation seen in joint VQ training. This does not imply that every code remains active after convergence; deep residual levels can still leave some codes unused. In practice, however, the clustering stage tends to broaden code usage and reduce the distribution floor relative to heavily collapsed codebooks. 
+
+## 4.3 Role of Continuous Representation 
+
+Because density-adaptive clustering helps mitigate the Distribution Penalty, one might bypass the VAE entirely and apply hierarchical clustering directly to raw item embeddings. This alternative is useful as a baseline, but it can only use the geometry and semantics already present in the input features. Raw multimodal representations often suffer from representation degeneration and anisotropy (the "cone effect") [ 12 , 13 ], where items cluster densely in a narrow region. Directly clustering such embeddings can preserve useful structure, but it cannot reshape the representation space or add missing collaborative signals. Raw embeddings also mainly represent static content, such as visual or textual features, and may not contain the behavior information needed for recommendation tasks. The VAE stage provides structural flexibility . It can fuse het-erogeneous multimodal features, such as text, image, and cate-gorical tags, and it can incorporate user behavior signals through sequence or graph-based contrastive learning. It can also accommo-date regularization losses, including Information Bottleneck [ 14 ] or uniformity constraints [ 11 ]. In this view, the continuous reshaping stage is not guaranteed to improve every diagnostic, but it provides a trainable space in which reconstruction fidelity, collaborative se-mantics, and geometric separation can be adjusted before discrete clustering is applied. 
+
+## 5 Experiments 5.1 Setup 
+
+We evaluate our method on a real-world industrial short-video dataset containing over 15 million items. The initial multimodal dense embeddings have dimension 𝑑 = 256 . The dataset is propri-etary and privacy-sensitive, so the experiments should be inter-preted as an industrial case study rather than a cross-benchmark leaderboard. Conference ’26, June 2026, Location Xuesi Wang et al. 
+
+Baseline Methods : We compare DRQ-VAE with four reference methods, each isolating a different design choice. 
+
+• Classical RQ-VAE : a standard hierarchical quantizer for Semantic IDs, included as the joint-training baseline. 
+
+• RQP-VAE : an enhanced RQ-VAE with Exponential Moving Average (EMA) codebook updates and dead-code revival, used to test how much distribution-side stabilization helps. 
+
+• RQ-KMeans : hierarchical K-Means directly applied to raw input embeddings, used to test what the VAE reshaping stage contributes beyond density-adaptive clustering. 
+
+• DRQ-VAE+CL : DRQ-VAE with contrastive learning, used to test whether user-behavior supervision improves down-stream matching. All methods use a hierarchical codebook of size 𝐾 = 4096 and 
+
+𝐿 = 3 levels, corresponding to a theoretical capacity of 36 bits. In the standard DRQ-VAE evaluation, we set the contrastive weight 
+
+𝜆 = 0 to isolate the effect of decoupling. For DRQ-VAE+CL , we set 
+
+𝜆 = 0.3 to activate user behavior alignment. Sections 5.2–5.4 report representation diagnostics, while Section 5.5 evaluates item-to-item retrieval built from user behavior sequences. 
+
+## 5.2 Geometry 
+
+We first evaluate how each tokenizer changes the geometry of the embedding space. The goal is not only to measure reconstruc-tion quality, but also to check whether the latent space remains sufficiently high-dimensional and well spread. We use four metrics: 
+
+• Participation Ratio : Measures the effective number of di-mensions utilized, calculated as (Tr (Σ)) 2/Tr (Σ2), where Σ
+
+is the covariance matrix. 
+
+• Entropy-Based Effective Rank : Defined as exp (𝐻 (𝑝 )) ,where 𝑝 𝑖 = 𝜆 𝑖 /Í𝑗 𝜆 𝑗 are the normalized eigenvalues of Σ
+
+and 𝐻 (𝑝 ) = − Í𝑖 𝑝 𝑖 log 𝑝 𝑖 . This metric evaluates how many dimensions effectively carry variance. 
+
+• 𝜆 max (Max Eigenvalue) : The maximum eigenvalue of Σ
+
+(normalized), indicating the proportion of variance captured by the first principal component. 
+
+• Mean Abs Cosine : Average absolute cosine similarity be-tween all pairs of latent dimensions, assessing the overall orthogonality of the space. Table 1 shows these geometric statistics calculated on a 20,000 random subset. 
+
+Table 1: Comparison of Latent Geometry and Topology for Semantic ID Construction Model Participation Ratio Entropy-Based Effective Rank 𝜆 max Mean Abs Cosine                         
+
+> Raw Input 106.05 131.17 0.0307 0.0795 RQ-VAE 73.08 116.77 0.0456 0.0865 RQP-VAE 104.91 137.77 0.0313 0.0720
+> RQ-KMeans 105.92 131.15 0.0309 0.0752 DRQ-VAE 71.79 103.01 0.0400 0.0894 DRQ-VAE+CL 149.19 189.54 0.0159 0.4622
+
+Analysis : For Semantic IDs to remain useful in recommendation and retrieval, the latent space should preserve many discriminative directions without becoming overly anisotropic. Under the current 
+
+𝐿 = 3, 𝐾 = 4096 setting, RQ-VAE still degrades geometry relative to the raw input: its Participation Ratio drops from 106.05 to 73.08, its entropy-based effective rank drops from 131.17 to 116.77, and both 
+
+𝜆 max and Mean Abs Cosine increase. The degradation is moderate rather than a near-one-dimensional collapse. RQP-VAE and RQ-KMeans stay close to the raw geometry. RQP-VAE achieves the lowest Mean Abs Cosine (0.0720), indicating the cleanest near-orthogonal latent organization among the quantized models. DRQ-VAE does not dominate these geometry metrics in this configuration, although it later performs strongly on reconstruction. DRQ-VAE+CL shows the sharpest trade-off: it achieves the best Participation Ratio (149.19), the best entropy-based effective rank (189.54), and the lowest 𝜆 max (0.0159), but its Mean Abs Cosine rises to 0.4622. This suggests that contrastive supervision spreads variance across more directions while also introducing stronger inter-dimension correlations. 
+
+## 5.3 Robustness & Capacity 
+
+To validate Equation (1), we inject standard Gaussian noise scaled by the empirical latent variance ( 𝜎 2 = 1.0 × Var (𝑍 )) into the latent space to test robustness. Results are in Table 2. 
+
+Table 2: Expected Overlap and Effective Capacity under Retrieval-Time Perturbation Level 0 Level 1 Level 2 Model 𝑂 𝜋 𝐾 eff 𝑂 𝜋 𝐾 eff 𝑂 𝜋 𝐾 eff                               
+
+> RQ-VAE 0.002196 455.46 0.000466 2146.12 0.000427 2344.55 RQP-VAE 0.000273 3667.92 0.000314 3180.69 0.000310 3221.32
+> RQ-KMeans 0.000285 3506.33 0.000575 1738.18 0.000644 1553.27 DRQ-VAE 0.000286 3495.31 0.000512 1951.97 0.000549 1821.62 DRQ-VAE+CL 0.000297 3365.96 0.001075 930.04 0.001962 509.73
+
+Analysis : Table 2 reports the 𝜎 2 = Var (𝑍 ) slice of the perturba-tion analysis and estimates how many non-confusable codewords each method provides. RQP-VAE performs best on this proxy. It has the lowest 𝑂 𝜋 and the largest 𝐾 eff at all three levels, showing that EMA-based distribution flattening is highly effective for symbolic robustness under isotropic noise. RQ-VAE is the weakest baseline overall, but its main failure ap-pears at Level 0 rather than at the deepest level. Its coarse codebook has 𝑂 𝜋 = 0.002196 and only 455.46 effective states, while the deeper levels recover to more than 2,100 effective states. DRQ-VAE and RQ-KMeans occupy the middle range, with DRQ-VAE slightly bet-ter than RQ-KMeans at Levels 1 and 2 but still behind RQP-VAE. DRQ-VAE+CL degrades in the deeper codebooks: its 𝐾 eff drops from 3365.96 at Level 0 to 930.04 at Level 1 and 509.73 at Level 2. Collab-orative reshaping therefore helps downstream soft matching, but it does not automatically improve overlap-based symbolic robustness. 
+
+## 5.4 Codebook Utilization 
+
+We examine codebook usage across the entire dataset using three metrics: Perplexity (exp (𝐻 (𝑝 )) , where 𝐻 (𝑝 ) is the Shannon en-tropy of codeword frequencies, measuring effective codebook size up to 𝐾 ), Active Codes (number of codewords assigned to at least one item), and Gini (Gini coefficient of codeword frequencies, mea-suring distribution inequality). Results are in Table 3. 
+
+Analysis : These statistics show whether the nominal 4096-way codebooks become distinct semantic neighborhoods in practice. Decoupled Residual Quantization for Robust Semantic IDs in Recommendation Conference ’26, June 2026, Location 
+
+Table 3: Codebook Utilization Statistics for Semantic ID Con-struction (Max 4096) Level Model Perplexity Active Codes Gini 
+
+L0 RQ-VAE 480.96 512 0.899 RQP-VAE 3872.12 4096 0.184 
+
+RQ-KMeans 3765.45 4096 0.225 DRQ-VAE 3758.63 4096 0.229 DRQ-VAE+CL 3665.12 4096 0.258 L2 RQ-VAE 2815.64 3377 0.445 RQP-VAE 3692.76 4096 0.239 
+
+RQ-KMeans 1912.13 3371 0.636 DRQ-VAE 2130.85 3464 0.592 DRQ-VAE+CL 698.71 2389 0.865 
+
+RQ-VAE’s most severe collapse occurs at Level 0: its perplexity falls to 480.96, only 512 codes are active, and the Gini coefficient reaches 0.899. This indicates a highly concentrated coarse partition. RQP-VAE is the strongest model on pure utilization at both the coarse and fine levels, reaching the highest perplexity, full code activation, and the lowest inequality at L0 and L2. RQ-KMeans and DRQ-VAE both retain moderate fine-level usage without ex-plicit dead-code revival, with DRQ-VAE slightly improving over RQ-KMeans at L2 through higher perplexity and more active codes. DRQ-VAE+CL moves in the opposite direction: its deepest code-book utilization deteriorates, with perplexity 698.71, only 2389 active codes, and Gini 0.865 at L2. In this run, collaborative super-vision helps soft downstream matching more than it helps deep discrete code usage. 
+
+## 5.5 Item-to-Item Retrieval Performance 
+
+To connect the representation diagnostics above with a downstream task, we evaluate item-to-item retrieval from user behavior se-quences. User sequences are stored in newest-first order. For ev-ery consecutive pair (query , target ) = (older item , newer item ), we create one test case if both items appear in the evaluation pool. Oth-erwise, the pair is skipped, and we do not perform gap jumping. Retrieval is carried out over the full item pool with the query item removed from the candidate set. 
+
+Table 4: Item-to-Item Retrieval Retention under SID-Reconstructed Embeddings. Model @20 @50 @100 @200 
+
+RQ-VAE 0.5561 0.6472 0.7162 0.7707 RQP-VAE 0.6625 0.7365 0.7984 0.8551 RQ-KMeans 0.5589 0.6297 0.6985 0.7765 DRQ-VAE 0.9999 0.9998 0.9999 0.9997 DRQ-VAE+CL 0.9976 0.9991 1.0016 1.0045 Protocol Details : The evaluation reports three groups of met-rics. First, it retrieves neighbors using the original embedding, the 
+
+Table 5: Item-to-Item Retrieval AUC Metrics. Model SID Embedding AUC Weighted SID Match AUC Exact SID Match AUC                
+
+> RQ-VAE 0.9112 0.9127 0.7946
+> RQP-VAE 0.9112 0.8907 0.7579 RQ-KMeans 0.9103 0.8872 0.7527 DRQ-VAE 0.9114 0.9016 0.7466 DRQ-VAE+CL 0.9121 0.9240 0.7553
+
+SID-reconstructed embedding, and a random baseline, then con-verts the reconstructed result into a retention score HR sid /HR orig .This group measures how much geometry is preserved after quanti-zation and reconstruction. Second, it performs discrete SID retrieval. Hierarchical models use prefix matching, while non-hierarchical models use independent code matching. These detailed HR@K sta-tistics are reported in the evaluation log and are most sensitive to code collisions and distribution flatness. Third, it computes three AUC metrics on the same sliding-window test pairs with fixed random negatives: SID Embedding AUC , Weighted SID Match AUC , and Exact SID Match AUC . These metrics distinguish soft semantic similarity from strict symbolic equality. We omit the origi-nal upper bound, random baseline, and duplicate-count diagnostics from the main tables to keep the presentation compact. 
+
+Analysis : Tables 4 and 5 show a split between reconstruction fidelity, soft semantic matching, and exact symbolic lookup. DRQ-VAE is the strongest reconstruction model by a wide margin. The full evaluation log reports the lowest MSE (0.000432), the highest cosine similarity (0.999784), the lowest collision rate (0.074680), the largest number of unique IDs (462,660), and the smallest maximum collision bucket (35). Consistent with these reconstruction statistics, DRQ-VAE delivers nearly lossless retention at the lower cutoffs, reaching 0.9999 at @20 and 0.9998 at @50. DRQ-VAE+CL becomes strongest once retrieval depends more heavily on soft semantic similarity or broader candidate sets. It achieves the best high-cutoff retention at @100 and @200 (1.0016 and 1.0045), as well as the best SID Embedding AUC (0.9121) and 
+
+Weighted SID Match AUC (0.9240). This indicates that collabora-tive supervision is most useful when retrieval is evaluated through softly weighted semantic matching rather than reconstruction fi-delity alone. Exact symbolic lookup follows a different pattern. Exact SID Match AUC is highest for RQ-VAE (0.7946), not necessarily because it has the cleanest discrete partition, but partly because it reuses codes more aggressively: its collision rate is 0.228898, it yields only 385,551 unique IDs, and its largest collision bucket reaches 76. These statistics suggest that stronger exact-match scores can arise from heavier code sharing rather than cleaner semantic separation. Taken together, the downstream evidence supports a three-way trade-off: RQP-VAE is strongest on symbolic capacity proxies, DRQ-VAE is strongest on reconstruction fidelity and near-lossless embedding retrieval retention, and DRQ-VAE+CL is strongest on soft matching and high-cutoff retrieval. 
+
+## 5.6 Discussion and Limitations 
+
+The current empirical evidence should be interpreted with sev-eral caveats. First, all experiments are conducted on a single pro-prietary industrial short-video dataset. This setting is useful for Conference ’26, June 2026, Location Xuesi Wang et al. 
+
+stress-testing large-scale Semantic ID construction, but it does not establish that the same ranking among DRQ, RQP-VAE, and RQ-KMeans will hold on public recommendation benchmarks with different sparsity patterns, item modalities, or sequence dynamics. Second, Section 5.5 studies item-to-item retrieval rather than full recommendation pipelines such as candidate generation fol-lowed by ranking. The downstream claims are therefore about the quality of Semantic IDs as retrieval and matching keys, not about end-to-end recommendation metrics such as Recall or NDCG in a production stack. Third, the proposed diagnostics are simplified proxies: 𝑂 𝜋 as-sumes isotropic perturbation, and the retrieval metrics separate reconstructed, weighted, and exact matching views instead of col-lapsing them into a single score. This decomposition is intentional, but broader validation is still needed. Future work should evaluate the framework on public datasets, additional downstream tasks, and more diverse Semantic ID tokenizers. 
+
+## 6 Conclusion 
+
+This paper develops a quantitative framework for diagnosing Se-mantic ID degradation in recommendation systems. By formalizing 
+
+𝑂 𝜋 and 𝐾 eff , the framework separates two failure sources: distribu-tion skew in code usage and geometric overlap among codewords. DRQ serves as a proof-of-concept implementation of this view by separating continuous representation learning from discrete code assignment, but the experiments show that this decoupling should be interpreted as a controllable design choice rather than a uniformly superior tokenizer. Under the current three-level, 4096-codeword setting, no single tokenizer dominates every view of Semantic ID quality. RQP-VAE is strongest on overlap-based capac-ity and codebook utilization, DRQ-VAE is strongest on reconstruc-tion fidelity and near-lossless embedding retrieval retention, and DRQ-VAE+CL is strongest on soft Semantic-ID matching and high-cutoff retrieval retention. The central conclusion is therefore that geometry-sensitive retrieval, symbolic robustness, and behavior-aware soft matching are related but distinct objectives. They should not be collapsed into a single notion of tokenizer quality. Decoupled Residual Quantization for Robust Semantic IDs in Recommendation Conference ’26, June 2026, Location 
+
+## APPENDIX A Derivation of the Overlap Proxy 𝑂 𝜋 and Effective Capacity 𝐾 eff 
+
+To quantify the robustness of Semantic IDs under retrieval-time perturbation, we derive the normalized overlap proxy 𝑂 𝜋 induced by Gaussian uncertainty around codewords. 
+
+Assumptions and Definitions: Let the continuous latent space be R𝑑 and the codebook be C = {𝑐 1, . . . , 𝑐 𝐾 }. We assume that the retrieval system induces isotropic Gaussian uncertainty around each codeword 𝑐 𝑖 , represented by the probability density function 
+
+𝑝 𝑖 (𝑥 ) = N ( 𝑥 |𝑐 𝑖 , 𝜎 2𝐼 𝑑 ).
+
+Pairwise Overlap Integral: We define the overlap between two codewords 𝑐 𝑖 and 𝑐 𝑗 as the integral of the product of their density functions: overlap 𝑖 𝑗 ≜
+
+∫
+
+𝑝 𝑖 (𝑥 )𝑝 𝑗 (𝑥 )𝑑𝑥 (3) Expanding the product of the two Gaussians yields: 
+
+𝑝 𝑖 (𝑥 )𝑝 𝑗 (𝑥 ) = 1
+
+(2𝜋𝜎 2)𝑑 exp 
+
+
+
+− ∥𝑥 − 𝑐 𝑖 ∥2 + ∥ 𝑥 − 𝑐 𝑗 ∥2
+
+2𝜎 2
+
+
+
+(4) By completing the square and introducing the midpoint 𝜇 𝑖 𝑗 = (𝑐 𝑖 +
+
+𝑐 𝑗 )/ 2, we can rewrite the exponent numerator: 
+
+∥𝑥 − 𝑐 𝑖 ∥2 + ∥ 𝑥 − 𝑐 𝑗 ∥2 = 2∥𝑥 − 𝜇 𝑖 𝑗 ∥2 + 12 ∥𝑐 𝑖 − 𝑐 𝑗 ∥2 (5) Substituting this back, the product factors into a term depending on 𝑥 and a constant term: 
+
+𝑝 𝑖 (𝑥 )𝑝 𝑗 (𝑥 ) = 1
+
+(2𝜋𝜎 2)𝑑 exp 
+
+
+
+− ∥𝑥 − 𝜇 𝑖 𝑗 ∥2
+
+𝜎 2
+
+
+
+exp 
+
+
+
+− ∥𝑐 𝑖 − 𝑐 𝑗 ∥2
+
+4𝜎 2
+
+
+
+(6) Integrating over all 𝑥 ∈ R𝑑 , the first exponential term evaluates to 
+
+(𝜋𝜎 2)𝑑 /2. Thus, the exact pairwise overlap is: overlap 𝑖 𝑗 = 1
+
+(4𝜋𝜎 2)𝑑 /2 exp 
+
+
+
+− ∥𝑐 𝑖 − 𝑐 𝑗 ∥2
+
+4𝜎 2
+
+
+
+(7) 
+
+Normalized Overlap Kernel: The diagonal self-overlap is overlap 𝑖𝑖 = 1
+
+(4𝜋𝜎 2)𝑑 /2 . (8) Dividing by this common self-overlap yields a scale-free kernel 
+
+K ( 𝑐 𝑖 , 𝑐 𝑗 ) = overlap 𝑖 𝑗 
+
+overlap 𝑖𝑖 
+
+= exp 
+
+
+
+− ∥𝑐 𝑖 − 𝑐 𝑗 ∥2
+
+4𝜎 2
+
+
+
+, (9) which equals 1 on the diagonal and decays toward 0 as codewords separate. 
+
+Global Expected Overlap Proxy 𝑂 𝜋 : Let 𝜋 𝑖 be the prior prob-ability of utilizing codeword 𝑐 𝑖 (Í 𝜋 𝑖 = 1). We define 𝑂 𝜋 as the expectation of this normalized overlap kernel under the empirical codeword prior: 
+
+𝑂 𝜋 =
+
+> 𝐾
+
+∑︁ 
+
+> 𝑖 =1
+> 𝐾
+
+∑︁ 
+
+> 𝑗 =1
+
+𝜋 𝑖 𝜋 𝑗 exp 
+
+
+
+− ∥𝑐 𝑖 − 𝑐 𝑗 ∥2
+
+4𝜎 2
+
+
+
+(10) This quantity is not an exact Voronoi-boundary crossing probability. Instead, it is a normalized confusion proxy: lower values mean that perturbed codeword densities overlap less in expectation. 
+
+Effective Codebook Size 𝐾 eff : Under ideal uniform and orthog-onal conditions ( 𝜋 𝑖 = 1/𝐾 and infinite distance), the off-diagonal kernel vanishes and the overlap lower bound is: 
+
+𝑂 𝜋, uniform =
+
+> 𝐾
+
+∑︁ 
+
+> 𝑖 =1
+
+ 1
+
+𝐾 
+
+2
+
+= 1
+
+𝐾 (11) To express a measured overlap as the equivalent number of code-words in a perfectly uniform system, we define Effective Codebook Size as: 
+
+𝐾 eff = 1
+
+𝑂 𝜋 
+
+(12) Thus, maximizing 𝐾 eff requires both lower distribution skewness (flatter 𝜋 ) and larger geometric separation ∥𝑐 𝑖 − 𝑐 𝑗 ∥2. This is the mathematical foundation for the decoupled approach. 
+
+## References 
+
+[1] Shashank Rajput, Nikhil Mehta, Anima Singh, Raghunandan H Erickson, Ariel Magd, et al. Recommender systems with generative retrieval. In Advances in Neural Information Processing Systems , volume 36, 2023. [2] Jiacheng Liu et al. Onerec: A unified generative recommendation framework. 
+
+arXiv preprint arXiv:2405.00000 , 2024. [3] Herve Jegou, Matthijs Douze, and Cordelia Schmid. Product quantization for nearest neighbor search. IEEE transactions on pattern analysis and machine intelligence , 33(1):117–128, 2010. [4] Neil Zeghidour, Alejandro Luebs, Ahmed Omran, Jan Skianis, and Marco Tagliasacchi. Soundstream: An end-to-end neural audio codec. In IEEE/ACM Transactions on Audio, Speech, and Language Processing , volume 30, pages 495–507. IEEE, 2021. [5] X Li et al. Se-rec: Semantic-enhanced generative recommendation. arXiv preprint arXiv:2401.00000 , 2024. [6] Aaron van den Oord, Oriol Vinyals, and koray kavukcuoglu. Neural discrete representation learning. In Advances in Neural Information Processing Systems ,volume 30, 2017. [7] Li Jing, Pascal Vincent, Yann LeCun, and Yuandong Tian. Understanding dimen-sional collapse in contrastive self-supervised learning. In International Conference on Learning Representations , volume 10, 2021. [8] Stuart Lloyd. Least squares quantization in pcm. IEEE transactions on information theory , 28(2):129–137, 1982. [9] Ziye Tong, Jiahao Liu, Weimin Zhang, Hongji Ruan, Derick Tang, Zhanpeng Zeng, Qinsong Zeng, Peng Zhang, Tun Lu, and Ning Gu. Rq-gmm: Residual quantized gaussian mixture model for multimodal semantic discretization in ctr prediction. arXiv preprint arXiv:2602.12593 , 2026. [10] Georgios Arvanitidis, Lars Kai Hansen, and Søren Hauberg. Latent space oddity: on the curvature of deep generative models. In International Conference on Learning Representations , 2018. [11] Tongzhou Wang and Phillip Isola. Understanding contrastive representation learning through alignment and uniformity on the hypersphere. In International Conference on Machine Learning , pages 9929–9939. PMLR, 2020. [12] Jun Gao, Di He, Xu Tan, Tao Qin, Liwei Wang, and Tie-Yan Liu. Representation degeneration problem in training natural language generation models. arXiv preprint arXiv:1907.12009 , 2019. [13] Kawin Ethayarajh. How contextual are contextualized word representations? comparing the geometry of bert, elmo, and gpt-2 embeddings. arXiv preprint arXiv:1909.00512 , 2019. [14] Naftali Tishby and Noga Zaslavsky. Deep learning and the information bottleneck principle. IEEE information theory workshop (ITW) , pages 1–5, 2015.

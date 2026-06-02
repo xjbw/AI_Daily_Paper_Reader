@@ -1,0 +1,110 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-006.webp",
+      "caption": "Figure 1: Multimodal feature extraction pipeline.",
+      "page": 3,
+      "index": 6,
+      "width": 1052,
+      "height": 352
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-010.webp",
+      "caption": "Table 3: Extended musicological features curated from a three-model rating consensus of LLaMa3.3-70B-Instruct, Qwen2.5-7B-Instruct, and Mistral-Nemo-12B-Instruct.",
+      "page": 4,
+      "index": 10,
+      "width": 396,
+      "height": 410
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-012.webp",
+      "caption": "Figure 2: Prompt template for MGPHot feature rating.",
+      "page": 5,
+      "index": 12,
+      "width": 506,
+      "height": 433
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-002.webp",
+      "caption": "Figure 3: Overview of the proposed multimodal recommendation architecture.",
+      "page": 6,
+      "index": 2,
+      "width": 502,
+      "height": 270
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-001.webp",
+      "caption": "Table 4: Top 50k song catalog statistics.",
+      "page": 6,
+      "index": 1,
+      "width": 498,
+      "height": 242
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-004.webp",
+      "caption": "Table 5: Zero-shot (LLaMA-3-70B) and fine-tuned (LLaMA-2-13B) results across sequential encoders and input configurations.",
+      "page": 7,
+      "index": 4,
+      "width": 1048,
+      "height": 304
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-009.webp",
+      "caption": "Table 6: Additional LLM backbones: zero-shot results using our benchmark across LLM backbones and configurations.",
+      "page": 8,
+      "index": 9,
+      "width": 498,
+      "height": 441
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-011.webp",
+      "caption": "Table 9: Zero-shot results for LLaMa-3-70B.",
+      "page": 12,
+      "index": 11,
+      "width": 868,
+      "height": 1238
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-008.webp",
+      "caption": "Table 10: Zero-shot results for LLaMa-2-13B.",
+      "page": 13,
+      "index": 8,
+      "width": 890,
+      "height": 1242
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-005.webp",
+      "caption": "Table 11: Zero-shot results for Qwen2.5-7B-Instruct.",
+      "page": 14,
+      "index": 5,
+      "width": 940,
+      "height": 1027
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-003.webp",
+      "caption": "Table 12: Finetuned results for LLaMa-2-13B.",
+      "page": 15,
+      "index": 3,
+      "width": 656,
+      "height": 1250
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-013.webp",
+      "caption": "Table 13: Finetuned results for Qwen2.5-7B-Instruct.",
+      "page": 16,
+      "index": 13,
+      "width": 686,
+      "height": 1245
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00125v1/fig-007.webp",
+      "caption": "Figure 5: MGPHot validation, aggregated across the seven attribute categories of Table 2. Blue (left axis): mean Spearman’s 𝜌 between LLM-generated and ground-truth ratings, higher is better. Red (right axis): mean MAE on [0, 1], lower is better. Error bars denote ±1 standard deviation across the 𝑛 attributes in each category.",
+      "page": 18,
+      "index": 7,
+      "width": 495,
+      "height": 392
+    }
+  ]
+}

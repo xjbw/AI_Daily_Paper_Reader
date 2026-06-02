@@ -1,0 +1,313 @@
+Title: Synthetic Data from Cross-Domain Events for Large-Scale Recommendation Systems
+
+URL Source: https://arxiv.org/pdf/2606.00282v1
+
+Published Time: Tue, 02 Jun 2026 00:14:21 GMT
+
+Number of Pages: 13
+
+Markdown Content:
+# Synthetic Data from Cross-Domain Events for Large-Scale Recommendation Systems 
+
+Xiangyu Wang 1,∗, Yawen He 1,∗, Shivendra Pratap Singh 1,∗, Han Huang 1,∗, Mengtong Hu 1,∗, Sharath Ciddu 1,∗, Yi-Hsuan Hsieh 1,∗, Erik Groving 1,∗, Yi Ding 1,∗, Jieming Di 1,∗, Tony Wang 1,∗, Min Yun 1,∗, Xiaoyu Chen 1,∗, Ling Leng 1,∗, Rob Malkin 1,∗
+
+> 1
+
+Meta 
+
+> ∗
+
+Work done at Meta 
+
+Large-scale recommendation systems operate across diverse domains, yet face the challenges of data sparsity and noisy implicit feedback. Traditional approaches mitigate this by model-specific knowledge distillation from source domains to a target domain. Inspired by the transformative success of synthetic data generation in large language model (LLM), we introduce S ynthetic C ross-domain A ugmentation and L earning for R ecommendation (SCALR), a framework that generates synthetic user-item interaction events for a target recommendation domain by leveraging observed events from a source domain. SCALR decomposes cross-domain learning into two modular stages. First it translates observed user event in source domains by formulating event generation as estimating the likelihood that a user would interact with a target-domain item, conditioned on their observed interactions in a source domain. Second, downstream models train on these synthetic events as cross-domain learning objectives where synthetic events augment the target domain’s training data in a model-agnostic manner. Our approach yields statistically significant improvements in online A/B tests on an industrial recommendation platform. To the best of our knowledge, this is among the first works to explicitly frame cross-domain event transfer as synthetic data generation for recommendation systems.  
+
+> Correspondence:
+
+<wangxy,yawenhe,shiven>@meta.com 
+
+# 1 Introduction 
+
+The use of synthetic data to train machine learning models has become one of the most impactful ideas in modern AI. In the domain of large language models (LLMs), synthetic data has been widely adopted across pre-training, instruction tuning, alignment, and knowledge distillation, consistently demonstrating that high-quality synthetic examples can match or even surpass the organically collected data Gunasekar et al. (2023); Taori et al. (2023); Liu et al. (2024). Despite this success, the application of synthetic data to recommendation systems has received comparatively limited attention as an explicit paradigm. Existing uses of synthetic data in this space have focused on either privacy preservation Slokom (2018); Drechsler and Reiter (2011) or adversarial training Wang et al. (2017), rather than on generating cross-domain training events to address data sparsity—the focus of our work. Recommendation systems, which power content feeds and product suggestions at scale, face a fundamental challenge: the training data consists of implicit feedback (clicks, conversions, engagements) that is inherently noisy, sparse, and heavily skewed. Existing approaches to address this sparsity fall into two categories. Cross-domain recommendation methods Zhu et al. (2021); Hu et al. (2018); Man et al. (2017) transfer knowledge from a data-rich source domain to the target domain, but they do so at the model level —sharing user embeddings, latent factors, or network parameters through joint training or learned mapping functions. These methods have several practical limitations. First, architecture coupling : because the source domain signal is absorbed into shared model parameters, the transfer mechanism is entangled with the model architecture. Adopting a different downstream model (e.g., switching from a two-tower model to a transformer-based ranker) requires re-designing the cross-domain components, which limits adoption in production systems where model architectures evolve frequently. Second, training coupling : source and target domain models must typically be co-trained or sequentially fine-tuned, meaning that changes to the source domain data 1 
+
+> arXiv:2606.00282v1 [cs.IR] 29 May 2026 Figure 1 Illustration of the recommendation system with source domain (post / website) and target domain (product).
+
+or model require retraining the entire pipeline end-to-end. Third, scalability to multiple consumers : when multiple downstream models (e.g., ranking, calibration, bidding) could benefit from the same source domain signal, each model must independently implement its own cross-domain transfer mechanism, duplicating effort and introducing inconsistencies. Data augmentation techniques Wang et al. (2021); Yao et al. (2021); Xie et al. (2022) take a different approach but operate within a single domain , creating perturbed views of existing interactions through item masking, sequence cropping, or counterfactual substitution. These methods improve representation learning but do not bring in behavioral signal from outside the target domain. Our work takes a fundamentally different approach that decomposes cross-domain learning into two distinct stages. In the first stage, synthetic data generation , source domain events are translated into concrete target domain training examples before any model training begins. In the second stage, cross-domain learning , the downstream model is trained on the combination of original and synthetic events through a weighted objective that controls the influence of each data source. While this second stage is itself a form of cross-domain learning, it differs from prior cross-domain recommendation methods: the cross-domain alignment has already been resolved during data generation, so the learning stage operates entirely within the target domain’s data format. The downstream model never needs to know that some training events originated from another domain as it consumes synthetic events in the same format as original events. This separation makes the approach model-agnostic : any recommendation architecture benefits without architectural modification. It is also modular : the synthetic data generation pipeline can be iterated on independently of the recommendation model, and multiple downstream models can reuse the same synthetic dataset. Furthermore, because synthetic events from different source domains are all translated into the same target domain format, the framework naturally supports multi-source composition : synthetic data from multiple source domains (e.g., browsing behavior, content engagement, search queries) can be combined simply by concatenating the generated events, without any additional architectural or algorithmic complexity. Finally, because the synthetic events are generated through a probabilistic translation rather than copied directly from source domain logs, they also offer a degree of privacy preservation : the generated events do not correspond to any single user’s raw activity record, which may reduce privacy risks compared to directly sharing or transferring raw cross-domain interaction data Jordon et al. (2022). By contrast, traditional cross-domain methods Zhu et al. (2021); Hu et al. (2018) must embed the cross-domain transfer mechanism directly into the model, coupling data transfer and model training into a single, architecture-specific procedure. In this paper, we introduce SCALR , a framework that casts cross-domain event transfer as synthetic data learning for recommendation systems. User interaction events in a source domain S (e.g., browsing behavior, content engagement) serve as raw material from which synthetic training events are generated for a target domain T . We formulate event generation as a conditional probability estimation problem, present a frequency-based approach leveraging co-occurrence statistics, and further explore a model-based method using learned embeddings. We show that probabilistic sampling from the translation distribution outperforms deterministic 2top-K selection. In online A/B tests, SCALR yields statistically significant improvements in core business metrics. To our knowledge, this is among the first works to explicitly frame cross-domain event transfer as synthetic data generation for recommendation systems. The remainder of this paper is organized as follows. Section 2 surveys related work on synthetic data in LLMs, synthetic data in recommendation systems, cross-domain recommendation, and data augmentation for recommendation systems. Section 3 presents the SCALR framework in detail: we formalize the problem setting with notation grounded in the recommendation domain, formulate the synthetic data generation objective as a conditional probability estimation problem, describe a frequency-based estimation approach, and formulate the downstream training as a cross-domain learning objective. Section 4 provides a systematic comparison between synthetic data paradigms in LLMs and recommendation systems. Section 5 reports experimental results on an industrial platform, including online A/B tests and an analysis of generation strategies. Finally, Section 6 discusses implications and limitations, and Section 7 concludes. 
+
+# 2 Related Work 
+
+Synthetic data generation and usage in LLMs. Synthetic data has become a central paradigm in large language model training. Gunasekar et al. Gunasekar et al. (2023) demonstrated with Phi-1 that a 1.3B-parameter model trained on synthetically generated “textbook-quality” data can match GPT-3.5-level coding performance, establishing that data quality can substitute for model scale. In the alignment setting, the Alpaca project Taori et al. (2023) showed that instruction-following capabilities can be distilled via synthetic instruction-response pairs, while Orca Josifoski et al. (2023) extended this with detailed reasoning traces. Liu et al. Liu et al. (2024) distilled key lessons from this body of work, finding that distribution alignment between synthetic and real data, quality filtering, and careful control of the synthetic-to-real data ratio are critical for success. While these principles translate conceptually to recommendation systems, the underlying data modality is fundamentally different: LLM synthetic data operates over continuous token sequences with a shared vocabulary, whereas recommendation systems require generating discrete user-item interaction events 
+
+across disjoint item catalogs, subject to heavy-tailed distributions and implicit feedback noise. 
+
+Synthetic data in recommendation systems. While synthetic data has transformed LLM training, its use in recommendation systems has been limited and motivated by different goals. Slokom Slokom (2018) applied CART-based synthetic data generation Drechsler and Reiter (2011) to collaborative filtering, producing partially or fully synthetic user profiles to replace privacy-sensitive values—enabling recommendation system evaluation without exposing real user data. This line of work treats synthetic data as a privacy mechanism 
+
+rather than a means to improve model performance. In a different vein, Wang et al. Wang et al. (2017) proposed IRGAN, a minimax adversarial framework for information retrieval in which a generative model learns to select pseudo-relevant items from a candidate pool to fool a discriminative retrieval model. Crucially, IRGAN does not generate new data—its generator selects existing items as pseudo-relevant samples, operating entirely within a single domain. It neither creates novel interaction events nor transfers behavioral signals across domains. Our work differs from both directions: we generate synthetic training events by translating cross-domain user interactions into the target domain’s format, with the explicit goal of augmenting training data to improve downstream recommendation performance. 
+
+Cross-domain recommendation. Cross-domain recommendation (CDR) addresses data sparsity by transferring knowledge from a data-rich source domain to a sparse target domain Zhu et al. (2021). Representative approaches include Collective Matrix Factorization Singh and Gordon (2008), which shares user latent factors across domain-specific interaction matrices; EMCDR Man et al. (2017), which learns an explicit mapping between source and target user embeddings; and CoNet Hu et al. (2018), which enables bidirectional transfer through cross-stitch connections in dual deep networks. More recent work such as DisenCDR Cao et al. (2022) disentangles domain-shared from domain-specific representations to enable more targeted transfer. However, CDR methods universally operate at the representation level —they share parameters, embeddings, or latent factors within a jointly trained model. No prior work in CDR has framed the transfer as synthetic data generation , where source domain interactions are translated into concrete training events for the target domain, decoupled from any specific downstream model. 3SCALR: Proposed Flow                    
+
+> 1Synthetic Data Generation
+> Event Generation
+> Source Domain ( S)
+> observed event
+> Post (shoes)
+> Target Domain ( T)
+> synthetic event
+> Product (shoes)
+> map
+> ˆP(i|j)
+> Feature & Row Generation
+> Synthetic Event (u, i )
+> user feat
+> item feat
+> context feat ˜y= 0 /1
+> Feature Extraction
+> Training Data Row (x, ˜y)
+> 2Cross-Domain Learning
+> Original Target Data D_T
+> (u, i, y )events
+> Synthetic Data D_syn
+> (u, i, ˜y)from SCALR
+> Model Training
+> fθ
+> Predictions
+> ˆy
+> L=Lorig +λ· L syn
+> Figure 2
+
+Illustration of Proposed Flow 
+
+Data augmentation for recommendation systems. Within-domain augmentation strategies for recommendation systems include counterfactual sequence augmentation Wang et al. (2021), self-supervised contrastive methods that create augmented views through item masking or feature dropout Yao et al. (2021); Xie et al. (2022), and generative approaches that hallucinate pseudo-prior interactions Liu et al. (2021). More recently, LLMs have been used to augment recommendation signals: LLMRec Wei et al. (2024) generates synthetic user-item interactions for graph-based recommendation, and TallRec Bao et al. (2023) adapts LLMs for recommendation through instruction tuning. While these methods enrich training data, they operate within a single domain and do not leverage cross-domain behavioral signals. Our work is distinct in that it generates synthetic events by translating interactions from an entirely different domain—casting cross-domain event transfer as a synthetic data generation problem, analogous to how teacher model outputs serve as synthetic training data in the LLM setting. 
+
+# 3 The SCALR Framework 
+
+We now present SCALR, our framework for synthetic data learning in recommendation systems. We begin by formalizing the problem with concrete notation grounded in the recommendation setting, then describe our synthetic data generation procedure, and finally formulate the downstream training as cross-domain learning. 
+
+3.1 Problem Setting and Notation 
+
+Consider a platform where the goal is to predict whether a user u will convert after being shown an item i.The training data for this target domain T consists of observed ⟨u, i ⟩ interaction events—specifically, user-item pairs where a conversion occurred. In practice, conversion events are extremely sparse: conversion rates are typically below 1%, and many items observe only tens to hundreds of conversions per day, making it difficult to train accurate conversion prediction models. Meanwhile, the same platform observes abundant user behavior in other source domains S. For example, a social platform records ⟨u, j ⟩ interactions representing users visiting websites, engaging with content, or browsing product pages. These source domain events are orders of magnitude more plentiful than conversion events, and they carry rich signal about user preferences and intent. Formally, let U denote the shared user space across domains. Let IS and IT denote the item spaces for the 4source and target domains, respectively. In the recommendation setting, IT is the set of recommendations and IS is the set of websites, content pages, or products in the source surface. In general, IS ∩ I T = ∅, such that the two domains have disjoint item catalogs. We denote the observed interaction logs as: 
+
+DS = {(uk, j k) : uk ∈ U , j k ∈ I S }NS 
+
+> k=1
+
+(1) 
+
+DT = {(uk, i k) : uk ∈ U , i k ∈ I T }NT 
+
+> k=1
+
+(2) where NS ≫ NT . The central question is: can we leverage the abundant source domain events DS to synthesize additional training events for the target domain T ?
+
+3.2 Synthetic Data Generation 
+
+The goal of synthetic data generation is to produce target domain events from source domain observations. We denote this as: given a source domain event ⟨u, j S ⟩, generate a target domain event ⟨u, i T ⟩. Since the user identity is shared across domains, the core quantity to estimate is the item translation distribution :
+
+P (iT | u, j S ) (3) which defines a probability distribution over all target domain items i ∈ I T , conditioned on user u and the source item j that the user interacted with. In the recommendation example, this captures: given that user u
+
+visited a merchant’s page j, how likely is u to interact with each product i offered by that merchant? The formulation in Equation 3 defines a distribution , not a single prediction. Rather than seeking a single best target item i∗ = arg max i P (iT | u, j S ), we maintain the full distribution over the target item space, as the choice between deterministic selection and stochastic sampling has significant implications for synthetic data quality (Section 5.3.1). Importantly, the translation distribution is not learned by a generative model but estimated from observed co-occurrence statistics in the target domain via a frequency-based approach. We later extend this to a model-based estimator using learned embeddings (Section 6). 
+
+Frequency-based translation We propose a frequency-based approach as an efficient and scalable method for estimating Equation 3. The key idea is to leverage co-occurrence statistics from the set of overlapping users Uoverlap = {u : ∃ (u, j, ·) ∈ D S and ∃ (u, i, ·) ∈ D T } who are active in both domains. For these users, we compute the empirical item translation probability: 
+
+ˆP (iT | jS ) = 
+
+P 
+
+> u∈U overlap
+
+1[( u, j ) ∈ D S ] · 1[( u, i ) ∈ D T ]
+
+P 
+
+> u∈U overlap
+
+1[( u, j ) ∈ D S ] (4) where 1[·] is the indicator function. 
+
+Generation algorithm. Given the estimated translation distribution, Algorithm 1 describes the generation pipeline. For each source domain event, we compute the translation distribution over candidate target items, draw K target items from this distribution, and produce synthetic events. In general, each synthetic event can be assigned a confidence weight wk = g( ˆP (ik | u, j )) for some weighting function g, allowing the downstream model to differentiate between high- and low-confidence synthetic examples. In our current implementation, we use a uniform weight wk = 1 for all sampled events, since the sampling distribution itself already encodes the translation probability—higher-probability items are drawn more frequently, so the aggregate synthetic dataset naturally reflects the estimated distribution without per-event reweighting. 
+
+Top-k sampling versus deterministic selection. A natural alternative to stochastic sampling in Algorithm 1 is 
+
+deterministic top-K selection : for each source event, select the K target items with the highest ˆP (iT | u, j S ).While top-K selection maximizes the per-event translation probability, it produces a synthetic dataset with low item diversity, given that the same high-probability items are selected repeatedly across source events, concentrating the synthetic data on a narrow slice of the target item catalog. This trade-off is similar to the decoding strategy choice in language generation. Holtzman et al. Holtzman et al. (2019) showed that greedy and top-K decoding lead to degenerate, repetitive text, while nucleus sampling 
+
+5Algorithm 1 SCALR: Synthetic Event Generation  
+
+> Input:
+
+Source domain events DS , translation distribution ˆP (iT | u, j S ), generation budget K per source event, weighting function g 
+
+> Output:
+
+Synthetic target domain events Dsyn  
+
+> 1:
+
+Dsyn ← ∅   
+
+> 2: for
+
+each (u, j ) ∈ D S do  
+
+> 3:
+
+Compute ˆP (iT | u, j S ) for candidate items i ∈ I T  
+
+> 4: for
+
+k = 1 , . . . , K do  
+
+> 5:
+
+Draw ik ∼ ˆP (· | u, j S ) 
+
+> 6:
+
+Dsyn ← D syn ∪ { (u, i k, w k)} where wk = g( ˆP (ik | u, j ))     
+
+> 7: end for
+> 8: end for
+> 9: return
+
+Dsyn 
+
+(top-p) produces more natural and diverse outputs by sampling from the high-probability portion of the distribution. Fan et al. Fan et al. (2018) similarly demonstrated that stochastic sampling with appropriate truncation yields more diverse and coherent story generation than beam search. The underlying principle is that maximizing likelihood at each step does not maximize the quality of the aggregate output. Instead, diversity and distributional coverage matter. In the synthetic data context specifically, Gudibande et al. Gudibande et al. (2023) and Liu et al. Liu et al. (2024) found that diversity in synthetic training data is a key driver of downstream performance, and that over-reliance on high-confidence examples leads to narrow coverage and degraded generalization. The same principle applies to synthetic event generation for recommendation systems. Stochastic sampling from ˆP (· | u, j S ) preserves the distributional shape of the translation probability, including its tail, producing synthetic events that collectively cover a broader portion of the target item space. This diversity is especially useful in recommendation settings where long-tail items, which are individually low-probability but collectively important, are precisely the items that suffer most from data sparsity. We empirically validate in Section 5.3.1 that sampling consistently outperforms top-K selection. 
+
+3.3 Cross-Domain Learning with Synthetic Data 
+
+With the synthetic events Dsyn generated, we now formulate the downstream training as a cross-domain learning problem. Let fθ : U × I T → [0 , 1] be the target domain recommendation model (e.g., a conversion prediction model) parameterized by θ. The standard training objective on original target domain data is: 
+
+Lorig (θ) = X
+
+> (u,i,y )∈D T
+
+ℓ(fθ (u, i ), y ) (5) where y ∈ { 0, 1} is the observed label and ℓ is a loss function (e.g., binary cross-entropy). When training with synthetic data, we augment the objective with a weighted loss over the synthetic events: 
+
+Ltotal (θ) = Lorig (θ) + λ X
+
+> (u,i,w )∈D syn
+
+w · ℓ(fθ (u, i ), ˜y) (6) where λ > 0 controls the relative importance of synthetic data, w is the per-event confidence weight from Algorithm 1 (uniform in our current implementation), and ˜y ∈ 0, 1 denotes the synthetic label, determined by whether a conversion event was observed in the corresponding source domain interaction. This formulation naturally embodies cross-domain learning: the model fθ is trained on the target domain T ,but its training signal is enriched by events originating from the source domain S and translated into the target domain’s item space. The translation probabilities ˆP (iT | u, j S ) serve as a soft alignment between domains. With our sampling-based generation and uniform weights, the cross-domain signal is encoded implicitly through the frequency of sampled items—items with higher translation probability appear more often in Dsyn , so their influence on training is naturally proportional to the estimated translation likelihood. 6Figure 3 Illustration of model architecture for cross domain learning with Synthetic data 
+
+7Table 1 Comparison of synthetic data paradigms in LLMs vs. recommendation systems.   
+
+> Aspect LLMs Recommendation Systems (Ours)
+
+Data type Continuous text tokens Discrete (user, item) interaction events Output space Shared vocabulary across domains Disjoint item catalogs across domains Generation mechanism Autoregressive language model Conditional probability estimation Quality signal Human evaluation, perplexity Downstream task metrics (NE, conversion rate) Distribution matching Token-level distribution Interaction pattern distribution This approach differs from traditional cross-domain recommendation in that the knowledge transfer occurs entirely at the data level rather than the model level . The main model architecture requires no modification since the downstream model fθ consumes synthetic events in exactly the same format as original events. The only change is the addition of an auxiliary training task (the weighted synthetic loss in Equation 6), which is a minimal and architecture-independent modification. This makes SCALR applicable to any recommendation architecture (two-tower models Covington et al. (2016), wide-and-deep networks Cheng et al. (2016), factorization machines Guo et al. (2017), or transformer-based models) with minimal integration effort. 
+
+Distribution alignment via mixing ratio. The hyperparameter λ in Equation 6 controls the trade-off between fidelity to the original target domain distribution and the additional coverage provided by synthetic data. When λ is too large, the model’s learned distribution shifts toward the source domain’s characteristics, introducing domain bias. When λ is too small, the synthetic data contributes negligible signal. In practice, a properly tuned λ is important for balancing the benefit of additional synthetic signal against potential domain mismatch. We leave a thorough study of the relationship between the optimal λ and properties of the source and target domains (e.g., domain overlap, target domain sparsity, source domain volume) to future work. 
+
+# 4 Comparison with Synthetic Data in LLMs 
+
+To better situate our work, we provide a systematic comparison between synthetic data in LLMs and in recommendation systems. Despite these differences, a fundamental principle is shared: generating training examples that approximate the target distribution from an auxiliary source . In LLMs, the “auxiliary source” is a teacher model; in our setting, it is a source domain of user interactions. The quality of the synthetic data—its fidelity to the target distribution, its diversity, and its complementarity to existing real data—determines its value in both settings. 
+
+# 5 Experiments 
+
+We evaluate SCALR in both offline and online settings on an industrial recommendation platform. 
+
+5.1 Experimental Setup 
+
+Platform. Our experiments are conducted on an industrial platform. The target domain T is conversion prediction (conversion event after seeing a recommendation). The source domain S consists of user engagement events from a different product surface on the same platform. 
+
+Scale. The source domain contains daily interaction events. The target domain (conversion events) is orders of magnitude sparser—conversion rates are typically below 1%. This extreme sparsity motivates the need for synthetic data augmentation. 
+
+Baseline. The baseline model is a deep learning recommendation model trained on original target domain data only. We compare against the same model architecture trained on original data augmented with SCALR synthetic events. 85.2 Online A/B Test Results 
+
+We conducted online A/B tests over multiple weeks on live traffic. The online experiment showed consistent approximately 0.14 − 0.24% Conversion Rate (CVR) increase across multiple weeks on one of the major models, demonstrating that the synthetic events provide useful training signal that translates to real-world performance improvements. 
+
+5.3 Offline Analysis 
+
+We investigate four research questions through controlled offline experiments: 
+
+• RQ1 : How does the generation strategy—deterministic vs. probabilistic—affect synthetic data quality? 
+
+• RQ2 : How does synthetic data volume impact downstream performance? 
+
+• RQ3 : Does aligning the synthetic data distribution to the original data improve results? 
+
+• RQ4 : What other design choices influence SCALR’s effectiveness?  
+
+> 5.3.1 RQ1: Generation Strategy
+
+A fundamental design choice in Algorithm 1 is whether to generate synthetic events by deterministically selecting the top-K items with the highest ˆP (iT | u, j S ), or by sampling proportionally from the full distribution. We compare both strategies in the K = 1 case: top-1 selection picks i∗ = arg max i ˆP (iT | u, j S ),while probabilistic sampling draws i∗ ∼ ˆP (· | u, j S ). Both produce the same number of synthetic events, ensuring a fair volume-controlled comparison.    
+
+> Table 2 Top-1 selection vs. probabilistic sampling (lower NE is better). Relative NE is reported against the original-data-only baseline.
+> Strategy Rel. Train NE (%) Rel. Eval NE (%)
+
+No synthetic data 0.00 0.00 
+
+Top-1 −0.20 −0.03 
+
+Sampling −0.26 −0.25 
+
+Top-1 selection achieves reasonable train NE ( −0.20% ) but fails to generalize ( −0.03% eval), while sampling achieves strong gains on both train ( −0.26% ) and eval ( −0.25% ). We attribute this to two factors. First, 
+
+> diversity
+
+: the top-1 strategy produces synthetic events covering only ∼4% of the target item catalog, whereas sampling covers ∼30 %. Top-1 concentrates signal on a narrow set of popular items, reinforcing popularity bias rather than providing complementary coverage. Second, distributional fidelity : sampling preserves the shape of ˆP (· | u, j S ) including its tail, so the aggregate synthetic data better approximates the true cross-domain interaction pattern Holtzman et al. (2019); Liu et al. (2024). Based on this finding, all subsequent experiments use probabilistic sampling.  
+
+> 5.3.2 RQ2: Synthetic Data Volume
+
+We study the relationship between synthetic data volume and downstream performance. Starting from several thousands of synthetic rows per day, we progressively scaled to larger volumes. Performance improves monotonically as synthetic data volume increases, with diminishing returns beyond a certain scale. This suggests an optimal synthetic-to-real data ratio that balances the benefit of additional cross-domain signal against potential distribution mismatch.  
+
+> 5.3.3 RQ3: Distribution Alignment
+
+Synthetic events tend to over-represent certain high-frequency source domain patterns. We compare three downsampling strategies for aligning the synthetic data distribution to the original training data, using relative NE on Day + 2 evaluation data: 9• Bucket-wise downsampling : Partitions synthetic events by item value buckets and downsamples each bucket to match the value distribution of the original training data. 
+
+• Uniform positive downsampling : Uniformly downsamples synthetic positive events regardless of item value, reducing overall synthetic volume to match the original data distribution. 
+
+• Positive + negative downsampling : Downsamples both synthetic positive and negative events uniformly, reducing total synthetic volume from both label classes.   
+
+> Table 3 Impact of distribution alignment on Relative NE (lower is better), measured relative to the SCALR model without downsampling.
+> Data Sampling Strategy Relative NE (%)
+
+No downsampling (reference) 0.00 Bucket-wise downsampling −0.13 
+
+Uniform positive downsampling −0.09 
+
+Positive + negative downsampling −0.07 
+
+Bucket-wise downsampling yields the largest improvement ( −0.13% NE), confirming that aligning the value distribution of synthetic events to match the original data is important for downstream performance.  
+
+> 5.3.4 RQ4: Additional Design Choices
+
+We evaluate several further design choices: 
+
+• Feature quality. Removing features that exhibit distributional discrepancy between synthetic and real data improves eval NE, indicating that some features leak information about whether a training example is synthetic or real. Purging these features forces the model to learn from the cross-domain signal rather than exploiting artifacts. 
+
+• Confidence filtering. Filtering synthetic events based on translation confidence ˆP (iT | u, j S ) improves eval NE, suggesting that low-confidence translations introduce noise that degrades learning. 
+
+• NE–AUC divergence. In some model variants, eval AUC improves while eval NE regresses. The model’s ranking quality benefits from synthetic signal, but predicted probabilities become over-confident, degrading calibration. This motivates the distribution alignment strategies above. 
+
+5.4 Future Directions 
+
+We identify several promising directions to further improve the performance of SCALR, organized into two categories. 
+
+Improving synthetic data quality. The frequency-based estimator has known limitations: it cannot handle cold-start items with no co-occurrence history, and does not model complex user-item interactions beyond pairwise co-occurrence. To address these, we have begun extending SCALR toward model-based generation .Rather than relying on co-occurrence statistics, we train a relevance model gϕ that estimates the affinity between a user and a target item conditioned on the source item, using pre-trained embeddings: 
+
+s(u, i T , j S ) = gϕ(eu, eiT ) gϕ(ejS , eiT ) (7) where eu, ejS , and eiT are pre-trained embeddings of the user, source item, and target item, respectively. The model is trained on observed cross-domain interactions to predict which (user, source item, target item) triples lead to engagement. At generation time, given a source event (u, j S ), we sample target items from: 
+
+Pϕ(iT | u, j S ) = exp( s(u, i T , j S )/τ )
+
+P 
+
+> i′∈I T
+
+exp( s(u, i ′, j S )/τ ) (8) where τ is a temperature parameter controlling generation diversity. This directly parallels the frequency-based 
+
+ˆP (iT | u, j S ) but replaces co-occurrence counts with learned representations, generalizing to cold-start items 10 through embedding similarity and capturing richer user-item relationships beyond pairwise co-occurrence. In an online pretest, model-based generation achieved a 0.03%–0.07% increase in conversion-based revenue in a different model, validating the direction toward learned generation. Beyond model-based generation, further improvements include addressing user behavior skewness through user-level reweighting ( wu = 1 /|{ (u, ·, ·) ∈ D S }| α) or stratified sampling across activity tiers, and adversarial quality filtering Goodfellow et al. (2014); Ganin et al. (2016) to select synthetic events most indistinguishable from real target domain events. 
+
+Extending the generation framework. The current framework generates synthetic events based on observed source domain interactions, that is, events that actually happened. Generating synthetic counterfactual events which represent interactions that a user would likely not engage in could provide additional contrastive signal during model training. Additionally, incorporating temporal alignment between source and target domain events (e.g., restricting generation to recent source interactions versus leveraging full history) may further improve the relevance of synthetic data. 
+
+# 6 Discussion 
+
+Why “synthetic data” rather than “cross-domain recommendation”? While SCALR inherently addresses cross-domain recommendation, its conceptual framing is fundamentally distinct. Classical cross-domain recommendation has primarily focused on model-level transfer on sharing parameters, embeddings, or representations across domains Zhu et al. (2021). In contrast, SCALR introduces a data-level transfer paradigm by generating new training events that augment the target domain’s dataset. This data-centric perspective aligns with the broader trend in machine learning toward data-centric AI Liu et al. (2024) and enables a modular, model-agnostic approach. Furthermore, explicitly connecting this approach to the synthetic data paradigm in LLMs allows us to adapt extensive best practices developed in that domain, such as quality filtering, distribution matching, and the management of synthetic-to-real data ratios into the recommendation setting. 
+
+Broader implications. If synthetic data proves as transformative for recommendation systems as it has for LLMs, it could fundamentally change how recommendation models are trained. Rather than being limited to directly observed interactions, recommendation systems could systematically leverage the full spectrum of user behavior across platforms and surfaces, translating diverse signals into domain-specific training data. This vision connects to the broader goal of building unified user models that integrate information across all touchpoints. 
+
+# 7 Conclusion 
+
+We have presented SCALR, a framework for synthetic data learning in recommendation systems that generates training events for a target domain by translating user interactions from a source domain. By explicitly framing cross-domain event transfer as synthetic data generation and drawing parallels to the transformative role of synthetic data in LLM training, we provide a principled, modular, and model-agnostic approach to data augmentation for recommendation systems. Our frequency-based estimation method serves as an efficient and scalable baseline, and our online experiments on a large-scale industrial platform demonstrate statistically significant improvements in conversion prediction. The unique challenges of synthetic data in recommendation systems including user behavior skewness, discrete heterogeneous item spaces, and cross-domain intent shift differentiate this problem from synthetic data generation in LLM and open rich directions for future research. We believe that synthetic data learning represents an important and underexplored paradigm for recommen-dation systems, with the potential to address fundamental challenges of data sparsity, long-tail distribution, and cold-start—much as synthetic data has addressed data scarcity in LLM training. 11 References 
+
+Keqin Bao, Jizhi Zhang, Yang Zhang, Wenjie Wang, Fuli Feng, and Xiangnan He. Tallrec: An effective and efficient tuning framework to align large language model with recommendation. In Proceedings of the 17th ACM conference on recommender systems , pages 1007–1014, 2023. Jiangxia Cao, Xixun Lin, Xin Cong, Jing Ya, Tingwen Liu, and Bin Wang. Disencdr: Learning disentangled representations for cross-domain recommendation. In Proceedings of the 45th International ACM SIGIR conference on research and development in information retrieval , pages 267–277, 2022. Heng-Tze Cheng, Levent Koc, Jeremiah Harmsen, Tal Shaked, Tushar Chandra, Hrishi Aradhye, Glen Anderson, Greg Corrado, Wei Chai, Mustafa Ispir, et al. Wide & deep learning for recommender systems. In Proceedings of the 1st workshop on deep learning for recommender systems , pages 7–10, 2016. Paul Covington, Jay Adams, and Emre Sargin. Deep neural networks for youtube recommendations. In Proceedings of the 10th ACM conference on recommender systems , pages 191–198, 2016. Jörg Drechsler and Jerome P Reiter. An empirical evaluation of easily implemented, nonparametric methods for generating synthetic datasets. Computational Statistics & Data Analysis , 55(12):3232–3243, 2011. Angela Fan, Mike Lewis, and Yann Dauphin. Hierarchical neural story generation. In Proceedings of the 56th Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 889–898, 2018. Yaroslav Ganin, Evgeniya Ustinova, Hana Ajakan, Pascal Germain, Hugo Larochelle, François Laviolette, Mario March, and Victor Lempitsky. Domain-adversarial training of neural networks. Journal of machine learning research , 17: 1–35, 2016. Ian J Goodfellow, Jean Pouget-Abadie, Mehdi Mirza, Bing Xu, David Warde-Farley, Sherjil Ozair, Aaron Courville, and Yoshua Bengio. Generative adversarial nets. Advances in neural information processing systems , 27, 2014. Arnav Gudibande, Eric Wallace, Charlie Snell, Xinyang Geng, Hao Liu, Pieter Abbeel, Sergey Levine, and Dawn Song. The false promise of imitating proprietary llms. arXiv preprint arXiv:2305.15717 , 2023. Suriya Gunasekar, Yi Zhang, Jyoti Aneja, Caio César Teodoro Mendes, Allie Del Giorno, Sivakanth Gopi, Mojan Javaheripi, Piero Kauffmann, Gustavo de Rosa, Olli Saarikivi, et al. Textbooks are all you need. arXiv preprint arXiv:2306.11644 , 2023. Huifeng Guo, Ruiming Tang, Yunming Ye, Zhenguo Li, and Xiuqiang He. Deepfm: a factorization-machine based neural network for ctr prediction. arXiv preprint arXiv:1703.04247 , 2017. Ari Holtzman, Jan Buys, Li Du, Maxwell Forbes, and Yejin Choi. The curious case of neural text degeneration. arXiv preprint arXiv:1904.09751 , 2019. Guangneng Hu, Yu Zhang, and Qiang Yang. Conet: Collaborative cross networks for cross-domain recommendation. In Proceedings of the 27th ACM international conference on information and knowledge management , pages 667–676, 2018. James Jordon, Lukasz Szpruch, Florimond Houssiau, Mirko Bottarelli, Giovanni Cherubin, Carsten Maple, Samuel N Cohen, and Adrian Weller. Synthetic data–what, why and how? arXiv preprint arXiv:2205.03257 , 2022. Martin Josifoski, Marija Sakota, Maxime Peyrard, and Robert West. Exploiting asymmetry for synthetic training data generation: Synthie and the case of information extraction. In Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing , pages 1555–1574, 2023. Ruibo Liu, Jerry Wei, Fangyu Liu, Chenglei Si, Yanzhe Zhang, Jinmeng Rao, Steven Zheng, Daiyi Peng, Diyi Yang, Denny Zhou, et al. Best practices and lessons learned on synthetic data. arXiv preprint arXiv:2404.07503 , 2024. Zhiwei Liu, Ziwei Fan, Yu Wang, and Philip S Yu. Augmenting sequential recommendation with pseudo-prior items via reversely pre-training transformer. In Proceedings of the 44th international ACM SIGIR conference on Research and development in information retrieval , pages 1608–1612, 2021. Tong Man, Huawei Shen, Xiaolong Jin, and Xueqi Cheng. Cross-domain recommendation: An embedding and mapping approach. In Ijcai , volume 17, pages 2464–2470, 2017. Ajit P Singh and Geoffrey J Gordon. Relational learning via collective matrix factorization. In Proceedings of the 14th ACM SIGKDD international conference on Knowledge discovery and data mining , pages 650–658, 2008. 
+
+12 Manel Slokom. Comparing recommender systems using synthetic data. In Proceedings of the 12th ACM Conference on Recommender Systems , pages 548–552, 2018. Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos Guestrin, Percy Liang, and Tatsunori B Hashimoto. Alpaca: A strong, replicable instruction-following model. Stanford Center for Research on Foundation Models. https://crfm. stanford. edu/2023/03/13/alpaca. html , 3(6):7, 2023. Jun Wang, Lantao Yu, Weinan Zhang, Yu Gong, Yinghui Xu, Benyou Wang, Peng Zhang, and Dell Zhang. Irgan: A minimax game for unifying generative and discriminative information retrieval models. In Proceedings of the 40th International ACM SIGIR conference on Research and Development in Information Retrieval , pages 515–524, 2017. Zhenlei Wang, Jingsen Zhang, Hongteng Xu, Xu Chen, Yongfeng Zhang, Wayne Xin Zhao, and Ji-Rong Wen. Counterfactual data-augmented sequential recommendation. In Proceedings of the 44th international ACM SIGIR conference on research and development in information retrieval , pages 347–356, 2021. Wei Wei, Xubin Ren, Jiabin Tang, Qinyong Wang, Lixin Su, Suqi Cheng, Junfeng Wang, Dawei Yin, and Chao Huang. Llmrec: Large language models with graph augmentation for recommendation. In Proceedings of the 17th ACM international conference on web search and data mining , pages 806–815, 2024. Xu Xie, Fei Sun, Zhaoyang Liu, Shiwen Wu, Jinyang Gao, Jiandong Zhang, Bolin Ding, and Bin Cui. Contrastive learning for sequential recommendation. In 2022 IEEE 38th international conference on data engineering (ICDE) ,pages 1259–1273. IEEE, 2022. Tiansheng Yao, Xinyang Yi, Derek Zhiyuan Cheng, Felix Yu, Ting Chen, Aditya Menon, Lichan Hong, Ed H Chi, Steve Tjoa, Jieqi Kang, et al. Self-supervised learning for large-scale item recommendations. In Proceedings of the 30th ACM international conference on information & knowledge management , pages 4321–4330, 2021. Feng Zhu, Yan Wang, Chaochao Chen, Jun Zhou, Longfei Li, and Guanfeng Liu. Cross-domain recommendation: challenges, progress, and prospects. arXiv preprint arXiv:2103.01696 , 2021. 
+
+13

@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2606.01504v1/fig-004.webp",
+      "caption": "Figure 1: Two-stage training pipeline. Stage 1: contrastive fine-tuning of Qwen3-Embedding-4B. Stage 2: Relative Odds Alignment for Retrieval over variablesize graded groups.",
+      "page": 1,
+      "index": 4,
+      "width": 456,
+      "height": 384
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01504v1/fig-003.webp",
+      "caption": "Table 1: Incremental ablation of the proposed retrieval system. Each row adds one modeling, training, or data component to the previous configuration, showing cumulative effects on offline retrieval quality.",
+      "page": 7,
+      "index": 3,
+      "width": 850,
+      "height": 290
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01504v1/fig-002.webp",
+      "caption": "Table 3: Retrieval quality by query frequency. Proposed Model preserves head-query performance while improving sparse and once-only queries.",
+      "page": 7,
+      "index": 2,
+      "width": 654,
+      "height": 186
+    },
+    {
+      "url": "assets/figures/arxiv/2606.01504v1/fig-001.webp",
+      "caption": "Table 4: Retrieval quality across business units. Proposed Model improves both MAP@8 and NDCG@8 consistently across diverse catalog segments.",
+      "page": 7,
+      "index": 1,
+      "width": 650,
+      "height": 248
+    }
+  ]
+}

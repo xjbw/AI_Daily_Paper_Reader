@@ -1,0 +1,78 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-005.webp",
+      "caption": "Figure 1: The general workflow of MetaBBO.",
+      "page": 3,
+      "index": 5,
+      "width": 731,
+      "height": 439
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-008.webp",
+      "caption": "Figure 2: Bagging and boosting surrogate modeling processes.",
+      "page": 8,
+      "index": 8,
+      "width": 606,
+      "height": 541
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-007.webp",
+      "caption": "Figure 3: The workflow of AdaE-SAEA.",
+      "page": 13,
+      "index": 7,
+      "width": 692,
+      "height": 523
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-009.webp",
+      "caption": "Table 1: Reference points used for HV calculation.",
+      "page": 20,
+      "index": 9,
+      "width": 506,
+      "height": 509
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-002.webp",
+      "caption": "Figure 4: Average reward per expensive evaluation.",
+      "page": 21,
+      "index": 2,
+      "width": 624,
+      "height": 344
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-004.webp",
+      "caption": "Table 2: Comparison of HV performance on unseen 30D tasks.",
+      "page": 22,
+      "index": 4,
+      "width": 806,
+      "height": 341
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-006.webp",
+      "caption": "Figure 5: Sensitivity analysis and ablation study of AdaE-SAEA using logarithmic HV ratio (base 2)",
+      "page": 23,
+      "index": 6,
+      "width": 808,
+      "height": 204
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-001.webp",
+      "caption": "Figure 6: Comparison of surrogate modeling strategies",
+      "page": 25,
+      "index": 1,
+      "width": 805,
+      "height": 212
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00862v1/fig-003.webp",
+      "caption": "Table B.3: State definition and explanation",
+      "page": 30,
+      "index": 3,
+      "width": 806,
+      "height": 882
+    }
+  ]
+}

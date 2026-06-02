@@ -1,0 +1,38 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2606.00422v1/fig-001.webp",
+      "caption": "Figure 1: Prior methods unify the architecture but leave input format, training, and serving fragmented. Our approach unifies all four dimensions.",
+      "page": 2,
+      "index": 1,
+      "width": 985,
+      "height": 285
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00422v1/fig-003.webp",
+      "caption": "Figure 2: End-to-end flow of UniPinRec: a single shared backbone is trained jointly on retrieval and ranking objectives, then co-served as two Triton processes that share the user-history KV cache across stages.",
+      "page": 4,
+      "index": 3,
+      "width": 946,
+      "height": 468
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00422v1/fig-004.webp",
+      "caption": "Figure 3: Co-serving topology for UniPinRec. Retrieval and ranking are independent Triton ensemble nodes; an ANN lookup against a CPU-hosted Faiss index sits between them. ANN returns both candidate Pin IDs and their reconstructed item embeddings, sparing the ranking stage a separate embedding fetch. The shared KV pool is reused by ranking.",
+      "page": 5,
+      "index": 4,
+      "width": 976,
+      "height": 368
+    },
+    {
+      "url": "assets/figures/arxiv/2606.00422v1/fig-002.webp",
+      "caption": "Table 2: Eval-time forward latency for a single ranking pass Speedups are relative to the bf16 / SDPA / compile prefill row. “Runtime” controls how the forward is dispatched: eager, torch.compile or cuda graph capture. We use graph for fp8 decode because torch.compile fusion regresses Transformer Engine kernels. Best result in bold, *used in online experiments",
+      "page": 7,
+      "index": 2,
+      "width": 506,
+      "height": 285
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "extractor": "pdffigures2",
+  "figures": [
+    {
+      "url": "assets/figures/arxiv/2605.26671v1/fig-004.webp",
+      "caption": "Figure 2: Overview of the RT-RkNN workflow. The input is separated into a user set and a facility set. Users are modeled as rays, while facilities are used to construct occluders based on the invalid sides of pairwise bisectors. All occluders are embedded as layered triangles in a 3D scene indexed by a BVH. During query processing, each user ray is cast perpendicularly to 𝑥,𝑦-plane. A user is reported as an R𝑘NN result if and only if its ray intersects fewer than 𝑘 occluders.",
+      "page": 4,
+      "index": 4,
+      "width": 1052,
+      "height": 309
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26671v1/fig-005.webp",
+      "caption": "Figure 3: Four occluder construction scenarios.",
+      "page": 5,
+      "index": 5,
+      "width": 444,
+      "height": 333
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26671v1/fig-003.webp",
+      "caption": "Figure 10: Impact of data size on runtime in sparse (|𝐹 | = 100) and default (|𝐹 | = 1000) facility setting.",
+      "page": 10,
+      "index": 3,
+      "width": 497,
+      "height": 491
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26671v1/fig-002.webp",
+      "caption": "Figure 12: Breakdown of filtering and verification time under varying facility cardinality for datasets CAL (|𝑈 | = 10 6) and USA (|𝑈 | = 10 7).",
+      "page": 10,
+      "index": 2,
+      "width": 500,
+      "height": 494
+    },
+    {
+      "url": "assets/figures/arxiv/2605.26671v1/fig-001.webp",
+      "caption": "Figure 14: Breakdown of filtering and verification time under varying user cardinality for the USA dataset in sparse and default facility settings.",
+      "page": 11,
+      "index": 1,
+      "width": 495,
+      "height": 493
+    }
+  ]
+}

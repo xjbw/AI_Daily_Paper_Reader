@@ -1,0 +1,503 @@
+Title: LeAP: Learnable Adaptive Permutation for Feature Selection in Heterogeneous and Sparse Recommender Systems
+
+URL Source: https://arxiv.org/pdf/2606.01111v1
+
+Published Time: Tue, 02 Jun 2026 01:19:49 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# LeAP: Learnable Adaptive Permutation for Feature Selection in Heterogeneous and Sparse Recommender Systems 
+
+Yihong Huang, Chen Chu ⋆, Fei Chen, Yu Lin, Ruiduan Li, and Zhihao Li 
+
+Bilibili Inc., Shanghai, China 
+
+hyh957947142@gmail.com, chuchen.blueblues@gmail.com 
+
+Abstract. Modern industrial recommender systems rely on thousands of heterogeneous features—ranging from low-dimensional scalars (e.g., statistical value) to high-dimensional embeddings (e.g., user-id embed-dings, MLP representations)—to achieve high-precision predictions. Given the immense computational costs associated with training, efficient fea-ture selection is critical. However, existing methods encounter three pri-mary bottlenecks: (1) they typically assume uniform feature dimensions or require costly mapping to a fixed size; (2) they struggle with extreme sparsity, where the majority of features (e.g., 99%+) remain at default values; and (3) traditional permutation-based approaches are computa-tionally prohibitive in large-scale settings. To address these challenges, we propose LeAP (Learnable Adaptive Per-mutation), a novel, model-agnostic plug-in module for feature selection. LeAP transforms the inefficient random permutation process into a learn-able mechanism, significantly accelerating the evaluation of feature im-portance. In addition, we introduce an adaptive regularization strategy tailored for heterogeneous dimensions and extreme sparsity, enabling superior feature importance ranking results across asymmetric input spaces. Experiments on four public recommendation datasets demon-strate that LeAP achieves state-of-the-art performance. Furthermore, LeAP has been deployed in a large-scale industrial search ranking model with over a billion daily requests and a 2TB model parameter scale. In this real-world scenario involving 12,000+ total feature dimensions, LeAP successfully identified and removed over 3,600 redundant dimen-sions without performance degradation, which is 2 to 10 times the ability of compared baseline methods. 
+
+Keywords: Feature Selection · Recommendation system · Automated Machine Learning 
+
+## 1 Introduction 
+
+In modern industrial search [22], advertising [7], and recommendation systems [14, 9], the predictive accuracy of deep learning models heavily relies on massive  
+
+> ⋆
+
+Corresponding author.  
+
+> arXiv:2606.01111v1 [cs.LG] 31 May 2026 2Y. Huang et al.
+
+and complex feature engineering. To accurately capture dynamic user intents and content representations, production models typically process thousands of features. These features exhibit strong dimensional heterogeneity and type diversity [10, 6]: ranging from 1-dimensional continuous scalars (e.g., real-time statistics, numerical features) to vectors spanning tens to hundreds of dimensions (such as user behavior embeddings [27] or MLP-compressed latent representa-tions). Such complexity in the feature space pushes industrial model sizes to the terabyte (TB) level [28], incurring staggering computational and storage costs for both training and online serving. 
+
+Challenge . To alleviate the computational burden and eliminate outdated or redundant information, feature selection [26, 1] has become a critical com-ponent of model optimization. However, existing feature selection methods en-counter significant bottlenecks when deployed in these complex industrial sce-narios. First, most existing approaches are oblivious to the dimensional discrepancy of heterogeneous features. They often assume homogeneous feature dimensions or enforce mapping all features into a unified dimension space [20]. This not only distorts the original information density but also makes it profoundly difficult to fairly evaluate the true contributions of a 1D feature against a 256D feature under the same metric. Second, existing methods are highly unfriendly to sparse features. Because sparse features remain at de-fault states in the vast majority of instances, existing selection mechanisms [5] often misinterpret their "low frequency of activation" as "useless noise," penal-izing or discarding them heavily, thereby severely impairing the representation of long-tail personalized signals. Finally, although methods based on Permutation Feature Importance [8, 23] offer high interpretability and model-agnostic capabilities in evaluating true fea-ture contributions, they suffer from prohibitive computational inefficiency .Traditional permutation methods require sequentially shuffling each feature in isolation and re-executing the forward pass. For ultra-large-scale models with thousands of features, this one-variable-at-a-time permutation paradigm results in an unbearable computational disaster, making it entirely infeasible to in-tegrate into the daily iterations of industrial models that process billion-level requests. 
+
+Method . To break through these dilemmas, we propose LeAP (Learnable Adaptive Permutation) , a model-agnostic, plug-in feature selection mod-ule explicitly tailored for large-scale industrial models. The core breakthrough of LeAP lies in transforming the traditionally discrete and computationally prohibitive permutation evaluation into an end-to-end learnable mecha-nism . During a single forward pass of model training, LeAP employs a dynamic gating network to learn the fusion weights between the original features and their batch-wise permuted noise counterparts. This design thoroughly circum-vents the performance bottleneck of repetitive inference required by traditional permutation methods, drastically reducing the computational complexity from 
+
+O(N × model overhead ) to O(1 × model overhead ). Consequently, LeAP can be Deep Adaptive Feature Selection 3
+
+effortlessly embedded into daily training pipelines handling tens of billions of samples. More crucially, to tackle the notoriously difficult problems of feature het-erogeneity and sparsity in industrial settings, LeAP introduces an innovative Adaptive Regularization based on Permutation Divergence. Specifically, LeAP calculates the L2-norm difference between the original and permuted inputs for each feature in real-time. By applying Exponential Moving Average (EMA) to construct stable statistical bounds, this divergence serves as an adaptive base penalty for the feature’s gating weight. This mechanism exhibits two remarkably elegant desirable properties: (1) Dimensionally Adaptive : For wide features such as 128D or 256D em-beddings, the spatial distance before and after permutation is inherently larger than that of 1D scalars. LeAP adaptively imposes a stronger penalty on high-dimensional features, fundamentally offsetting the unfair advantage they often exploit to "hide" from traditional uniform regularization. (2) Sparsity-Aware : For extremely sparse features where 99% of instances hold default values, the permuted values are highly likely to remain defaults. Consequently, their L2 difference is minimal, and the penalty force shrinks ac-cordingly. This establishes a vital criterion for industrial feature selection: we should not severely penalize a feature simply because it is sparse; it should be discarded only if it is genuinely useless to the predictive objective. Empowered by this adaptive penalty, LeAP not only outputs highly inter-pretable feature importance scores (reflecting the model’s sensitivity to informa-tion loss) but also drives the gating weights to naturally polarize. This polariza-tion implies that redundant features can be directly pruned via straightforward simple thresholding. It eliminates the need for the resource-intensive model re-training typically required by prior methods, allowing for direct online serving with minimal fine-tuning. 
+
+Experimental Results. To comprehensively evaluate the effectiveness of LeAP, we conducted extensive experiments on both public datasets and real-world industrial production environments. On four public recommender system datasets, LeAP significantly outperforms existing mainstream and state-of-the-art feature selection methods, consistently achieving SOTA predictive perfor-mance across varying feature pruning ratios. More importantly, LeAP has been successfully deployed in an industrial search ranking model with billions of daily requests. In actual production, the model’s heterogeneous input features, spanning over 12,000 dimensions, create a severe CPU-to-GPU memory bandwidth bottleneck. Furthermore, since all exist-ing online features have undergone rigorous business validation, performing sec-ondary pruning among these high-value features poses a tremendous challenge. Nevertheless, LeAP exhibits remarkable precision and robustness: in the evalua-tion of feature pruning ROI (Return on Investment), traditional methods suffer significant performance degradation when pruning fewer than 600 dimensions; in contrast, LeAP successfully identifies and eliminates over 30% (3,600+) of the 4 Y. Huang et al. 
+
+redundant dimensions. It successfully resolves the system bandwidth bottleneck while achieving zero degradation (Zero Diff) in core online business metrics. In summary, the primary contributions of this paper are as follows: 
+
+– Engineering Architecture Innovation : We propose LeAP, a model-agnostic feature selection plug-in. It reconstructs the inefficient, discrete feature per-mutation process into an O(1) end-to-end learnable mechanism, thoroughly breaking the computational bottleneck of traditional permutation-based fea-ture evaluation. 
+
+– Algorithmic Theory Breakthrough : We design an Adaptive Regular-ization based on Permutation Divergence . This mechanism mathemat-ically overcomes the evaluation biases introduced by heterogeneous dimen-sions (e.g., 1D vs. 256D) and extremely sparse features, enabling genuinely fair feature selection. 
+
+– Substantial Industrial Deployment Gains : LeAP not only achieves SOTA results on public datasets but also successfully prunes over 30% of fea-ture dimensions in a 2TB-scale real-world search model with zero loss in busi-ness metrics. This provides a highly valuable industrial practice paradigm for feature pruning in ultra-large-scale recommender systems. 
+
+## 2 Related Work 
+
+2.1 Differentiable Mask-based Feature Selection 
+
+Feature selection (FS) is indispensable for mitigating the storage and computa-tional overhead in industrial recommender systems. While traditional statistical and tree-based methods [18, 2, 13, 3] offer interpretability, they are ill-suited for high-dimensional embeddings and cannot be optimized jointly with deep serving models. Recent paradigms have shifted towards differentiable mask-based methods [20, 11, 19, 15], which integrate learnable gates directly into the model architec-ture. For instance, AutoField [20] employs Gumbel-Softmax for feature gating, and LPFS [11] utilizes a smoothed L0 regularization. Despite their success on standard benchmarks, these methods implicitly assume a homogeneous fea-ture space (e.g., assuming all fields are embedded into the same dimension D). When applied to heterogeneous industrial input layers—where dense 1D scalars are concatenated with sparse high-dimensional embeddings—these methods typ-ically apply uniform regularization scales. Consequently, high-dimensional repre-sentations generate disproportionately larger gradients and variance compared to 1D scalars. This imbalance leads to a biased optimization process where critical low-dimensional signals are heavily penalized and prematurely pruned. While Dimension Selection (DS) [25, 24, 21] attempts to assign varying di-mensions to different fields, these approaches typically require initializing all fields into a uniform "super-net" embedding space before pruning. Forcing na-tive 1D statistical features into high-dimensional spaces introduces parameter redundancy and information dilution. In contrast, LeAP operates directly Deep Adaptive Feature Selection 5
+
+on the native heterogeneous concatenation layer , ensuring a balanced importance assessment without distorting the original feature representations. 
+
+2.2 Permutation-based Feature Importance 
+
+Another prevalent paradigm assesses feature importance via Permutation [8, 23]. By measuring the prediction degradation when a specific feature is replaced by random noise across instances, Permutation provides model-agnostic evaluation and clear interpretability. However, applying permutation-based methods in industrial settings reveals two critical limitations. First, they suffer from substantial computational overhead . Standard Permutation and its Taylor-approximated variants, such as SHARK [23], require O(N ) repetitive inference passes and iterative "train-prune-train" cycles. Second, permutation evaluation is inherently biased against extremely sparse features . For features where the vast majority of instances (e.g., >99%) hold default values, shuffling predominantly exchanges default values with other default values. Consequently, the observed performance drop is minimal, causing standard permutation methods to underestimate the true importance of these features and mistakenly prune critical long-tail signals. 
+
+To address the limitations of both aforementioned paradigms, our proposed LeAP serves as a unified plug-in module. It synergizes the 
+
+O(1) efficiency of differentiable mask-based methods with the interpretability of permutation-based approaches. By shifting from standard discrete permutation evaluation to a learnable permutation divergence mechanism, LeAP effectively avoids the pitfalls of both paradigms. It provides a cohesive solution to the challenges of heterogeneous dimensions and extreme sparsity, requiring minimal modifications to the existing model architecture. 
+
+## 3 Methodology 
+
+In this section, we detail the overall architecture and mathematical foundations of LeAP (Learnable Adaptive Permutation) module, as shown in Figure 1. We first introduce the transformation of traditional discrete permutation into an end-to-end learnable gating mechanism in Section 3.1. Subsequently, in Section 3.2, we elaborate on our core innovation for tackling dimensional heterogene-ity and extreme sparsity: Adaptive Regularization via Permutation Divergence. Finally, we provide a theoretical analysis of how this mechanism drives gating polarization (Section 3.3) and discuss the deployment paradigm in real-world production environments (Section 3.4). 
+
+3.1 Learnable Permutation Module 
+
+In deep recommender systems, model inputs typically consist of F feature fields. Due to the diversity of feature types, these features exhibit severe dimensional heterogeneity when mapped into the latent space. Let the representation of the 6 Y. Huang et al. � ∈ ℝ� × �        
+
+> �’(Shuffled Features)
+> sample 1
+> sample 2
+> ....
+> sample B
+> 1−�11−�21−�3
+
+... �1 �2 �                        
+
+> 3
+> 1−��
+> Batch-wise
+> Shuffle
+> d1d2... dF
+> sample 1
+> sample 2
+> ....
+> sample B
+> d1d2... dF
+> sample 1
+> sample 2
+> ....
+> sample B
+> d1d2... dF
+> 2. Learnable Gates
+> 1. I nput Features
+> Model
+> ��
+> �
+> 2
+> . . .
+> �
+> B
+> Task Loss
+> �푡푎  
+> (e.g., BCE)
+> Total Loss
+> �푡표푡푎  =�푡푎   +
+> �=1
+> �
+> ��•��
+> Adaptive Sparsity
+> Regularization
+> �=1
+> �
+> ��•��
+> 3. Gated Features
+> �(Gated Features)
+> Prediction y
+> ��
+> �
+> 2
+> . . .
+> �
+> B
+> Ground Truth y
+> stopgrad
+> �∈[0,1]�
+> ��: Original feature
+
+�, ∈ ℝ� × ��      
+
+> �’�: Batch-wise shuffled feature �(noise)
+> ��: Learnable gate for feature �,∈ [ 0,1]
+> stopgrad: Stop-gradient operator
+
+...          
+
+> �
+> F
+> Core Gating Equation (LeAP Gate)
+> ��=����+ ( 1−��)stopgrad (��
+> ’)
+> Element-wise Multiplication Element-wise Addition
+> Stop-gradient (no gradient flow)
+
+Fig. 1. The overview of LeAP Module. 
+
+i-th feature be denoted as xi ∈ Rdi , where di varies drastically (e.g., di = 1 for scalar statistical features, whereas di = 256 for user behavior sequence features). To evaluate feature importance without requiring multiple forward passes, LeAP introduces a batch-wise learnable permutation mechanism. At each train-ing step, given a mini-batch of size B, we first shuffle the i-th feature xi along the batch dimension to obtain its noise counterpart x′
+
+i. This shuffling operation not only breaks the correlation between the feature and the target label but also perfectly preserves the feature’s original marginal distribution and sparsity pattern. Algorithm 1 illustrates an implementation. Next, we introduce a feature-specific learnable gating variable gi ∈ (0 , 1) 
+
+to control the information fusion between the original and shuffled features. To ensure end-to-end differentiability, we parameterize it using a temperature-scaled Sigmoid function: 
+
+gi = σ
+
+ θi
+
+τ
+
+
+
+= 11 + exp( −θi/τ )
+
+where θi ∈ R is the learnable parameter tied to the i-th feature, and τ is the temperature hyperparameter controlling the smoothness. The fused output feature ˜xi can be expressed as a convex combination of the original and shuffled features x′
+
+i. To ensure the gradients only update the gating weights and do not propagate through the noise to disrupt upstream layers, we apply a stop-gradient operation sg (·) to the shuffled feature: 
+
+˜xi = gi · xi + (1 − gi) · sg (x′
+
+i)
+
+Interpretation: Under this formulation, gi intuitively reflects the model’s reliance on the original feature. As gi → 1, the model fully utilizes the genuine feature; as gi → 0, the model tends to rely on the permuted pure noise. If Deep Adaptive Feature Selection 7
+
+a feature is redundant, replacing it with noise will not degrade the model’s predictive performance. 
+
+Algorithm 1: Batch Shuffling 
+
+Input: X ∈ RB×D : Input tensor within a batch, D = P di
+
+F = {(s1, e 1), ..., (sF , e F )}: Feature dimension ranges 
+
+Output: X′ ∈ RB×D : Shuffled tensor  
+
+> 1
+
+X′ ← 0B×D ; // Initialize output tensor  
+
+> 2
+
+for (si, e i) ∈ F do  
+
+> 3
+
+πi ← RandomPermutation (B) 
+
+> 4
+
+X′:,s i:ei ← X:,s i:ei [πi, :] ; // Apply shuffling  
+
+> 5
+
+end  
+
+> 6
+
+return X′
+
+3.2 Adaptive Regularization via Permutation Divergence 
+
+In standard gated feature selection methods [5, 16, 24, 11], a uniform penalty (e.g., λ P gi) is typically applied to all gating variables to encourage sparsity. However, when applied directly to the heterogeneous and sparse feature lay-ers in industrial settings, this uniform penalty induces severe evaluation unfair-ness. High-dimensional features, due to their larger parameter volume, naturally generate greater gradient fluctuations than 1D features. Conversely, extremely sparse features (which are predominantly zero) produce weak gradients, making them highly susceptible to being mistakenly pruned by a uniform regularization term. To address this critical limitation, LeAP discards the static uniform penalty and innovatively proposes a data-aware adaptive regularization mecha-nism . We argue that the penalization strength on a feature should not be based on its predefined dimensionality, but rather on the magnitude of information perturbation induced by its permutation. Specifically, within each mini-batch, we calculate the L2-norm difference (Per-mutation Divergence) between the original feature xi and its shuffled version x′
+
+> i
+
+:
+
+∆i = 1
+
+B
+
+> B
+
+X
+
+> b=1
+
+∥x(b) 
+
+> i
+
+− x′(b) 
+
+> i
+
+∥2
+
+To mitigate data variance across batches and establish a stable statistical bound, we employ an Exponential Moving Average (EMA) to smooth this di-vergence throughout the training process: 
+
+¯∆(t) 
+
+> i
+
+= β · ¯∆(t−1)  
+
+> i
+
++ (1 − β) · ∆(t)
+
+> i
+
+where β ∈ [0 , 1) is the momentum coefficient, and t denotes the training step. Additionally, to identify constant features, we apply appropriate clipping to ¯∆i.8 Y. Huang et al. 
+
+Based on this stable permutation divergence, we formulate the adaptive reg-ularization weight λi for feature i:
+
+λi = α · ¯∆i
+
+where α is a global hyperparameter controlling the overall feature sparsity. Fi-nally, the end-to-end optimization objective (Total Loss) of LeAP is defined as the sum of the task loss and the adaptive regularization term: 
+
+Ltotal = Ltask +
+
+> F
+
+X
+
+> i=1
+
+λi · gi
+
+This highly streamlined mathematical design simultaneously resolves two major industrial pain points: 1. Inherent Dimensional Normalization : The L2 divergence ¯∆i of a shuffled 128D embedding is intrinsically much larger than that of a 1D scalar. Consequently, high-dimensional features automatically incur a larger penalty λi.This adaptive reweighting fundamentally counteracts the tendency of ineffective parameters in high-dimensional spaces to evade penalization, ensuring fair com-petition across varying dimensions. 2. Perfect Tolerance for Sparsity : For extremely sparse features where 99% of instances hold default values, the shuffling process highly likely swaps default values with other default values. In this scenario, the L2 divergence 
+
+¯∆i → 0, resulting in a negligible regularization penalty λi. This guarantees that sparse features are not mistakenly pruned simply due to their "low frequency of occurrence"; they are gradually phased out only if they contribute genuinely nothing to the predictive objective Ltask .
+
+3.3 Theoretical Analysis 
+
+Existing gating methods [20, 19] often produce ambiguous feature importance scores. In contrast, the core advantage of LeAP lies in its ability to drive gating scores to naturally polarize towards 0 or 1. We provide a theoretical justification for this phenomenon from the perspectives of gradient decoupling and convex optimization. 
+
+1. Gradient Decoupling and Scale Alignment. Recall the fusion formula-tion ˜xi = gi · xi + (1 − gi) · x′
+
+> i
+
+. The gradient of the expected task loss J(gi) = 
+
+E[Ltask ] with respect to the gate gi can be decoupled via the chain rule: 
+
+∂J (gi)
+
+∂g i
+
+= E
+
+ ∂Ltask 
+
+∂ ˜xi
+
+T
+
+| {z } 
+
+> Sensitivity Si
+
+· (xi − x′
+
+> i
+
+)
+
+| {z }
+
+> Permutation Divergence
+
+
+
+This equation reveals that the magnitude of the task gradient is naturally proportional to the permutation divergence ∥xi − x′
+
+> i
+
+∥2. Therefore, by setting Deep Adaptive Feature Selection 9
+
+the adaptive penalty to λi = α · ¯∆i, LeAP mathematically achieves an effec-tive scale alignment between the regularization term and the task gradient. This alignment effectively resolves the evaluation bias that high-dimensional and ex-tremely sparse features encounter under uniform penalties. 
+
+2. Polarized Gate Guarantee. Based on the aligned total objective function 
+
+Jtotal (gi) = J(gi) + λigi, the total gradient is given by ∂Jtotal  
+
+> ∂g i
+
+= ∂J (gi) 
+
+> ∂g i
+
++ λi. We demonstrate that genuinely useful features are guaranteed to polarize towards 1. 
+
+Theorem 1. Assume the expected task loss J(gi) is convex. Let ∆J =
+
+J(0) − J(1) denote the loss increment after shuffling the feature (i.e., the signal strength). If ∆J > λ i, the total gradient is negative, and the gate gi will be driven towards 1. Proof. Based on the first-order properties of convex functions, the function curve lies below the chord connecting its endpoints, meaning J(gi) ≤ giJ(1) + (1 − gi)J(0) . Rearranging this inequality and taking the partial derivative yields an upper bound for the task gradient: 
+
+∂J (gi)
+
+∂g i
+
+≤ J(1) − J(0) = −∆J 
+
+Substituting this into the total gradient formulation gives: 
+
+∂Jtotal 
+
+∂g i
+
+≤ − ∆J + λi
+
+Given the assumption that the valid feature’s signal strength satisfies ∆J > λi, we have ∂Jtotal  
+
+> ∂g i
+
+< 0. The optimizer will thus continuously increase gi until it reaches the upper bound of 1. 
+
+Corollary. Conversely, if a feature is redundant, shuffling it does not impact the prediction, resulting in ∆J ≈ 0. The total gradient then degenerates to ≈
+
+λi > 0. The regularization term dominates the optimization, rapidly suppressing the gate gi towards 0. 
+
+3.4 Practical Deployment in Industrial Systems 
+
+To meet the stringent iteration and latency requirements of large-scale indus-trial recommender systems, LeAP adopts a highly decoupled plug-in deployment paradigm. In real-world production environments, the pipeline consists of three streamlined steps: 
+
+1. Plug-in & Evaluation. Extract the online model and insert the LeAP mod-ule immediately after the feature concatenation layer. The model then iterates normally using the online data stream, accumulating the EMA statistics and updating the gating variables. 
+
+2. Hard Pruning via Thresholding. Thanks to the polarization property, the converged gates gi exhibit strong discriminability. Once the evaluation phase concludes, feature pruning can be executed directly using two strategies: 10 Y. Huang et al. 
+
+– Absolute Thresholding: Set a fixed threshold (e.g., τ = 0 .5) and directly discard all features where gi < τ .
+
+– Proportional Ranking: When facing strict system bandwidth reduction constraints, sort the features in descending order of their gi scores and retain only the Top-K proportion. 
+
+3. Fine-tuning & Serving. After removing the redundant features and the LeAP module itself, the model only requires fine-tuning on the small fraction of training data to convergence. 
+
+## 4 Experiments 
+
+In this section, we comprehensively evaluate the effectiveness and engineering value of LeAP through extensive offline evaluations on public datasets and a large-scale industrial deployment. Our experiments are designed to answer the following core research questions: 
+
+– RQ1 (Basic Efficacy): On homogeneously dimensioned public datasets, can the fundamental mechanism of LeAP outperform existing state-of-the-art (SOTA) feature selection methods? 
+
+– RQ2 (Mechanism Polarization): Does LeAP genuinely generate highly polarized gating scores with clear physical interpretations, as theoretically proven? 
+
+– RQ3 (Industrial Deployment & Ablation): In real-world industrial scenarios characterized by extreme dimensional heterogeneity and sparsity, what is the Return on Investment (ROI) of LeAP? Our code is available at https://github.com/goldenNormal/LeAP. 
+
+4.1 Experimental Setup Datasets: – Public Datasets: We utilize four widely adopted benchmark datasets [12] in the recommender system domain: Avazu 1, Criteo 2, MovieLens-1M (ML-1M) 3, and AliCCP 4. The feature dimensions of these datasets have been set to a uniform size. 
+
+– Industrial Dataset: This dataset is collected from real-world search, im-pression, click and interaction logs of a long-video platform with over a bil-lion daily requests. The model incorporates more than 500 validated feature fields, resulting in a concatenated representation exceeding 12,000 dimen-sions. The feature dimensions vary drastically, ranging from 1D (e.g., statis-tical features) to 256D (e.g., aggregated behavioral sequence embeddings), and include a substantial number of extremely sparse features.                       
+
+> 1https://www.kaggle.com/competitions/avazu-ctr-prediction
+> 2https://ailab.criteo.com/ressources/
+> 3https://grouplens.org/datasets/movielens/1m/
+> 4https://tianchi.aliyun.com/dataset/408 Deep Adaptive Feature Selection 11
+> Table 1. Dataset statistics.
+> Dataset Avazu Criteo ML-1M AliCCP Samples 40,428,967 45,850,617 1,000,209 85,316,519
+> Label Click Click Rating (1-5) Click
+> Fields 23 39 923
+
+Baselines: We select seven representative feature selection methods as baselines, categorized as follows: (1) Heuristic: Lasso [18], Random Forest [2] (RF), XG-Boost [3]. (2) Mask-based: AutoField [20], LPFS [11], SFS [19]. (3) Permutation-based: SHARK [23] (an industry-recognized efficient variant of permutation). Since the public datasets possess homogeneous feature dimensions, we deploy the base version of LeAP (without adaptive regularization) in Section 4.2 to solely validate the superiority of its native learnable permutation mechanism. 
+
+Evaluation Metrics: For public datasets, we employ AUC and the cross-dataset aggregated metric, Normalized AUC [17] ( SAUC ): 
+
+SAUC (A) = 1
+
+|Γ |
+
+X
+
+> D∈ Γ
+
+AUC (A, D)max A′∈A AUC (A′, D) (1) For offline evaluation in the industrial scenario, we use Group AUC for CTR prediction to reflect core predictive capability. For online deployment, we conduct strict A/B testing to observe core business metrics (e.g., video views, interactions and watch time). 
+
+4.2 Offline Evaluation on Public Datasets 
+
+Following the standard "Search-Retrain" two-stage evaluation protocol [12], we test all methods using WideDeep [4] as the backbone network. Table 2 presents the retraining performance at target Feature Retention (FR) ratios of 50% and 25%. 
+
+1. Overall Dominance: Under both high compression rates of 50% and 25%, LeAP consistently achieves the highest SAUC , which demonstrates its effective-ness in feature selection. 
+
+2. Overcoming the "Weight Equals Importance" Assumption (Vs. Mask-based): Methods like AutoField and LPFS operate on the assumption that "smaller gating weights imply less important features." However, in deep non-linear networks, features with small weights can trigger substantial "butter-fly effects." LeAP discards weight magnitude in favor of measuring sensitivity to information loss. Consequently, it outperforms all mask-based methods by a significant margin on the complex Criteo and AliCCP datasets. 
+
+3. Joint Optimization vs. Greedy Search (Vs. Permutation): While both LeAP and SHARK are sensitivity-based methods, LeAP exhibits slightly supe-rior performance. This is because SHARK employs a greedy, one-by-one feature elimination strategy, which often overlooks feature coupling effects. In contrast, 12 Y. Huang et al. 
+
+Table 2. Feature Selection and Retrain AUC Results. Best results are highlighted in 
+
+red . On ML-1M, all top-performing methods converged to the same feature subset, resulting in identical retrained AUC. 
+
+Ratio (FR) Method Criteo Avazu AliCCP ML-1M SAUC 
+
+50% 
+
+No_Select 0.8014 0.7882 0.6598 0.7950 0.9954 Lasso 0.7462 0.7088 0.6054 0.6484 0.8872 XGBoost 0.7682 0.7412 0.6499 0.8097 0.9710 RF 0.7921 0.7869 0.6549 0.7924 0.9895 SHARK 0.7974 0.7870 0.6582 0.8097 0.9977 LPFS 0.7944 0.7728 0.6554 0.8097 0.9913 SFS 0.7969 0.7827 0.6579 0.7946 0.9915 AutoField 0.7974 0.7869 0.6567 0.8077 0.9965 
+
+LeAP (Ours) 0.7984 0.7870 0.6583 0.8097 0.9981 25% 
+
+No_Select 0.8014 0.7882 0.6598 0.7950 0.9960 Lasso 0.7003 0.6016 0.5804 0.5286 0.7928 XGBoost 0.7157 0.7091 0.5869 0.7338 0.8977 RF 0.7626 0.7637 0.6032 0.6946 0.9237 SHARK 0.7717 0.7723 0.6461 0.8078 0.9805 LPFS 0.7609 0.7714 0.6423 0.8078 0.9754 SFS 0.7569 0.7685 0.6452 0.8078 0.9733 AutoField 0.7738 0.7692 0.6485 0.8068 0.9808 
+
+LeAP (Ours) 0.7841 0.7723 0.6489 0.8078 0.9854 
+
+LeAP jointly optimizes all gates during a single forward pass, effectively captur-ing global feature importance. 
+
+4.3 Mechanism Analysis: Polarization 
+
+As theoretically analyzed in Section 3.3, LeAP’s regularization design explicitly drives gating scores to polarize towards 0 or 1. To verify whether this polariza-tion accurately reflects the genuine predictive utility of features, we conduct a stepwise validation on the MovieLens-1M dataset. As shown in Table 3, we partition the features into a "Retained Zone" ( gi >
+
+0.5) and a "Suppressed Zone" ( gi ≈ 0) based on the converged gating scores gi.The validation is divided into two phases: first, we incrementally construct the model using features from the Retained Zone (Steps 1-3) to observe performance gains; second, we individually introduce features from the Suppressed Zone into the peak-performance model (Steps 4-9) to assess their redundancy. 
+
+Results Analysis: – Retention of Weak Signals: Although the score for Genres (0.757) is lower than primary features, its inclusion lifts the AUC by 0.0032. This Deep Adaptive Feature Selection 13 
+
+Table 3. Stepwise Validation of the LeAP’s feature importances (on MovieLens-1M)                                                       
+
+> Step Feature Set Gate Score Val AUC ∆AUC Utility Analysis
+> Part 1: Constructing with Retained Zone Features (High Gate > 0.5)
+> 1[Title] 0.995 0.7336 -Strong predictive signal 2+ User_ID 0.941 0.8073 +0.0737 Strong predictive signal 3+ Genres (Peak Model) 0.757 0.8105 +0.0032 Weak signal retention
+> Part 2: Validating Suppressed Zone Features (Base = Peak Model + Single Suppressed Feature)
+> 4+ Movie_ID ≈0.00.8099 -0.0006 Conditional redundancy 5+ Zip ≈0.00.8105 0.0000 No significant impact 6+ Age ≈0.00.8106 +0.0001 No significant impact 7+ Occupation ≈0.00.8106 +0.0001 No significant impact 8+ Gender ≈0.00.8107 +0.0002 No significant impact 9+ Timestamp ≈0.00.7938 -0.0167 Harmful noise
+
+indicates LeAP effectively identifies and retains weak signals beneficial for generalization, rather than merely filtering out low-weight features. 
+
+– Filtering Conditional Redundancy: Movie_ID is informative when used alone; however, introducing it when Title is already known slightly degrades performance (-0.0006). LeAP assigns it a gate score near 0, accurately cap-turing the co-linearity and redundancy between these features. 
+
+– Noise Suppression: Features in Steps 5-8 contribute negligibly to per-formance; retaining them only inflates the model size. Notably, introducing 
+
+Timestamp causes a significant AUC drop (-0.0167). LeAP successfully trun-cates such noise features that induce overfitting, proving the reliability of the polarization mechanism in streamlining the feature space. 
+
+4.4 Industrial Deployment & Ablation Study 
+
+In the real-world industrial system, the search ranking model utilizes a concate-nated feature representation exceeding 12,000 dimensions. This massive input tensor incurs significant CPU-GPU communication bandwidth overhead during both training and inference. To reduce dimensionality without compromising predictive performance, we compare the Return on Investment (ROI: pruned dimensions vs. GAUC difference) of different baselines. 
+
+Experimental Setup: Because the industrial model contains over 500 feature fields, traditional Permutation methods require an equivalent number of inde-pendent, full-model inferences. Constrained by computational bottlenecks, we evaluate the Permutation method only on a 1% uniformly sampled subset of the data. In contrast, thanks to their O(1) computational complexity, both LeAP and its ablated version without adaptive regularization ( LeAP-Base ) complete the feature importance search on the full training dataset. Remarkably, the to-tal time for LeAP on the full dataset is even less than that required by the traditional Permutation method to process the 1% sampled subset. 
+
+Results and Ablation Analysis: 14 Y. Huang et al.                                                            
+
+> Table 4. Industrial Feature Pruning ROI and Ablation Analysis (Offline CTR GAUC Diff). 10 −3is usually considered as a significant difference for our metric.
+> Pruned Dims %Permutation LeAP-Base ( w/o Adaptive Reg.) LeAP
+> ∼500 ∼4% -1×10 −4No Diff No Diff
+> ∼1900 ∼15% -3×10 −3-2×10 −4No Diff
+> ∼2500 ∼20% N/A -1×10 −3No Diff
+> ∼3600 ∼30% N/A -2×10 −2No Diff
+> ∼4300 ∼35% N/A N/A -2×10 −4
+> ∼5100 ∼40% N/A N/A -3×10 −4
+> ∼6400 ∼50% N/A N/A -1×10 −3
+
+– Impact of Training Efficiency and Data Scale: Comparing Permuta-tion with LeAP-Base, the former suffers a performance drop of 3 × 10 −3
+
+when pruning 1,900 dimensions due to severe downsampling. Conversely, LeAP-Base, leveraging joint optimization on the full dataset, experiences a negligible drop of only 2 × 10 −4 at the same pruning ratio. This highlights the substantial engineering advantage of end-to-end learning mechanisms on massive data scales. 
+
+– Necessity of Adaptive Regularization (Ablation): Table 4 shows that LeAP-Base (without adaptive regularization) suffers a severe GAUC degra-dation of 2 × 10 −2 when pruning over 3,600 dimensions. This confirms that uniform regularization heavily over-penalizes high-dimensional and sparse features in heterogeneous spaces. In contrast, the complete LeAP maintains consistent performance at the same pruning ratio. Even under an aggressive setting of pruning 50% of the dimensions, the performance drop is strictly bounded to around 1 × 10 −3, demonstrating vastly superior robustness. 
+
+Online A/B Testing: Based on the offline ROI evaluation, we deployed the strategy of pruning over 3,600 feature dimensions to the online serving system. After removing the corresponding network structures and performing lightweight fine-tuning, multi-week online A/B testing revealed that LeAP successfully alle-viated memory bandwidth pressure while maintaining completely stable ( Neu-tral ) core business metrics. This validates the tremendous practical utility of LeAP in ultra-large-scale, complex industrial applications. 
+
+## 5 Conclusion 
+
+This paper presents LeAP, a plug-in module that transforms the inefficient ran-dom permutation process into a learnable mechanism. By introducing Adaptive Regularization based on permutation divergence, LeAP successfully aligns the penalty scale with the task gradient, effectively resolving long-standing evalua-tion biases in heterogeneous and sparse industrial feature spaces. Experimental results on four public benchmarks demonstrate that LeAP con-sistently achieves state-of-the-art performance. Furthermore, its deployment in Deep Adaptive Feature Selection 15 
+
+a billion-requests production system proves its practical efficacy: LeAP success-fully pruned over 30% (3,600+) of input dimensions with zero degradation in business metrics. LeAP offers a scalable and interpretable solution for optimiz-ing next-generation, massive-scale recommender systems. 
+
+## References 
+
+1. Bolón-Canedo, V., Sánchez-Maroño, N., Alonso-Betanzos, A.: A review of feature selection methods on synthetic data. Knowledge and information systems 34 , 483– 519 (2013) 2. Breiman, L.: Random forests. Machine learning 45 , 5–32 (2001) 3. Chen, T., Guestrin, C.: Xgboost: A scalable tree boosting system. In: Proceedings of the 22nd acm sigkdd international conference on knowledge discovery and data mining. pp. 785–794 (2016) 4. Cheng, H.T., Koc, L., Harmsen, J., Shaked, T., Chandra, T., Aradhye, H., Anderson, G., Corrado, G., Chai, W., Ispir, M., Anil, R., Haque, Z., Hong, L., Jain, V., Liu, X., Shah, H.: Wide & deep learning for recommender systems. In: Proceedings of the 1st Workshop on Deep Learning for Rec-ommender Systems. p. 7–10. DLRS 2016, Association for Computing Ma-chinery, New York, NY, USA (2016). https://doi.org/10.1145/2988450.2988454, https://doi.org/10.1145/2988450.2988454 5. Cherepanova, V., Levin, R., Somepalli, G., Geiping, J., Bruss, C., Wilson, A., Gold-stein, T., Goldblum, M.: A performance-driven benchmark for feature selection in tabular deep learning. In: NeurIPS 2023 Second Table Representation Learning Workshop (2023) 6. Covington, P., Adams, J., Sargin, E.: Deep neural networks for youtube recommen-dations. In: Proceedings of the 10th ACM conference on recommender systems. pp. 191–198 (2016) 7. Du, C., Gao, Z., Yuan, S., Gao, L., Li, Z., Zeng, Y., Zhu, X., Xu, J., Gai, K., Lee, K.C.: Exploration in online advertising systems with deep uncertainty-aware learning. In: Proceedings of the 27th ACM SIGKDD Conference on Knowledge Discovery & Data Mining. pp. 2792–2801 (2021) 8. Fisher, A., Rudin, C., Dominici, F.: All models are wrong, but many are useful: Learning a variable’s importance by studying an entire class of prediction models simultaneously. Journal of machine learning research: JMLR 20 (2019) 9. Gomez-Uribe, C.A., Hunt, N.: The netflix recommender system: Algorithms, busi-ness value, and innovation. ACM Transactions on Management Information Sys-tems (TMIS) 6(4), 1–19 (2015) 10. Gu, Y., Ding, Z., Wang, S., Zou, L., Liu, Y., Yin, D.: Deep multifaceted transform-ers for multi-objective ranking in large-scale e-commerce recommender systems. In: Proceedings of the 29th ACM international conference on information & knowledge management. pp. 2493–2500 (2020) 11. Guo, Y., Liu, Z., Tan, J., Liao, C., Chang, D., Liu, Q., Yang, S., Liu, J., Kong, D., Chen, Z., et al.: Lpfs: Learnable polarizing feature selection for click-through rate prediction. arXiv preprint arXiv:2206.00267 (2022) 12. Jia, P., Wang, Y., Du, Z., Zhao, X., Wang, Y., Chen, B., Wang, W., Guo, H., Tang, R.: Erase: Benchmarking feature selection methods for deep recommender systems. In: Proceedings of the 30th ACM SIGKDD Conference on Knowledge Discovery and Data Mining. pp. 5194–5205 (2024) 16 Y. Huang et al. 13. Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., Liu, T.Y.: Lightgbm: A highly efficient gradient boosting decision tree. Advances in neural information processing systems 30 , 3146–3154 (2017) 14. Ko, H., Lee, S., Park, Y., Choi, A.: A survey of recommendation systems: rec-ommendation models, techniques, and application fields. Electronics 11 (1), 141 (2022) 15. Lyu, F., Tang, X., Liu, D., Chen, L., He, X., Liu, X.: Optimizing feature set for click-through rate prediction. In: Proceedings of the ACM Web Conference 2023. pp. 3386–3395 (2023) 16. Shi, Y., Miao, J., Wang, Z., Zhang, P., Niu, L.: Feature selection with regulariza-tion. IEEE transactions on neural networks and learning systems 29 (10), 4967– 4982 (2018) 17. Song, H., Li, P., Liu, H.: Deep clustering based fair outlier detection (2021), https://arxiv.org/abs/2106.05127 18. Tibshirani, R.: Regression shrinkage and selection via the lasso. Journal of the Royal Statistical Society: Series B (Methodological) (1996) 19. Wang, Y., Du, Z., Zhao, X., Chen, B., Guo, H., Tang, R., Dong, Z.: Single-shot feature selection for multi-task recommendations. In: Proceedings of the 46th In-ternational ACM SIGIR Conference on Research and Development in Information Retrieval. pp. 341–351 (2023) 20. Wang, Y., Zhao, X., Xu, T., Wu, X.: Autofield: Automating feature selection in deep recommender systems. In: Proceedings of the ACM Web Conference (2022) 21. Yao, Y., Liu, B., He, H., Sheng, D., Wang, K., Xiao, L., Cao, H.: I-razor: A differentiable neural input razor for feature selection and dimension search in dnn-based recommender systems. IEEE Transactions on Knowledge and Data Engineering 36 (9) (2024). https://doi.org/10.1109/tkde.2023.3332671, http://dx.doi.org/10.1109/TKDE.2023.3332671 22. Yin, D., Hu, Y., Tang, J., Daly, T., Zhou, M., Ouyang, H., Chen, J., Kang, C., Deng, H., Nobata, C., et al.: Ranking relevance in yahoo search. In: Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining. pp. 323–332 (2016) 23. Zhang, B., Sun, C., Tan, J., Cai, X., Zhao, J., Miao, M., Yin, K., Song, C., Mou, N., Song, Y.: Shark: A lightweight model compression approach for large-scale recommender systems. In: Proceedings of the 32nd ACM International Conference on Information and Knowledge Management. CIKM ’23 (2023) 24. Zhao, M., Jiang, L., Yu, Y., Wang, X., Yuan, Y., Wei, Z., Niu, D.: Dimreg: Embed-ding dimension search via regularization for recommender systems. In: Proceedings of the 2024 SIAM International Conference on Data Mining (SDM). pp. 562–570. SIAM (2024) 25. Zhao, X., Liu, H., Liu, H., Tang, J., Guo, W., Shi, J., Wang, S., Gao, H., Long, B.: Autodim: Field-aware embedding dimension searchin recommender systems. In: Proceedings of the Web Conference 2021 (2021) 26. Zheng, R., Qu, L., Cui, B., Shi, Y., Yin, H.: Automl for deep recommender systems: A survey. ACM Transactions on Information Systems 41 (4), 1–38 (2023) 27. Zhou, G., Zhu, X., Song, C., Fan, Y., Zhu, H., Ma, X., Yan, Y., Jin, J., Li, H., Gai, K.: Deep interest network for click-through rate prediction. In: Proceedings of the 24th ACM SIGKDD international conference on knowledge discovery & data mining. pp. 1059–1068 (2018) 28. Zhu, J., Fan, Z., Zhu, X., Jiang, Y., Wang, H., Han, X., Ding, H., Wang, X., Zhao, W., Gong, Z., et al.: Rankmixer: Scaling up ranking models in industrial Deep Adaptive Feature Selection 17 recommenders. In: Proceedings of the 34th ACM International Conference on In-formation and Knowledge Management. pp. 6309–6316 (2025)

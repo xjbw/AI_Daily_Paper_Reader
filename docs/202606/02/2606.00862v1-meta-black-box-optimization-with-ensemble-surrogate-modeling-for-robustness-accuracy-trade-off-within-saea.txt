@@ -1,0 +1,1265 @@
+Title: Meta-Black-Box Optimization with Ensemble Surrogate Modeling for Robustness-Accuracy Trade-off within SAEA
+
+URL Source: https://arxiv.org/pdf/2606.00862v1
+
+Published Time: Tue, 02 Jun 2026 01:34:27 GMT
+
+Number of Pages: 40
+
+Markdown Content:
+## Meta-Black-Box Optimization with Ensemble Surrogate Modeling for Robustness–Accuracy Trade-off within SAEA 
+
+Xiao Jin a, Yongxiong Wang* a, Haobo Liu b, Yudong Du c, Yukun Du* b
+
+> aSchool of Optical-Electrical and Computer Engineering, University of Shanghai for Science and Technology, 200093, Shanghai, China
+> bCollege of System Engineering, National University of Defense Technology, 410073, Changsha, China
+> cXinxiang University, 453003, Xinxiang, China
+
+Abstract 
+
+Surrogate-Assisted Evolutionary Algorithms (SAEAs) have been widely used for expensive black-box optimization problems. However, their reliance on rigid and manually designed components limits flexibility and generalization across tasks. Meta-Black-Box Optimization (MetaBBO) provides a promis-ing solution by adaptively configuring algorithmic components. Yet, exist-ing MetaBBO approaches typically control only a single component, and few studies address the unified control of multi-component optimizers like SAEA. Moreover, current research rarely considers the robustness–accuracy trade-off in surrogate modeling, which is essential for stable early exploration and accurate late-stage exploitation. To address these issues, we propose AdaE-SAEA (Adaptive Ensemble Surrogate-Assisted Evolutionary Algorithm) for expensive multi-objective optimization. AdaE-SAEA integrates SAEA as the low-level optimizer within the MetaBBO framework and jointly controls both the infill criterion and ensemble-based surrogate modeling. Bagging and boosting are designed as surrogate modeling modules to adaptively balance robustness and accuracy during different search phases, while the meta-policy simultaneously controls the infill criterion to ensure adaptive sampling de-cisions. The meta-policy is trained via reinforcement learning with parallel sampling and centralized training for improved efficiency and transferability. Experiments on synthetic and real-world problems show that AdaE-SAEA outperforms state-of-the-art baselines and MetaBBO-based methods. Addi-tionally, we demonstrate the effectiveness of TabPFN as the base surrogate 
+
+> arXiv:2606.00862v1 [cs.NE] 30 May 2026
+
+model for ensemble learning. To the best of our knowledge, this is the first work to unify the control of surrogate modeling and infill criteria in SAEA while explicitly addressing the robustness–accuracy trade-off. 
+
+Keywords: Meta-Black-Box Optimization, Surrogate-Assisted Evolutionary, Robustness–Accuracy Trade-off, Ensemble Learning 
+
+1. Introduction 
+
+In modern science and engineering design, many practical problems can-not be accurately described by explicit analytical expressions and can only be evaluated through expensive simulations or physical experiments. These problems are commonly categorized as Black-Box Optimization (BBO) prob-lems [1, 2, 3]. As the complexity and dimensionality of optimization tasks continue to grow, relying solely on direct evaluations of the true objec-tive function becomes prohibitively expensive. To address this challenge, surrogate-assisted evolutionary algorithms (SAEAs) have emerged as an ef-fective class of methods for solving complex optimization problems. By con-structing efficient surrogate models to approximate the true objective func-tion, SAEAs enable efficient global search while significantly reducing the number of costly evaluations [4]. This approach has demonstrated remark-able performance across a wide range of domains, including engineering de-sign [5], hyperparameter tuning [6], and control system optimization [7, 8]. However, although SAEAs have shown outstanding effectiveness in improv-ing optimization efficiency, existing frameworks still rely heavily on rigid, manually crafted components, such as fixed infill criterion design and evolu-tionary strategy configuration. This reliance on predefined structures greatly restricts the flexibility of the algorithm, making it difficult to adapt dynami-cally to task-specific characteristics and the evolving requirements of different search phases [9]. Consequently, traditional SAEA methods often lack suffi-cient transferability and adaptability when faced with diverse optimization tasks and varying search demands [10, 11]. To overcome the limited flexibility and adaptability of conventional SAEA component design, Meta-Black-Box Optimization (MetaBBO) offers a promis-ing solution. As illustrated in Figure 1, MetaBBO adopts a bi-level opti-mization framework [3]. At the meta level, a control policy (often realized through a neural network) adaptively determines algorithm configurations for the lower-level BBO optimizer based on its current search state, which 2Optimization Status 
+
+Low -level BBO Process 
+
+> Dynamic
+> Configuration
+
+Meta -level Algorithm Design Task    
+
+> output profile
+> Meta -Performance
+> Aggregated
+> Meta -Objective
+> input meta -train
+> Problem Target BBO Method
+> Low -level Optimizer
+> Problem Target BBO Method
+> Low -level Optimizer
+> accumulate
+> Meta -Policy
+> Landscape Analysis
+> Optimization Status
+
+Low -level BBO Process 
+
+> Dynamic
+> Configuration
+
+Meta -level Algorithm Design Task    
+
+> output profile
+> Meta -Performance
+> Aggregated
+> Meta -Objective
+> input meta -train
+> Problem Target BBO Method
+> Low -level Optimizer
+> Problem Target BBO Method
+> Low -level Optimizer
+> accumulate
+> Meta -Policy
+> Landscape Analysis
+
+Figure 1: The general workflow of MetaBBO. 
+
+is characterized using Exploratory Landscape Analysis (ELA) [12]. Once the configuration is applied, the lower-level optimizer solves the target prob-lem and provides performance feedback to the meta controller. The goal of MetaBBO is to meta-learn a policy that maximizes cumulative performance gains over a distribution of tasks [13, 14]. By integrating this meta-level decision process, MetaBBO allows adaptive orchestration of SAEA compo-nents, including surrogate models, infill criteria, and evolutionary operators, in a manner that depends on both the task and the optimization phase. This dynamic control significantly enhances the algorithm’s generalization ability, transferability, and robustness, enabling it to sustain efficient search performance across complex and evolving optimization scenarios [15]. Despite the growing interest in MetaBBO, most existing frameworks still adopt traditional evolutionary algorithms as their low-level optimizers. Ex-isting examples include DE-DDQN [16], which focuses on mutation opera-tor selection in differential evolution; RLLPSO [17], which adaptively ad-justs the number of performance levels in the particle swarm population; and HHRL-MAR [18], which dynamically switches swarm intelligence opti-mizers during the search process via a Q-table-based reinforcement learning agent. In contrast, only a limited number of studies have explored using SAEA as the low-level optimizer, and these works still face substantial limi-3tations. This is mainly because SAEA involves multiple interacting compo-nents, making comprehensive and fine-grained control challenging. For in-stance, DRL-SAEA [19] provides three candidate surrogate modeling schemes but only controls the selection of surrogate models, leaving other crucial com-ponents—such as infill criterion and evolutionary strategy—untouched. As a result, the full potential of MetaBBO for joint control of multiple SAEA components remains largely underexplored. In addition to the aforementioned issues, current research on SAEA rarely considers the trade-off between the robustness and predictive accuracy of sur-rogate models. Some studies have introduced bagging-based ensemble strate-gies as surrogate modeling methods [20, 21, 22]. Owing to their low estima-tion variance, bagging approaches exhibit strong robustness, making them particularly suitable for evolutionary algorithms based on ranking criteria, where high estimation precision is not essential during the early search stage [23]. However, these methods inherently involve estimation bias, which can significantly affect optimization performance during the convergence phase, especially when precise evaluations are required. In such scenarios, boosting strategies may offer a better fit, as they can reduce bias and provide more accurate surrogate predictions in later optimization stages [24]. To promote the integration of SAEAs into the MetaBBO paradigm and advance research on balancing the robustness and accuracy of surrogate models, we propose a novel method named AdaE-SAEA (Adaptive Ensem-ble Surrogate-Assisted Evolutionary Algorithm) for solving expensive multi-objective optimization problems. AdaE-SAEA incorporates SAEA as the low-level optimizer within the MetaBBO framework and achieves joint con-trol over both the infill criterion and the ensemble-based surrogate modeling strategy. Specifically, two ensemble learning schemes (bagging and boosting) are designed as surrogate modeling modules, together with five infill criteria as candidate sampling strategies, so that the meta-policy can flexibly balance robustness and accuracy, as well as exploration and exploitation, throughout the optimization process. A reinforcement learning approach is employed to train the meta-policy, enabling adaptive decision-making across diverse op-timization scenarios. Formally, the optimization problem can be expressed as: 
+
+min  
+
+> x∈Ω
+
+F (x) =  f1(x), f 2(x), . . . , f m(x), (1) where x = ( x1, x 2, . . . , x d) denotes the d-dimensional decision vector, Ω ⊆ Rd
+
+4is the search space, and fi(x) represents the i-th objective function. Since evaluating F (x) typically involves high-fidelity simulations or costly experi-ments, the number of evaluations is severely limited, which makes traditional optimization strategies inefficient for such problems. The main contributions of this work can be summarized as follows: 1. Ensemble-based surrogate modeling for robustness–accuracy trade-off. We introduce bagging and boosting ensemble learning strategies into SAEA as surrogate modeling approaches. This design allows the opti-mization process to dynamically adapt to different search phases, en-hancing model robustness during early exploration and improving pre-dictive accuracy during late exploitation. 2. Unified control over modeling strategies and infill criteria based on MetaBBO. Leveraging the MetaBBO framework, we achieve joint con-trol of both the surrogate modeling strategy and the infill criterion, en-abling flexible and adaptive configuration of SAEA components. This unified control mechanism significantly improves the algorithm’s trans-ferability and adaptability to different optimization scenarios. In ad-dition, we adopt a distributed sampling and unified training strategy to enhance policy generalization, where the distributed sampling is ef-ficiently implemented using the Ray framework [25]. 3. Efficient Surrogate Modeling with Tabular Prior-Data Fitted Network (TabPFN). To address the inefficiency of conventional surrogate mod-els, e.g., Gaussian Processes (GP), in optimization tasks, we are the first to adopt TabPFN [26] as the base surrogate model for ensemble learning. Unlike traditional GP-based approaches, TabPFN provides fast and reliable predictions, enabling frequent model updates required in MetaBBO. 
+
+2. Related Work 
+
+2.1. Meta-Black-Box Optimization 
+
+MetaBBO has rapidly become a prominent paradigm for automating the design and configuration of optimization algorithms. Unlike conventional BBO approaches that depend on manually designed algorithms and laborious hyperparameter tuning, MetaBBO leverages meta-level learning to dynam-ically adapt the settings of the underlying optimizer [13, 14, 27, 28]. This enables optimization strategies to generalize effectively across diverse tasks 5and adapt to different stages of the search process, significantly reducing the need for expert intervention [29, 30, 31]. MetaBBO typically adopts a bi-level learning framework. The meta-level learns a control policy that determines how to design or configure the op-timization process, while the low-level executes the optimization on specific problems and provides performance feedback [3]. This feedback loop enables the meta-policy to improve over time, achieving adaptive and dynamic con-trol of algorithmic components, such as operators, infill criteria, or model configurations [15, 32]. Existing MetaBBO methods can be categorized into four main paradigms: 1) algorithm selection, which focuses on identifying the most suitable opti-mizer from a predefined portfolio for a given task [33, 34, 35]; 2) algorithm configuration, which dynamically adjusts hyperparameters and operator set-tings to improve performance [13, 36, 37, 38, 39]; 3) solution manipulation, where the meta-policy directly controls the generation and evolution of candi-date solutions without relying on a fixed optimizer [40]; and 4) algorithm gen-eration, which aims to automatically synthesize new algorithmic workflows or operator compositions [14, 41, 42]. These tasks are typically addressed using various meta-learning techniques, including reinforcement learning (e.g., pol-icy gradient and actor–critic methods) to learn control policies, supervised learning to approximate task–algorithm mappings, and neuroevolution to di-rectly optimize policy architectures [43]. More recently, in-context learning with large language models has emerged as a promising direction, enabling flexible and explainable algorithm design [44]. Together, these approaches empower MetaBBO to automatically discover effective algorithmic behaviors and adapt strategies across diverse optimization scenarios, reducing reliance on manual design and improving transferability and adaptability [21, 27]. Currently, there are relatively few studies on MetaBBO using SAEA as the low-level optimizer, among which the most representative methods are DRL-SAEA and DB-SAEA. DRL-SAEA focuses solely on single-level con-trol of surrogate modeling schemes, whereas DB-SAEA implements dual-level control over SAEA, adjusting both the number of evolutionary algorithm it-erations and the infill criterion, and is specifically designed to address multi-objective optimization problems. However, these methods overlook the ro-bustness–accuracy trade-off of surrogate models and do not investigate the integration or ensemble of multiple surrogate models. 62.2. Surrogate-Assisted Evolutionary Algorithm for Expensive Optimization Problems 
+
+SAEAs have emerged as a powerful class of optimization frameworks specifically designed for expensive optimization problems, where each func-tion evaluation may involve high-fidelity numerical simulations or costly physical experiments [4, 7, 45]. Such problems are common in fields like aerospace design, structural optimization, energy systems, and process engi-neering, where reducing the number of expensive evaluations is crucial [46]. SAEAs address this challenge by constructing surrogate models to approxi-mate the objective or constraint functions, thereby guiding the search process more efficiently while preserving the global exploration capability of evolu-tionary algorithms [47]. A core component of SAEAs is the surrogate modeling strategy, which replaces or complements direct evaluations with predictive models [48]. Com-monly used surrogates include polynomial response surfaces, Kriging or GP models, radial basis functions, support vector machines, and ensemble mod-els [5, 6, 49]. Each modeling technique has its own advantages in terms of accuracy, uncertainty quantification, and computational complexity, making model selection and management a critical factor for performance. Beyond surrogate modeling, SAEAs also incorporate infill criteria to de-termine where to sample next in order to best balance exploration and ex-ploitation [50]. Classical acquisition functions include Expected Improvement (EI), Probability of Improvement (PI), Upper Confidence Bound (UCB), and more sophisticated hybrid criteria tailored for multi-objective and con-strained problems [8, 51]. These criteria allow SAEAs to adaptively focus computational resources on promising regions of the search space. SAEAs have been applied to a wide range of optimization scenarios, in-cluding single-objective, multi-objective, constrained, and multi-fidelity op-timization problems [52]. In multi-objective cases, the surrogate models can either be trained independently for each objective or jointly through vector-valued modeling [53]. In constrained optimization, surrogates are often em-ployed to approximate constraint functions, enabling efficient feasibility es-timation and constraint handling. Hybrid frameworks have also been pro-posed, combining surrogate-assisted techniques with decomposition-based or indicator-based evolutionary algorithms to further enhance scalability and solution diversity [54]. Despite the remarkable progress, several challenges remain. First, surro-gate modeling becomes increasingly difficult in high-dimensional, noisy, or 7multi-objective problems, where prediction accuracy and uncertainty quan-tification can degrade. Second, efficiently managing computational resources when objective and constraint evaluation costs are heterogeneous remains an open issue. Finally, developing scalable and interpretable surrogate selection mechanisms is essential to fully exploit the potential of SAEAs in complex real-world problems [7, 55, 56]. 
+
+3. Ensemble-based Surrogate Modeling Strategy 
+
+This section introduces the ensemble modeling strategy used in the AdaE-SAEA method, including bagging and boosting approaches, the use of TabPFN as the base model, and the uncertainty estimation method for ensemble mod-els. The bagging and boosting surrogate modeling processes are shown in Figure 2. Bootstrap Sampling 
+
+(p = 0.5)    
+
+> S1S2S3ST...
+
+Divide into Q Groups    
+
+> Data Subset
+> M1M2M3MT...
+> Trained
+> Model
+
+Ensemble Averaging 
+
+(Bagging Surrogate) 
+
+> Model Selection
+
+Train Base Model M i
+
+Compute Residuals 
+
+Train Base Model M (i+1) 
+
+Update Residuals 
+
+> Repeat
+
+Weighted Combination of Models 
+
+(Boosting Surrogate) 
+
+Surrogate Prediction 
+
+Bagging  Boosting 
+
+> Early Stopping
+> Historical Data Historical Data
+
+Bootstrap Sampling 
+
+(p = 0.5)    
+
+> S1S2S3ST...
+
+Divide into Q Groups    
+
+> Data Subset
+> M1M2M3MT...
+> Trained
+> Model
+
+Ensemble Averaging 
+
+(Bagging Surrogate) 
+
+> Model Selection
+
+Train Base Model M i
+
+Compute Residuals 
+
+Train Base Model M (i+1) 
+
+Update Residuals 
+
+> Repeat
+
+Weighted Combination of Models 
+
+(Boosting Surrogate) 
+
+Surrogate Prediction 
+
+Bagging  Boosting 
+
+> Early Stopping
+> Historical Data Historical Data
+
+Figure 2: Bagging and boosting surrogate modeling processes. 
+
+83.1. Bagging Surrogate Modeling 
+
+Bagging is a classical ensemble learning technique that improves model performance by training multiple base learners on different bootstrap sam-ples and aggregating their predictions [57]. However, we take a different approach from the classical Bagging method. To enhance the accuracy and stability of surrogate modeling in multi-objective optimization, inde-pendent bagging ensemble surrogate models are constructed for each ob-jective fi (i = 1 , 2, . . . , m ) by applying a half-sampling scheme to the full training dataset. Specifically, each sample is included with a probability of 0.5, resulting in T different bootstrap training sets. A surrogate model is trained on each of these T training sets, forming a diverse model pool 
+
+{Mi, 1, M i, 2, . . . , M i,T } for the i-th objective. Subsequently, we compute the prediction errors of all T models on the Pareto front solutions for the i-th objective and obtain their mean predictive error as a measure of model accuracy. The models are then sorted according to this accuracy metric, and the sorted model pool is evenly divided into Q
+
+groups, where Q is the predefined ensemble size. Finally, one model is ran-domly selected from each group to form the final bagging ensemble surrogate for the i-th objective. By repeating this procedure for all m objectives, we obtain m objective-specific ensemble surrogate models. This design enables each objective to be approximated by a specialized ensemble, achieving both model diversity and estimation accuracy while effectively controlling computational cost. More-over, by evaluating models on the Pareto front, the ensemble selection is guided toward regions most critical to the optimization process. The overall procedure of Bagging Surrogate Modeling is summarized in Algorithm 1. 
+
+3.2. Boosting Surrogate Modeling 
+
+For each objective fi, this study adopts Gradient Boosting, a classical boosting approach, to better adapt to the accuracy requirements of the op-timization process. Gradient Boosting progressively improves model perfor-mance through iterative residual fitting, enhancing its approximation capa-bility and stability on complex objective functions [57, 58]. In our imple-mentation, the boosting surrogate is constructed as a stage-wise additive ensemble: at each stage, a base learner is trained to fit the residual errors produced by the current ensemble, and the final prediction is obtained by additively aggregating all learned base learners. We use TabPFN as the base regressor at each boosting stage. 9Algorithm 1 Bagging-based Ensemble Surrogate Model Construction 
+
+Require: Training dataset D = {(xj , y j )}Nj=1 
+
+Number of base learners T
+
+Ensemble subset size Q
+
+Ensure: m ensemble surrogate models { ˆf1, ˆf2, . . . , ˆfm} 
+
+> 1:
+
+Identify the current Pareto front PF from the population  
+
+> 2:
+
+for each objective i = 1 to m do  
+
+> 3:
+
+Initialize model pool Mi = {}  
+
+> 4:
+
+for t = 1 to T do  
+
+> 5:
+
+Construct a bootstrap dataset Dt by half-sampling D (p = 0 .5) 
+
+> 6:
+
+Train a base surrogate model Mi,t on Dt 
+
+> 7:
+
+Add Mi,t to model pool Mi 
+
+> 8:
+
+end for  
+
+> 9:
+
+Evaluate prediction error of each model Mi,t on PF (objective i) 
+
+> 10:
+
+Sort models in Mi by their average estimation error  
+
+> 11:
+
+Evenly divide the sorted models into Q groups  
+
+> 12:
+
+Randomly select one model from each group  
+
+> 13:
+
+Construct ensemble ˆfi for objective i with the selected Q models  
+
+> 14:
+
+end for 
+
+To avoid underfitting or overfitting, the number of base learners Q is de-termined using early stopping. By employing this well-established technique as the surrogate modeling approach, the optimization process can obtain more accurate objective estimations in critical search stages, thereby sup-porting more effective optimization. 
+
+3.3. Base Model and Ensemble-Based Uncertainty Estimation 
+
+Traditional surrogate models such as GP suffer from high computational cost and poor scalability as the dimensionality increases. In high-dimensional problems, GP often produce unreliable predictions, which limits their ability to support metapolicy learning. Moreover, the high training cost of GP makes them impractical for MetaBBO frameworks, which typically require frequent model updates across many tasks. In this work, we employ ensemble learning as the surrogate modeling strategy. If GP were used as base models, the computational cost would become prohibitively high, making the approach impractical for MetaBBO. Considering both efficiency and scalability, we choose TabPFN as the base model for our ensemble surrogate, leveraging its strong generalization ability and fast inference to meet the frequent update 10 requirements of MetaBBO. TabPFN is a transformer-based probabilistic estimator that achieves high prediction accuracy and low-latency one-shot inference without requiring task-specific training [26, 59, 60, 61], making it highly suitable for MetaBBO. Specifically, TabPFN directly outputs a probability distribution over prede-fined objective value intervals. Specifically, for a candidate solution x ∈ Rd,TabPFN returns a probability vector: 
+
+p = TabPFN (x) = p1, . . . , p K  ∈ [0 , 1] K , (2) where K is the number of predefined intervals and PKk=1 pk(x) = 1 . Each pk
+
+represents the predicted probability that the objective value of x falls within the k-th interval. To obtain a scalar prediction and its associated uncertainty, we firstly define the midpoint of each bin as b′ 
+
+> k
+
+= ( bk−1 +bk)/2, where {bk}Kk=0 
+
+denotes the edges of each bin. Then, we estimate the predicted value and standard deviation of x using the following equations: 
+
+μ(x) = 
+
+> K
+
+X
+
+> k=1
+
+pk(x) · b′
+
+> k
+
+, (3) 
+
+σ(x) = 
+
+vuut KX
+
+> k=1
+
+pk(x) ( b′ 
+
+> k
+
+− μ(x)) 2. (4) After obtaining the point predictions and uncertainty estimates of indi-vidual base models, we further consider how to estimate uncertainty at the ensemble level. From a unified perspective, both bagging and boosting can be viewed as constructing an ensemble predictor through a linear combina-tion of multiple base learners. Let wq be the weight assigned to the q-th base model, then the ensemble prediction is: 
+
+ˆf (x) = 
+
+> Q
+
+X
+
+> q=1
+
+wqμq(x). (5) The overall uncertainty can be derived using the law of total variance and the variance of linear combinations: 11 ˆσ2
+
+> ens
+
+(x) = 
+
+> Q
+
+X
+
+> q=1
+
+w2 
+
+> q
+
+σ2 
+
+> q
+
+(x) + 
+
+> Q
+
+X
+
+> q=1
+
+wqμ2 
+
+> q
+
+(x) −
+
+> Q
+
+X
+
+> q=1
+
+wqμq(x)
+
+!2
+
++ 2 X
+
+> s<q
+
+wswqCov  μs(x), μ q(x). (6) In practice, bagging typically assumes independence among base learners, so the covariance term is often neglected. In contrast, boosting involves strongly correlated base learners. In this work, we estimate the covariance term by randomly sampling 100 points in the neighborhood of the solution 
+
+x and computing the sample covariance of the model predictions. 
+
+4. Adaptive Surrogate Ensemble Optimization 
+
+In this section, we introduce how AdaE-SAEA integrates the two en-semble surrogate modeling strategies, to achieve unified control of both the robustness–accuracy trade-off and the infill criterion within SAEA. By formu-lating the optimization as a Markov Decision Process (MDP), a meta-policy is learned to coordinate modeling strategies and infill criteria adaptively. We then describe the training process of this meta-policy, including state repre-sentation, action space design, and reward formulation. 
+
+4.1. Procedure of AdaE-SAEA 
+
+The optimization process of AdaE-SAEA begins with initial sampling conducted through Latin Hypercube Sampling (LHS) to ensure sufficient coverage of the search space, followed by expensive evaluations of the sam-pled solutions. Before each expensive evaluation, ELA features are extracted from the current population to characterize the optimization state, which is then fed into the meta-policy. The meta-policy adaptively determines both the surrogate modeling strategy (bagging or boosting) and the infill criterion. Based on this configuration, the SAEA optimizer builds surro-gate models with historical data. To improve the quality and diversity of search, we design a hybrid candidate generation mechanism that integrates NSGA-III [62], CDM-PSL [63], and qNEHVI [64]. Candidate solutions are generated through this hybrid sampling strategy, then refined through several surrogate-assisted evolutionary steps. Finally, the infill criterion identifies the 12 Surrogate Modeling Control 
+
+Evaluation Evaluation 
+
+Infill Criterion 
+
+ND -A: 
+
+Convergence and Diversity 
+
+ND -DPBI: 
+
+Convergence and Diversity 
+
+EPDI: 
+
+Exploration and Exploitation 
+
+Infill Criterion 
+
+ND -A: 
+
+Convergence and Diversity 
+
+ND -DPBI: 
+
+Convergence and Diversity 
+
+EPDI: 
+
+Exploration and Exploitation 
+
+Offspring Generation  
+
+> NSGA -III NSGA -III CDM -PSL CDM -PSL
+> qNEHVI qNEHVI
+
+Offspring Generation  
+
+> NSGA -III CDM -PSL
+> qNEHVI
+
+AdaE -SAEA 
+
+LHS Sampling 
+
+Evaluation 
+
+ELA Extracted 
+
+Meta -Policy Decision 
+
+Surrogate Modeling 
+
+Offspring Generation 
+
+Infill Criterion Selection 
+
+Elite Solution Selection 
+
+> Infill Criterion
+> Control
+> Elite Selection
+> Infill Criterion Control
+> Surrogate Modeling Control
+
+15 -Dimensions 
+
+ELA Features Extracted ELA Features Extracted 
+
+Surrogate Modeling 
+
+Bagging  Boosting 
+
+Meta -Policy Decision Meta -Policy Decision 
+
+> Surrogate
+> Assited
+> Surrogate Modeling Control
+
+Evaluation Evaluation 
+
+Infill Criterion 
+
+ND -A: 
+
+Convergence and Diversity 
+
+ND -DPBI: 
+
+Convergence and Diversity 
+
+EPDI: 
+
+Exploration and Exploitation 
+
+Infill Criterion 
+
+ND -A: 
+
+Convergence and Diversity 
+
+ND -DPBI: 
+
+Convergence and Diversity 
+
+EPDI: 
+
+Exploration and Exploitation 
+
+Offspring Generation  
+
+> NSGA -III NSGA -III CDM -PSL CDM -PSL
+> qNEHVI qNEHVI
+
+Offspring Generation  
+
+> NSGA -III CDM -PSL
+> qNEHVI
+
+AdaE -SAEA 
+
+LHS Sampling 
+
+Evaluation 
+
+ELA Extracted 
+
+Meta -Policy Decision 
+
+Surrogate Modeling 
+
+Offspring Generation 
+
+Infill Criterion Selection 
+
+Elite Solution Selection 
+
+> Infill Criterion
+> Control
+> Elite Selection
+> Infill Criterion Control
+> Surrogate Modeling Control
+
+15 -Dimensions 
+
+ELA Features Extracted ELA Features Extracted 
+
+Surrogate Modeling 
+
+Bagging  Boosting 
+
+Meta -Policy Decision Meta -Policy Decision 
+
+> Surrogate
+> Assited
+
+Figure 3: The workflow of AdaE-SAEA. 
+
+most promising candidates for expensive evaluations, and the newly evalu-ated data are incorporated into the training set for the next iteration. The overall procedure is summarized in Algorithm 2 and illustrated in Figure 3 for a clearer overview of the optimization framework. 
+
+4.2. Low-level Optimizer Based on SAEA 
+
+In the proposed AdaE-SAEA framework, the low-level optimizer plays a crucial role in executing the actual search and optimization process under the guidance of the meta-policy. To ensure efficient use of limited evaluation budgets, we employ a SAEA as the low-level optimizer. SAEA integrates surrogate models into the evolutionary optimization process to approximate expensive objective functions, thereby enabling efficient global search with significantly fewer real evaluations. Within this structure, the meta-policy determines the modeling strategy and infill criterion, while the SAEA is responsible for generating candidate solutions, performing surrogate-assisted evolution, and selecting promising points for expensive evaluations by infill criterion. In general, an SAEA framework consists of three key components: 13 Algorithm 2 AdaE-SAEA 
+
+Require: Multi-objective black-box function F (·), evaluation budget F E max ,meta-policy πθ, initial sample size n0, batch size nbs 
+
+Ensure: Expensive evaluated solutions  
+
+> 1:
+
+X ← Get n0 initial inputs by LHS  
+
+> 2:
+
+Y ← Objective functions evaluation by F (·) 
+
+> 3:
+
+Construct initial dataset D ← { X, Y }, t = |D| 
+
+> 4:
+
+while t < F E max do  
+
+> 5:
+
+Extract ELA features st as the optimization state from D 
+
+> 6:
+
+πθ(st) outputs surrogate modeling mode and infill criterion  
+
+> 7:
+
+Build surrogate model ˆF (·) using Bagging or Boosting:  
+
+> 8:
+
+if Bagging then  
+
+> 9:
+
+Perform probabilistic bootstrap sampling ( p = 0 .5) 
+
+> 10:
+
+Train T TabPFN base models  
+
+> 11:
+
+Select Q models and average predictions  
+
+> 12:
+
+end if  
+
+> 13:
+
+if Boosting then  
+
+> 14:
+
+Iteratively fit residuals with Q TabPFN base models  
+
+> 15:
+
+Combine weighted base learners for final prediction  
+
+> 16:
+
+end if  
+
+> 17:
+
+Xoff ← Generate offspring by hybrid strategy and surrogate model ˆF (·) 
+
+> 18:
+
+X∗ ← Select top nbs candidates based on the infill criterion  
+
+> 19:
+
+Y ∗ ← F (X∗) 
+
+> 20:
+
+D ← D ∪ { X∗, Y ∗} 
+
+> 21:
+
+t ← t + nbs  
+
+> 22:
+
+end while 
+
+(1) surrogate model, (2) evolutionary search algorithm, and (3) infill criterion. Since the surrogate modeling strategies have been elaborated in the previous section, this part mainly focuses on the evolutionary search algorithm and the infill criteria within the AdaE-SAEA framework. 
+
+4.2.1. Evolutionary Algorithm 
+
+In the evolutionary search process, we adopt a hybrid candidate genera-tion mechanism that integrates NSGA-III, CDM-PSL, and qNEHVI. Previ-ous studies have demonstrated the advantages of hybrid sampling strategies in improving search efficiency [63, 65, 66]. Specifically, by leveraging NSGA-III for broad exploration and combining it with CDM-PSL and qNEHVI for localized exploitation, the hybrid design in AdaE-SAEA effectively enhances 14 the diversity and structural richness of candidate solutions. Under normal circumstances, the three candidate generation strategies are executed inde-pendently, producing diverse candidate sets that are subsequently merged into a unified pool for further selection. To prevent search stagnation, we monitor the average hypervolume (HV) [67] growth rate over two consecutive evaluations. If the growth rate drops below 0.05, an evolutionary refinement loop is activated. In this loop, crossover and mutation operations, combined with NSGA-III environmental selection, are repeatedly applied to the merged pool, thereby reinforcing both global exploration and local convergence. The overall procedure is summarized in Algorithm 3. 
+
+Algorithm 3 Candidate Generation of AdaE-SAEA 
+
+Require: Evaluated population set D, surrogate models ˆF (·), HV history set 
+
+{HV t−2, HV t−1, HV t}
+
+Ensure: Offspring population set Doff  
+
+> 1:
+
+XNSGA-III ← NSGA-III (D) 
+
+> 2:
+
+XCDM-PSL ← CDM-PSL (D) 
+
+> 3:
+
+XqNEHVI ← qNEHVI (D) 
+
+> 4:
+
+Xoff ← XNSGA-III ∪ XCDM-PSL ∪ XqNEHVI  
+
+> 5:
+
+Compute recent HV growth rate:  
+
+> 6:
+
+r1 = HV t−HV t−1 
+
+> HV t−1
+
+, r2 = HV t−1−HV t−2 
+
+> HV t−2
+> 7:
+
+if (r1 + r2)/2 < 0.05 then  
+
+> 8:
+
+Xmix ← Xoff  
+
+> 9:
+
+for t = 1 to T do  
+
+> 10:
+
+Xmix ← Reproduction (Xmix ) ∪ Xmix  
+
+> 11:
+
+Evaluate Xmix using surrogate model ˆF (·) 
+
+> 12:
+
+Xmix ← EnvironmentalSelection (Xmix ) 
+
+> 13:
+
+end for  
+
+> 14:
+
+Xoff ← Xoff ∪ Xmix  
+
+> 15:
+
+end if  
+
+> 16:
+
+Doff ← { Xoff , ˆF (Xoff )}
+
+4.2.2. Infill Criteria 
+
+In surrogate-assisted optimization, the infill criterion determines which candidate solutions are selected for expensive evaluations. It provides a principled mechanism to balance exploration and exploitation, guiding the search toward promising regions while maintaining diversity. By prioritiz-ing evaluation points, infill criteria reduce costly evaluations and accelerate 15 convergence. For the design of infill criteria, our approach is inspired by the EIC-MSSAEA method [68]. We adopt five different Infill Criteria, including ND-A, two variants of ND-∆P BI that respectively highlight convergence and diversity, and two types EPDI criteria targeting exploration and exploitation. The formal definitions of these criteria are presented in Appendix A. 
+
+4.3. Formulating the Evolutionary Search as an MDP 
+
+The overall training objective of the proposed framework is to maximize the expected performance across tasks [3]. Formally, let Ti denote a specific optimization task, and πθ represent the meta-policy parameterized by θ. The training objective can be expressed as: 
+
+J(θ) = ET ∼D 
+
+R(O, π θ, T ) ≈ 1
+
+N
+
+> N
+
+X
+
+> i=1
+> T
+
+X
+
+> t=1
+
+perf( O, a t, Ti), (7) where perf( ·) denotes a task-specific performance metric, N is the number of training tasks, and R(·) represents the total accumulated reward along the search trajectory. To achieve this objective, we formulate the surrogate-assisted evolutionary optimization process as a discrete-time, finite-horizon MDP, defined by a tuple M = ( S, A, P, r, γ ), where γ is the discount factor. 
+
+4.3.1. State Space 
+
+In the AdaE-SAEA framework, the state space is designed to provide the meta-policy with sufficient structural and temporal information about the current optimization process. At each time step t, the state st ∈ S is con-structed by extracting a set of landscape and progress-related features from the evaluated solutions. These features reflect the current search dynamics, including both the structural properties of the problem landscape and the optimization progress with respect to the evaluation budget [69, 70]. To ensure that the state representation is both informative and computa-tionally efficient, we select 15-dimensional exploratory landscape analysis fea-tures that can effectively characterize the underlying optimization problem. These state features capture essential geometric, statistical, and progress-related properties of the search, enabling the meta-policy to infer the current search phase and problem structure without explicit access to the true ob-jective function. The detailed list of the selected ELA features is provided in Appendix B. 16 4.3.2. Action Space 
+
+The action space A in AdaE-SAEA is designed to enable dynamic joint control over the surrogate modeling strategy and the infill criterion during the optimization process. Specifically, we define ten discrete actions by pairing five different infill criteria with two ensemble surrogate modeling strategies (bagging and boosting). Let C = {c1, c 2, c 3, c 4, c 5} denote the set of candi-date infill criteria, and M = {m1, m 2} represent the set of surrogate mod-eling strategies. The complete action space is constructed as the Cartesian product: 
+
+A = C × M , |A| = 10 . (8) Each action at ∈ A corresponds to a specific pair of infill criterion and surrogate modeling strategy. This formulation allows the meta-policy to adaptively control the trade-off between robustness and accuracy, while si-multaneously selecting appropriate infill criteria according to the current search state. The state transition function P (st+1 | st, a t) describes how the optimiza-tion state evolves after applying an action. In the AdaE-SAEA framework, this transition is determined by the interaction between the chosen surro-gate modeling strategy, the infill criterion, and the underlying optimization dynamics. Since the true transition probability is unknown in black-box problems, we do not model it explicitly. Instead, the meta-policy learns from sampled transitions (st, a t, r t, s t+1 ) collected during the optimization process, enabling adaptive decision-making without requiring analytical knowledge of 
+
+P .
+
+4.3.3. Reward Fuction 
+
+In the AdaE-SAEA framework, the reward function rt at time step t
+
+reflects the improvement of the Pareto front in expensive multi-objective op-timization tasks. It measures the actual contribution of newly evaluated so-lutions at iteration t to the expansion of the front. When the front improves, a positive reward proportional to this contribution is assigned; otherwise, a negative reward penalizes ineffective actions. Formally, the reward function is given by the following: 17 rt =
+
+
+
+1.0 + λ ·
+
+> nbs
+
+X
+
+> i=1
+
+di
+
+d i
+
+> ref
+
+, if the front is improved ,
+
+−1.0, otherwise, (9) where nbs denotes the number of newly evaluated solutions, di represents the Manhattan distance to the closest point on the previous Pareto front (before improvement), and d i 
+
+> ref
+
+is the Manhattan distance from that closest point to the origin. The ratio di 
+
+> di
+> ref
+
+reflects the relative contribution of each evaluated solution to the expansion of the Pareto front. The scaling factor λ controls the magnitude of the positive reward. A negative reward of −1 discourages the meta-policy from repeatedly selecting unproductive configurations. This reward design aligns the training objective of the meta-policy with the underlying optimization goal, i.e., maximizing Pareto front improvement while minimizing unnecessary expensive evaluations. By combining positive reinforcement for meaningful front expansion and penalty for stagnation, the meta-policy learns to adaptively choose surrogate modeling strategies and infill criteria that accelerate convergence and maintain robustness across different search phases. 
+
+4.4. Meta-Policy Training Method 
+
+As formalized in Equation (7), our training objective is to maximize the expected cumulative reward obtained through the collaboration between the surrogate-assisted optimizer O and the meta-policy πθ across multiple opti-mization tasks Ti ∼ D . In particular, we train the meta-policy using a Deep Q-Network (DQN) algorithm [71]. To enhance the adaptability and gener-alization of the learned meta-policy, AdaE-SAEA adopts a parallel sampling and centralized training paradigm, which enables efficient interaction across heterogeneous optimization environments. Specifically, multiple multi-objective optimization tasks run in parallel and interact with the meta-policy to generate diverse state-action-reward tra-jectories. These trajectories are aggregated into a centralized replay buffer and used to train the meta-policy with shared parameters. This design fa-cilitates stable and data-efficient learning, as the policy can benefit from heterogeneous experiences while maintaining a unified representation. The sampling-training loop is iterated until the meta-policy converges. 18 To support parallel sampling, we employ Ray [25], an open-source frame-work for distributed and parallel processing. Using Ray, multiple optimiza-tion tasks can be executed simultaneously on different CPUs and GPUs, enabling large-scale data collection and efficient meta-policy updates. 
+
+5. Experiment Studies 
+
+5.1. Experimental Setting 
+
+To evaluate the performance of AdaE-SAEA, we first set nbs = 3 and train the meta-policy across multiple optimization environments. Subsequently, AdaE-SAEA is compared with several state-of-the-art and classical algo-rithms, including TSEMO [72], DGEMO [73], CDM-PSL, MOEA/DEGO [74], USeMO-EI [75], qNEHVI, NSGA-II [76], and two MetaBBO-based methods, LRMODE [77] and R2-RLMOEA [78], on ZDT1-3 [79], DTLZ2-7 [80], and seven real-world benchmark problems [81]. Moreover, we conduct a sensitivity analysis on nbs under expensive evaluation conditions to inves-tigate its impact on performance. In addition, we perform ablation studies on the evolutionary strategy and meta-policy control mechanism. Finally, we validate the effectiveness of TabPFN as the base surrogate model. This work assesses the performance of the algorithm using the hypervolume (HV) metric to assess the quality of the solutions obtained. The reference points used for HV calculation are aligned with CDM-PSL method and are provided in Table 1. We employ a parallel sampling strategy to interact with multiple bench-mark environments simultaneously. All collected experiences are stored in a centralized replay buffer for meta-policy training. The buffer is cleared and refreshed after each training round to ensure stable learning dynamics. The meta-policy is parameterized by a four-layer multilayer perceptron (MLP) with layer sizes 15 × 64 × 32 × 10 , where ReLU is used as the activation function for the hidden layers. The training batch size is set to 64, and the Adam optimizer is used with an initial learning rate of 0.0001. The scaling factor λ is set to 1. In the bagging-based surrogate modeling, we set T = 20 ,
+
+Q = 5 .To evaluate the transferability of the learned meta-policy, we adopt a leave-one-task-out cross-validation strategy across 16 optimization environ-ments. Specifically, in each run, the meta-policy is trained on 15 tasks and tested on the remaining unseen task, which has a higher problem dimension-ality. This process is repeated 16 times so that each task is used once as 19 Table 1: Reference points used for HV calculation.                  
+
+> Problem Reference Point ZDT1 (0.9901, 5.8380) ZDT2 (0.9994, 6.8960) ZDT3 (0.9994, 6.0571) DTLZ2 (2.8390, 2.9011, 2.8575) DTLZ3 (2421.6427, 1905.2767, 2532.9691) DTLZ4 (3.2675, 2.6443, 2.4263) DTLZ5 (2.6672, 2.8009, 2.8575) DTLZ6 (16.8258, 16.9194, 17.7646) DTLZ7 (0.9984, 0.9961, 22.8114) RE1 (2763.2229, 0.0369) RE2 (528107.1899, 1279320.8107) RE3 (7.6853, 7.2861, 21.5010) RE4 (6.7921, 60.0, 0.48) RE5 (0.8745, 1.05092, 1.0533) RE6 (749.9241, 2229.3748) RE7 (210.3363, 1069.9160, 39196770.1704)
+
+the test task. Moreover, each test round is independently repeated 10 times to ensure statistical reliability. During both training and testing phases, the population is initialized with 80 solutions, and the remaining evaluation budget is set to 80 for the optimization process. Additional configuration details for the training and testing phases will be provided in the subsequent experimental sections. All experiments are conducted on a compute cluster equipped with 8 × 48 GB VGPUs and 8 × 25-core Intel Xeon Platinum 8481C processors. Leverag-ing the Ray framework, we achieve efficient task-level parallel sampling and centralized training, reducing each sampling–training cycle to approximately 50 minutes. 
+
+5.2. Training Stability and Convergence 
+
+We conduct 16 training runs using a leave-one-task-out cross-validation strategy to evaluate the impact of different candidate generation mechanisms on meta-policy training. In each run, 15 optimization environments are se-lected for training, and each environment is configured with three dimensional settings (15, 20, and 25), leading to a total of 45 distinct training tasks. 20 10 20 30 40 50  
+
+> Episode × 45
+> 0.6
+> 0.8
+> 1.0
+> Average Reward
+> Hybrid NSGA-III Figure 4: Average reward per expensive evaluation.
+
+Figure 4 illustrates the average reward per expensive evaluation across all training environments. To improve readability, the curve is smoothed using a moving average with a window size of 5. Vertical bars indicate ±1 standard deviation over 16 runs. To assess the effectiveness of the hybrid candidate generation mecha-nism, we train two types of AdaE-SAEA: 1) one equipped with the hybrid candidate generation strategy (NSGA-III + CDM-PSL + qNEHVI), and 2) another using NSGA-III alone as the baseline strategy. As shown in Figure 4, the hybrid strategy consistently achieves higher average rewards and lower standard deviations during training compared to the NSGA-III-only vari-ant. This indicates that incorporating multiple candidate generation strate-gies enhances search diversity and improves the model’s ability to identify high-quality solutions. Moreover, the reduction in reward standard devia-tions demonstrates that the hybrid strategy contributes to greater stability in meta-policy training. In subsequent sections, we will further validate this conclusion through experiments on testing problems. 
+
+5.3. Comparisons with Peers 
+
+In this section, we evaluate AdaE-SAEA on unseen tasks with higher di-mensionality. After training on 15 benchmark tasks, the model is directly tested on a held-out task with 30 decision variables. We compare AdaE-SAEA with five state-of-the-art methods and two MetaBBO-based methods 21 on the ZDT1-3, DTLZ2-7, and seven real-world benchmark problems to eval-uate the performance of the proposed algorithm. All algorithmic parameters are configured according to their original papers for fair comparison. Among the two MetaBBO baselines, LRMODE dynamically controls the selection of evolutionary operators, while R2-RLMOEA uses an MLP-based RL agent to dynamically switch among five EA optimizers during the optimization pro-cess. The MetaBBO-based methods are trained using the same strategy as AdaE-SAEA, i.e., parallel sampling combined with centralized training. The Adam optimizer with the same learning rate is applied uniformly across all methods. The HV results for all algorithms with nbs = 3 are summarized in Table 2. Furthermore, the Wilcoxon Signed-Rank Test with a signifi-cance level of 0.05 is performed to assess the statistical significance of the results. In the table, the symbols ’ +’, ’ −’, and ’ =’ respectively indicate that the corresponding baseline method performs significantly better, worse, or comparably to AdaE-SAEA. As shown in Table 2, AdaE-SAEA achieves the best performance across all ZDT optimization scenarios and outperforms most competing methods on DTLZ and RE problems. Both CDM-PSL and qNEHVI consistently per-form better than NSGA-II, MOEA/DEGO, USeMO-EI, TSEMO, DGEMO and the MetaBBO-based methods LRMODE and R2-RLMOEA in most cases, demonstrating the strong potential of Bayesian optimization in multi-objective optimization tasks. Among the MetaBBO-based methods, R2-RLMOEA exhibits the weakest overall performance, which is likely because its design is not specifically tailored for expensive evaluation scenarios. 
+
+Table 2: Comparison of HV performance on unseen 30D tasks. 
+
+Problem TSEMO DGEMO CDM-PSL MOEA/DEGO USeMO-EI qNEHVI NSGA-II LRMODE R2-RLMOEA AdaE-SAEA ZDT1 4.63e+0(1.01e-1)- 3.45e+0(8.53e-2)- 5.67e+0(1.37e-1)- 4.40e+0(1.09e-1)- 5.17e+0(9.01e-2)- 5.20e+0(9.97e-2)- 3.32e+0(8.03e-1)- 4.69e+0(2.93e-1)- 3.02e+0(2.46e-1)- 5.91e+0(1.91e-1) 
+
+ZDT2 5.52e+0(4.23e-2)- 3.30e+0(1.19e-2)- 6.12e+0(2.58e-1)- 5.21e+0(9.99e-2)- 5.62e+0(1.77e-1)- 5.33e+0(1.13e-1)- 3.79e+0(8.03e-2)- 6.08e+0(6.03e-2)- 3.78e+0(1.13e-1) 6.20e+0(1.83e-1) 
+
+ZDT3 5.57e+1(3.87e-1)- 4.02e+0(2.33e-1)- 6.03e+0(3.71e-2)= 4.82e+0(1.03e-1)- 5.22e+0(7.93e-2)- 6.02e+0(3.29e-2)- 3.78e+0(7.93e-2)- 5.52e+0(3.00e-2)- 4.00e+0(4.57e-2)- 6.03e+0(2.70e-2) 
+
+DTLZ2 1.61e+1(9.95e-1)- 1.99e+1(1.13e+0) 2.13e+1(1.04e+0)+ 1.58e+1(2.11e-1)- 1.54e+1(2.41e-1)- 1.83e+1(6.4e-1)- 1.69e+1(6.13e-1)- 1.99e+1(3.44e-1)- 2.09e+1(3.13e-1)- 2.06e+1(9.24e-1) DTLZ3 1.09e+10(3.22e+8)- 1.21e+10(2.03e+8)+ 1.13e+10(5.01e+8)- 1.22e+10(8.08e+8)+ 1.12e+10(4.83e+8)+ 1.23e+10(1.10e+9)+ 1.08e+10(2.12e+8)- 1.12e+10(4.99e+8)+ 1.03e+10(3.99e+8)- 1.11e+10(7.91e+8) DTLZ4 5.19e+0(1.02e-1)- 1.23e+1(9.03e-1)- 1.50e+1(1.02e+0)- 5.55e+0(1.33e-1)- 5.69e+0(2.02e-1)- 1.11e+1(1.30e+0)- 5.47e+0(1.44e-1)- 1.07e+1(1.01e+0)- 5.70e+0(1.66e-1)- 1.68e+1(9.21e-1) 
+
+DTLZ5 1.21e+1(9.54e-1)- 1.34e+1(1.02e+0)- 1.64e+1(1.44e+0)- 1.26e+1(2.49e-1)- 1.17e+1(2.33e-1)- 1.55e+1(1.32e+0)- 1.29e+1(2.22e-1)- 1.42e+1(5.22e-1)- 1.37e+1(4.10e-1)- 1.64e+1(9.9e-1) 
+
+DTLZ6 2.41e+3(2.01e+2)- 4.30e+3(3.37e+2)- 4.86e+3(2.52e+2)- 3.88e+3(3.56e+2)- 3.24e+3(1.22e+2)- 2.01e+3(2.45e+1)- 1.81e+3(5.05e+1)- 3.00e+3(3.77e+2) 1.99e+3(4.25e+1)- 5.02e+3(4.29e+2) 
+
+DTLZ7 1.81e+1(8.38e-1)- 1.37e+1(7.46e-1)- 1.74e+1(9.07e-1)- 9.55e+0(1.01e-1)- 1.68e+1(4.47e-1)- 1.85e+1(0.55e+0)= 9.73e+0(1.19e-1)- 1.85e+1(1.00e+0)= 1.80e+1(1.00e+0)- 1.85e+1(1.02e+0) 
+
+RE1 2.93e+1(6.03e-1)- 2.75e+1(1.01e+0)- 3.16e+1(5.66e-1)+ 2.70e+1(2.21e-1)- 2.86e+1(5.01e-1)- 2.71e+1(4.01e-1)- 2.78e+1(5.10e-1)- 3.00e+1(5.15e-1)= 2.88e+1(4.49e-1)- 3.00e+1(5.66e-1) RE2 6.73e+11(1.00e+9)- 6.70e+11(9.10e+8)- 6.74e+11(1.10e+9)- 6.74e+11(8.99e+9)- 6.74e+11(1.14e+9)- 6.71e+11(1.01e+9)- 6.72e+11(1.07e+9)- 6.72e+11(9.77e+8)- 6.72e+11(1.23e+9)- 6.75e+11(1.57e+9) 
+
+RE3 8.70e+2(9.02e+0)- 8.66e+2(9.41e+0)- 8.87e+2(8.44e+0)- 8.56e+2(9.21e+0)- 8.78e+2(8.92e+0)- 8.90e+2(7.89e+0)- 8.91e+2(9.85e+0)- 8.89e+2(1.10e+1)- 8.90e+2(1.34e+1)- 8.98e+2(7.43e+0) 
+
+RE4 1.11e+2(5.12e+0)- 9.53e+1(2.29e+0)- 1.18e+2(3.89e+0)- 6.83e+1(3.34e+0)- 9.78e+1(3.18e+0)- 1.16e+2(2.22e+0)- 8.18e+1(2.79e+0)- 1.18e+2(3.92e+0)- 9.00e+1(4.90e+0)- 1.20e+2(4.01e+0) 
+
+RE5 7.20e-1(4.34e-3)- 7.15e-1(4.88e-3)- 7.33e-1(3.03e-3)- 6.62e-1(4.01e-3)- 6.71e-1(3.24e-3)- 7.45e-1(1.01e-2)+ 5.35e-1(5.21e-3)- 6.31e-1(5.24e-3)- 6.24e-1(5.01e-3)- 7.39e-1(2.99e-3) RE6 1.61e+6(1.38e+4)- 1.59e+6(9.08e+3)- 1.62e+6(8.21e+3)- 1.61e+6(6.98e+3)- 1.61e+6(7.70e+3)- 1.62e+6(7.91e+3)- 1.59e+6(1.11e+4)- 1.61e+6(7.17e+3)- 1.61e+6(9.06e+3)- 1.63e+6(7.60e+3) 
+
+RE7 8.81e+12(7.73e+9)= 8.79e+12(9.85e+9)- 8.81e+12(4.93e+9)= 8.80e+12(6.91e+9)- 8.80e+12(9.88e+9)- 8.80e+12(9.89e+9)- 8.79e+12(1.02e+10)- 8.80e+12(5.85e+9)- 8.79e+12(5.50e+9)- 8.81e+12(5.49e+9) 
+
+(+/=/-) (0,1,15) (1,0,15) (2,2,12) (1,0,15) (1,0,15) (2,1,13) (0,0,16) (1,2,13) (0,0,16) 
+
+22 ZDT3 DTLZ2 DTLZ7 RE4 
+
+> 0.15
+> 0.10
+> 0.05
+> 0.00
+> 0.05
+> 0.10
+> Log HV Ratio (Base 2)
+> bs = 1
+> bs = 5
+> bs = 10
+
+(a) sensitivity analysis of nbs ZDT3 DTLZ2 DTLZ7 RE4  
+
+> 0.08
+> 0.06
+> 0.04
+> 0.02
+> 0.00
+> 0.02
+> 0.04
+> Log HV Ratio (Base 2)
+> removing qNEHVI
+> removing CDM-PSL
+> adding qEHVI
+
+(b) ablation of hybrid candidate generation strategy ZDT3 DTLZ2 DTLZ7 RE4 
+
+> 0.35
+> 0.30
+> 0.25
+> 0.20
+> 0.15
+> 0.10
+> 0.05
+> 0.00
+> Log HV Ratio (Base 2)
+> random infill criterion
+> random surrogate modeling
+> random both
+
+(c) ablation of unified control mechanism 
+
+Figure 5: Sensitivity analysis and ablation study of AdaE-SAEA using logarithmic HV ratio (base 2) 
+
+5.4. Sensitivity Analysis of nbs 
+
+To examine the sensitivity of the proposed meta-policy to different values of nbs , we evaluate the performance of a meta-policy trained with nbs = 3 
+
+under alternative settings of nbs = 1 , 5 and 10 during the testing phase. This analysis aims to investigate how varying the number of evaluated solu-tions per iteration influences the overall optimization performance. Figure 5a presents the logarithmic hypervolume ratio comparing nbs = 1 , 5 and 10 against the baseline setting of nbs = 3 across several randomly selected benchmark problems, including ZDT3, DTLZ2, DTLZ7, and RE4. As shown in Figure 5a, slight adjustments to nbs result in only marginal differences in optimization performance compared to the baseline setting of 
+
+nbs = 3 , and in some cases, nbs = 1 even achieves slightly better results. This may be because smaller nbs provides more frequent surrogate updates under limited budgets, reducing the accumulation of surrogate bias and occa-sionally leading to slightly better performance. However, when nbs deviates excessively from the baseline, the optimization performance degrades sig-nificantly and exhibits larger fluctuations. This observation indicates that overly large nbs values may introduce instability and reduce the efficiency of the search process. Overall, these results suggest that AdaE-SAEA maintains strong robustness with respect to different nbs settings, showing stable opti-mization performance under moderate variations. This property makes the proposed method more practical and reliable in real-world scenarios where the evaluation batch size may vary. 
+
+5.5. Ablation Study 
+
+This section investigates the effectiveness of two key components in AdaE-SAEA: the hybrid candidate generation strategy in the evolutionary algo-rithm and the unified control mechanism of the meta-policy. 23 For the hybrid candidate generation strategy, we compare three variants by selectively removing or modifying specific generation components: 1) re-moving CDM-PSL, 2) removing qNEHVI, and 3) adding qEHVI [64] as an additional strategy. This comparison aims to analyze the necessity and con-tribution of each component to the overall optimization performance. As shown in Figure 5b, incorporating an additional generation strategy slightly improves performance, indicating that increased sampling diversity provides some benefit. Removing qNEHVI leads to a minor decline in performance, while removing CDM-PSL causes a more significant drop, highlighting its stronger contribution to the hybrid mechanism. For the ablation study on the unified control mechanism, we compare three variants of AdaE-SAEA: 1) controlling only the infill criterion while randomly selecting between bagging and boosting for surrogate modeling, 2)controlling only the surrogate modeling strategy while randomly selecting the infill criterion, and 3)randomly selecting both surrogate modeling and infill criterion. As shown in Figure 5c, all three variants perform notice-ably worse than the original AdaE-SAEA. Notably, the variant that removes the control over surrogate modeling exhibits a more significant performance drop compared to the one that removes control over the infill criterion, in-dicating that surrogate modeling plays a more critical role in performance. The worst results are obtained when both controls are removed, which aligns with expectations since no adaptive guidance is provided to the optimization process. 
+
+5.6. Effect of TabPFN 
+
+This section investigates the effectiveness of TabPFN as a surrogate model in MetaBBO for expensive black-box optimization tasks and its capability as a base model for ensemble learning. We conduct experiments on four rep-resentative optimization environments: ZDT1, DTLZ4, and FE5. In these experiments, we use AdaE-SAEA with nbs = 1 , where one candidate solution is selected for expensive evaluation at each iteration. Five modeling strate-gies are compared: 1) TabPFN as the surrogate model, 2) GP as the surro-gate model, 3) Bagging ensemble, 4) Boosting ensemble, and 5) AdaE-SAEA adaptive modeling strategy. Figure 6 illustrates the mean MAPE between predicted and true objective values throughout the expensive evaluation pro-cess, with shaded areas indicating the model uncertainty estimates. The MAPE calculation is provided in Equation(10). Since this work focuses on multi-objective optimization, we predict each objective function separately 24 and compute the MAPE and uncertainty for each objective. The final values reported in the figure are obtained by averaging the MAPE and uncertainty across all objectives. MAPE = 100% 
+
+n
+
+nX
+
+i=1 
+
+yi − ˆyi
+
+yi + 0 .01 . (10) 0 10 20 30 40 50 60 70 80 
+
+> Number of Expensive Evaluations
+> 0.00
+> 0.05
+> 0.10
+> 0.15
+> 0.20
+> MAPE
+> TabPFN
+> GP
+> Bagging
+> Boosting
+> AdaE-SAEA
+
+(a) ZDT1 0 10 20 30 40 50 60 70 80  
+
+> Number of Expensive Evaluations
+> 0.00
+> 0.02
+> 0.04
+> 0.06
+> 0.08
+> 0.10
+> 0.12
+> 0.14
+> MAPE
+> TabPFN
+> GP
+> Bagging
+> Boosting
+> AdaE-SAEA
+
+(b) DTLZ4 0 10 20 30 40 50 60 70 80  
+
+> Number of Expensive Evaluations
+> 0.000
+> 0.025
+> 0.050
+> 0.075
+> 0.100
+> 0.125
+> 0.150
+> 0.175
+> MAPE
+> TabPFN
+> GP
+> Bagging
+> Boosting
+> AdaE-SAEA
+
+(c) RE5 
+
+Figure 6: Comparison of surrogate modeling strategies 
+
+As shown in the Figure 6, TabPFN exhibits more accurate approximation performance than GP when used as a surrogate model. Bagging demonstrates stronger robustness than both TabPFN and Boosting, particularly during the early stages of optimization. Although Boosting can sometimes provide more accurate predictions, it suffers from larger fluctuations. In contrast, the meta-policy–controlled surrogate modeling strategy in AdaE-SAEA con-sistently achieves both high robustness and high accuracy, demonstrating a clear overall advantage. 
+
+6. Conclusion 
+
+In this paper, we propose AdaE-SAEA, a MetaBBO framework designed for expensive multi-objective optimization tasks. The proposed method learns a meta-policy to jointly control surrogate modeling strategies and infill crite-rion selection, enabling adaptive configuration across different optimization stages. By introducing bagging and boosting as ensemble surrogate mod-eling strategies, AdaE-SAEA effectively addresses the robustness–accuracy trade-off, ensuring both stable early-stage exploration and precise late-stage exploitation. Experimental results demonstrate that AdaE-SAEA achieves strong and robust performance across various benchmark problems and shows 25 low sensitivity to the parameter nbs . Furthermore, we validate the effective-ness of TabPFN as the base surrogate model for ensemble learning, highlight-ing its efficiency in MetaBBO training and its ability to balance robustness and accuracy. Future work will focus on three directions. First, the current joint control mechanism is implemented through a simple Cartesian prod-uct, which increases the search space and reduces efficiency. More advanced reinforcement learning approaches, such as hierarchical RL, could improve scalability. Second, while ensemble learning provides robust and accurate modeling, it is computationally expensive, and more efficient modeling strate-gies are needed. Finally, we plan to extend AdaE-SAEA to more challenging scenarios, including constrained and dynamic multi-objective optimization problems. 
+
+Appendix A. Infill Criteria of AdaE-SAEA 
+
+In the AdaE-SAEA framework, we design five types of infill criteria to guide the selection of solutions for expensive evaluations. Specifically, these criteria include ND-A, two variants of ND-∆PBI that emphasize convergence and diversity, and two EPDI criteria focusing on exploration and exploita-tion [68]. The mathematical definitions and implementation details of these criteria are provided below. ND-A is an angle-based infill criterion designed to promote both con-vergence and diversity in multi-objective optimization. Given the candidate set P ∗ and the archive Ar, non-dominated sorting is first applied to obtain the non-dominated subsets P ∗ 
+
+> nd
+
+and Arnd . For x ∈ P ∗ 
+
+> nd
+
+and y ∈ Arnd , the minimum angle θmin  
+
+> x
+
+is calculated as: 
+
+θxy = arccos 
+
+Pmi=1 ˆfi(x) · fi(y)
+
+qPmi=1 ˆfi(x)2 · pP mi=1 fi(y)2
+
+ , (A.1) 
+
+θmin  
+
+> x
+
+= min  
+
+> x∈P∗
+> nd ,y ∈Arnd
+
+θxy , (A.2) where fi(·) denotes the true value of the i-th objective function, and ˆfi(·)
+
+denotes the surrogate regression function trained to approximate the i-th objective. The candidate with the largest θmin  
+
+> x
+
+is then selected, as it repre-sents the solution with the most distinct objective direction relative to the 26 current archive. This encourages the discovery of new search directions and improves the spread of solutions on the Pareto front. ND-∆P BI is the second criterion, designed to simultaneously consider convergence and diversity, based on the PBI (penalty-based boundary inter-section) method. It evaluates the improvement of each candidate solution with respect to the closest nonempty reference vector in the objective space. The PBI value of a solution x with respect to reference vector Vk is computed as: 
+
+dk, 1(x) = ⃗F (x) · Vk
+
+|Vk| , (A.3) 
+
+dk, 2(x) = ⃗ F (x) − dk, 1(x) · Vk
+
+|Vk| , (A.4) 
+
+P BI k(x) = dk, 1(x) + λ · dk, 2(x), (A.5) where ⃗ F (x) is the normalized objective vector, and dk, 1(x), dk, 2(x) repre-sent the distance from ⃗ F (x) to the reference direction and its perpendicular deviation, respectively. The penalty coefficient λ balances convergence and diversity. The solution’s improvement is then measured by the reduction in its projected PBI value: 
+
+∆P BI j (x) = P BI j, min − ˆP BI j (x), j ∈ { 1, ..., |V ′
+
+> n
+
+|} , (A.6) where P BI j, min denotes the minimum PBI value among archive solutions along reference vector V ′ 
+
+> j
+
+, and ˆP BI j (x) is the candidate’s projected PBI value under the same vector. In the design of AdaE-SAEA, we adopt two variants of ND-∆P BI by adjusting the penalty coefficient λ, which controls the trade-off between convergence and diversity. Specifically, we set λ = 3 
+
+to emphasize convergence by prioritizing the projection distance along the reference direction, and λ = 8 to emphasize diversity by amplifying the perpendicular deviation. EPDI is a model uncertainty-aware infill criterion designed to balance exploration and exploitation in multi-objective optimization. It extends the classical EI concept to a vector-valued setting by introducing the Proximity and Diversity scalarization function, which simultaneously captures conver-gence and diversity characteristics. Let ˆF (x) denote the predicted objective 27 vector of solution x, and let Vr be a randomly sampled reference vector. The PD function is defined as: 
+
+P D ( ˆF (x), V r) = 1
+
+m
+
+> m
+
+X
+
+> i=1
+
+ˆfi(x) + λ ˆF (x) 2
+
+· sin( ˆF (x), V r), (A.7) where the first term represents the average convergence of x across m ob-jectives, and the second term penalizes angular deviation from the reference direction Vr to promote diversity. The sine term is used to measure the ver-tical (perpendicular) distance between ˆF (x) and Vr in the objective space. Given a solution archive Arnd , the improvement function PDI is computed as: 
+
+P DI ( ˆF (x), V r) = max 
+
+
+
+P D min − P D ( ˆF (x), V r), 0
+
+
+
+, (A.8) where P D min is the minimal PD value among all solutions in the archive associated with Vr. Finally, EPDI computes the expectation of improvement under model uncertainty via: 
+
+EP DI (x, ˆF , V r) = 
+
+Z
+
+> y∈Rm
+
+P DI ( ˆF (x), V r)
+
+> m
+
+Y
+
+> i=1
+
+1
+
+δi
+
+ϕ
+
+yi − ˆyi
+
+δi
+
+
+
+dy i, (A.9) where ϕ(·) is the standard normal density, ˆyi and δi denote the predicted value and standard deviation for objective i, respectively. In practice, the integral is approximated via Monte Carlo sampling with 1000 draws. The candidate with the highest EPDI value is selected. In AdaE-SAEA, we design two EPDI variants by adjusting the trade-off coefficient λ = 3 . When λ = 3 ,the selection function emphasizes exploitation by prioritizing solutions with better predicted convergence. In contrast, setting λ = 8 amplifies the im-portance of diversity, encouraging exploration toward less-visited directions in the objective space. This adaptive configuration enables AdaE-SAEA to balance global exploration and local exploitation effectively across different optimization stages. 
+
+Appendix B. Exploratory Landscape Analysis Features 
+
+As mentioned in Section 4.3.1, ELA is widely used for instance space anal-ysis in BBO problems. In this study, we selected 15 ELA features in total 28 (see Table B.3). Among them, s1-s10 were primarily inspired by the R2-RLMOEA framework [78]. Specifically, s1-s6 describe the population perfor-mance statistics of the current generation. By scalarizing individual perfor-mance through the R2 indicator and computing quartiles relative to minimum and maximum values, these features reflect overall convergence tendency and population dispersion. s7-s10 capture geometric structure in the decision space, computed as the Euclidean distances between Q1/Q 2/Q 3/Q mean quar-tile points and the best individual, normalized by the maximal decision span. This allows the ELA to perceive the spatial distribution and morphological evolution of the search process. Then, We further introduce three state features from DRL-SAEA [19] as 
+
+s11 –s13 : convergence (s11 ), diversity (s12 ), and evolutionary stage (s13 ), to enhance the ELA’s ability to perceive global search information. Conver-gence measures the proximity of the population’s average objective values to the Pareto optimal front, reflecting the overall optimization progress. Diver-sity characterizes the spread of solutions in the objective space, where higher diversity indicates broader exploration and helps prevent premature conver-gence. The evolutionary stage represents the proportion of evaluations used relative to the total evaluation budget, capturing the temporal position of the search process. These three features describe the optimization status from complementary perspectives of global convergence, solution distribution, and search progression, enabling the ELA to distinguish between exploration and exploitation phases and providing the reinforcement learning agent with a richer and more temporally aware state representation. 29 Table B.3: State definition and explanation 
+
+Index State Explanation 
+
+S1
+
+fQ1 − fmin 
+
+fmax − fmin 
+
+fQ1: lower quartile of population performance 
+
+fmin : minimum performance 
+
+fmax : maximum performance 
+
+S2
+
+fQ2 − fmin 
+
+fmax − fmin 
+
+fQ2: median of population performance. 
+
+S3
+
+fQ3 − fmin 
+
+fmax − fmin 
+
+fQ3: upper quartile of population performance 
+
+S4
+
+fQmean − fmin 
+
+fmax − fmin 
+
+fQmean : average of all quartiles 
+
+S5
+
+SD (P)
+
+SD (Pmin max )
+
+SD (P): population performance standard devi-ation 
+
+SD (Pmin max ): maximum performance standard deviation (half of Pmin max includes minimum performance and the rest maximum perfor-mance) 
+
+S6
+
+Gmax − Gt
+
+Gmax 
+
+Gmax : maximum generation 
+
+Gt: current generation 
+
+S7
+
+ED (xQ1, x min )
+
+ED (xmax , x min ) ED (·): Euclidean distance 
+
+S8
+
+ED (xQ2, x min )
+
+ED (xmax , x min )
+
+xmin : decision variables related to fmin 
+
+xmax : decision variables related to fmax 
+
+S9
+
+ED (xQ3, x min )
+
+ED (xmax , x min )
+
+S10 
+
+ED (xQmean , x min )
+
+ED (xmax , x min )
+
+S11 
+
+Pmi=1 
+
+P
+
+> x∈Pfi(x)
+> N
+
+P : current population 
+
+N : population size 
+
+S12 
+
+Pmi=1 
+
+P 
+
+> x∈P
+> (fi(x)−obj i)2
+> N
+
+obj i : P 
+
+> x∈P
+
+fi(x)/N S13 F E t
+
+> F E max
+
+F E t: number of evaluations used 
+
+F E max : maximum number of evaluations 
+
+S14 1
+
+> N
+
+Pmi=1 
+
+P 
+
+> x∈P
+
+| fi(x)− ˆfiBagging (x) 
+
+> fi(x)+ ϵ
+
+| ϵ : 0 .01 ˆfiBagging (x): Bagging surrogate prediction value 
+
+S15 1
+
+> N
+
+Pmi=1 
+
+P 
+
+> x∈P
+
+| fi(x)− ˆfiBoosting (x) 
+
+> fi(x)+ ϵ
+
+| ˆfiBoosting (x): Boosting surrogate prediction value 
+
+Finally, we incorporate the predictive accuracy of surrogate models into the ELA feature set by introducing s14 and s15 , which correspond to the MAPE of Bagging and Boosting surrogate modeling, respectively. These features measure how well the surrogate models fit the already evaluated population, providing a dynamic indicator of the approximation quality be-tween the surrogate and the true objective functions. By integrating s14 -s15 ,30 the ELA not only captures convergence and distribution information but also directly reflects surrogate model performance, enabling the reinforce-ment learning agent to select appropriate modeling strategies at different stages of the optimization process. 
+
+References 
+
+[1] Daniel Golovin, Benjamin Solnik, Subhodeep Moitra, Greg Kochanski, John Karro, and David Sculley. Google vizier: A service for black-box optimization. In Proceedings of the 23rd ACM SIGKDD international conference on knowledge discovery and data mining , pages 1487–1495, 2017. [2] Kei Terayama, Masato Sumita, Ryo Tamura, and Koji Tsuda. Black-box optimization for automated discovery. Accounts of Chemical Research ,54(6):1334–1346, 2021. [3] Zeyuan Ma, Hongshu Guo, Jiacheng Chen, Zhenrui Li, Guojun Peng, Yue-Jiao Gong, Yining Ma, and Zhiguang Cao. Metabox: A benchmark platform for meta-black-box optimization with reinforcement learning. 
+
+Advances in Neural Information Processing Systems , 36:10775–10795, 2023. [4] Behnam Mohammad Hasani Zade, Najme Mansouri, and Moham-mad Masoud Javidi. Saea: A security-aware and energy-aware task scheduling strategy by parallel squirrel search algorithm in cloud envi-ronment. Expert Systems with Applications , 176:114915, 2021. [5] Sanjoy Chakraborty, Apu Kumar Saha, and Amit Chhabra. Improv-ing whale optimization algorithm with elite strategy and its application to engineering-design and cloud task scheduling problems. Cognitive Computation , 15(5):1497–1525, 2023. [6] Yoel Tenne. The rbf hyperparameter in evolutionary surrogate-assisted optimization. In 2022 International Conference on Machine Learning, Control, and Robotics (MLCR) , pages 38–42. IEEE, 2022. [7] Mônica AC Valadão and Lucas S Batista. A comparative study on surrogate models for saeas. Optimization Letters , 14(8):2595–2614, 2020. 31 [8] Yuanchao Liu, Jianchang Liu, and Shubin Tan. Decision space partition based surrogate-assisted evolutionary algorithm for expensive optimiza-tion. Expert Systems with Applications , 214:119075, 2023. [9] Hongshu Guo, Zeyuan Ma, Yining Ma, Xinglin Zhang, Wei-Neng Chen, and Yue-Jiao Gong. Designx: Human-competitive algorithm designer for black-box optimization. In The Thirty-ninth Annual Conference on Neural Information Processing Systems .[10] Rituparna Datta and Rommel G Regis. A surrogate-assisted evolution strategy for constrained multi-objective optimization. Expert Systems with Applications , 57:270–284, 2016. [11] Jing Liang, Yahang Lou, Mingyuan Yu, Ying Bi, and Kunjie Yu. Asurvey of surrogate-assisted evolutionary algorithms for expensive opti-mization. Journal of Membrane Computing , pages 1–20, 2024. [12] Zeyuan Ma, Jiacheng Chen, Hongshu Guo, Yining Ma, and Yue-Jiao Gong. Auto-configuring exploration-exploitation tradeoff in evolution-ary computation via deep reinforcement learning. In Proceedings of the Genetic and Evolutionary Computation Conference , pages 1497–1505, 2024. [13] Ke Xue, Jiacheng Xu, Lei Yuan, Miqing Li, Chao Qian, Zongzhang Zhang, and Yang Yu. Multi-agent dynamic algorithm configuration. 
+
+Advances in Neural Information Processing Systems , 35:20147–20161, 2022. [14] Jiacheng Chen, Zeyuan Ma, Hongshu Guo, Yining Ma, Jie Zhang, and Yue-Jiao Gong. Symbol: Generating flexible black-box optimizers through symbolic equation learning. arXiv preprint arXiv:2402.02355 ,2024. [15] Hongshu Guo, Yining Ma, Zeyuan Ma, Jiacheng Chen, Xinglin Zhang, Zhiguang Cao, Jun Zhang, and Yue-Jiao Gong. Deep reinforcement learning for dynamic algorithm selection: A proof-of-principle study on differential evolution. IEEE Transactions on Systems, Man, and Cyber-netics: Systems , 54(7):4247–4259, 2024. [16] Mudita Sharma, Alexandros Komninos, Manuel López-Ibáñez, and Dim-itar Kazakov. Deep reinforcement learning based parameter control in 32 differential evolution. In Proceedings of the genetic and evolutionary computation conference , pages 709–717, 2019. [17] Feng Wang, Xujie Wang, and Shilei Sun. A reinforcement learning level-based particle swarm optimization algorithm for large-scale optimiza-tion. Information Sciences , 602:298–312, 2022. [18] Ningning Zhu, Fuqing Zhao, and Jie Cao. A hyperheuristic and rein-forcement learning guided meta-heuristic algorithm recommendation. In 
+
+2024 27th International Conference on Computer Supported Cooperative Work in Design (CSCWD) , pages 1061–1066. IEEE, 2024. [19] Shuai Shao, Ye Tian, and Yajie Zhang. Deep reinforcement learn-ing assisted surrogate model management for expensive constrained multi-objective optimization. Swarm and Evolutionary Computation ,92:101817, 2025. [20] Qinghua Gu, Xiaoyue Zhang, Lu Chen, and Naixue Xiong. An improved bagging ensemble surrogate-assisted evolutionary algorithm for expen-sive many-objective optimization. Applied Intelligence , 52(6):5949–5965, 2022. [21] Handing Wang, Yaochu Jin, Chaoli Sun, and John Doherty. Offline data-driven evolutionary optimization using selective surrogate ensembles. 
+
+IEEE Transactions on Evolutionary Computation , 23(2):203–216, 2018. [22] Yuanchao Liu, Jianchang Liu, Shubin Tan, Yongkuan Yang, and Fei Li. A bagging-based surrogate-assisted evolutionary algorithm for expen-sive multi-objective optimization. Neural Computing and Applications ,34(14):12097–12118, 2022. [23] Zhenshou Song, Handing Wang, and Yaochu Jin. A surrogate-assisted evolutionary framework with regions of interests-based data selection for expensive constrained optimization. IEEE Transactions on Systems, Man, and Cybernetics: Systems , 53(10):6268–6280, 2023. [24] Robert E Schapire. The boosting approach to machine learning: An overview. Nonlinear estimation and classification , pages 149–171, 2003. [25] Philipp Moritz, Robert Nishihara, Stephanie Wang, Alexey Tumanov, Richard Liaw, Eric Liang, Melih Elibol, Zongheng Yang, William Paul, 33 Michael I Jordan, et al. Ray: A distributed framework for emerging 
+
+{AI } applications. In 13th USENIX symposium on operating systems design and implementation (OSDI 18) , pages 561–577, 2018. [26] Noah Hollmann, Samuel Müller, Lennart Purucker, Arjun Krishnaku-mar, Max Körfer, Shi Bin Hoo, Robin Tibor Schirrmeister, and Frank Hutter. Accurate predictions on small data with a tabular foundation model. Nature , 637(8045):319–326, 2025. [27] Zeyuan Ma, Hongshu Guo, Yue-Jiao Gong, Jun Zhang, and Kay Chen Tan. Toward automated algorithm design: A survey and practical guide to meta-black-box-optimization. IEEE Transactions on Evolutionary Computation , 2025. [28] Xu Yang, Rui Wang, Kaiwen Li, and Hisao Ishibuchi. Meta-black-box optimization for evolutionary algorithms: Review and perspective. 
+
+Swarm and Evolutionary Computation , 93:101838, 2025. [29] Yukun Du, Haiyue Yu, Xiaotong Xie, Yan Zheng, Lixin Zhan, Yudong Du, Chongshuang Hu, Boxuan Wang, and Jiang Jiang. Meta-black-box optimization with bi-space landscape analysis and dual-control mecha-nism for saea. arXiv preprint arXiv:2511.15551 , 2025. [30] Chen Wang, Yue-Jiao Gong, Zhiguang Cao, and Zeyuan Ma. Instance generation for meta-black-box optimization through latent space reverse engineering. arXiv preprint arXiv:2509.15810 , 2025. [31] Zeyuan Ma, Zhiguang Cao, Zhou Jiang, Hongshu Guo, and Yue-Jiao Gong. Meta-black-box-optimization through offline q-function learning. 
+
+arXiv preprint arXiv:2505.02010 , 2025. [32] Zeyuan Ma, Yue-Jiao Gong, Hongshu Guo, Wenjie Qiu, Sijie Ma, Hongqiao Lian, Jiajun Zhan, Kaixu Chen, Chen Wang, Zhiyang Huang, Zechuan Huang, Guojun Peng, Ran Cheng, and Yining Ma. Metabox-v2: A unified benchmark platform for meta-black-box optimization. In 
+
+Advances in Neural Information Processing Systems , 2025. [33] Ye Tian, Shichen Peng, Tobias Rodemann, Xingyi Zhang, and Yaochu Jin. Automated selection of evolutionary multi-objective optimization algorithms. In 2019 IEEE Symposium Series on Computational Intelli-gence (SSCI) , pages 3225–3232. IEEE, 2019. 34 [34] Andres E Gutierrez-Rodríguez, Santiago E Conant-Pablos, José C Ortiz-Bayliss, and Hugo Terashima-Marín. Selecting meta-heuristics for solv-ing vehicle routing problems with time windows via meta-learning. Ex-pert Systems with Applications , 118:470–481, 2019. [35] Xingyu Wu, Yan Zhong, Jibin Wu, Bingbing Jiang, and Kay Chen Tan. Large language model-enhanced algorithm selection: towards com-prehensive algorithm representation. arXiv preprint arXiv:2311.13184 ,2023. [36] Shiyuan Yin, Min Jin, Huaxiang Lu, Guoliang Gong, Wenyu Mao, Gang Chen, and Wenchang Li. Reinforcement-learning-based parameter adap-tation method for particle swarm optimization. Complex & Intelligent Systems , 9(5):5585–5609, 2023. [37] Di Wu and G Gary Wang. Employing reinforcement learning to en-hance particle swarm optimization methods. Engineering Optimization ,54(2):329–348, 2022. [38] Hussein Samma, Chee Peng Lim, and Junita Mohamad Saleh. A new reinforcement learning-based memetic particle swarm optimizer. Applied Soft Computing , 43:276–297, 2016. [39] Hongshu Guo, Zeyuan Ma, Jiacheng Chen, Yining Ma, Zhiguang Cao, Xinglin Zhang, and Yue-Jiao Gong. Configx: Modular configuration for evolutionary algorithms via multitask reinforcement learning. Proceed-ings of the AAAI Conference on Artificial Intelligence , pages 26982– 26990, 2025. [40] Fei Liu, Xi Lin, Shunyu Yao, Zhenkun Wang, Xialiang Tong, Mingx-uan Yuan, and Qingfu Zhang. Large language model for multiobjective evolutionary optimization. In International Conference on Evolutionary Multi-Criterion Optimization , pages 178–191. Springer, 2025. [41] Chengrun Yang, Xuezhi Wang, Yifeng Lu, Hanxiao Liu, Quoc V Le, Denny Zhou, and Xinyun Chen. Large language models as optimizers. In The Twelfth International Conference on Learning Representations ,2023. [42] Wenjie Yi, Rong Qu, Licheng Jiao, and Ben Niu. Automated design of metaheuristics using reinforcement learning within a novel general 35 search framework. IEEE Transactions on Evolutionary Computation ,27(4):1072–1084, 2022. [43] Zeyuan Ma, Jiacheng Chen, Hongshu Guo, and Yue-Jiao Gong. Neural exploratory landscape analysis for meta-black-box-optimization. In The Thirteenth International Conference on Learning Representations , 2025. [44] Urban Skvorc, Niki van Stein, Moritz Seiler, Britta Grimme, Thomas Bäck, and Heike Trautmann. Llm driven design of continuous optimiza-tion problems with controllable high-level properties. arXiv preprint arXiv:2601.18846 , 2026. [45] Langchun Si, Xingyi Zhang, Ye Tian, Shangshang Yang, Limiao Zhang, and Yaochu Jin. Linear subspace surrogate modeling for large-scale expensive single/multi-objective optimization. IEEE Transactions on Evolutionary Computation , 2023. [46] Sheng-Hao Wu, Zhi-Hui Zhan, and Jun Zhang. Safe: Scale-adaptive fitness evaluation method for expensive optimization problems. IEEE Transactions on Evolutionary Computation , 25(3):478–491, 2021. [47] Tao Zhang, Fuzhang Li, Xin Zhao, Wang Qi, and Tianwei Liu. A con-volutional neural network-based surrogate model for multi-objective op-timization evolutionary algorithm based on decomposition. Swarm and Evolutionary Computation , 72:101081, 2022. [48] Yajie Zhang, Hao Jiang, Ye Tian, Haiping Ma, and Xingyi Zhang. Multi-granularity surrogate modeling for evolutionary multiobjective optimiza-tion with expensive constraints. IEEE Transactions on Neural Networks and Learning Systems , 35(3):2956–2968, 2023. [49] Mingyuan Yu, Jing Liang, Zhou Wu, and Zhile Yang. A twofold infill criterion-driven heterogeneous ensemble surrogate-assisted evolutionary algorithm for computationally expensive problems. Knowledge-Based Systems , 236:107747, 2022. [50] Dan Guo, Yaochu Jin, Jinliang Ding, and Tianyou Chai. Heteroge-neous ensemble-based infill criterion for evolutionary multiobjective op-timization of expensive problems. IEEE transactions on cybernetics ,49(3):1012–1025, 2018. 36 [51] Hao Chen, Weikun Li, and Weicheng Cui. Surrogate-assisted evolution-ary algorithm with hierarchical surrogate technique and adaptive infill strategy. Expert Systems with Applications , 232:120826, 2023. [52] Chunlin He, Yong Zhang, Dunwei Gong, and Xinfang Ji. A review of surrogate-assisted evolutionary algorithms for expensive optimization problems. Expert Systems with Applications , 217:119495, 2023. [53] Zhenshou Song, Handing Wang, Cheng He, and Yaochu Jin. Akriging-assisted two-archive evolutionary algorithm for expensive many-objective optimization. IEEE Transactions on Evolutionary Computa-tion , 25(6):1013–1027, 2021. [54] Yong Zeng, Yuansheng Cheng, and Jun Liu. A surrogate-assisted constrained optimization evolutionary algorithm by searching multiple kinds of global and local regions. IEEE Transactions on Evolutionary Computation , 2023. [55] Kanak Kalita, Pradeep Jangir, Robert Čep, Sundaram B Pandya, and Laith Abualigah. Many-objective grasshopper optimization algorithm (maogoa): a new many-objective optimization technique for solving en-gineering design problems. International Journal of Computational In-telligence Systems , 17(1):214, 2024. [56] Jinglu Li, Peng Wang, Huachao Dong, and Jiangtao Shen. A two-stage surrogate-assisted evolutionary algorithm (ts-saea) for expensive multi/many-objective optimization. Swarm and Evolutionary Compu-tation , 73:101107, 2022. [57] Clifton D Sutton. Classification and regression trees, bagging, and boost-ing. Handbook of statistics , 24:303–329, 2005. [58] Alexey Natekin and Alois Knoll. Gradient boosting machines, a tutorial. 
+
+Frontiers in neurorobotics , 7:21, 2013. [59] Lars Lorch, Scott Sussex, Jonas Rothfuss, Andreas Krause, and Bern-hard Schölkopf. Amortized inference for causal structure learning. Ad-vances in Neural Information Processing Systems , 35:13104–13118, 2022. [60] Noah Hollmann, Samuel Müller, Katharina Eggensperger, and Frank Hutter. Tabpfn: A transformer that solves small tabular classification 37 problems in a second. In The Eleventh International Conference on Learning Representations , 2023. [61] Samuel Müller, Noah Hollmann, Sebastian Pineda Arango, Josif Grabocka, and Frank Hutter. Transformers can do bayesian inference. In International Conference on Learning Representations , 2022. [62] Kalyanmoy Deb and Himanshu Jain. An evolutionary many-objective optimization algorithm using reference-point-based nondominated sort-ing approach, part i: solving problems with box constraints. IEEE transactions on evolutionary computation , 18(4):577–601, 2013. [63] Bingdong Li, Zixiang Di, Yongfan Lu, Hong Qian, Feng Wang, Peng Yang, Ke Tang, and Aimin Zhou. Expensive multi-objective bayesian optimization based on diffusion models. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 39, pages 27063–27071, 2025. [64] Samuel Daulton, Maximilian Balandat, and Eytan Bakshy. Differen-tiable expected hypervolume improvement for parallel multi-objective bayesian optimization. In H. Larochelle, M. Ranzato, R. Hadsell, M.F. Balcan, and H. Lin, editors, Advances in Neural Information Processing Systems , volume 33, pages 9851–9864. Curran Associates, Inc., 2020. [65] Zhen Huixiang, Gong Wenyin, and Wang Ling. Data-driven evolution-ary sampling optimization forexpensive problems. Journal of Systems Engineering and Electronics , 32(2):318–330, 2021. [66] Yongcun Liu and Handing Wang. Surrogate-assisted hybrid evolution-ary algorithm with local estimation of distribution for expensive mixed-variable optimization problems. Applied Soft Computing , 133:109957, 2023. [67] Eckart Zitzler and Lothar Thiele. Multiobjective evolutionary algo-rithms: a comparative case study and the strength pareto approach. 
+
+IEEE transactions on Evolutionary Computation , 3(4):257–271, 2002. [68] Haofeng Wu, Qingda Chen, Jiaxin Chen, Yaochu Jin, Jinliang Ding, Xingyi Zhang, and Tianyou Chai. A multi-stage expensive constrained multi-objective optimization algorithm based on ensemble infill crite-rion. IEEE Transactions on Evolutionary Computation , 2024. 38 [69] Olaf Mersmann, Bernd Bischl, Heike Trautmann, Mike Preuss, Claus Weihs, and Günter Rudolph. Exploratory landscape analysis. In Pro-ceedings of the 13th annual conference on Genetic and evolutionary com-putation , pages 829–836, 2011. [70] Pascal Kerschke and Heike Trautmann. Comprehensive feature-based landscape analysis of continuous and constrained optimization problems using the r-package flacco. In Applications in statistical computing: from music data analysis to industrial quality improvement , pages 93–123. Springer, 2019. [71] Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Andrei A Rusu, Joel Veness, Marc G Bellemare, Alex Graves, Martin Riedmiller, An-dreas K Fidjeland, Georg Ostrovski, et al. Human-level control through deep reinforcement learning. nature , 518(7540):529–533, 2015. [72] Eric Bradford, Artur M Schweidtmann, and Alexei Lapkin. Efficient multiobjective optimization employing gaussian processes, spectral sam-pling and a genetic algorithm. Journal of global optimization , 71(2):407– 438, 2018. [73] Mina Konakovic Lukovic, Yunsheng Tian, and Wojciech Matusik. Diversity-guided multi-objective bayesian optimization with batch eval-uations. Advances in neural information processing systems , 33:17708– 17720, 2020. [74] Qingfu Zhang, Wudong Liu, Edward Tsang, and Botond Virginas. Ex-pensive multiobjective optimization by moea/d with gaussian process model. IEEE Transactions on Evolutionary Computation , 14(3):456– 474, 2009. [75] Syrine Belakaria, Aryan Deshwal, Nitthilan Kannappan Jayakodi, and Janardhan Rao Doppa. Uncertainty-aware search framework for multi-objective bayesian optimization. In Proceedings of the AAAI Conference on Artificial Intelligence , volume 34, pages 10044–10052, 2020. [76] Kalyanmoy Deb, Amrit Pratap, Sameer Agarwal, and TAMT Meyari-van. A fast and elitist multiobjective genetic algorithm: Nsga-ii. IEEE transactions on evolutionary computation , 6(2):182–197, 2002. 39 [77] Ying Huang, Wei Li, Furong Tian, and Xiang Meng. A fitness landscape ruggedness multiobjective differential evolution algorithm with a rein-forcement learning strategy. Applied Soft Computing , 96:106693, 2020. [78] Farajollah Tahernezhad-Javazm, Debbie Rankin, Naomi Du Bois, Al-ice E Smith, and Damien Coyle. R2 indicator and deep reinforce-ment learning enhanced adaptive multi-objective evolutionary algo-rithm. arXiv preprint arXiv:2404.08161 , 2024. [79] Eckart Zitzler, Kalyanmoy Deb, and Lothar Thiele. Comparison of multiobjective evolutionary algorithms: Empirical results. Evolution-ary computation , 8(2):173–195, 2000. [80] Kalyanmoy Deb, Lothar Thiele, Marco Laumanns, and Eckart Zitzler. Scalable test problems for evolutionary multiobjective optimization. In 
+
+Evolutionary multiobjective optimization: theoretical advances and ap-plications , pages 105–145. Springer, 2005. [81] Ryoji Tanabe and Hisao Ishibuchi. An easy-to-use real-world multi-objective optimization problem suite. Applied Soft Computing ,89:106078, 2020. 40
