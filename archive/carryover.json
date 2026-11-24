@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-23T00:03:03.949859+00:00",
-  "updated_date": "20261123",
+  "generated_at": "2026-11-24T04:13:17.607347+00:00",
+  "updated_date": "20261124",
   "carryover_days": 9,
   "tag_states": {
     "SR": {
@@ -9,7 +9,7 @@
       "items": []
     },
     "Rec": {
-      "updated_date": "20261123",
+      "updated_date": "20261124",
       "carryover_days": 9,
       "items": []
     }
